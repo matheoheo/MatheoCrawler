@@ -1,0 +1,200 @@
+#include "pch.h"
+#include "Pathfinder.h"
+#include "Utilities.h"
+
+Pathfinder::Pathfinder(const TileMap& tileMap)
+	:mTileMap(tileMap),
+	mTiles(nullptr)
+{
+}
+
+void Pathfinder::initalize()
+{
+	mTiles = &mTileMap.getTiles();
+	const auto mapHeight = mTiles->size();
+	const auto mapWidth = (*mTiles)[0].size();
+
+	mNodes.resize(mapHeight, std::vector<PathNode>(mapWidth, PathNode({ 0, 0 })));
+
+
+	for (size_t y = 0; y < mapHeight; ++y)
+	{
+		for (size_t x = 0; x < mapWidth; ++x)
+		{
+			mNodes[y][x] = PathNode(sf::Vector2i(static_cast<int>(x), static_cast<int>(y)));
+		}
+	}
+}
+
+void Pathfinder::setSolidTypes(const std::vector<TileType>& solidTypes)
+{
+	mSolidTypes = solidTypes;
+}
+
+Pathfinder::PathfinderResult Pathfinder::getPath(const sf::Vector2f& positionA, const sf::Vector2f& positionB)
+{
+	auto indexA = Utilities::getCellIndex(positionA);
+	auto indexB = Utilities::getCellIndex(positionB);
+
+	return getPath(indexA, indexB);
+}
+
+Pathfinder::PathfinderResult Pathfinder::getPath(const sf::Vector2i& cellA, const sf::Vector2i& cellB)
+{
+	PathfinderResult result;
+
+	auto getProperNode = [this](const sf::Vector2i& index) -> Pathfinder::PathNode*
+	{
+		if (isIndexValid(index))
+			return &mNodes[index.y][index.x];
+
+		return nullptr;
+	};
+
+	PathNode* start = getProperNode(cellA);
+	PathNode* finish = getProperNode(cellB);
+	if (!start || !finish)
+		return result;
+
+	auto nodes = getPathNodes(start, finish);
+	if (!nodes.empty())
+		nodes.pop_back();
+	if (!nodes.empty())
+		nodes.erase(std::begin(nodes));
+	for (const auto& node : nodes)
+		result.push_back(node->cellIndex);
+
+	std::reverse(std::begin(result), std::end(result));
+
+	return result;
+}
+
+std::vector<Pathfinder::PathNode*> Pathfinder::getPathNodes(PathNode* start, PathNode* finish)
+{
+	if (start == finish || !mTiles)
+		return {};
+
+	resetLastlyUsedNodes();
+	mLastlyUsedNodes.insert(start);
+	mLastlyUsedNodes.insert(finish);
+
+	/*for (auto& a : mNodes)
+	{
+		for (auto& b : a)
+			resetNode(b);
+	}*/
+	auto nodesComparator = [](const PathNode* lhs, const PathNode* rhs)
+	{
+		return lhs->getFullCost() > rhs->getFullCost();
+	};
+
+	std::priority_queue<PathNode*, std::vector<PathNode*>, decltype(nodesComparator)> queue(nodesComparator);
+	
+	const int moveCost = 10;
+	start->localCost = 0;
+	start->guessCost = calculateGuessCost(start, finish);
+	queue.push(start);
+
+	while (!queue.empty())
+	{
+		PathNode* current = queue.top();
+		queue.pop();
+		mLastlyUsedNodes.insert(current);
+
+		if (current == finish)
+			return reconstructPath(finish);
+		
+		current->visited = true;
+		auto neighbors = getNeighbors(current, finish);
+
+		for (const auto& neighbor : neighbors)
+		{
+			if (neighbor->visited)
+				continue;
+
+			int newLocalCost = current->localCost + moveCost;
+			if (newLocalCost < neighbor->localCost)
+			{
+				neighbor->localCost = newLocalCost;
+				neighbor->guessCost = calculateGuessCost(neighbor, finish);
+				neighbor->parent = current;
+				queue.push(neighbor);
+				mLastlyUsedNodes.insert(neighbor);
+			}
+		}
+
+	}
+
+	return {};
+}
+
+std::vector<Pathfinder::PathNode*> Pathfinder::getNeighbors(const PathNode* node, const PathNode* finish) 
+{
+	std::vector<PathNode*> neighbors;
+	std::array<sf::Vector2i, 4> offsets = 
+	{ 
+		sf::Vector2i(-1, 0), 
+		sf::Vector2i(1, 0),
+		sf::Vector2i(0, -1), 
+		sf::Vector2i(0, 1) 
+	};
+
+	for (const auto& offset : offsets)
+	{
+		const int x = node->cellIndex.x;
+		const int y = node->cellIndex.y;
+
+		const int nx = x + offset.x; //neighborX
+		const int ny = y + offset.y; //neighbory
+		const sf::Vector2i index{ nx, ny };
+
+		if (isIndexValid(index) && (isNodeWalkable(index) || &mNodes[ny][nx] == finish))
+		{
+			neighbors.push_back(&mNodes[ny][nx]);
+		}
+	}
+	return neighbors;
+}
+
+bool Pathfinder::isIndexValid(const sf::Vector2i& index) const
+{
+	return (index.x >= 0 && index.y >= 0 && index.y < mNodes.size() && index.x < mNodes[index.y].size());
+}
+
+bool Pathfinder::isNodeWalkable(const sf::Vector2i& index) const
+{
+	return (*mTiles)[index.y][index.x].isWalkable();
+	//return (*mTiles)[index.y][index.x].tileType != TileType::Wall;
+}
+
+int Pathfinder::calculateGuessCost(const PathNode* from, const PathNode* to) const
+{
+	return std::abs(from->cellIndex.x - to->cellIndex.x) + std::abs(from->cellIndex.y - to->cellIndex.y);
+}
+
+void Pathfinder::resetNode(PathNode& node)
+{
+	node.parent = nullptr;
+	node.localCost = 1500;
+	node.guessCost = 0;
+	node.visited = false;
+}
+
+void Pathfinder::resetLastlyUsedNodes()
+{
+	for (auto& node : mLastlyUsedNodes)
+		resetNode(*node);
+	mLastlyUsedNodes.clear();
+}
+
+std::vector<Pathfinder::PathNode*> Pathfinder::reconstructPath(PathNode* finish)
+{
+	std::vector<PathNode*> result;
+	PathNode* current = finish;
+	while (current != nullptr)
+	{
+		result.push_back(current);
+		current = current->parent;
+	}
+	return result;
+}

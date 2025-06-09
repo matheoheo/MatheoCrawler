@@ -1,0 +1,71 @@
+body/bodies/skeleton/skeleton.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- bluecarrot16
+		- Johannes Sjölund (wulax)
+		- Stephen Challener (Redshrike)
+	- Links:
+		- https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+		- https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
+		- https://opengameart.org/content/lpc-skeleton
+		- https://opengameart.org/content/lpc-character-bases
+
+head/heads/skeleton/adult/skeleton.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- bluecarrot16
+		- Johannes Sjölund (wulax)
+		- Stephen Challener (Redshrike)
+	- Links:
+		- https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+		- https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
+		- https://opengameart.org/content/lpc-skeleton
+		- https://opengameart.org/content/lpc-character-bases
+
+tools/smash/universal/female/axe.png
+	- Note: 
+	- Licenses:
+		- CC-BY-SA 3.0
+	- Authors:
+		- bluecarrot16
+		- Pierre Vigier (pvigier)
+		- Tuomo Untinen (reemax)
+		- Johannes Sjölund (wulax)
+		- and Inboxninja
+	- Links:
+		- https://opengameart.org/content/lpc-hand-tools
+
+tools/smash/background/axe.png
+	- Note: 
+	- Licenses:
+		- CC-BY-SA 3.0
+	- Authors:
+		- bluecarrot16
+		- Pierre Vigier (pvigier)
+		- Tuomo Untinen (reemax)
+		- Johannes Sjölund (wulax)
+		- and Inboxninja
+	- Links:
+		- https://opengameart.org/content/lpc-hand-tools
+
+tools/smash/foreground/axe.png
+	- Note: 
+	- Licenses:
+		- CC-BY-SA 3.0
+	- Authors:
+		- bluecarrot16
+		- Pierre Vigier (pvigier)
+		- Tuomo Untinen (reemax)
+		- Johannes Sjölund (wulax)
+		- and Inboxninja
+	- Links:
+		- https://opengameart.org/content/lpc-hand-tools
+

@@ -1,0 +1,688 @@
+[spritesheetData]
+animationId: 0
+[frame]
+frameLeft: 72
+frameTop: 3536
+frameWidth: 40
+frameHeight: 45
+frameOffsetX: 46
+frameOffsetY: 16
+[/frame]
+[frame]
+frameLeft: 255
+frameTop: 3537
+frameWidth: 49
+frameHeight: 45
+frameOffsetX: 55
+frameOffsetY: 16
+[/frame]
+[frame]
+frameLeft: 448
+frameTop: 3537
+frameWidth: 45
+frameHeight: 45
+frameOffsetX: 53
+frameOffsetY: 16
+[/frame]
+[frame]
+frameLeft: 629
+frameTop: 3536
+frameWidth: 59
+frameHeight: 46
+frameOffsetX: 66
+frameOffsetY: 16
+[/frame]
+[frame]
+frameLeft: 821
+frameTop: 3516
+frameWidth: 80
+frameHeight: 66
+frameOffsetX: 67
+frameOffsetY: 36
+[/frame]
+[frame]
+frameLeft: 1041
+frameTop: 3519
+frameWidth: 77
+frameHeight: 63
+frameOffsetX: 39
+frameOffsetY: 33
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 1
+[frame]
+frameLeft: 52
+frameTop: 3726
+frameWidth: 56
+frameHeight: 49
+frameOffsetX: 68
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 267
+frameTop: 3728
+frameWidth: 32
+frameHeight: 45
+frameOffsetX: 43
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 464
+frameTop: 3726
+frameWidth: 37
+frameHeight: 47
+frameOffsetX: 38
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 646
+frameTop: 3726
+frameWidth: 56
+frameHeight: 47
+frameOffsetX: 47
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 783
+frameTop: 3726
+frameWidth: 92
+frameHeight: 47
+frameOffsetX: 101
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 993
+frameTop: 3726
+frameWidth: 74
+frameHeight: 47
+frameOffsetX: 83
+frameOffsetY: 14
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 2
+[frame]
+frameLeft: 72
+frameTop: 3919
+frameWidth: 40
+frameHeight: 49
+frameOffsetX: 46
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 255
+frameTop: 3919
+frameWidth: 49
+frameHeight: 46
+frameOffsetX: 55
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 448
+frameTop: 3921
+frameWidth: 45
+frameHeight: 44
+frameOffsetX: 53
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 632
+frameTop: 3920
+frameWidth: 56
+frameHeight: 45
+frameOffsetX: 64
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 821
+frameTop: 3919
+frameWidth: 80
+frameHeight: 65
+frameOffsetX: 68
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 1041
+frameTop: 3919
+frameWidth: 77
+frameHeight: 62
+frameOffsetX: 40
+frameOffsetY: 15
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 3
+[frame]
+frameLeft: 83
+frameTop: 4110
+frameWidth: 56
+frameHeight: 49
+frameOffsetX: 35
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 276
+frameTop: 4112
+frameWidth: 32
+frameHeight: 45
+frameOffsetX: 36
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 458
+frameTop: 4110
+frameWidth: 37
+frameHeight: 47
+frameOffsetX: 46
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 641
+frameTop: 4110
+frameWidth: 56
+frameHeight: 47
+frameOffsetX: 56
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 852
+frameTop: 4110
+frameWidth: 92
+frameHeight: 47
+frameOffsetX: 38
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 1044
+frameTop: 4110
+frameWidth: 90
+frameHeight: 47
+frameOffsetX: 38
+frameOffsetY: 14
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 4
+[frame]
+frameLeft: 81
+frameTop: 4304
+frameWidth: 76
+frameHeight: 46
+frameOffsetX: 39
+frameOffsetY: 16
+[/frame]
+[frame]
+frameLeft: 273
+frameTop: 4301
+frameWidth: 70
+frameHeight: 49
+frameOffsetX: 39
+frameOffsetY: 19
+[/frame]
+[frame]
+frameLeft: 458
+frameTop: 4289
+frameWidth: 80
+frameHeight: 61
+frameOffsetX: 45
+frameOffsetY: 31
+[/frame]
+[frame]
+frameLeft: 619
+frameTop: 4305
+frameWidth: 66
+frameHeight: 45
+frameOffsetX: 74
+frameOffsetY: 16
+[/frame]
+[frame]
+frameLeft: 831
+frameTop: 4305
+frameWidth: 49
+frameHeight: 45
+frameOffsetX: 55
+frameOffsetY: 16
+[/frame]
+[frame]
+frameLeft: 1032
+frameTop: 4304
+frameWidth: 40
+frameHeight: 45
+frameOffsetX: 46
+frameOffsetY: 16
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 5
+[frame]
+frameLeft: 75
+frameTop: 4489
+frameWidth: 32
+frameHeight: 52
+frameOffsetX: 41
+frameOffsetY: 19
+[/frame]
+[frame]
+frameLeft: 243
+frameTop: 4488
+frameWidth: 56
+frameHeight: 53
+frameOffsetX: 65
+frameOffsetY: 20
+[/frame]
+[frame]
+frameLeft: 404
+frameTop: 4494
+frameWidth: 88
+frameHeight: 47
+frameOffsetX: 97
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 656
+frameTop: 4494
+frameWidth: 58
+frameHeight: 47
+frameOffsetX: 38
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 848
+frameTop: 4496
+frameWidth: 27
+frameHeight: 45
+frameOffsetX: 38
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 1012
+frameTop: 4494
+frameWidth: 56
+frameHeight: 49
+frameOffsetX: 68
+frameOffsetY: 14
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 6
+[frame]
+frameLeft: 81
+frameTop: 4684
+frameWidth: 66
+frameHeight: 49
+frameOffsetX: 40
+frameOffsetY: 18
+[/frame]
+[frame]
+frameLeft: 273
+frameTop: 4687
+frameWidth: 73
+frameHeight: 46
+frameOffsetX: 40
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 465
+frameTop: 4688
+frameWidth: 80
+frameHeight: 45
+frameOffsetX: 39
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 646
+frameTop: 4689
+frameWidth: 77
+frameHeight: 48
+frameOffsetX: 47
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 830
+frameTop: 4687
+frameWidth: 50
+frameHeight: 46
+frameOffsetX: 56
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 1032
+frameTop: 4687
+frameWidth: 40
+frameHeight: 49
+frameOffsetX: 46
+frameOffsetY: 15
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 7
+[frame]
+frameLeft: 84
+frameTop: 4878
+frameWidth: 90
+frameHeight: 47
+frameOffsetX: 38
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 276
+frameTop: 4878
+frameWidth: 92
+frameHeight: 47
+frameOffsetX: 38
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 449
+frameTop: 4878
+frameWidth: 56
+frameHeight: 47
+frameOffsetX: 56
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 650
+frameTop: 4878
+frameWidth: 37
+frameHeight: 47
+frameOffsetX: 46
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 852
+frameTop: 4880
+frameWidth: 32
+frameHeight: 45
+frameOffsetX: 36
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 1043
+frameTop: 4878
+frameWidth: 56
+frameHeight: 49
+frameOffsetX: 35
+frameOffsetY: 14
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 8
+[frame]
+frameLeft: 72
+frameTop: 5072
+frameWidth: 40
+frameHeight: 45
+frameOffsetX: 46
+frameOffsetY: 16
+[/frame]
+[frame]
+frameLeft: 271
+frameTop: 5068
+frameWidth: 37
+frameHeight: 51
+frameOffsetX: 39
+frameOffsetY: 21
+[/frame]
+[frame]
+frameLeft: 465
+frameTop: 5072
+frameWidth: 34
+frameHeight: 47
+frameOffsetX: 38
+frameOffsetY: 16
+[/frame]
+[frame]
+frameLeft: 657
+frameTop: 5065
+frameWidth: 30
+frameHeight: 54
+frameOffsetX: 38
+frameOffsetY: 23
+[/frame]
+[frame]
+frameLeft: 850
+frameTop: 5055
+frameWidth: 29
+frameHeight: 64
+frameOffsetX: 38
+frameOffsetY: 34
+[/frame]
+[frame]
+frameLeft: 1042
+frameTop: 5052
+frameWidth: 29
+frameHeight: 67
+frameOffsetX: 38
+frameOffsetY: 37
+[/frame]
+[frame]
+frameLeft: 1234
+frameTop: 5055
+frameWidth: 29
+frameHeight: 64
+frameOffsetX: 38
+frameOffsetY: 34
+[/frame]
+[frame]
+frameLeft: 1426
+frameTop: 5065
+frameWidth: 29
+frameHeight: 54
+frameOffsetX: 37
+frameOffsetY: 23
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 9
+[frame]
+frameLeft: 52
+frameTop: 5262
+frameWidth: 56
+frameHeight: 49
+frameOffsetX: 68
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 249
+frameTop: 5262
+frameWidth: 52
+frameHeight: 47
+frameOffsetX: 63
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 441
+frameTop: 5262
+frameWidth: 53
+frameHeight: 47
+frameOffsetX: 63
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 629
+frameTop: 5262
+frameWidth: 57
+frameHeight: 47
+frameOffsetX: 67
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 810
+frameTop: 5262
+frameWidth: 65
+frameHeight: 47
+frameOffsetX: 76
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 996
+frameTop: 5262
+frameWidth: 70
+frameHeight: 47
+frameOffsetX: 82
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 1194
+frameTop: 5262
+frameWidth: 65
+frameHeight: 47
+frameOffsetX: 76
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 1393
+frameTop: 5262
+frameWidth: 61
+frameHeight: 47
+frameOffsetX: 71
+frameOffsetY: 14
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 10
+[frame]
+frameLeft: 78
+frameTop: 5455
+frameWidth: 34
+frameHeight: 46
+frameOffsetX: 40
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 270
+frameTop: 5455
+frameWidth: 33
+frameHeight: 45
+frameOffsetX: 40
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 462
+frameTop: 5455
+frameWidth: 31
+frameHeight: 45
+frameOffsetX: 40
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 656
+frameTop: 5455
+frameWidth: 29
+frameHeight: 48
+frameOffsetX: 38
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 848
+frameTop: 5456
+frameWidth: 29
+frameHeight: 60
+frameOffsetX: 38
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 1040
+frameTop: 5456
+frameWidth: 29
+frameHeight: 71
+frameOffsetX: 38
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 1232
+frameTop: 5456
+frameWidth: 29
+frameHeight: 60
+frameOffsetX: 38
+frameOffsetY: 15
+[/frame]
+[frame]
+frameLeft: 1424
+frameTop: 5455
+frameWidth: 29
+frameHeight: 48
+frameOffsetX: 38
+frameOffsetY: 15
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 11
+[frame]
+frameLeft: 83
+frameTop: 5646
+frameWidth: 56
+frameHeight: 49
+frameOffsetX: 35
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 274
+frameTop: 5646
+frameWidth: 52
+frameHeight: 47
+frameOffsetX: 36
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 465
+frameTop: 5646
+frameWidth: 53
+frameHeight: 47
+frameOffsetX: 37
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 657
+frameTop: 5646
+frameWidth: 57
+frameHeight: 47
+frameOffsetX: 37
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 852
+frameTop: 5646
+frameWidth: 65
+frameHeight: 47
+frameOffsetX: 36
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 1045
+frameTop: 5646
+frameWidth: 70
+frameHeight: 47
+frameOffsetX: 35
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 1236
+frameTop: 5646
+frameWidth: 65
+frameHeight: 47
+frameOffsetX: 36
+frameOffsetY: 14
+[/frame]
+[frame]
+frameLeft: 1425
+frameTop: 5646
+frameWidth: 61
+frameHeight: 47
+frameOffsetX: 37
+frameOffsetY: 14
+[/frame]
+
+[/spritesheetData]

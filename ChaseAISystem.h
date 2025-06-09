@@ -1,0 +1,27 @@
+#pragma once
+#include "ISystem.h"
+#include "TileMap.h"
+class ChaseAISystem :
+    public ISystem
+{
+public:
+    ChaseAISystem(SystemContext& systemContext, const TileMap& tileMap);
+    virtual void update(const sf::Time& deltaTime) override;
+private:
+    void registerToEvents();
+    void registerToStartChasingEvent();
+    void resetChaseComponent(ChaseAIComponent& chaseComp, Entity* target = nullptr);
+    void resetPathComponent(PathComponent& pathComp);
+    std::optional<sf::Vector2i> getPathStep(PathComponent& pathComp) const;
+    bool isStepWalkable(const Entity& entity, const sf::Vector2i& stepCell) const;
+    void doStep(Entity& entity, PathComponent& pathComp, const sf::Vector2i& stepCell);
+    std::optional<Direction> getStepDirection(const sf::Vector2i& fromCell, const sf::Vector2i& toCell) const;
+    bool isPathRecalculationDue(const ChaseAIComponent& chaseComp) const;
+    void askForPathRecalculation(Entity& entity);
+
+    void removeNotChasingEntities();
+private:
+    const TileMap& mTileMap;
+    const float mPathRecalculationCooldown;
+};
+
