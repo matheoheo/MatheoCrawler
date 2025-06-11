@@ -15,11 +15,13 @@
 #include "BehaviorAIUpdateSystem.h"
 #include "TileFadeSystem.h"
 #include "BasicMeleeBehavior.h"
+#include "AttackSystem.h"
+#include "OnHitSystem.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
 	mGameView({Config::fWindowSize.x * 0.5f, Config::fWindowSize.y * 0.5f}, Config::fWindowSize),
-	mTileMap(gameContext.eventManager, mGameView),
+	mTileMap(gameContext.eventManager, mGameView, mPathfinder),
 	mSystemContext(gameContext.eventManager, mEntityManager),
 	mPathfinder(mTileMap),
 	mBehaviorContext(gameContext.eventManager, mEntityManager, mTileMap)
@@ -54,31 +56,7 @@ void GameState::update(const sf::Time& deltaTime)
 	static sf::Clock randomClock;
 	if (randomClock.getElapsedTime().asMilliseconds() > 1000.f)
 	{
-		/*auto enemies = mEntityManager.getEntitiesWithComponents<EnemyComponent>();
-		auto& enemy = enemies[0];
-		auto& dirComp = enemy->getComponent<DirectionComponent>();
-		//mGameContext.eventManager.notify<MoveRequestedEvent>(MoveRequestedEvent(*enemy, Direction::Bottom));
-		EntityAnimationKey key;
-		key.dir = enemy->getComponent<DirectionComponent>().cCurrentDir;
-		key.id = AnimationIdentifier::Attack1;
-		key.type = EntityType::SkeletonAxe;
-
-		mSystemContext.eventManager.notify<PlayEntitySpecificAnimationEvent>(PlayEntitySpecificAnimationEvent(*enemy, key));
-		randomClock.restart();
-
-		if (dirComp.cCurrentDir == Direction::Up)
-			dirComp.cCurrentDir = Direction::Left;
-
-		else if (dirComp.cCurrentDir == Direction::Left)
-			dirComp.cCurrentDir = Direction::Bottom;
-
-		else if (dirComp.cCurrentDir == Direction::Bottom)
-			dirComp.cCurrentDir = Direction::Right;
-		else if(dirComp.cCurrentDir == Direction::Right)
-			dirComp.cCurrentDir = Direction::Up;
-		//mTileMap.calculateVisibleTiles(mGameView.getCenter());*/
 	}
-	//mEntityManager.printSize();
 	static bool f = false;
 	if (!f)
 	{
@@ -92,11 +70,6 @@ void GameState::render()
 {
 	renderMap();
 	mSystemManager.render(mGameContext.window);
-
-	/*for (const auto& e : mEntityManager.getEntitiesWithComponents<SpriteComponent>())
-	{
-		mGameContext.window.draw(e->getComponent<SpriteComponent>().cSprite);
-	}*/
 }
 
 void GameState::createMap()
@@ -118,6 +91,8 @@ void GameState::loadTextures()
 
 void GameState::createPlayer()
 {
+	//placeholder function
+	//ToDo: SpawnerSystem.
 	auto& player = mEntityManager.createEntity();
 	player.addComponent<MovementComponent>(150.f);
 	player.addComponent<PlayerComponent>();
@@ -128,9 +103,24 @@ void GameState::createPlayer()
 
 	player.addComponent<DirectionComponent>();
 	player.addComponent<EntityStateComponent>();
+	player.addComponent<EntityTypeComponent>(EntityType::Player);
 	player.addComponent<AnimationComponent>();
 	player.addComponent<FieldOfViewComponent>(5);
+	player.addComponent<CombatStatsComponent>();
+	auto& attackComp = player.addComponent<AttackComponent>();
 
+	AttackData att;
+	att.hitOffsets.emplace(Direction::Up, std::vector<sf::Vector2i>());
+	att.hitOffsets.emplace(Direction::Left, std::vector<sf::Vector2i>());
+	att.hitOffsets.emplace(Direction::Bottom, std::vector<sf::Vector2i>());
+	att.hitOffsets.emplace(Direction::Right, std::vector<sf::Vector2i>());
+
+	att.hitOffsets.at(Direction::Up).emplace_back(0, -1);
+	att.hitOffsets.at(Direction::Left).emplace_back(-1, 0);
+	att.hitOffsets.at(Direction::Bottom).emplace_back(0, 1);
+	att.hitOffsets.at(Direction::Right).emplace_back(1, 0);
+
+	attackComp.cAttackDataMap.emplace(AnimationIdentifier::Attack1, std::move(att));
 }
 
 void GameState::createSystems()
@@ -143,9 +133,11 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<VisibilitySystem>(mSystemContext, mTileMap, mGameView));
 	mSystemManager.addSystem(std::make_unique<PatrolAISystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<ChaseAISystem>(mSystemContext, mTileMap));
+	mSystemManager.addSystem(std::make_unique<AttackSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<PathRequestSystem>(mSystemContext, mPathfinder));
 	mSystemManager.addSystem(std::make_unique<BehaviorAIUpdateSystem>(mSystemContext, mTileMap));
 
+	mSystemManager.addSystem(std::make_unique<OnHitSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<TileFadeSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntityRenderSystem>(mSystemContext));
 }
@@ -163,6 +155,8 @@ void GameState::initalizePathfinder()
 
 void GameState::createSkeletonAxe(const sf::Vector2i& cellIndex)
 {
+	//placeholder function
+	//ToDo: SpawnerSystem
 	sf::Vector2f pos{ cellIndex.x * Config::getCellSize().x, cellIndex.y * Config::getCellSize().y };
 
 	auto& entity = mEntityManager.createEntity();
@@ -171,7 +165,7 @@ void GameState::createSkeletonAxe(const sf::Vector2i& cellIndex)
 	auto& spriteComp = entity.addComponent<SpriteComponent>(mGameContext.textures.get(TextureIdentifier::SkeletonAxe));
 	spriteComp.cSprite.setPosition(pos);
 	spriteComp.cSprite.setTextureRect(sf::IntRect({ 0, 0 }, { 64, 64 }));
-	int cd = Random::get(2500, 4500);
+	int cd = Random::get(1500, 2200);
 	float fcd = static_cast<float>(cd);
 	entity.addComponent<DirectionComponent>();
 	entity.addComponent<EntityStateComponent>();
@@ -182,11 +176,24 @@ void GameState::createSkeletonAxe(const sf::Vector2i& cellIndex)
 	entity.addComponent<PatrolAIComponent>(fcd);
 	entity.addComponent<ChaseAIComponent>();
 	entity.addComponent<PathComponent>();
-	entity.addComponent<AttackRangeComponent>();
+	entity.addComponent<EntityTypeComponent>(EntityType::SkeletonAxe);
+	entity.addComponent<CombatStatsComponent>();
 	entity.addComponent<AITimersComponent>();
 	entity.addComponent<BehaviorComponent>(std::make_unique<BasicMeleeBehavior>(mBehaviorContext));
+	auto& attackComp = entity.addComponent<AttackComponent>();
 	mTileMap.getTiles()[cellIndex.y][cellIndex.x].occupyingEntities.push_back(&entity);
-	//mGameContext.eventManager.notify<StartPatrollingEvent>(StartPatrollingEvent(entity));
+	AttackData att;
+	att.hitOffsets.emplace(Direction::Up, std::vector<sf::Vector2i>()); 
+	att.hitOffsets.emplace(Direction::Left, std::vector<sf::Vector2i>());
+	att.hitOffsets.emplace(Direction::Bottom, std::vector<sf::Vector2i>());
+	att.hitOffsets.emplace(Direction::Right, std::vector<sf::Vector2i>());
+
+	att.hitOffsets.at(Direction::Up).emplace_back(0, -1);
+	att.hitOffsets.at(Direction::Left).emplace_back(-1, 0);
+	att.hitOffsets.at(Direction::Bottom).emplace_back(0, 1);
+	att.hitOffsets.at(Direction::Right).emplace_back(1, 0);
+
+	attackComp.cAttackDataMap.emplace(AnimationIdentifier::Attack1, std::move(att));
 }
 
 void GameState::spawnEntities()

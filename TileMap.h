@@ -3,10 +3,12 @@
 #include "DungeonGenerator.h"
 #include "EventManager.h"
 
+class Pathfinder;
+
 class TileMap
 {
 public:
-	TileMap(EventManager& eventManager, const sf::View& gameView);
+	TileMap(EventManager& eventManager, const sf::View& gameView, Pathfinder& pathfinder);
 	void buildFromGenerator(DungeonGenerator& gen, const sf::Vector2i& size, int maxDepth,
 		const sf::Vector2i& minRoomSize, const sf::Vector2i& maxRoomSize);
 
@@ -28,9 +30,12 @@ public:
 
 	bool isInMapBounds(int x, int y) const;
 	bool isInMapBounds(const sf::Vector2f& pos) const;
+	bool doesPathExist(const Entity& from, const Entity& to);
 
 	std::vector<Entity*>& getVisibleEntities();
 	const std::vector<Entity*>& getVisibleEntities() const;
+
+	std::vector<Entity*> getEntitiesOnTile(int x, int y) const;
 private:
 	void createTiles(const IMapGenerator::GeneratedMap& map);
 	void renderVisibleTiles(sf::RenderWindow& window) const;
@@ -45,6 +50,7 @@ private:
 
 private:
 	const sf::View& mGameView;
+	Pathfinder& mPathfinder;
 	std::vector<std::vector<Tile>> mTiles;
 	std::vector<Tile*> mVisibleTiles;
 	std::vector<Entity*> mVisibleEntities;

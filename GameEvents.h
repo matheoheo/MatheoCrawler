@@ -4,6 +4,7 @@
 class Entity;
 enum class Direction;
 struct Tile;
+struct AttackData;
 
 struct IEvent
 {
@@ -70,6 +71,16 @@ struct PlayEntitySpecificAnimationEvent : public IEvent
 	PlayEntitySpecificAnimationEvent(Entity& entity, const EntityAnimationKey& key)
 		:entity(entity),
 		key(key) {}
+};
+
+struct PlayAttackAnimationEvent : public IEvent
+{
+	Entity& entity;
+	AnimationIdentifier animId;
+
+	PlayAttackAnimationEvent(Entity& entity, AnimationIdentifier animId)
+		:entity(entity),
+		animId(animId) {}
 };
 
 struct ReserveTileEvent : public IEvent
@@ -163,6 +174,35 @@ struct TileFadeRequestEvent : public IEvent
 		:tiles(tiles) {}
 };
 
+struct StartAttackingEvent : public IEvent
+{
+	Entity& entity;
+	AnimationIdentifier animId;
+	StartAttackingEvent(Entity& entity, AnimationIdentifier animId)
+		:entity(entity),
+		animId(animId) 
+	{}
+};
+
+struct AttackAnimationFinishedEvent : public IEvent
+{
+	const Entity& entity;
+	const AttackData* lastAttackData;
+	AttackAnimationFinishedEvent(const Entity& entity, const AttackData* lastAttackData)
+		:entity(entity),
+		lastAttackData(lastAttackData){}
+};
+
+struct HitByAttackEvent : public IEvent
+{
+	const Entity& attacker;
+	std::vector<Entity*> hitEntities;
+
+	HitByAttackEvent(const Entity& attacker, const std::vector<Entity*>& hitEntities)
+		:attacker(attacker),
+		hitEntities(hitEntities)
+	{}
+};
 /*
 struct PlayGenericAnimationEvent : public IEvent
 {

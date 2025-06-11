@@ -10,6 +10,6 @@ enum class AnimationIdentifier
 	GenericHurt,
 
 	Attack1,
-	Attack2, //armed as well
+	Attack2,
 	Attack3
 };

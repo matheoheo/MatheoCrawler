@@ -7,6 +7,8 @@
 #include "EntityManager.h"
 #include "EventManager.h"
 #include "TileMap.h"
+#include "WaitUntilIdleTask.h"
+#include "AttackTask.h"
 
 BasicMeleeBehavior::BasicMeleeBehavior(BehaviorContext& behaviorContext)
 	:IBehavior(behaviorContext)
@@ -26,35 +28,37 @@ void BasicMeleeBehavior::update(Entity& entity, const sf::Time& deltaTime)
 		return;
 	}
 
-
 	determineNextTask(entity);
 }
 
 void BasicMeleeBehavior::determineNextTask(Entity& entity)
 {
 	auto& aiStateComp = entity.getComponent<EntityAIStateComponent>();
+	auto& player = mBehaviorContext.entityManager.getPlayer();
 	auto state = aiStateComp.cState;
+
+	if (state != EntityAIState::Attacking && canAttack(entity, player))
+	{
+		swapToAttacking(entity, player);
+		return;
+	}
 	if (state == EntityAIState::None)
 	{
-		std::cout << "Added patrol task!\n";
-		pushTask(std::make_unique<PatrolTask>());
-		pushTask(std::make_unique<DelayTask>(1000));
+		swapToPatrol();
 	}
 	else if (state == EntityAIState::Patrolling)
 	{
-
-		auto& player = mBehaviorContext.entityManager.getPlayer();
-		if (canCastLOS(entity) && canChaseEntity(entity, player))
-		{
-			std::cout << "Added chase task!\n";
-			pushTask(std::make_unique<ChaseTask>(player));
-			pushTask(std::make_unique<DelayTask>(1000));
-		}
+		handleLogicIfPatrolling(entity, player);
 	}
 	else if (state == EntityAIState::Chasing)
 	{
-
+		handleLogicIfChasing(entity, player);
 	}
+	else if (state == EntityAIState::Attacking)
+	{
+		handleLogicIfAttacking(entity, player);
+	}
+	pushDelayTask(getRandomDelay(90));
 }
 
 bool BasicMeleeBehavior::canChaseEntity(const Entity& entity, const Entity& target) const
@@ -64,12 +68,137 @@ bool BasicMeleeBehavior::canChaseEntity(const Entity& entity, const Entity& targ
 
 	auto entityCell = Utilities::getEntityCell(entity);
 	auto playerCell = Utilities::getEntityCell(target);
-	//
-	entity.getComponent<AITimersComponent>().cTimeSinceLastLOSCheck = 0.f;
+	
+	resetLOSTimer(entity);
 	return mBehaviorContext.tileMap.isLineOfSightClear(entityCell, playerCell);
 }
 
 bool BasicMeleeBehavior::canCastLOS(const Entity& entity) const
 {
-	return entity.getComponent<AITimersComponent>().cTimeSinceLastLOSCheck >= 1000.f;
+	constexpr float LOSCheckCooldown = 200.f;
+	return entity.getComponent<AITimersComponent>().cTimeSinceLastLOSCheck >= LOSCheckCooldown;
+}
+
+bool BasicMeleeBehavior::canAttack(const Entity& entity, const Entity& target) const
+{
+	return Utilities::isEntityWithinAttackRange(entity, target);
+}
+
+void BasicMeleeBehavior::swapToPatrol()
+{
+	//pushDelayTask(getRandomDelay(150));
+	pushTask(std::make_unique<WaitUntilIdleTask>());
+	pushTask(std::make_unique<PatrolTask>());
+	pushDelayTask(getRandomDelay(250));
+}
+
+void BasicMeleeBehavior::swapToChase(Entity& target)
+{
+	//pushDelayTask(getRandomDelay(150));
+	pushTask(std::make_unique<WaitUntilIdleTask>());
+	pushTask(std::make_unique<ChaseTask>(target));
+	pushDelayTask(getRandomDelay(250));
+
+}
+
+void BasicMeleeBehavior::swapToAttacking(Entity& entity, Entity& target)
+{
+	auto dir = Utilities::getDirectionToTarget(entity, target);
+	Utilities::setEntityDirection(entity, dir);
+
+	//pushDelayTask(getRandomDelay(150));
+	pushTask(std::make_unique<WaitUntilIdleTask>());
+	pushTask(std::make_unique<AttackTask>(AnimationIdentifier::Attack1));
+	pushDelayTask(getRandomDelay(250));
+}
+
+void BasicMeleeBehavior::handleLogicIfPatrolling(Entity& entity, Entity& player)
+{
+	//if last light of sight was casted less than 1 second ago, we do not want to repeat it right now
+	//let it time out a bit
+	if (canCastLOS(entity))
+	{
+		if (!isEntityReachable(player))
+		{
+			//if entity is patrolling, but the target (player) is not reachable (has only non walkable tiles around him)
+			//we add delay to prevent every frame rethinking.
+			pushDelayTask(getRandomDelay(150));
+			return;
+		}
+		if (canChaseEntity(entity, player) && mBehaviorContext.tileMap.doesPathExist(entity, player))
+		{
+			swapToChase(player);
+		}
+	}
+	else
+		pushDelayTask(getRandomDelay(200));
+}
+
+void BasicMeleeBehavior::handleLogicIfChasing(Entity& entity, Entity& player)
+{
+	if (canAttack(entity, player))
+	{
+		swapToAttacking(entity, player);
+		return;
+	}
+
+	auto& chaseComp = entity.getComponent<ChaseAIComponent>();
+	if (!chaseComp.cTarget)
+	{
+		//if there is no target to chase, then just go back to patrol?
+		swapToPatrol();
+		return;
+	}
+
+	bool isReachable = isEntityReachable(*chaseComp.cTarget);
+	bool pathExists = mBehaviorContext.tileMap.doesPathExist(entity, *chaseComp.cTarget);
+	if (isReachable && pathExists)
+		chaseComp.cUnreachableRetryCount = 0;
+
+	if (!isReachable  || !pathExists)
+	{
+		++chaseComp.cUnreachableRetryCount;
+		constexpr int maxRetriesAttempts = 5;
+		//if entity can't reach target, but is still within limit, then we add some delay.
+		if (chaseComp.cUnreachableRetryCount <= maxRetriesAttempts)
+		{
+			//we give it some delay, and then he will try again.
+			pushDelayTask(getRandomDelay(150));
+			return;
+		}
+		else
+		{
+			//if reach tries exceeded threshold, then we just swap to patrolling.
+			swapToPatrol();
+			return;
+		}
+	}
+
+	bool inFOVRange = Utilities::isEntityWithinFOVRange(*chaseComp.cTarget, player);
+	if (!inFOVRange)
+	{
+		//if target moved outside fov range, we just go back to patrolling
+		swapToPatrol();
+	}
+}
+
+void BasicMeleeBehavior::handleLogicIfAttacking(Entity& entity, Entity& player)
+{
+	if (canAttack(entity, player))
+	{
+		if (entity.getComponent<EntityStateComponent>().cCurrentState == EntityState::Idle)
+		{
+			swapToAttacking(entity, player);
+		}
+	}
+	else
+	{
+		swapToChase(player);
+	}
+}
+
+void BasicMeleeBehavior::resetLOSTimer(const Entity& entity) const
+{
+	entity.getComponent<AITimersComponent>().cTimeSinceLastLOSCheck = 0.f;
+
 }

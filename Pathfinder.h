@@ -27,14 +27,16 @@ public:
 	void initalize();
 	void setSolidTypes(const std::vector<TileType>& solidTypes);
 
-	PathfinderResult getPath(const sf::Vector2f& positionA, const sf::Vector2f& positionB);
-	PathfinderResult getPath(const sf::Vector2i& cellA, const sf::Vector2i& cellB);
+	PathfinderResult getPath(const sf::Vector2f& positionA, const sf::Vector2f& positionB, bool ignoreLastCell = true);
+	PathfinderResult getPath(const sf::Vector2i& cellA, const sf::Vector2i& cellB, bool ignoreLastCell = true);
 private:
-	std::vector<PathNode*> getPathNodes(PathNode* start, PathNode* finish);
-	std::vector<PathNode*> getNeighbors(const PathNode* node, const PathNode* finish);
+	std::vector<PathNode*> getPathNodes(PathNode* start, PathNode* finish, bool ignoreLastCell = true);
+	std::vector<PathNode*> getNeighbors(const PathNode* node, const PathNode* finish, bool ignoreLastCell = true);
 
 	bool isIndexValid(const sf::Vector2i& index) const;
 	bool isNodeWalkable(const sf::Vector2i& index) const;
+	bool isNodeWalkable(const PathNode* node) const;
+	bool isNodeWalkableRaw(const PathNode* node) const;
 	int calculateGuessCost(const PathNode* from, const PathNode* to) const;
 	void resetNode(PathNode& node);
 	void resetLastlyUsedNodes();

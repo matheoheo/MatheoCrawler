@@ -29,6 +29,7 @@ void AnimationSystem::registerToEvents()
 	registerToPlayGenericWalkEvent();
 	registerToFinalizeAnimationEvent();
 	registerToEntitySpecificAnimationEvent();
+	registerToPlayAttackAnimationEvent();
 }
 
 void AnimationSystem::resetTimer(AnimationComponent& animationComponent) const
@@ -70,15 +71,13 @@ void AnimationSystem::updateFrame(Entity& entity, AnimationComponent& animationC
 void AnimationSystem::finalizeAnimation(const Entity& entity, AnimationComponent& animationComponent) 
 {
 	animationComponent.cCurrentIndex = 0;
-	//applyCurrentFrame(entity, animationComponent);
 	animationComponent.cTimer = 0.f;
 	animationComponent.cFrames = nullptr;
 
-	if (animationComponent.cApplyOffset)
-		entity.getComponent<SpriteComponent>().cSprite.setPosition(animationComponent.cStartPosition);
+	moveBackToStartingPosition(entity, animationComponent);
 	applyDefaultFrame(entity, animationComponent);
-	entity.getComponent<EntityStateComponent>().cCurrentState = EntityState::Idle;
-
+	notifyAnimationFinished(entity, animationComponent);
+	setStateToIdle(entity);
 	mFinishedEntities.push_back(&entity);
 }
 
@@ -89,6 +88,34 @@ void AnimationSystem::applyDefaultFrame(const Entity& entity, AnimationComponent
 
 	const auto& frame = mAnimationHolder.get(key)[0];
 	entity.getComponent<SpriteComponent>().cSprite.setTextureRect(frame.frameRect);
+}
+
+void AnimationSystem::setStateToIdle(const Entity& entity)
+{
+	entity.getComponent<EntityStateComponent>().cCurrentState = EntityState::Idle;
+}
+
+void AnimationSystem::moveBackToStartingPosition(const Entity& entity, AnimationComponent& animationComponent)
+{
+	if (animationComponent.cApplyOffset)
+		entity.getComponent<SpriteComponent>().cSprite.setPosition(animationComponent.cStartPosition);
+}
+
+bool AnimationSystem::isAnAttackAnimation(AnimationIdentifier id) const
+{
+	return id == AnimationIdentifier::Attack1 || id == AnimationIdentifier::Attack2 || id == AnimationIdentifier::Attack3;
+}
+
+void AnimationSystem::notifyAnimationFinished(const Entity& entity, AnimationComponent& animationComponent)
+{
+	auto animId = animationComponent.cCurrentId;
+	if (isAnAttackAnimation(animId))
+	{
+		auto& attackComp = entity.getComponent<AttackComponent>();
+		attackComp.cLastAttackId = attackComp.cNextAttackId;
+		mSystemContext.eventManager.notify<AttackAnimationFinishedEvent>
+			(AttackAnimationFinishedEvent(entity, attackComp.cLastAttackData));
+	}
 }
 
 void AnimationSystem::removeFinishedEntities()
@@ -139,12 +166,51 @@ void AnimationSystem::registerToEntitySpecificAnimationEvent()
 
 			animComp.cCurrentIndex = 0;
 			animComp.cTimer = 0.f;
-			animComp.cFrameDuration = 750.f;
+			animComp.cFrameDuration = 50.f;
 			animComp.cFrames = &mAnimationHolder.get(data.key);
 			animComp.cStartPosition = data.entity.getComponent<SpriteComponent>().cSprite.getPosition();
 			animComp.cApplyOffset = true;
 
 			applyCurrentFrame(data.entity, animComp);
+			mTrackedEntities.push_back(&data.entity);
+		});
+}
+
+void AnimationSystem::registerToPlayAttackAnimationEvent()
+{
+	mSystemContext.eventManager.registerEvent<PlayAttackAnimationEvent>([this](const PlayAttackAnimationEvent& data)
+		{
+			if (isEntityAlreadyTracked(data.entity) || !isAnAttackAnimation(data.animId))
+				return;
+
+			auto dir = data.entity.getComponent<DirectionComponent>().cCurrentDir;
+			auto entType = data.entity.getComponent<EntityTypeComponent>().cEntityType;
+			EntityAnimationKey key{ data.animId, dir, entType };
+
+			auto& animComp = data.entity.getComponent<AnimationComponent>();
+			animComp.cApplyOffset = true;
+			animComp.cCurrentIndex = 0;
+			animComp.cStartPosition = data.entity.getComponent<SpriteComponent>().cSprite.getPosition();
+			animComp.cTimer = 0.f;
+			animComp.cFrames = &mAnimationHolder.get(key);
+			animComp.cCurrentId = data.animId;
+
+			auto& attackComp = data.entity.getComponent<AttackComponent>();
+			attackComp.cLastAttackData = &attackComp.cAttackDataMap[data.animId];
+			attackComp.cLastAttackId = data.animId;
+
+			auto& combatStatsComp = data.entity.getComponent<CombatStatsComponent>();
+
+			//calculate full animation time
+			constexpr float baseAnimSpeed = 1.0f;
+			float fullAnimTime = baseAnimSpeed / (combatStatsComp.cAttackSpeed * attackComp.cLastAttackData->speedMultiplier);
+			fullAnimTime *= 1000.f; //so we get milliseconds
+			attackComp.cAttackCooldownTimer = fullAnimTime;
+
+			//now calculate each frame duration
+			auto framesCount = animComp.cFrames->size();
+			animComp.cFrameDuration = fullAnimTime / static_cast<float>(framesCount);
+
 			mTrackedEntities.push_back(&data.entity);
 		});
 }

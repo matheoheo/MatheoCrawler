@@ -31,9 +31,6 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{e078abe5-ff68-4dae-b500-bd295882f3c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{d5cfe9b6-c28d-4eca-a498-32d3ad0d8b4f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Logic">
       <UniqueIdentifier>{b0bfbc68-0738-4544-83cf-6a71f3d4b67d}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,9 @@
     </Filter>
     <Filter Include="AI\Tasks">
       <UniqueIdentifier>{e34ca9b5-477c-4310-bc6c-8ca42c3fae17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{d5cfe9b6-c28d-4eca-a498-32d3ad0d8b4f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +159,15 @@
     <ClCompile Include="BasicMeleeBehavior.cpp">
       <Filter>AI</Filter>
     </ClCompile>
+    <ClCompile Include="AttackSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackTask.cpp">
+      <Filter>AI\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHitSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -254,9 +263,6 @@
     <ClInclude Include="GameState.h">
       <Filter>Game Logic</Filter>
     </ClInclude>
-    <ClInclude Include="GameEvents.h">
-      <Filter>Game Logic</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Game Logic</Filter>
     </ClInclude>
@@ -325,6 +331,21 @@
     </ClInclude>
     <ClInclude Include="BasicMeleeBehavior.h">
       <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackData.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackTask.h">
+      <Filter>AI\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="OnHitSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvents.h">
+      <Filter>Definitions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

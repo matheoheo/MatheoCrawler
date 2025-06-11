@@ -3,6 +3,7 @@
 class Entity;
 class TileMap;
 struct Tile;
+enum class Direction;
 
 namespace Utilities
 {
@@ -19,5 +20,10 @@ namespace Utilities
 	const sf::Color& getExploredTileColor(const Tile& tile);
 
 	bool isEntityWithinFOVRange(const Entity& observer, const Entity& target);
+	bool isEntityWithinAttackRange(const Entity& attacker, const Entity& target);
+
+	//returns direction, between entity to target, so that entity will stand 'face to face' with target
+	Direction getDirectionToTarget(const Entity& entity, const Entity& target);
+	void setEntityDirection(const Entity& entity, Direction dir);
 };
 

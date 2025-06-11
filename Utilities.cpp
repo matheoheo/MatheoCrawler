@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "EntityStates.h"
 #include "TileMap.h"
+#include "Directions.h"
 
 float Utilities::getDistanceBetween(const sf::Vector2f& pointA, const sf::Vector2f& pointB)
 {
@@ -67,4 +68,42 @@ bool Utilities::isEntityWithinFOVRange(const Entity& observer, const Entity& tar
 	auto fovRange = observer.getComponent<FieldOfViewComponent>().cRangeOfView;
 
 	return dx <= fovRange && dy <= fovRange;
+}
+
+bool Utilities::isEntityWithinAttackRange(const Entity& attacker, const Entity& target)
+{
+	auto& statsComp = attacker.getComponent<CombatStatsComponent>();
+	auto range = statsComp.cAttackRange;
+
+	auto attackerCell = Utilities::getEntityCell(attacker);
+	auto targetCell = Utilities::getEntityCell(target);
+
+	auto dx = std::abs(attackerCell.x - targetCell.x);
+	auto dy = std::abs(attackerCell.y - targetCell.y);
+	return (dx <= range && dy == 0) || (dy <= range && dx == 0);
+}
+
+Direction Utilities::getDirectionToTarget(const Entity& entity, const Entity& target)
+{
+	auto fromCell = getEntityCell(entity);
+	auto toCell = getEntityCell(target);
+	
+	int dx = toCell.x - fromCell.x;
+	int dy = toCell.y - fromCell.y;
+
+	if (dx == -1)
+		return Direction::Left;
+	else if (dx == 1)
+		return Direction::Right;
+	else if (dy == -1)
+		return Direction::Up;
+	else if (dy == 1)
+		return Direction::Bottom;
+
+	return Direction::Up;
+}
+
+void Utilities::setEntityDirection(const Entity& entity, Direction dir)
+{
+	entity.getComponent<DirectionComponent>().cCurrentDir = dir;
 }

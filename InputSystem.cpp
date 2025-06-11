@@ -52,11 +52,6 @@ void InputSystem::update(const sf::Time& deltaTime)
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
 	{
 		auto& player = mSystemContext.entityManager.getPlayer();
-		EntityAnimationKey key;
-		key.dir = player.getComponent<DirectionComponent>().cCurrentDir;
-		key.id = AnimationIdentifier::Attack1;
-		key.type = EntityType::Player;
-
-		mSystemContext.eventManager.notify<PlayEntitySpecificAnimationEvent>(PlayEntitySpecificAnimationEvent(player, key));
+		mSystemContext.eventManager.notify<StartAttackingEvent>(StartAttackingEvent(player, AnimationIdentifier::Attack1));
 	}
 }

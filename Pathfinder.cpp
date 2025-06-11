@@ -31,15 +31,15 @@ void Pathfinder::setSolidTypes(const std::vector<TileType>& solidTypes)
 	mSolidTypes = solidTypes;
 }
 
-Pathfinder::PathfinderResult Pathfinder::getPath(const sf::Vector2f& positionA, const sf::Vector2f& positionB)
+Pathfinder::PathfinderResult Pathfinder::getPath(const sf::Vector2f& positionA, const sf::Vector2f& positionB, bool ignoreLastCell)
 {
 	auto indexA = Utilities::getCellIndex(positionA);
 	auto indexB = Utilities::getCellIndex(positionB);
 
-	return getPath(indexA, indexB);
+	return getPath(indexA, indexB, ignoreLastCell);
 }
 
-Pathfinder::PathfinderResult Pathfinder::getPath(const sf::Vector2i& cellA, const sf::Vector2i& cellB)
+Pathfinder::PathfinderResult Pathfinder::getPath(const sf::Vector2i& cellA, const sf::Vector2i& cellB, bool ignoreLastCell)
 {
 	PathfinderResult result;
 
@@ -56,7 +56,7 @@ Pathfinder::PathfinderResult Pathfinder::getPath(const sf::Vector2i& cellA, cons
 	if (!start || !finish)
 		return result;
 
-	auto nodes = getPathNodes(start, finish);
+	auto nodes = getPathNodes(start, finish, ignoreLastCell);
 	if (!nodes.empty())
 		nodes.pop_back();
 	if (!nodes.empty())
@@ -69,7 +69,7 @@ Pathfinder::PathfinderResult Pathfinder::getPath(const sf::Vector2i& cellA, cons
 	return result;
 }
 
-std::vector<Pathfinder::PathNode*> Pathfinder::getPathNodes(PathNode* start, PathNode* finish)
+std::vector<Pathfinder::PathNode*> Pathfinder::getPathNodes(PathNode* start, PathNode* finish, bool ignoreLastCell)
 {
 	if (start == finish || !mTiles)
 		return {};
@@ -90,7 +90,7 @@ std::vector<Pathfinder::PathNode*> Pathfinder::getPathNodes(PathNode* start, Pat
 
 	std::priority_queue<PathNode*, std::vector<PathNode*>, decltype(nodesComparator)> queue(nodesComparator);
 	
-	const int moveCost = 10;
+	const int moveCost = 1;
 	start->localCost = 0;
 	start->guessCost = calculateGuessCost(start, finish);
 	queue.push(start);
@@ -105,7 +105,7 @@ std::vector<Pathfinder::PathNode*> Pathfinder::getPathNodes(PathNode* start, Pat
 			return reconstructPath(finish);
 		
 		current->visited = true;
-		auto neighbors = getNeighbors(current, finish);
+		auto neighbors = getNeighbors(current, finish, ignoreLastCell);
 
 		for (const auto& neighbor : neighbors)
 		{
@@ -128,10 +128,10 @@ std::vector<Pathfinder::PathNode*> Pathfinder::getPathNodes(PathNode* start, Pat
 	return {};
 }
 
-std::vector<Pathfinder::PathNode*> Pathfinder::getNeighbors(const PathNode* node, const PathNode* finish) 
+std::vector<Pathfinder::PathNode*> Pathfinder::getNeighbors(const PathNode* node, const PathNode* finish, bool ignoreLastCell)
 {
 	std::vector<PathNode*> neighbors;
-	std::array<sf::Vector2i, 4> offsets = 
+	constexpr std::array<sf::Vector2i, 4> offsets = 
 	{ 
 		sf::Vector2i(-1, 0), 
 		sf::Vector2i(1, 0),
@@ -148,10 +148,21 @@ std::vector<Pathfinder::PathNode*> Pathfinder::getNeighbors(const PathNode* node
 		const int ny = y + offset.y; //neighbory
 		const sf::Vector2i index{ nx, ny };
 
-		if (isIndexValid(index) && (isNodeWalkable(index) || &mNodes[ny][nx] == finish))
+		bool indexValid = isIndexValid(index);
+		if (!indexValid)
+			continue;
+		PathNode* neighborNode = &mNodes[ny][nx];
+		bool isWalkable = isNodeWalkable(neighborNode);
+		if (neighborNode == finish)
 		{
-			neighbors.push_back(&mNodes[ny][nx]);
+			if (!ignoreLastCell && isNodeWalkableRaw(neighborNode))
+				neighbors.push_back(neighborNode);
+			else if (ignoreLastCell || isWalkable)
+				neighbors.push_back(neighborNode);
+			continue;
 		}
+		if (isWalkable)
+			neighbors.push_back(neighborNode);
 	}
 	return neighbors;
 }
@@ -165,6 +176,16 @@ bool Pathfinder::isNodeWalkable(const sf::Vector2i& index) const
 {
 	return (*mTiles)[index.y][index.x].isWalkable();
 	//return (*mTiles)[index.y][index.x].tileType != TileType::Wall;
+}
+
+bool Pathfinder::isNodeWalkable(const PathNode* node) const
+{
+	return isNodeWalkable(node->cellIndex);
+}
+
+bool Pathfinder::isNodeWalkableRaw(const PathNode* node) const
+{
+	return (*mTiles)[node->cellIndex.y][node->cellIndex.x].isWalkableRaw();
 }
 
 int Pathfinder::calculateGuessCost(const PathNode* from, const PathNode* to) const

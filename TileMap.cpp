@@ -2,8 +2,11 @@
 #include "TileMap.h"
 #include "Config.h"
 #include "Utilities.h"
-TileMap::TileMap(EventManager& eventManager, const sf::View& gameView)
-	:mGameView(gameView)
+#include "Pathfinder.h"
+
+TileMap::TileMap(EventManager& eventManager, const sf::View& gameView, Pathfinder& pathfinder)
+	:mGameView(gameView),
+	mPathfinder(pathfinder)
 {
 	registerToEvents(eventManager);
 }
@@ -176,6 +179,15 @@ bool TileMap::isInMapBounds(const sf::Vector2f& pos) const
 	return isInMapBounds(index.x, index.y);
 }
 
+bool TileMap::doesPathExist(const Entity& from, const Entity& to)
+{
+	auto fromCell = Utilities::getEntityCell(from);
+	auto toCell = Utilities::getEntityCell(to);
+	auto path = mPathfinder.getPath(fromCell, toCell, false);
+
+	return !path.empty();
+}
+
 std::vector<Entity*>& TileMap::getVisibleEntities()
 {
 	return mVisibleEntities;
@@ -184,6 +196,15 @@ std::vector<Entity*>& TileMap::getVisibleEntities()
 const std::vector<Entity*>& TileMap::getVisibleEntities() const
 {
 	return mVisibleEntities;
+}
+
+std::vector<Entity*> TileMap::getEntitiesOnTile(int x, int y) const
+{
+	if (!isInMapBounds(x, y))
+		return {};
+
+	const auto& tile = &mTiles[y][x];
+	return tile->occupyingEntities;
 }
 
 void TileMap::createTiles(const IMapGenerator::GeneratedMap& map)
@@ -270,3 +291,4 @@ void TileMap::vacateTile(Tile& tile, Entity& entity)
 {
 	std::erase(tile.occupyingEntities, &entity);
 }
+

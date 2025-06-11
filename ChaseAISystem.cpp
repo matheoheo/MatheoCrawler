@@ -12,6 +12,8 @@ ChaseAISystem::ChaseAISystem(SystemContext& systemContext, const TileMap& tileMa
 
 void ChaseAISystem::update(const sf::Time& deltaTime)
 {
+	removeNotChasingEntities();
+
 	for (const auto& ent : mTrackedEntities)
 	{
 		auto& chaseComp = ent->getComponent<ChaseAIComponent>();
@@ -29,12 +31,12 @@ void ChaseAISystem::update(const sf::Time& deltaTime)
 		if (isPathRecalculationDue(chaseComp))
 			askForPathRecalculation(*ent);
 	}
-	removeNotChasingEntities();
 }
 
 void ChaseAISystem::registerToEvents()
 {
 	registerToStartChasingEvent();
+	registerToPlayerMovedEvent();
 }
 
 void ChaseAISystem::registerToStartChasingEvent()
@@ -44,12 +46,22 @@ void ChaseAISystem::registerToStartChasingEvent()
 			auto& stateComp = data.entity.getComponent<EntityAIStateComponent>();
 			if (stateComp.cState == EntityAIState::Chasing)
 				return;
+
 			stateComp.cState = EntityAIState::Chasing;
 			auto& chaseComp = data.entity.getComponent<ChaseAIComponent>();
 			auto& pathComp = data.entity.getComponent<PathComponent>();
 			resetChaseComponent(chaseComp, &data.target);
 			resetPathComponent(pathComp);
 			mTrackedEntities.push_back(&data.entity);
+		});
+}
+
+void ChaseAISystem::registerToPlayerMovedEvent()
+{
+	mSystemContext.eventManager.registerEvent<PlayerMoveFinishedEvent>([this](const PlayerMoveFinishedEvent& data)
+		{
+			for (const auto& entity : mTrackedEntities)
+				askForPathRecalculation(*entity);
 		});
 }
 
@@ -80,12 +92,9 @@ bool ChaseAISystem::isStepWalkable(const Entity& entity, const sf::Vector2i& ste
 void ChaseAISystem::doStep(Entity& entity, PathComponent& pathComp, const sf::Vector2i& stepCell)
 {
 	if (!Utilities::isEntityIdling(entity))
-	{
 		return;
 
-	}
-	auto entPos = entity.getComponent<SpriteComponent>().cSprite.getPosition();
-	auto entCell = Utilities::getCellIndex(entPos);
+	auto entCell = Utilities::getEntityCell(entity);
 
 	auto nextStepDir = getStepDirection(entCell, stepCell);
 	if (!nextStepDir)

@@ -16,7 +16,6 @@ void ISystem::render(sf::RenderWindow& window)
 
 bool ISystem::isEntityAlreadyTracked(const Entity& entity) 
 {
-	std::cout << "Is tracked check\n";
 	auto it = std::ranges::find_if(mTrackedEntities, [&entity](const Entity* e)
 		{
 			return e->getEntityId() == entity.getEntityId();

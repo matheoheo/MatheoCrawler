@@ -39,7 +39,11 @@ struct Tile
 	{
 		return tileType == TileType::Floor && occupyingEntities.empty() && !reservedEntity;
 	}
-
+	
+	inline bool isWalkableRaw() const
+	{
+		return tileType == TileType::Floor;
+	}
 	inline void determineTileColor()
 	{
 		if (tileType == TileType::None)

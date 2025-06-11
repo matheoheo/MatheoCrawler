@@ -12,13 +12,14 @@ PathRequestSystem::PathRequestSystem(SystemContext& systemContext, Pathfinder& p
 
 void PathRequestSystem::update(const sf::Time& deltaTime)
 {
-	int maxRecalculations = 1; //we recalculate for maximally 2 entities per frame
+	int maxRecalculations = 2; //we recalculate for maximally 2 entities per frame
 	for (const auto& entity : mTrackedEntities)
 	{
 		if (maxRecalculations == 0)
 			break;
 
-		if (!Utilities::isEntityIdling(*entity))
+		//we recalculate only if entity is in an idle state, and the path wasn't recalculated already.
+		if (!Utilities::isEntityIdling(*entity) || !hasRecalculationIntervalPassed(*entity))
 			continue;
 
 		updatePathToTarget(*entity);
@@ -37,13 +38,8 @@ void PathRequestSystem::registerToPathRequestEvent()
 {
 	mSystemContext.eventManager.registerEvent<RequestPathEvent>([this](const RequestPathEvent& data)
 		{
-			//to prevent spamming;
-			if (!data.forceRecalculation && !hasRecalculationIntervalPassed(data.entity))
-				return;
-
 			if(isEntityAlreadyTracked(data.entity))
 				return;
-
 			//clear previous path
 			data.entity.getComponent<PathComponent>().cPathCells.clear();
 			mTrackedEntities.push_back(&data.entity);
@@ -61,8 +57,9 @@ void PathRequestSystem::updatePathToTarget(const Entity& entity)
 	auto entityPos = Utilities::getEntityPos(entity);
 	auto targetPos = Utilities::getEntityPos(*chaseComp.cTarget);
 	auto path = mPathfinder.getPath(entityPos, targetPos);
+	chaseComp.cTargetReachableByPath = !path.empty();
 
-	std::cout << "Found path of size: " << path.size() << std::endl;
+	//std::cout << "Found path of size: " << path.size() << std::endl;
 
 	pathComp.cPathCells.assign(std::begin(path), std::end(path));
 	chaseComp.cTimeSinceLastRecalculation = 0.f;

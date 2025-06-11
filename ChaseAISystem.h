@@ -9,7 +9,12 @@ public:
     virtual void update(const sf::Time& deltaTime) override;
 private:
     void registerToEvents();
+
+    //when this event is received, we push entity into system, and he starts chasing.
     void registerToStartChasingEvent();
+
+    //if monsters are chasing, and player moves, we must recalculate path.
+    void registerToPlayerMovedEvent();
     void resetChaseComponent(ChaseAIComponent& chaseComp, Entity* target = nullptr);
     void resetPathComponent(PathComponent& pathComp);
     std::optional<sf::Vector2i> getPathStep(PathComponent& pathComp) const;

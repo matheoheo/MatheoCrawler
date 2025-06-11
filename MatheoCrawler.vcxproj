@@ -94,6 +94,7 @@
       <AdditionalIncludeDirectories>C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\SFML-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,6 +133,7 @@
       <AdditionalIncludeDirectories>C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\SFML-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,6 +165,8 @@
   <ItemGroup>
     <ClCompile Include="AnimationHolder.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
+    <ClCompile Include="AttackSystem.cpp" />
+    <ClCompile Include="AttackTask.cpp" />
     <ClCompile Include="BasicMeleeBehavior.cpp" />
     <ClCompile Include="BehaviorAIUpdateSystem.cpp" />
     <ClCompile Include="CameraSystem.cpp" />
@@ -186,6 +190,7 @@
     <ClCompile Include="ITask.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
+    <ClCompile Include="OnHitSystem.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="PathRequestSystem.cpp" />
@@ -204,6 +209,9 @@
     <ClInclude Include="AnimationIdentifiers.h" />
     <ClInclude Include="AnimationSystem.h" />
     <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="AttackData.h" />
+    <ClInclude Include="AttackSystem.h" />
+    <ClInclude Include="AttackTask.h" />
     <ClInclude Include="BasicMeleeBehavior.h" />
     <ClInclude Include="BehaviorAIUpdateSystem.h" />
     <ClInclude Include="BehaviorContext.h" />
@@ -237,6 +245,7 @@
     <ClInclude Include="ISystem.h" />
     <ClInclude Include="ITask.h" />
     <ClInclude Include="MovementSystem.h" />
+    <ClInclude Include="OnHitSystem.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="PathRequestSystem.h" />
