@@ -40,14 +40,14 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{3558bb1d-2499-43bc-bec1-be0bdc1a5dda}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Definitions">
-      <UniqueIdentifier>{ef724a64-c36a-4ffb-9ca1-c9964d3d31df}</UniqueIdentifier>
-    </Filter>
     <Filter Include="AI\Tasks">
       <UniqueIdentifier>{e34ca9b5-477c-4310-bc6c-8ca42c3fae17}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graphics">
       <UniqueIdentifier>{d5cfe9b6-c28d-4eca-a498-32d3ad0d8b4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definitions">
+      <UniqueIdentifier>{ef724a64-c36a-4ffb-9ca1-c9964d3d31df}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +166,15 @@
       <Filter>AI\Tasks</Filter>
     </ClCompile>
     <ClCompile Include="OnHitSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySpawnerSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityDeathSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="BarRenderSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
   </ItemGroup>
@@ -346,6 +355,15 @@
     </ClInclude>
     <ClInclude Include="GameEvents.h">
       <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySpawnerSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityDeathSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="BarRenderSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

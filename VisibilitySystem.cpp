@@ -38,6 +38,7 @@ void VisibilitySystem::registerToEvents()
 	registerToPlayerMoveFinishedEvent();
 	registerToMoveAllowedEvent();
 	registerToEntityFinishedMoveEvent();
+	regToRemoveEntityFromSystemEvent();
 }
 
 void VisibilitySystem::registerToPlayerMoveFinishedEvent()
@@ -70,6 +71,14 @@ void VisibilitySystem::registerToEntityFinishedMoveEvent()
 		{
 			if (isEntityCloseToPlayer(data.entity))
 				sendUpdateEntityRenderTilesEvent();
+		});
+}
+
+void VisibilitySystem::regToRemoveEntityFromSystemEvent()
+{
+	mSystemContext.eventManager.registerEvent<RemoveEntityFromSystemEvent>([this](const RemoveEntityFromSystemEvent& data)
+		{
+			mLastVisibleEntities.erase(&data.entity);
 		});
 }
 

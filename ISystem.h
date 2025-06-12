@@ -11,7 +11,8 @@ public:
 	virtual void update(const sf::Time& deltaTime) = 0;
 	virtual void render(sf::RenderWindow& window);
 protected:
-	bool isEntityAlreadyTracked(const Entity& entity) ;
+	bool isEntityAlreadyTracked(const Entity& entity);
+	void registerToRemoveEntityFromSystemEvent();
 protected:
 	SystemContext& mSystemContext;
 	std::vector<Entity*> mTrackedEntities;

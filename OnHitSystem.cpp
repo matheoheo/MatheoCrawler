@@ -21,15 +21,16 @@ void OnHitSystem::registerToHitByAttackEvent()
 {
     mSystemContext.eventManager.registerEvent<HitByAttackEvent>([this](const HitByAttackEvent& data)
         {
-            for (const Entity* ent : data.hitEntities)
+            for (Entity* ent : data.hitEntities)
             {
                 int damage = calculateDamage(data.attacker, *ent);
                 auto damagePair = takeDamage(*ent, damage);
                 if (damagePair.second)
                 {
-                    //ToDo: mark entity as dead.
+                    if(!ent->hasComponent<PlayerComponent>())
+                        notifyEntityDied(*ent);
                 }
-                //ToDo: send to some healthbar system to reflect the change.
+                mSystemContext.eventManager.notify<HealthBarUpdateEvent>(HealthBarUpdateEvent(*ent, damagePair.first));
             }
         });
 }
@@ -61,4 +62,9 @@ std::pair<int, bool> OnHitSystem::takeDamage(const Entity& target, int damage)
 
     stats.cHealth -= damage;
     return std::make_pair(damage, stats.cHealth <= 0);
+}
+
+void OnHitSystem::notifyEntityDied(Entity& entity)
+{
+    mSystemContext.eventManager.notify<EntityDiedEvent>(EntityDiedEvent(entity));
 }

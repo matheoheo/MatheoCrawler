@@ -8,6 +8,7 @@
 #include "EntityAIState.h"
 #include "IBehavior.h"
 #include "AttackData.h"
+#include "Config.h"
 
 class Entity;
 
@@ -40,6 +41,11 @@ struct PlayerComponent : public IComponent
 };
 
 struct EnemyComponent : public IComponent
+{
+
+};
+
+struct BossComponent : public IComponent
 {
 
 };
@@ -176,7 +182,7 @@ struct CombatStatsComponent : public IComponent
 	CombatStatsComponent()
 		:cHealth(100),
 		cMaxHealth(cHealth),
-		cAttackDamage(12),
+		cAttackDamage(45),
 		cAttackRange(1),
 		cDefence(3),
 		cAttackSpeed(1.0f) {}
@@ -196,4 +202,25 @@ struct AttackComponent : public IComponent
 		cLastAttackId(AnimationIdentifier::Attack1),
 		cNextAttackId(AnimationIdentifier::Attack1) 
 	{}
+};
+
+struct HealthBarComponent : public IComponent
+{
+	sf::RectangleShape cForegroundBar;
+	sf::RectangleShape cBackgroundBar;
+	bool cIsVisible;
+	int cVisibleTimer; 
+
+	HealthBarComponent(const sf::Vector2f& size = Config::hpBarDefaultSize)
+		:cIsVisible(true),
+		cVisibleTimer(0)
+	{
+		cBackgroundBar.setFillColor(Config::hpBarBackgroundColor);
+		cBackgroundBar.setSize(size);
+		cBackgroundBar.setOutlineColor(Config::hpBarOutlineColor);
+		cBackgroundBar.setOutlineThickness(1.f);
+
+		cForegroundBar.setSize(size);
+		cForegroundBar.setFillColor(Config::hpBarForegroundColor);
+	}
 };

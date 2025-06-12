@@ -17,6 +17,9 @@
 #include "BasicMeleeBehavior.h"
 #include "AttackSystem.h"
 #include "OnHitSystem.h"
+#include "BarRenderSystem.h"
+#include "EntityDeathSystem.h"
+#include "EntitySpawnerSystem.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
@@ -32,14 +35,12 @@ GameState::GameState(GameContext& gameContext)
 
 void GameState::onEnter()
 {
-	loadTextures();
 	loadAnimations();
 	createMap();
 	createSystems();
 	createPlayer();
 	initalizePathfinder();
 	spawnEntities();
-	
 }
 
 void GameState::processEvents(sf::Event event)
@@ -83,30 +84,12 @@ void GameState::renderMap()
 	mTileMap.render(mGameContext.window);
 }
 
-void GameState::loadTextures()
-{
-	mGameContext.textures.load(TextureIdentifier::Player, "assets/entities/player/player.png");
-	mGameContext.textures.load(TextureIdentifier::SkeletonAxe, "assets/entities/skeleton_axe/skeleton.png");
-}
-
 void GameState::createPlayer()
 {
 	//placeholder function
 	//ToDo: SpawnerSystem.
 	auto& player = mEntityManager.createEntity();
-	player.addComponent<MovementComponent>(150.f);
-	player.addComponent<PlayerComponent>();
-	player.addComponent<TagComponent>("PLAYER_DEFAULT");
-	auto& spriteComp = player.addComponent<SpriteComponent>(mGameContext.textures.get(TextureIdentifier::Player));
-	spriteComp.cSprite.setPosition(mTileMap.getFirstWalkablePos());
-	spriteComp.cSprite.setTextureRect(sf::IntRect({ 0, 0 }, { 64, 64 }));
 
-	player.addComponent<DirectionComponent>();
-	player.addComponent<EntityStateComponent>();
-	player.addComponent<EntityTypeComponent>(EntityType::Player);
-	player.addComponent<AnimationComponent>();
-	player.addComponent<FieldOfViewComponent>(5);
-	player.addComponent<CombatStatsComponent>();
 	auto& attackComp = player.addComponent<AttackComponent>();
 
 	AttackData att;
@@ -121,6 +104,9 @@ void GameState::createPlayer()
 	att.hitOffsets.at(Direction::Right).emplace_back(1, 0);
 
 	attackComp.cAttackDataMap.emplace(AnimationIdentifier::Attack1, std::move(att));
+
+	player.addComponent<HealthBarComponent>();
+
 }
 
 void GameState::createSystems()
@@ -136,10 +122,14 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<AttackSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<PathRequestSystem>(mSystemContext, mPathfinder));
 	mSystemManager.addSystem(std::make_unique<BehaviorAIUpdateSystem>(mSystemContext, mTileMap));
-
 	mSystemManager.addSystem(std::make_unique<OnHitSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<TileFadeSystem>(mSystemContext));
+	mSystemManager.addSystem(std::make_unique<EntitySpawnerSystem>(mSystemContext, mGameContext.textures));
+
+	mSystemManager.addSystem(std::make_unique<BarRenderSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntityRenderSystem>(mSystemContext));
+
+	mSystemManager.addSystem(std::make_unique<EntityDeathSystem>(mSystemContext));
 }
 
 void GameState::loadAnimations()
@@ -194,6 +184,8 @@ void GameState::createSkeletonAxe(const sf::Vector2i& cellIndex)
 	att.hitOffsets.at(Direction::Right).emplace_back(1, 0);
 
 	attackComp.cAttackDataMap.emplace(AnimationIdentifier::Attack1, std::move(att));
+
+	entity.addComponent<HealthBarComponent>();
 }
 
 void GameState::spawnEntities()

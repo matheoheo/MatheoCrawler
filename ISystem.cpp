@@ -4,6 +4,7 @@
 ISystem::ISystem(SystemContext& systemContext)
 	:mSystemContext(systemContext)
 {
+	registerToRemoveEntityFromSystemEvent();
 }
 
 void ISystem::processEvents(const sf::Event event)
@@ -22,4 +23,12 @@ bool ISystem::isEntityAlreadyTracked(const Entity& entity)
 		});
 
 	return it != std::ranges::end(mTrackedEntities);
+}
+
+void ISystem::registerToRemoveEntityFromSystemEvent()
+{
+	mSystemContext.eventManager.registerEvent<RemoveEntityFromSystemEvent>([this](const RemoveEntityFromSystemEvent& data)
+		{
+			std::erase(mTrackedEntities, &data.entity);
+		});
 }

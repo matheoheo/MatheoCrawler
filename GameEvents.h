@@ -5,6 +5,7 @@ class Entity;
 enum class Direction;
 struct Tile;
 struct AttackData;
+enum class EntityType;
 
 struct IEvent
 {
@@ -203,14 +204,40 @@ struct HitByAttackEvent : public IEvent
 		hitEntities(hitEntities)
 	{}
 };
-/*
-struct PlayGenericAnimationEvent : public IEvent
+
+struct HealthBarUpdateEvent : public IEvent
 {
 	Entity& entity;
-	GenericAnimationKey key;
+	int damageTaken; //for future usage maybe
 
-	PlayGenericAnimationEvent(Entity& entity, GenericAnimationKey key)
+	HealthBarUpdateEvent(Entity& entity, int damageTaken = 1)
 		:entity(entity),
-		key(key) {}
-};*/
+		damageTaken(damageTaken)
+	{}
+};
 
+struct RemoveEntityFromSystemEvent : public IEvent
+{
+	Entity& entity;
+
+	RemoveEntityFromSystemEvent(Entity& entity)
+		:entity(entity) {}
+};
+
+struct EntityDiedEvent : public IEvent
+{
+	Entity& entity;
+
+	EntityDiedEvent(Entity& entity)
+		:entity(entity) {}
+};
+
+struct SpawnEntityEvent : public IEvent
+{
+	sf::Vector2i cellIndex; //cell on which entity will be spawned
+	EntityType entityType;
+
+	SpawnEntityEvent(const sf::Vector2i& cellIndex, EntityType entityType)
+		:cellIndex(cellIndex), entityType(entityType)
+	{}
+};

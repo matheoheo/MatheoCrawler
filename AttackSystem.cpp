@@ -12,7 +12,6 @@ AttackSystem::AttackSystem(SystemContext& systemContext, const TileMap& tileMap)
 
 void AttackSystem::update(const sf::Time& deltaTime)
 {
-
 	for (const auto& entity : mTrackedEntities)
 	{
 		if (!Utilities::isEntityIdling(*entity))

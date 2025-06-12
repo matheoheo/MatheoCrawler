@@ -6,6 +6,7 @@ Engine::Engine()
 	:mWindow(sf::VideoMode(Config::windowSize), "Matheo Crawler"),
 	mGameContext(mWindow, mTextures, mFonts, mEventManager)
 {
+	preloadTextures();
 	mStateManager = std::make_unique<GameState>(mGameContext);
 }
 
@@ -58,4 +59,11 @@ void Engine::render()
 	mWindow.clear();
 	mStateManager->render();
 	mWindow.display();
+}
+
+void Engine::preloadTextures()
+{
+	mTextures.load(TextureIdentifier::MattLogo, "assets/logo/mattGamesLogo.jpeg");
+	mTextures.load(TextureIdentifier::Player, "assets/entities/player/player.png");
+	mTextures.load(TextureIdentifier::SkeletonAxe, "assets/entities/skeleton_axe/skeleton.png");
 }

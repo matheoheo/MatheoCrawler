@@ -15,7 +15,6 @@ private:
     void registerToUpdateEntityRenderTilesEvent();
     void determineRenderedEntities(const std::vector<Tile*>& tiles);
 private:
-    std::vector<Entity*> mRenderedEntities;
     int mFramesSinceLastRecalculation; //to prevent frequent recalculations
 };
 

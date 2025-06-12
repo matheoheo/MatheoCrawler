@@ -239,6 +239,7 @@ void TileMap::registerToEvents(EventManager& eventManager)
 	registerToReserveTileEvent(eventManager);
 	registerToTileOccupiedEvent(eventManager);
 	registerToTileVacatedEvent(eventManager);
+	registerToRemoveEntityFromSystemEvent(eventManager);
 }
 
 void TileMap::registerToReserveTileEvent(EventManager& eventManager)
@@ -290,5 +291,13 @@ void TileMap::occupyTile(Tile& tile, Entity& entity)
 void TileMap::vacateTile(Tile& tile, Entity& entity)
 {
 	std::erase(tile.occupyingEntities, &entity);
+}
+
+void TileMap::registerToRemoveEntityFromSystemEvent(EventManager& eventManager)
+{
+	eventManager.registerEvent<RemoveEntityFromSystemEvent>([this](const RemoveEntityFromSystemEvent& data)
+		{
+			std::erase(mVisibleEntities, &data.entity);
+		});
 }
 

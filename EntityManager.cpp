@@ -4,6 +4,7 @@
 EntityManager::EntityManager()
     :mNextEntityId(0)
 {
+    //mEntities.reserve(450);
 }
 
 Entity& EntityManager::createEntity()
@@ -27,6 +28,7 @@ Entity* EntityManager::getEntity(size_t id)
 
 void EntityManager::removeEntity(size_t id)
 {
+    //std::cout << "Trying to remove entity of id: " << id << '\n';
     std::erase_if(mEntities, [id](const auto& entity)
         {
             return entity->getEntityId() == id;

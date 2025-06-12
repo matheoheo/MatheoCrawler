@@ -16,6 +16,7 @@ private:
     //returns taken damage(if target goes under 0 hp then the damage is modified to reflect this situation)
     //also returns true if entities hp went to 0, false otherwise
     std::pair<int, bool> takeDamage(const Entity& target, int damage);
+    void notifyEntityDied(Entity& entity);
 private:
 
 };

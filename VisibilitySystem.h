@@ -9,15 +9,16 @@ public:
 	// Inherited via ISystem
 	virtual void update(const sf::Time& deltaTime) override;
 private:
-	struct CellBounds
-	{
+	struct CellBounds {
 		sf::Vector2i min;
 		sf::Vector2i max;
 	};
+
 	void registerToEvents();
 	void registerToPlayerMoveFinishedEvent();
 	void registerToMoveAllowedEvent();
 	void registerToEntityFinishedMoveEvent();
+	void regToRemoveEntityFromSystemEvent();
 
 	void collectTilesInCameraView();
 	CellBounds getCellBoundsInCameraView() const;
@@ -36,8 +37,7 @@ private:
 	void notifyMonsterAppeared(Entity& entity);
 	void notifyMonsterDisappeared(Entity& entity);
 private:
-	struct OctantTransform
-	{
+	struct OctantTransform {
 		int xx, xy, yx, yy;
 	};
 	void computeShadowcastFOV();

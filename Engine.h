@@ -7,6 +7,9 @@ class Engine
 public:
 	Engine();
 	void start();
+
+	//loads all required textures before even displaying a window.
+	void preloadTextures();
 private:
 	void processEvents();
 	void update(const sf::Time& deltaTime);

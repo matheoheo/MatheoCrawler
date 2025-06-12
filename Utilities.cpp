@@ -31,9 +31,16 @@ sf::Vector2f Utilities::getEntityPos(const Entity& entity)
 	return entity.getComponent<SpriteComponent>().cSprite.getPosition();
 }
 
+sf::Vector2f Utilities::getEntityVisualPosition(const Entity& entity)
+{
+	auto pos = getEntityPos(entity);
+	constexpr sf::Vector2f offset{ 40, 40 };
+	return { pos + offset };
+}
+
 sf::Vector2i Utilities::getEntityCell(const Entity& entity)
 {
-	auto pos = entity.getComponent<SpriteComponent>().cSprite.getPosition();
+	auto pos = getEntityVisualPosition(entity);
 	return getCellIndex(pos);
 }
 
@@ -106,4 +113,19 @@ Direction Utilities::getDirectionToTarget(const Entity& entity, const Entity& ta
 void Utilities::setEntityDirection(const Entity& entity, Direction dir)
 {
 	entity.getComponent<DirectionComponent>().cCurrentDir = dir;
+}
+
+sf::Vector2f Utilities::calculateNewBarSize(const Entity& entity, const sf::Vector2f& originalSize)
+{
+	const auto& statsComp = entity.getComponent<CombatStatsComponent>();
+	if (statsComp.cHealth <= 0)
+		return { 0.f, originalSize.y };
+
+	float fCurrHp = static_cast<float>(statsComp.cHealth);
+	float fMaxHp = static_cast<float>(statsComp.cMaxHealth);
+
+	float hpRatio = fCurrHp / fMaxHp;
+	float xSize = hpRatio * originalSize.x;
+
+	return sf::Vector2f{ xSize, originalSize.y };
 }

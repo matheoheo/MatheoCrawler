@@ -23,7 +23,6 @@ public:
 private:
     void createMap();
     void renderMap();
-    void loadTextures();
     void createPlayer();
     void createSystems();
     void loadAnimations();

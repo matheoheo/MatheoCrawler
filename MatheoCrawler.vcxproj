@@ -167,6 +167,7 @@
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="AttackSystem.cpp" />
     <ClCompile Include="AttackTask.cpp" />
+    <ClCompile Include="BarRenderSystem.cpp" />
     <ClCompile Include="BasicMeleeBehavior.cpp" />
     <ClCompile Include="BehaviorAIUpdateSystem.cpp" />
     <ClCompile Include="CameraSystem.cpp" />
@@ -177,8 +178,10 @@
     <ClCompile Include="DungeonGenerator.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityDeathSystem.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="EntityRenderSystem.cpp" />
+    <ClCompile Include="EntitySpawnerSystem.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -212,6 +215,7 @@
     <ClInclude Include="AttackData.h" />
     <ClInclude Include="AttackSystem.h" />
     <ClInclude Include="AttackTask.h" />
+    <ClInclude Include="BarRenderSystem.h" />
     <ClInclude Include="BasicMeleeBehavior.h" />
     <ClInclude Include="BehaviorAIUpdateSystem.h" />
     <ClInclude Include="BehaviorContext.h" />
@@ -228,8 +232,10 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityAIState.h" />
+    <ClInclude Include="EntityDeathSystem.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="EntityRenderSystem.h" />
+    <ClInclude Include="EntitySpawnerSystem.h" />
     <ClInclude Include="EntityStates.h" />
     <ClInclude Include="EntityTypes.h" />
     <ClInclude Include="EventManager.h" />

@@ -7,8 +7,6 @@ class Entity
 {
 public:
 	using EntityID = size_t;
-	template <ComponentType T>
-	using CompReturnType = std::optional<std::reference_wrapper<T>>;
 
 	Entity(EntityID entityId);
 	EntityID getEntityId() const;

@@ -16,7 +16,7 @@ void EntityRenderSystem::update(const sf::Time& deltaTime)
 
 void EntityRenderSystem::render(sf::RenderWindow& window)
 {
-	for (const Entity* ent : mRenderedEntities)
+	for (const Entity* ent : mTrackedEntities)
 	{
 		auto& sprite = ent->getComponent<SpriteComponent>().cSprite;
 		window.draw(sprite);
@@ -52,5 +52,5 @@ void EntityRenderSystem::determineRenderedEntities(const std::vector<Tile*>& til
 		for (auto& ent : tile->occupyingEntities)
 			set.insert(ent);
 	}
-	mRenderedEntities.assign(std::begin(set), std::end(set));
+	mTrackedEntities.assign(std::begin(set), std::end(set));
 }

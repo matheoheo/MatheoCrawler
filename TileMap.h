@@ -43,6 +43,7 @@ private:
 	void registerToReserveTileEvent(EventManager& eventManager);
 	void registerToTileOccupiedEvent(EventManager& eventManager);
 	void registerToTileVacatedEvent(EventManager& eventManager);
+	void registerToRemoveEntityFromSystemEvent(EventManager& eventManager);
 
 	void reserveTile(Tile& tile, Entity* entity);
 	void occupyTile(Tile& tile, Entity& entity);
