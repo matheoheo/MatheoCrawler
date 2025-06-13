@@ -14,7 +14,7 @@ namespace Utilities
 	sf::Vector2f getEntityPos(const Entity& entity);
 	//sometimes entities might change their position because of animations offsets
 	//because of this - other functions return wrong cell on grid
-	//this function returns original position modified by {40, 40} offset.
+	//this function returns original position modified by {55, 55} offset.
 	sf::Vector2f getEntityVisualPosition(const Entity& entity);
 	sf::Vector2i getEntityCell(const Entity& entity);
 

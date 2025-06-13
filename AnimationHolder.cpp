@@ -8,7 +8,7 @@ void AnimationHolder::loadAnimations()
 {
     loadGenericAnimations();
     loadPlayerSpecificAnimations();
-    loadSkeletonAxeSpecificAnimations();
+    loadSkletorusSpecificAnimations();
 }
 
 const AnimationHolder::AnimationFrames& AnimationHolder::get(const GenericAnimationKey& key) const
@@ -69,34 +69,34 @@ void AnimationHolder::loadPlayerSpecificAnimations()
 {
     constexpr std::array<EntityAnimationKey, 12> idToEntityKey =
     {{
-        {AnimationIdentifier::Attack1, Direction::Up, EntityType::Player},
-        {AnimationIdentifier::Attack1, Direction::Left, EntityType::Player},
+        {AnimationIdentifier::Attack1, Direction::Up,     EntityType::Player},
+        {AnimationIdentifier::Attack1, Direction::Left,   EntityType::Player},
         {AnimationIdentifier::Attack1, Direction::Bottom, EntityType::Player},
-        {AnimationIdentifier::Attack1, Direction::Right, EntityType::Player},
+        {AnimationIdentifier::Attack1, Direction::Right,  EntityType::Player},
 
-        {AnimationIdentifier::Attack2, Direction::Up, EntityType::Player},
-        {AnimationIdentifier::Attack2, Direction::Left, EntityType::Player},
+        {AnimationIdentifier::Attack2, Direction::Up,     EntityType::Player},
+        {AnimationIdentifier::Attack2, Direction::Left,   EntityType::Player},
         {AnimationIdentifier::Attack2, Direction::Bottom, EntityType::Player},
-        {AnimationIdentifier::Attack2, Direction::Right, EntityType::Player},
+        {AnimationIdentifier::Attack2, Direction::Right,  EntityType::Player},
 
-        {AnimationIdentifier::Attack3, Direction::Up, EntityType::Player},
-        {AnimationIdentifier::Attack3, Direction::Left, EntityType::Player},
+        {AnimationIdentifier::Attack3, Direction::Up,     EntityType::Player},
+        {AnimationIdentifier::Attack3, Direction::Left,   EntityType::Player},
         {AnimationIdentifier::Attack3, Direction::Bottom, EntityType::Player},
-        {AnimationIdentifier::Attack3, Direction::Right, EntityType::Player},
+        {AnimationIdentifier::Attack3, Direction::Right,  EntityType::Player},
     }};
     
     loadAnimationsFromFile<EntityAnimationKey>(mEntityAnimations, "assets/entities/player/animations.txt",
         [&idToEntityKey](int animId) {return idToEntityKey[animId]; });
 }
 
-void AnimationHolder::loadSkeletonAxeSpecificAnimations()
+void AnimationHolder::loadSkletorusSpecificAnimations()
 {
     constexpr std::array<EntityAnimationKey, 4> idToEntityKey =
     { {
-        {AnimationIdentifier::Attack1, Direction::Up,     EntityType::SkeletonAxe},
-        {AnimationIdentifier::Attack1, Direction::Left,   EntityType::SkeletonAxe},
-        {AnimationIdentifier::Attack1, Direction::Bottom, EntityType::SkeletonAxe},
-        {AnimationIdentifier::Attack1, Direction::Right,  EntityType::SkeletonAxe}
+        {AnimationIdentifier::Attack1, Direction::Up,     EntityType::Skletorus},
+        {AnimationIdentifier::Attack1, Direction::Left,   EntityType::Skletorus},
+        {AnimationIdentifier::Attack1, Direction::Bottom, EntityType::Skletorus},
+        {AnimationIdentifier::Attack1, Direction::Right,  EntityType::Skletorus}
     } };
 
     loadAnimationsFromFile<EntityAnimationKey>(mEntityAnimations, "assets/entities/skeleton_axe/animations.txt",

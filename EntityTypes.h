@@ -3,5 +3,5 @@
 enum class EntityType
 {
 	Player,
-	SkeletonAxe
+	Skletorus
 };

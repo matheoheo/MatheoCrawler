@@ -52,6 +52,6 @@ void InputSystem::update(const sf::Time& deltaTime)
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
 	{
 		auto& player = mSystemContext.entityManager.getPlayer();
-		mSystemContext.eventManager.notify<StartAttackingEvent>(StartAttackingEvent(player, AnimationIdentifier::Attack1));
+		mSystemContext.eventManager.notify<StartAttackingEvent>(StartAttackingEvent(player, AnimationIdentifier::Attack3));
 	}
 }

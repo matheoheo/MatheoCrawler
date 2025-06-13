@@ -23,11 +23,10 @@ public:
 private:
     void createMap();
     void renderMap();
-    void createPlayer();
+    void spawnPlayer();
     void createSystems();
     void loadAnimations();
     void initalizePathfinder();
-    void createSkeletonAxe(const sf::Vector2i& cellIndex);
     void spawnEntities();
 private:
     sf::View mGameView;

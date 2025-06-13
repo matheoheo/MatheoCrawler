@@ -4,5 +4,5 @@ enum class TextureIdentifier
 {
 	MattLogo,
 	Player,
-	SkeletonAxe
+	Skletorus
 };

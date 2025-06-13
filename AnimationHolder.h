@@ -62,7 +62,7 @@ public:
 private:
 	void loadGenericAnimations();
 	void loadPlayerSpecificAnimations();
-	void loadSkeletonAxeSpecificAnimations();
+	void loadSkletorusSpecificAnimations();
 	AnimationFrame makeFrame(const FrameData& data) const;
 
 	int parseInt(const FrameData& data, const std::string& key, int defaultReturn = 0) const;

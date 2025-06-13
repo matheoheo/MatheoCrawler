@@ -186,6 +186,15 @@ struct CombatStatsComponent : public IComponent
 		cAttackRange(1),
 		cDefence(3),
 		cAttackSpeed(1.0f) {}
+
+	CombatStatsComponent(const CombatStatsComponent& other)
+		:cHealth(other.cHealth),
+		cMaxHealth(other.cMaxHealth),
+		cAttackDamage(other.cAttackDamage),
+		cAttackRange(other.cAttackRange),
+		cDefence(other.cDefence),
+		cAttackSpeed(other.cAttackSpeed)
+	{}
 };
 
 struct AttackComponent : public IComponent
@@ -197,7 +206,7 @@ struct AttackComponent : public IComponent
 	AnimationIdentifier cNextAttackId;
 
 	AttackComponent()
-		:cAttackCooldownTimer(1000.f),
+		:cAttackCooldownTimer(0.f),
 		cLastAttackData(nullptr),
 		cLastAttackId(AnimationIdentifier::Attack1),
 		cNextAttackId(AnimationIdentifier::Attack1) 
@@ -222,5 +231,9 @@ struct HealthBarComponent : public IComponent
 
 		cForegroundBar.setSize(size);
 		cForegroundBar.setFillColor(Config::hpBarForegroundColor);
+	}
+	~HealthBarComponent()
+	{
+		cIsVisible = false;
 	}
 };

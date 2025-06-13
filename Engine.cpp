@@ -65,5 +65,5 @@ void Engine::preloadTextures()
 {
 	mTextures.load(TextureIdentifier::MattLogo, "assets/logo/mattGamesLogo.jpeg");
 	mTextures.load(TextureIdentifier::Player, "assets/entities/player/player.png");
-	mTextures.load(TextureIdentifier::SkeletonAxe, "assets/entities/skeleton_axe/skeleton.png");
+	mTextures.load(TextureIdentifier::Skletorus, "assets/entities/skeleton_axe/skeleton.png");
 }

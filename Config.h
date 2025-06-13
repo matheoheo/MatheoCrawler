@@ -20,8 +20,8 @@ namespace Config
 	inline constexpr sf::Color hpBarOutlineColor({60, 0, 0});
 	inline constexpr sf::Color hpBarBackgroundColor({20, 20, 20});
 	inline constexpr sf::Color hpBarForegroundColor({160, 30, 30});
-	inline constexpr sf::Vector2f hpBarDefaultSize({ 50, 10 });
-	inline constexpr sf::Vector2f hpBarPlayerSize({ 50, 10 });
-	inline constexpr sf::Vector2f hpBarBossSize({ 50, 10 });
+	inline constexpr sf::Vector2f hpBarDefaultSize({ 50, 7 });
+	inline constexpr sf::Vector2f hpBarPlayerSize({ 50, 7 });
+	inline constexpr sf::Vector2f hpBarBossSize({ 50, 7 });
 	inline int difficulityLevel = 1;
 }

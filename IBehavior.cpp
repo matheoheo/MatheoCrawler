@@ -67,6 +67,6 @@ void IBehavior::pushDelayTask(int interval)
 
 int IBehavior::getRandomDelay(int minInterval) const
 {
-	int maxInterval = minInterval + minInterval * 0.3;
+	int maxInterval = minInterval + static_cast<int>(minInterval * 0.3);
 	return Random::get(minInterval, maxInterval);
 }

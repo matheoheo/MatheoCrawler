@@ -25,6 +25,8 @@ void OnHitSystem::registerToHitByAttackEvent()
             {
                 int damage = calculateDamage(data.attacker, *ent);
                 auto damagePair = takeDamage(*ent, damage);
+                auto& tag = data.attacker.getComponent<TagComponent>().cTag;
+                //std::cout << tag << " dealt: " << damagePair.first << " damage\n";
                 if (damagePair.second)
                 {
                     if(!ent->hasComponent<PlayerComponent>())
@@ -46,11 +48,12 @@ int OnHitSystem::calculateDamage(const Entity& attacker, const Entity& target) c
     int minDmg = static_cast<int>(baseDmg * 0.8f);
     int maxDmg = static_cast<int>(baseDmg * 1.2f);
     int thisDmg = Random::get(minDmg, maxDmg);
+    std::cout << "This dmg before: " << thisDmg << '\n';
     thisDmg -= targetStats.cDefence / 2;
 
     if (attackComp.cLastAttackData)
         thisDmg *= attackComp.cLastAttackData->damageMultiplier;
-
+    std::cout << "This dmg after after: " << thisDmg << '\n';
     return thisDmg;
 }
 

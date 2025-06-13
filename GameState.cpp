@@ -20,6 +20,7 @@
 #include "BarRenderSystem.h"
 #include "EntityDeathSystem.h"
 #include "EntitySpawnerSystem.h"
+#include "Utilities.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
@@ -29,7 +30,6 @@ GameState::GameState(GameContext& gameContext)
 	mPathfinder(mTileMap),
 	mBehaviorContext(gameContext.eventManager, mEntityManager, mTileMap)
 {
-	std::cout << "Welcome to game state!\n";
 	onEnter();
 }
 
@@ -38,8 +38,8 @@ void GameState::onEnter()
 	loadAnimations();
 	createMap();
 	createSystems();
-	createPlayer();
 	initalizePathfinder();
+	spawnPlayer();
 	spawnEntities();
 }
 
@@ -84,29 +84,11 @@ void GameState::renderMap()
 	mTileMap.render(mGameContext.window);
 }
 
-void GameState::createPlayer()
+void GameState::spawnPlayer()
 {
-	//placeholder function
-	//ToDo: SpawnerSystem.
-	auto& player = mEntityManager.createEntity();
-
-	auto& attackComp = player.addComponent<AttackComponent>();
-
-	AttackData att;
-	att.hitOffsets.emplace(Direction::Up, std::vector<sf::Vector2i>());
-	att.hitOffsets.emplace(Direction::Left, std::vector<sf::Vector2i>());
-	att.hitOffsets.emplace(Direction::Bottom, std::vector<sf::Vector2i>());
-	att.hitOffsets.emplace(Direction::Right, std::vector<sf::Vector2i>());
-
-	att.hitOffsets.at(Direction::Up).emplace_back(0, -1);
-	att.hitOffsets.at(Direction::Left).emplace_back(-1, 0);
-	att.hitOffsets.at(Direction::Bottom).emplace_back(0, 1);
-	att.hitOffsets.at(Direction::Right).emplace_back(1, 0);
-
-	attackComp.cAttackDataMap.emplace(AnimationIdentifier::Attack1, std::move(att));
-
-	player.addComponent<HealthBarComponent>();
-
+	auto playerPos = mTileMap.getFirstWalkablePos();
+	auto playerCell = Utilities::getCellIndex(playerPos);
+	mGameContext.eventManager.notify<SpawnEntityEvent>(SpawnEntityEvent(playerCell, EntityType::Player));
 }
 
 void GameState::createSystems()
@@ -124,7 +106,7 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<BehaviorAIUpdateSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<OnHitSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<TileFadeSystem>(mSystemContext));
-	mSystemManager.addSystem(std::make_unique<EntitySpawnerSystem>(mSystemContext, mGameContext.textures));
+	mSystemManager.addSystem(std::make_unique<EntitySpawnerSystem>(mSystemContext, mGameContext.textures, mBehaviorContext));
 
 	mSystemManager.addSystem(std::make_unique<BarRenderSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntityRenderSystem>(mSystemContext));
@@ -143,57 +125,13 @@ void GameState::initalizePathfinder()
 	mPathfinder.initalize();
 }
 
-void GameState::createSkeletonAxe(const sf::Vector2i& cellIndex)
-{
-	//placeholder function
-	//ToDo: SpawnerSystem
-	sf::Vector2f pos{ cellIndex.x * Config::getCellSize().x, cellIndex.y * Config::getCellSize().y };
-
-	auto& entity = mEntityManager.createEntity();
-	entity.addComponent<MovementComponent>(100.f);
-	entity.addComponent<TagComponent>("Skletorus");
-	auto& spriteComp = entity.addComponent<SpriteComponent>(mGameContext.textures.get(TextureIdentifier::SkeletonAxe));
-	spriteComp.cSprite.setPosition(pos);
-	spriteComp.cSprite.setTextureRect(sf::IntRect({ 0, 0 }, { 64, 64 }));
-	int cd = Random::get(1500, 2200);
-	float fcd = static_cast<float>(cd);
-	entity.addComponent<DirectionComponent>();
-	entity.addComponent<EntityStateComponent>();
-	entity.addComponent<AnimationComponent>();
-	entity.addComponent<FieldOfViewComponent>(5);
-	entity.addComponent<EnemyComponent>();
-	entity.addComponent<EntityAIStateComponent>();
-	entity.addComponent<PatrolAIComponent>(fcd);
-	entity.addComponent<ChaseAIComponent>();
-	entity.addComponent<PathComponent>();
-	entity.addComponent<EntityTypeComponent>(EntityType::SkeletonAxe);
-	entity.addComponent<CombatStatsComponent>();
-	entity.addComponent<AITimersComponent>();
-	entity.addComponent<BehaviorComponent>(std::make_unique<BasicMeleeBehavior>(mBehaviorContext));
-	auto& attackComp = entity.addComponent<AttackComponent>();
-	mTileMap.getTiles()[cellIndex.y][cellIndex.x].occupyingEntities.push_back(&entity);
-	AttackData att;
-	att.hitOffsets.emplace(Direction::Up, std::vector<sf::Vector2i>()); 
-	att.hitOffsets.emplace(Direction::Left, std::vector<sf::Vector2i>());
-	att.hitOffsets.emplace(Direction::Bottom, std::vector<sf::Vector2i>());
-	att.hitOffsets.emplace(Direction::Right, std::vector<sf::Vector2i>());
-
-	att.hitOffsets.at(Direction::Up).emplace_back(0, -1);
-	att.hitOffsets.at(Direction::Left).emplace_back(-1, 0);
-	att.hitOffsets.at(Direction::Bottom).emplace_back(0, 1);
-	att.hitOffsets.at(Direction::Right).emplace_back(1, 0);
-
-	attackComp.cAttackDataMap.emplace(AnimationIdentifier::Attack1, std::move(att));
-
-	entity.addComponent<HealthBarComponent>();
-}
-
 void GameState::spawnEntities()
 {
 	const auto& spawnPoints = mGenerator.getSpawnPoints();
 	for (const auto& point : spawnPoints)
 	{
-		createSkeletonAxe(point);
+		mGameContext.eventManager.notify<SpawnEntityEvent>(SpawnEntityEvent(point, EntityType::Skletorus));
+		//createSkeletonAxe(point);
 	}
 	std::cout << "Spawned: " << spawnPoints.size() << " entities\n";
 }
