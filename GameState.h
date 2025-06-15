@@ -8,6 +8,7 @@
 #include "AnimationHolder.h"
 #include "Pathfinder.h"
 #include "BehaviorContext.h"
+#include "UIManager.h"
 
 class GameState :
     public IState
@@ -28,6 +29,7 @@ private:
     void loadAnimations();
     void initalizePathfinder();
     void spawnEntities();
+    void initalizeUI();
 private:
     sf::View mGameView;
     TileMap mTileMap;
@@ -38,5 +40,7 @@ private:
     AnimationHolder mAnimationHolder;
     Pathfinder mPathfinder;
     BehaviorContext mBehaviorContext;
+
+    UIManager mUIManager;
 };
 

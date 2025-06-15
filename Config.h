@@ -3,8 +3,9 @@
 
 namespace Config
 {
-	inline sf::Vector2u windowSize(1280, 768);
-	inline sf::Vector2f fWindowSize(1280.f, 768.f);
+	inline sf::Vector2u windowSize(1920, 1080);
+	inline sf::Vector2f fWindowSize(1920.f, 1080.f);
+	inline bool fullscreen = true;
 
 	inline unsigned int getCharacterSize() { return windowSize.y / 17; }
 	inline sf::Vector2f getCellSize() { return { 64.f, 64.f }; }
@@ -21,7 +22,10 @@ namespace Config
 	inline constexpr sf::Color hpBarBackgroundColor({20, 20, 20});
 	inline constexpr sf::Color hpBarForegroundColor({160, 30, 30});
 	inline constexpr sf::Vector2f hpBarDefaultSize({ 50, 7 });
-	inline constexpr sf::Vector2f hpBarPlayerSize({ 50, 7 });
-	inline constexpr sf::Vector2f hpBarBossSize({ 50, 7 });
+
+	inline sf::Vector2f hpBarPlayerSize({ 50, 7 });
+	inline sf::Vector2f hpBarBossSize({ 50, 7 });
 	inline int difficulityLevel = 1;
+
+	void loadConfiguration();
 }

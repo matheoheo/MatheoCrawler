@@ -129,3 +129,19 @@ sf::Vector2f Utilities::calculateNewBarSize(const Entity& entity, const sf::Vect
 
 	return sf::Vector2f{ xSize, originalSize.y };
 }
+
+void Utilities::changeHpBarSize(const Entity& entity, const sf::Vector2f& newSize)
+{
+	auto& hpBarComp = entity.getComponent<HealthBarComponent>();
+	hpBarComp.cForegroundBar.setSize(newSize);
+}
+
+void Utilities::scaleSprite(sf::Sprite& sprite, const sf::Vector2f& newSize)
+{
+	auto spriteSize = sprite.getTexture().getSize();
+	float fSpriteWidth = static_cast<float>(spriteSize.x);
+	float fSpriteHeight = static_cast<float>(spriteSize.y);
+	sf::Vector2f factor{ newSize.x / fSpriteWidth, newSize.y / fSpriteHeight };
+
+	sprite.scale(factor);
+}

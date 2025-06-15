@@ -64,11 +64,11 @@ void EntitySpawnerSystem::createSkletorusEntityData()
 	data.moveSpeed = 115.f;
 	data.fovRange = 3;
 
-	data.combatStats.cAttackDamage = 7;
+	data.combatStats.cAttackDamage = 6;
 	data.combatStats.cAttackRange = 1;
 	data.combatStats.cAttackSpeed = 1.1f;
 	data.combatStats.cDefence = 2;
-	data.combatStats.cHealth = 57;
+	data.combatStats.cHealth = 43;
 	data.combatStats.cMaxHealth = data.combatStats.cHealth;
 
 	data.cAttackDataMap = getBasicMeleeAttackDataMap();
@@ -130,6 +130,7 @@ void EntitySpawnerSystem::spawnPlayerEntity(const sf::Vector2i& cellIndex)
 	addCommonComponents(entity, EntityType::Player);
 	addSpriteComponent(entity, TextureIdentifier::Player, cellIndexToPos(cellIndex));
 	entity.addComponent<PlayerComponent>();
+	entity.addComponent<PlayerResourcesComponent>();
 
 	notifyTileOccupied(entity);
 }

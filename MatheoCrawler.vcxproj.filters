@@ -49,6 +49,9 @@
     <Filter Include="Definitions">
       <UniqueIdentifier>{ef724a64-c36a-4ffb-9ca1-c9964d3d31df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{b3cc7bf7-5a13-4ccd-a36f-0a393f28b6c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -176,6 +179,24 @@
     </ClCompile>
     <ClCompile Include="BarRenderSystem.cpp">
       <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="UIComponent.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerResourcesUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStatusUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageLogUI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -364,6 +385,24 @@
     </ClInclude>
     <ClInclude Include="BarRenderSystem.h">
       <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIComponent.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStatusUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerResourcesUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageLogUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageTypes.h">
+      <Filter>Definitions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

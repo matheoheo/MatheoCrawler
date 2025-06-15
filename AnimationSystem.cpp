@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "AnimationSystem.h"
 #include "Config.h"
+#include "Entity.h"
 
 AnimationSystem::AnimationSystem(SystemContext& systemContext, const AnimationHolder& animationHolder)
 	:ISystem(systemContext),

@@ -17,6 +17,9 @@ private:
     //also returns true if entities hp went to 0, false otherwise
     std::pair<int, bool> takeDamage(const Entity& target, int damage);
     void notifyEntityDied(Entity& entity);
+    void notifyPlayerAttacked(int dmg);
+    void notifyPlayerHit(int dmg);
+    void notifyHealthBarSystem(Entity& entity);
 private:
 
 };

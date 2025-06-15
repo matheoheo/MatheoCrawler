@@ -2,10 +2,11 @@
 #include <iostream>
 #include "AnimationHolder.h"
 class Entity;
-enum class Direction;
 struct Tile;
 struct AttackData;
 enum class EntityType;
+enum class Direction;
+enum class MessageType;
 
 struct IEvent
 {
@@ -240,4 +241,34 @@ struct SpawnEntityEvent : public IEvent
 	SpawnEntityEvent(const sf::Vector2i& cellIndex, EntityType entityType)
 		:cellIndex(cellIndex), entityType(entityType)
 	{}
+};
+
+struct PlayerGotHitEvent : public IEvent
+{
+	int damageTaken;
+
+	PlayerGotHitEvent(int damageTaken)
+		:damageTaken(damageTaken)
+	{}
+};
+
+struct UpdatePlayerResourcesEvent : public IEvent
+{
+	//no need for any data,
+	//PlayerResourcesUI updates by itself.
+};
+
+struct LogMessageEvent : public IEvent
+{
+	MessageType type;
+	std::optional<int> value;
+	std::optional<std::string> customMessage;
+
+	LogMessageEvent(MessageType type, std::optional<int> value = {} , std::string_view custom = "")
+		:type(type),
+		value(value)
+	{
+		if (!custom.empty())
+			customMessage = std::string(custom);
+	}
 };

@@ -3,6 +3,12 @@
 enum class TextureIdentifier
 {
 	MattLogo,
+
+	//entities
 	Player,
-	Skletorus
+	Skletorus,
+
+	//icons
+	Suash, //gold icon
+	Twarf //player icon
 };

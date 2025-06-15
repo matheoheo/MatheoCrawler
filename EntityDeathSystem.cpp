@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "EntityDeathSystem.h"
 #include "Utilities.h"
+#include "Random.h"
+#include "MessageTypes.h"
 
 EntityDeathSystem::EntityDeathSystem(SystemContext& systemContext)
 	:ISystem(systemContext)
@@ -23,7 +25,8 @@ void EntityDeathSystem::registerToEvents()
 	mSystemContext.eventManager.registerEvent<EntityDiedEvent>([this](const EntityDiedEvent& data)
 		{
 			mDeadEntities.push_back(&data.entity);
-			//markEntityAsDead(data.entity);
+			addGoldToPlayer(data.entity);
+			notifyUISystem();
 		});
 }
 
@@ -43,4 +46,32 @@ void EntityDeathSystem::removeFinishedEntities()
 	for (const auto& id : mFinishedEntities)
 		mSystemContext.entityManager.removeEntity(id);
 	mFinishedEntities.clear();
+}
+
+int EntityDeathSystem::getGoldValue(Entity& entity) const
+{
+	const auto& combatStats = entity.getComponent<CombatStatsComponent>();
+	constexpr int baseGold = 3;
+	int entityPower = ( (combatStats.cMaxHealth / 2) + combatStats.cDefence * 3) * (1 + combatStats.cAttackDamage / 18.f);
+	int goldValue = baseGold * Config::difficulityLevel * entityPower;
+	int minGold = static_cast<int>(goldValue * 0.9f);
+	int maxGold = static_cast<int>(goldValue * 1.1f);
+	return Random::get(minGold, maxGold);
+}
+
+void EntityDeathSystem::addGoldToPlayer(Entity& deadEntity)
+{
+	//right now, i am gonna keep this function here
+	//as i do not have other resources for player
+	//if the resources are gonna get bigger, i am gonna create a seperate system.
+	auto& player = mSystemContext.entityManager.getPlayer();
+	int gold = getGoldValue(deadEntity);
+	player.getComponent<PlayerResourcesComponent>().cGold += gold;
+
+	mSystemContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::GoldEarned, gold));
+}
+
+void EntityDeathSystem::notifyUISystem()
+{
+	mSystemContext.eventManager.notify<UpdatePlayerResourcesEvent>(UpdatePlayerResourcesEvent());
 }

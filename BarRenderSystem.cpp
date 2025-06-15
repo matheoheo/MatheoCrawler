@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "BarRenderSystem.h"
 #include "Utilities.h"
+#include "Entity.h"
 
 BarRenderSystem::BarRenderSystem(SystemContext& systemContext)
 	:ISystem(systemContext)
@@ -48,6 +49,9 @@ void BarRenderSystem::registerToUpdateHealthBarEvent()
 {
 	mSystemContext.eventManager.registerEvent<HealthBarUpdateEvent>([this](const HealthBarUpdateEvent& data)
 		{
+			if (data.entity.hasComponent<PlayerComponent>())
+				return;
+
 			auto& hpBarComp = data.entity.getComponent<HealthBarComponent>();
 			hpBarComp.cVisibleTimer = 0;
 			hpBarComp.cIsVisible = true;

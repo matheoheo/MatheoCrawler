@@ -1,6 +1,8 @@
 #pragma once
 #include "ISystem.h"
 #include "AnimationHolder.h"
+struct AnimationComponent;
+class Entity;
 
 class AnimationSystem :
     public ISystem

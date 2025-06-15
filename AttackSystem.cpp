@@ -2,6 +2,7 @@
 #include "AttackSystem.h"
 #include "Utilities.h"
 #include "TileMap.h"
+#include "Entity.h"
 
 AttackSystem::AttackSystem(SystemContext& systemContext, const TileMap& tileMap)
 	:ISystem(systemContext),

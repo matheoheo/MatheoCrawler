@@ -3,7 +3,8 @@
 #include "Config.h"
 
 Engine::Engine()
-	:mWindow(sf::VideoMode(Config::windowSize), "Matheo Crawler"),
+	:mWindow(sf::VideoMode(Config::windowSize), "Matheo Crawler", sf::Style::Titlebar | sf::Style::Close,
+		Config::fullscreen ? sf::State::Fullscreen : sf::State::Windowed),
 	mGameContext(mWindow, mTextures, mFonts, mEventManager)
 {
 	preloadTextures();
@@ -66,4 +67,8 @@ void Engine::preloadTextures()
 	mTextures.load(TextureIdentifier::MattLogo, "assets/logo/mattGamesLogo.jpeg");
 	mTextures.load(TextureIdentifier::Player, "assets/entities/player/player.png");
 	mTextures.load(TextureIdentifier::Skletorus, "assets/entities/skeleton_axe/skeleton.png");
+	mTextures.load(TextureIdentifier::Suash, "assets/ui/suash/suashIcon.png");
+	mTextures.load(TextureIdentifier::Twarf, "assets/ui/twarf/twarfIcon.png");
+
+	mFonts.load(FontIdentifiers::Default, "assets/font/dungeonFont.ttf");
 }

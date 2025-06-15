@@ -28,7 +28,8 @@ GameState::GameState(GameContext& gameContext)
 	mTileMap(gameContext.eventManager, mGameView, mPathfinder),
 	mSystemContext(gameContext.eventManager, mEntityManager),
 	mPathfinder(mTileMap),
-	mBehaviorContext(gameContext.eventManager, mEntityManager, mTileMap)
+	mBehaviorContext(gameContext.eventManager, mEntityManager, mTileMap),
+	mUIManager(gameContext)
 {
 	onEnter();
 }
@@ -41,11 +42,13 @@ void GameState::onEnter()
 	initalizePathfinder();
 	spawnPlayer();
 	spawnEntities();
+	initalizeUI();
 }
 
 void GameState::processEvents(sf::Event event)
 {
 	mSystemManager.processEvents(event);
+	mUIManager.processEvents(event);
 }
 
 void GameState::update(const sf::Time& deltaTime)
@@ -65,12 +68,17 @@ void GameState::update(const sf::Time& deltaTime)
 		mGameContext.eventManager.notify<PlayerMoveFinishedEvent>(PlayerMoveFinishedEvent(spriteComp.cSprite.getPosition()));
 		f = true;
 	}
+
+	mUIManager.update(deltaTime);
 }
 
 void GameState::render()
 {
+	mGameContext.window.setView(mGameView);
 	renderMap();
 	mSystemManager.render(mGameContext.window);
+
+	mUIManager.render();
 }
 
 void GameState::createMap()
@@ -80,7 +88,6 @@ void GameState::createMap()
 
 void GameState::renderMap()
 {
-	mGameContext.window.setView(mGameView);
 	mTileMap.render(mGameContext.window);
 }
 
@@ -134,6 +141,12 @@ void GameState::spawnEntities()
 		//createSkeletonAxe(point);
 	}
 	std::cout << "Spawned: " << spawnPoints.size() << " entities\n";
+}
+
+void GameState::initalizeUI()
+{
+	mUIManager.setPlayer(&mEntityManager.getPlayer());
+	mUIManager.createUI();
 }
 
 

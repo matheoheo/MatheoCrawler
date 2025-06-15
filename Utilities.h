@@ -14,7 +14,7 @@ namespace Utilities
 	sf::Vector2f getEntityPos(const Entity& entity);
 	//sometimes entities might change their position because of animations offsets
 	//because of this - other functions return wrong cell on grid
-	//this function returns original position modified by {55, 55} offset.
+	//this function returns original position modified by {40, 40} offset.
 	sf::Vector2f getEntityVisualPosition(const Entity& entity);
 	sf::Vector2i getEntityCell(const Entity& entity);
 
@@ -30,8 +30,9 @@ namespace Utilities
 	Direction getDirectionToTarget(const Entity& entity, const Entity& target);
 	void setEntityDirection(const Entity& entity, Direction dir);
 
-
 	//calculates health bar size based on health ratio.
 	sf::Vector2f calculateNewBarSize(const Entity& entity, const sf::Vector2f& originalSize);
+	void changeHpBarSize(const Entity& entity, const sf::Vector2f& newSize);
+	void scaleSprite(sf::Sprite& sprite, const sf::Vector2f& newSize);
 };
 

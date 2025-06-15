@@ -237,3 +237,11 @@ struct HealthBarComponent : public IComponent
 		cIsVisible = false;
 	}
 };
+
+struct PlayerResourcesComponent : public IComponent
+{
+	int cGold;
+	PlayerResourcesComponent()
+		:cGold(100)
+	{}
+};
