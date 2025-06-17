@@ -1,0 +1,480 @@
+[spritesheetData]
+animationId: 0
+[frame]
+frameLeft: 69
+frameTop: 3531
+frameWidth: 54
+frameHeight: 51
+frameOffsetX: -4
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 255
+frameTop: 3532
+frameWidth: 55
+frameHeight: 51
+frameOffsetX: 3
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 440
+frameTop: 3532
+frameWidth: 61
+frameHeight: 51
+frameOffsetX: 10
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 640
+frameTop: 3531
+frameWidth: 55
+frameHeight: 52
+frameOffsetX: 2
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 831
+frameTop: 3516
+frameWidth: 60
+frameHeight: 67
+frameOffsetX: 3
+frameOffsetY: 4
+[/frame]
+[frame]
+frameLeft: 1036
+frameTop: 3517
+frameWidth: 83
+frameHeight: 66
+frameOffsetX: -10
+frameOffsetY: 3
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 1
+[frame]
+frameLeft: 64
+frameTop: 3722
+frameWidth: 55
+frameHeight: 52
+frameOffsetX: 1
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 269
+frameTop: 3724
+frameWidth: 37
+frameHeight: 50
+frameOffsetX: -11
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 461
+frameTop: 3722
+frameWidth: 39
+frameHeight: 52
+frameOffsetX: -11
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 619
+frameTop: 3722
+frameWidth: 70
+frameHeight: 54
+frameOffsetX: 23
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 808
+frameTop: 3722
+frameWidth: 72
+frameHeight: 52
+frameOffsetX: 26
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 1001
+frameTop: 3722
+frameWidth: 71
+frameHeight: 52
+frameOffsetX: 25
+frameOffsetY: -11
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 2
+[frame]
+frameLeft: 73
+frameTop: 3912
+frameWidth: 54
+frameHeight: 54
+frameOffsetX: -8
+frameOffsetY: -9
+[/frame]
+[frame]
+frameLeft: 255
+frameTop: 3912
+frameWidth: 55
+frameHeight: 54
+frameOffsetX: 2
+frameOffsetY: -9
+[/frame]
+[frame]
+frameLeft: 439
+frameTop: 3914
+frameWidth: 62
+frameHeight: 52
+frameOffsetX: 10
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 633
+frameTop: 3913
+frameWidth: 64
+frameHeight: 53
+frameOffsetX: 8
+frameOffsetY: -10
+[/frame]
+[frame]
+frameLeft: 833
+frameTop: 3912
+frameWidth: 84
+frameHeight: 77
+frameOffsetX: 0
+frameOffsetY: -9
+[/frame]
+[frame]
+frameLeft: 1036
+frameTop: 3912
+frameWidth: 80
+frameHeight: 76
+frameOffsetX: -11
+frameOffsetY: -9
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 3
+[frame]
+frameLeft: 73
+frameTop: 4106
+frameWidth: 55
+frameHeight: 52
+frameOffsetX: -8
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 270
+frameTop: 4108
+frameWidth: 37
+frameHeight: 50
+frameOffsetX: -13
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 460
+frameTop: 4106
+frameWidth: 39
+frameHeight: 52
+frameOffsetX: -11
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 655
+frameTop: 4106
+frameWidth: 70
+frameHeight: 54
+frameOffsetX: -14
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 848
+frameTop: 4106
+frameWidth: 72
+frameHeight: 52
+frameOffsetX: -15
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 1040
+frameTop: 4106
+frameWidth: 71
+frameHeight: 52
+frameOffsetX: -15
+frameOffsetY: -11
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 4
+[frame]
+frameLeft: 69
+frameTop: 4299
+frameWidth: 54
+frameHeight: 51
+frameOffsetX: -6
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 261
+frameTop: 4300
+frameWidth: 54
+frameHeight: 52
+frameOffsetX: -6
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 457
+frameTop: 4299
+frameWidth: 42
+frameHeight: 53
+frameOffsetX: -11
+frameOffsetY: -10
+[/frame]
+[frame]
+frameLeft: 651
+frameTop: 4295
+frameWidth: 39
+frameHeight: 57
+frameOffsetX: -14
+frameOffsetY: -5
+[/frame]
+[frame]
+frameLeft: 844
+frameTop: 4290
+frameWidth: 39
+frameHeight: 62
+frameOffsetX: -14
+frameOffsetY: -1
+[/frame]
+[frame]
+frameLeft: 1036
+frameTop: 4285
+frameWidth: 40
+frameHeight: 67
+frameOffsetX: -14
+frameOffsetY: 4
+[/frame]
+[frame]
+frameLeft: 1228
+frameTop: 4290
+frameWidth: 39
+frameHeight: 62
+frameOffsetX: -14
+frameOffsetY: -1
+[/frame]
+[frame]
+frameLeft: 1419
+frameTop: 4295
+frameWidth: 39
+frameHeight: 57
+frameOffsetX: -14
+frameOffsetY: -5
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 5
+[frame]
+frameLeft: 64
+frameTop: 4490
+frameWidth: 55
+frameHeight: 52
+frameOffsetX: 1
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 252
+frameTop: 4490
+frameWidth: 57
+frameHeight: 52
+frameOffsetX: 5
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 444
+frameTop: 4490
+frameWidth: 57
+frameHeight: 52
+frameOffsetX: 5
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 638
+frameTop: 4490
+frameWidth: 57
+frameHeight: 52
+frameOffsetX: 6
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 824
+frameTop: 4490
+frameWidth: 58
+frameHeight: 52
+frameOffsetX: 12
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 1013
+frameTop: 4490
+frameWidth: 61
+frameHeight: 52
+frameOffsetX: 15
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 1208
+frameTop: 4490
+frameWidth: 58
+frameHeight: 52
+frameOffsetX: 12
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 1406
+frameTop: 4490
+frameWidth: 57
+frameHeight: 52
+frameOffsetX: 6
+frameOffsetY: -11
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 6
+[frame]
+frameLeft: 68
+frameTop: 4680
+frameWidth: 57
+frameHeight: 54
+frameOffsetX: -3
+frameOffsetY: -9
+[/frame]
+[frame]
+frameLeft: 263
+frameTop: 4680
+frameWidth: 54
+frameHeight: 53
+frameOffsetX: -8
+frameOffsetY: -10
+[/frame]
+[frame]
+frameLeft: 455
+frameTop: 4680
+frameWidth: 43
+frameHeight: 58
+frameOffsetX: -9
+frameOffsetY: -9
+[/frame]
+[frame]
+frameLeft: 653
+frameTop: 4680
+frameWidth: 37
+frameHeight: 60
+frameOffsetX: -14
+frameOffsetY: -10
+[/frame]
+[frame]
+frameLeft: 845
+frameTop: 4681
+frameWidth: 37
+frameHeight: 62
+frameOffsetX: -14
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 1037
+frameTop: 4681
+frameWidth: 37
+frameHeight: 67
+frameOffsetX: -14
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 1229
+frameTop: 4681
+frameWidth: 37
+frameHeight: 62
+frameOffsetX: -14
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 1421
+frameTop: 4680
+frameWidth: 37
+frameHeight: 60
+frameOffsetX: -14
+frameOffsetY: -10
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 7
+[frame]
+frameLeft: 73
+frameTop: 4874
+frameWidth: 55
+frameHeight: 52
+frameOffsetX: -8
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 267
+frameTop: 4874
+frameWidth: 57
+frameHeight: 52
+frameOffsetX: -10
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 459
+frameTop: 4874
+frameWidth: 57
+frameHeight: 52
+frameOffsetX: -10
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 649
+frameTop: 4874
+frameWidth: 57
+frameHeight: 52
+frameOffsetX: -10
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 846
+frameTop: 4874
+frameWidth: 58
+frameHeight: 52
+frameOffsetX: -15
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 1038
+frameTop: 4874
+frameWidth: 61
+frameHeight: 52
+frameOffsetX: -15
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 1230
+frameTop: 4874
+frameWidth: 58
+frameHeight: 52
+frameOffsetX: -15
+frameOffsetY: -11
+[/frame]
+[frame]
+frameLeft: 1417
+frameTop: 4874
+frameWidth: 57
+frameHeight: 52
+frameOffsetX: -10
+frameOffsetY: -11
+[/frame]
+
+[/spritesheetData]

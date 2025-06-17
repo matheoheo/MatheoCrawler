@@ -178,6 +178,8 @@ struct CombatStatsComponent : public IComponent
 	int cAttackRange; //in tiles
 	int cDefence;
 	float cAttackSpeed; //attacks per second
+	int cMana;
+	int cMaxMana;
 
 	CombatStatsComponent()
 		:cHealth(100),
@@ -185,7 +187,9 @@ struct CombatStatsComponent : public IComponent
 		cAttackDamage(45),
 		cAttackRange(1),
 		cDefence(3),
-		cAttackSpeed(1.0f) {}
+		cAttackSpeed(1.0f),
+		cMana(12),
+		cMaxMana(cMana){}
 
 	CombatStatsComponent(const CombatStatsComponent& other)
 		:cHealth(other.cHealth),
@@ -193,7 +197,9 @@ struct CombatStatsComponent : public IComponent
 		cAttackDamage(other.cAttackDamage),
 		cAttackRange(other.cAttackRange),
 		cDefence(other.cDefence),
-		cAttackSpeed(other.cAttackSpeed)
+		cAttackSpeed(other.cAttackSpeed),
+		cMana(other.cMana),
+		cMaxMana(other.cMaxMana)
 	{}
 };
 
@@ -211,6 +217,15 @@ struct AttackComponent : public IComponent
 		cLastAttackId(AnimationIdentifier::Attack1),
 		cNextAttackId(AnimationIdentifier::Attack1) 
 	{}
+};
+
+//for AI
+//each entity might have different sets of attacks
+struct AvailableAttacksComponent : public IComponent
+{
+	std::vector<AnimationIdentifier> mAttacks;
+
+	AvailableAttacksComponent() { mAttacks.emplace_back(AnimationIdentifier::Attack1); }
 };
 
 struct HealthBarComponent : public IComponent
@@ -237,11 +252,48 @@ struct HealthBarComponent : public IComponent
 		cIsVisible = false;
 	}
 };
+struct PlayerManaBarComponent : public IComponent
+{
+	sf::RectangleShape cForegroundBar;
+	sf::RectangleShape cBackgroundBar;
+	
+	PlayerManaBarComponent()
+	{
+		cForegroundBar.setSize(Config::manaBarSize);
+		cBackgroundBar.setSize(Config::manaBarSize);
+		cForegroundBar.setFillColor({ 122, 92, 255 });
+		cBackgroundBar.setFillColor({ 43, 24, 92 });
+		cBackgroundBar.setOutlineColor({ 161, 135, 255 });
+		cBackgroundBar.setOutlineThickness(1.5f);
+	}
+};
 
 struct PlayerResourcesComponent : public IComponent
 {
 	int cGold;
 	PlayerResourcesComponent()
 		:cGold(100)
+	{}
+};
+
+struct AttackSelectionComponent : public IComponent
+{
+	AnimationIdentifier cSelectedId;
+
+	AttackSelectionComponent()
+		:cSelectedId(AnimationIdentifier::Attack1)
+	{}
+};
+
+struct RegenerationComponent : public IComponent
+{
+	int cHpRegen;
+	int cManaRegen;
+	int cTimeSinceLastRegen;
+
+	RegenerationComponent()
+		:cHpRegen(1),
+		cManaRegen(2),
+		cTimeSinceLastRegen(0)
 	{}
 };

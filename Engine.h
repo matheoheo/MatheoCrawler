@@ -1,6 +1,6 @@
 #pragma once
 #include "GameContext.h"
-#include "GameState.h"
+#include "StateManager.h"
 
 class Engine
 {
@@ -19,8 +19,7 @@ private:
 	AssetManager<TextureIdentifier, sf::Texture> mTextures;
 	AssetManager<FontIdentifiers, sf::Font> mFonts;
 	EventManager mEventManager;
-
 	GameContext mGameContext;
-	std::unique_ptr<IState> mStateManager;
+	StateManager mStateManager;
 };
 

@@ -36,7 +36,7 @@ void OnHitSystem::registerToHitByAttackEvent()
                     {
                         notifyEntityDied(*ent);
                     }
-                    return;
+                    continue;
                 }
                 bool isPlayerHit = ent->hasComponent<PlayerComponent>();
                 if (isPlayerHit)

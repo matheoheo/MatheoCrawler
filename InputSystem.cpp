@@ -10,48 +10,86 @@ InputSystem::InputSystem(SystemContext& systemContext)
 
 void InputSystem::processEvents(const sf::Event event)
 {
-	/*
 	if (auto data = event.getIf<sf::Event::KeyPressed>())
 	{
-		auto& player = mSystemContext.entityManager.getPlayer();
-
-		switch (data->code)
-		{
-		case sf::Keyboard::Key::W:
-			mSystemContext.eventManager.notify<MoveRequestedEvent>(MoveRequestedEvent(player, Direction::Up));
-			break;
-		case sf::Keyboard::Key::S:
-			mSystemContext.eventManager.notify<MoveRequestedEvent>(MoveRequestedEvent(player, Direction::Bottom));
-			break;
-		case sf::Keyboard::Key::A:
-			mSystemContext.eventManager.notify<MoveRequestedEvent>(MoveRequestedEvent(player, Direction::Left));
-			break;
-		case sf::Keyboard::Key::D:
-			mSystemContext.eventManager.notify<MoveRequestedEvent>(MoveRequestedEvent(player, Direction::Right));
-			break;
-		default:
-			break;
-		}
-	}*/
+		handleAttackSelecting(data->code);
+	}
 }
 
 void InputSystem::update(const sf::Time& deltaTime)
 {
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-		mSystemContext.eventManager.notify<MoveRequestedEvent>
-		(MoveRequestedEvent(mSystemContext.entityManager.getPlayer(), Direction::Up));
+	handleMovement();
+	handleAttacking();
+}
+
+void InputSystem::handleMovement()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
+		notifyMoveRequest(Direction::Up);
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-		mSystemContext.eventManager.notify<MoveRequestedEvent>
-		(MoveRequestedEvent(mSystemContext.entityManager.getPlayer(), Direction::Bottom));
+		notifyMoveRequest(Direction::Bottom);
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-		mSystemContext.eventManager.notify<MoveRequestedEvent>
-		(MoveRequestedEvent(mSystemContext.entityManager.getPlayer(), Direction::Left));
+		notifyMoveRequest(Direction::Left);
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-		mSystemContext.eventManager.notify<MoveRequestedEvent>
-		(MoveRequestedEvent(mSystemContext.entityManager.getPlayer(), Direction::Right));
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+		notifyMoveRequest(Direction::Right);
+}
+
+void InputSystem::handleAttackSelecting(sf::Keyboard::Key pressedKey)
+{
+	bool num1Pressed = pressedKey == sf::Keyboard::Key::Num1;
+	bool num2Pressed = pressedKey == sf::Keyboard::Key::Num2;
+	bool num3Pressed = pressedKey == sf::Keyboard::Key::Num3;
+
+	AnimationIdentifier animId;
+	int attId;
+	if (num1Pressed)
 	{
-		auto& player = mSystemContext.entityManager.getPlayer();
-		mSystemContext.eventManager.notify<StartAttackingEvent>(StartAttackingEvent(player, AnimationIdentifier::Attack3));
+		animId = AnimationIdentifier::Attack1;
+		attId = 0;
+	}
+	else if (num2Pressed)
+	{
+		animId = AnimationIdentifier::Attack2;
+		attId = 1;
+	}
+	else if (num3Pressed)
+	{
+		animId = AnimationIdentifier::Attack3;
+		attId = 2;
+	}
+
+	if (num1Pressed || num2Pressed || num3Pressed)
+	{
+		selectAttack(animId, attId);
 	}
 }
+
+void InputSystem::handleAttacking()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+	{
+		auto& player = mSystemContext.entityManager.getPlayer();
+		auto animId = player.getComponent<AttackSelectionComponent>().cSelectedId;
+		notifyAttackRequest(player, animId);
+	}
+}
+
+void InputSystem::notifyMoveRequest(Direction dir)
+{
+	auto& player = mSystemContext.entityManager.getPlayer();
+	mSystemContext.eventManager.notify<MoveRequestedEvent>(MoveRequestedEvent(player, dir));
+}
+
+void InputSystem::notifyAttackRequest(Entity& player, AnimationIdentifier animId)
+{
+	mSystemContext.eventManager.notify<StartAttackingEvent>(StartAttackingEvent(player, animId));
+}
+
+void InputSystem::selectAttack(AnimationIdentifier animId, int id)
+{
+	auto& attSelectComp = mSystemContext.entityManager.getPlayer().getComponent<AttackSelectionComponent>();
+	attSelectComp.cSelectedId = animId;
+
+	mSystemContext.eventManager.notify<SelectAttackEvent>(SelectAttackEvent(id));
+}
+

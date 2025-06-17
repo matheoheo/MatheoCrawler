@@ -9,6 +9,7 @@
 #include "TileMap.h"
 #include "WaitUntilIdleTask.h"
 #include "AttackTask.h"
+#include "Random.h"
 
 BasicMeleeBehavior::BasicMeleeBehavior(BehaviorContext& behaviorContext)
 	:IBehavior(behaviorContext)
@@ -105,10 +106,11 @@ void BasicMeleeBehavior::swapToAttacking(Entity& entity, Entity& target)
 {
 	auto dir = Utilities::getDirectionToTarget(entity, target);
 	Utilities::setEntityDirection(entity, dir);
+	auto attackType = getRandomAttack(entity);
 
 	//pushDelayTask(getRandomDelay(150));
 	pushTask(std::make_unique<WaitUntilIdleTask>());
-	pushTask(std::make_unique<AttackTask>(AnimationIdentifier::Attack1));
+	pushTask(std::make_unique<AttackTask>(attackType));
 	pushDelayTask(getRandomDelay(250));
 }
 
@@ -201,4 +203,17 @@ void BasicMeleeBehavior::resetLOSTimer(const Entity& entity) const
 {
 	entity.getComponent<AITimersComponent>().cTimeSinceLastLOSCheck = 0.f;
 
+}
+
+AnimationIdentifier BasicMeleeBehavior::getRandomAttack(const Entity& entity)
+{
+	auto& avAttVec = entity.getComponent<AvailableAttacksComponent>().mAttacks;
+	int size = avAttVec.size();
+	if (size == 0)
+		return AnimationIdentifier::Attack1;
+	else if (size == 1)
+		return avAttVec[0];
+
+	int randomAttack = Random::get(0, size - 1);
+	return avAttVec[randomAttack];
 }

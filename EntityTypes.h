@@ -3,5 +3,6 @@
 enum class EntityType
 {
 	Player,
-	Skletorus
+	Skletorus,
+	Bonvik
 };

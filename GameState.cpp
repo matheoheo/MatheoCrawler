@@ -21,6 +21,8 @@
 #include "EntityDeathSystem.h"
 #include "EntitySpawnerSystem.h"
 #include "Utilities.h"
+#include "MessageTypes.h"
+#include "PlayerRegenerationSystem.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
@@ -31,18 +33,11 @@ GameState::GameState(GameContext& gameContext)
 	mBehaviorContext(gameContext.eventManager, mEntityManager, mTileMap),
 	mUIManager(gameContext)
 {
-	onEnter();
 }
 
 void GameState::onEnter()
 {
-	loadAnimations();
-	createMap();
-	createSystems();
-	initalizePathfinder();
-	spawnPlayer();
-	spawnEntities();
-	initalizeUI();
+	doFirstEnter();
 }
 
 void GameState::processEvents(sf::Event event)
@@ -67,6 +62,7 @@ void GameState::update(const sf::Time& deltaTime)
 		auto& spriteComp = mEntityManager.getPlayer().getComponent<SpriteComponent>();
 		mGameContext.eventManager.notify<PlayerMoveFinishedEvent>(PlayerMoveFinishedEvent(spriteComp.cSprite.getPosition()));
 		f = true;
+		std::cout << "Is done!\n";
 	}
 
 	mUIManager.update(deltaTime);
@@ -114,6 +110,7 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<OnHitSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<TileFadeSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntitySpawnerSystem>(mSystemContext, mGameContext.textures, mBehaviorContext));
+	mSystemManager.addSystem(std::make_unique<PlayerRegenerationSystem>(mSystemContext));
 
 	mSystemManager.addSystem(std::make_unique<BarRenderSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntityRenderSystem>(mSystemContext));
@@ -137,7 +134,11 @@ void GameState::spawnEntities()
 	const auto& spawnPoints = mGenerator.getSpawnPoints();
 	for (const auto& point : spawnPoints)
 	{
-		mGameContext.eventManager.notify<SpawnEntityEvent>(SpawnEntityEvent(point, EntityType::Skletorus));
+		bool sklet = Random::get(0, 1);
+		EntityType entityType = EntityType::Skletorus;
+		if (!sklet)
+			entityType = EntityType::Bonvik;
+		mGameContext.eventManager.notify<SpawnEntityEvent>(SpawnEntityEvent(point, entityType));
 		//createSkeletonAxe(point);
 	}
 	std::cout << "Spawned: " << spawnPoints.size() << " entities\n";
@@ -147,6 +148,26 @@ void GameState::initalizeUI()
 {
 	mUIManager.setPlayer(&mEntityManager.getPlayer());
 	mUIManager.createUI();
+}
+
+void GameState::logFirstMessage()
+{
+	mGameContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::Custom, 0, "Welcome to MattRawler!"));
+}
+
+void GameState::doFirstEnter()
+{
+	std::vector<std::function<void()>> tasks;
+	tasks.push_back([this]() { loadAnimations(); });
+	tasks.push_back([this]() { createMap(); });
+	tasks.push_back([this]() { createSystems(); });
+	tasks.push_back([this]() { initalizePathfinder(); });
+	tasks.push_back([this]() { spawnPlayer(); });
+	tasks.push_back([this]() { spawnEntities(); });
+	tasks.push_back([this]() { initalizeUI(); });
+	tasks.push_back([this]() { logFirstMessage(); });
+
+	mGameContext.eventManager.notify<EnterLoadingStateEvent>(EnterLoadingStateEvent(std::move(tasks)));
 }
 
 

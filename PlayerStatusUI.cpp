@@ -6,11 +6,14 @@
 PlayerStatusUI::PlayerStatusUI(GameContext& gameContext, Entity& player)
 	:UIComponent(gameContext, player),
 	mTwarf(gameContext.textures.get(TextureIdentifier::Twarf)),
-	mHpText(gameContext.fonts.get(FontIdentifiers::Default))
+	mHpText(gameContext.fonts.get(FontIdentifiers::Default)),
+	mManaText(gameContext.fonts.get(FontIdentifiers::Default))
 {
 	createTwarf();
 	createHealthBar();
 	createHpText();
+	createManaBar();
+	createManaText();
 	registerToEvents();
 }
 
@@ -25,25 +28,36 @@ void PlayerStatusUI::update(const sf::Vector2f& mousePosition, const sf::Time& d
 void PlayerStatusUI::render()
 {
 	auto& hpBarComp = player.getComponent<HealthBarComponent>();
+	auto& manaBarComp = player.getComponent<PlayerManaBarComponent>();
 	mGameContext.window.draw(mTwarfBorder);
 	mGameContext.window.draw(mTwarf);
 	mGameContext.window.draw(hpBarComp.cBackgroundBar);
 	mGameContext.window.draw(hpBarComp.cForegroundBar);
 	mGameContext.window.draw(mHpText);
+	mGameContext.window.draw(manaBarComp.cBackgroundBar);
+	mGameContext.window.draw(manaBarComp.cForegroundBar);
+	mGameContext.window.draw(mManaText);
 }
 
 void PlayerStatusUI::registerToEvents()
 {
 	registerToPlayerGotHitEvent();
+	registerToUpdatePlayerStatusEvent();
 }
 
 void PlayerStatusUI::registerToPlayerGotHitEvent()
 {
 	mGameContext.eventManager.registerEvent<PlayerGotHitEvent>([this](const PlayerGotHitEvent& data)
 		{
-			auto barSize = Utilities::calculateNewBarSize(player, Config::hpBarPlayerSize);
-			Utilities::changeHpBarSize(player, barSize);
-			updateHpText();
+			updateStatus();
+		});
+}
+
+void PlayerStatusUI::registerToUpdatePlayerStatusEvent()
+{
+	mGameContext.eventManager.registerEvent<UpdatePlayerStatusEvent>([this](const UpdatePlayerStatusEvent& data)
+		{
+			updateStatus();
 		});
 }
 
@@ -88,29 +102,86 @@ void PlayerStatusUI::createHealthBar()
 
 void PlayerStatusUI::createHpText()
 {
-	mHpText.setCharacterSize(Config::getCharacterSize() / 2);
 	updateHpText();
-	sf::FloatRect bounds{ mHpText.getGlobalBounds() };
-	sf::Vector2f origin{ bounds.size.x / 2.f, bounds.size.y / 2.f };
-	mHpText.setOrigin(origin);
+	createText(mHpText);
 	positionHpText();
 }
 
 void PlayerStatusUI::updateHpText()
 {
 	auto& statsComp = player.getComponent<CombatStatsComponent>();
-	std::string currHp = std::to_string(statsComp.cHealth);
-	std::string maxHp = std::to_string(statsComp.cMaxHealth);
-	std::string fullString = currHp + "/" + maxHp;
-	mHpText.setString(fullString);
+	updateText(mHpText, statsComp.cHealth, statsComp.cMaxHealth);
 }
 
 void PlayerStatusUI::positionHpText()
 {
 	auto& hpBarComp = player.getComponent<HealthBarComponent>();
-	auto barPos = hpBarComp.cBackgroundBar.getPosition();
-	auto barCenter = hpBarComp.cBackgroundBar.getGeometricCenter();
+	positionText(mHpText, hpBarComp.cBackgroundBar);
+}
+
+void PlayerStatusUI::createManaBar()
+{
+	auto& hpBarComp = player.getComponent<HealthBarComponent>();
+	auto& manaBarComp = player.getComponent<PlayerManaBarComponent>();
+	auto hpBarPos = hpBarComp.cBackgroundBar.getPosition();
+	auto hpBarSize = hpBarComp.cBackgroundBar.getSize();
+	constexpr float margin = 3.f;
+
+	sf::Vector2f manaBarPos{ hpBarPos.x, hpBarPos.y + hpBarSize.y + margin };
+
+	manaBarComp.cBackgroundBar.setPosition(manaBarPos);
+	manaBarComp.cForegroundBar.setPosition(manaBarPos);
+}
+
+void PlayerStatusUI::createManaText()
+{
+	updateManaText();
+	createText(mManaText);
+	positionText(mManaText, player.getComponent<PlayerManaBarComponent>().cBackgroundBar);
+}
+
+void PlayerStatusUI::updateManaText()
+{
+	auto& statsComp = player.getComponent<CombatStatsComponent>();
+	updateText(mManaText, statsComp.cMana, statsComp.cMaxMana);
+}
+
+void PlayerStatusUI::updateStatus()
+{
+	auto& statsComp = player.getComponent<CombatStatsComponent>();
+	auto hpBarSize = Utilities::calculateNewBarSize(Config::hpBarPlayerSize, statsComp.cHealth, statsComp.cMaxHealth);
+	auto manaBarSize = Utilities::calculateNewBarSize(Config::manaBarSize, statsComp.cMana, statsComp.cMaxMana);
+
+	auto& hpBarRect = player.getComponent<HealthBarComponent>().cForegroundBar;
+	auto& manaBarRect = player.getComponent<PlayerManaBarComponent>().cForegroundBar;
+	Utilities::changeBarSize(hpBarRect, hpBarSize);
+	Utilities::changeBarSize(manaBarRect, manaBarSize);
+
+	updateHpText();
+	updateManaText();
+}
+
+void PlayerStatusUI::createText(sf::Text& text)
+{
+	text.setCharacterSize(Config::getCharacterSize() / 2);
+	sf::FloatRect bounds{ text.getGlobalBounds() };
+	sf::Vector2f origin{ bounds.size.x / 2.f, bounds.size.y / 2.f };
+	text.setOrigin(origin);
+}
+
+void PlayerStatusUI::updateText(sf::Text& text, int curr, int max)
+{
+	std::string currStr = std::to_string(curr);
+	std::string maxStr = std::to_string(max);
+	std::string fullString = currStr + "/" + maxStr;
+	text.setString(fullString);
+}
+
+void PlayerStatusUI::positionText(sf::Text& text, sf::RectangleShape& rect)
+{
+	auto barPos = rect.getPosition();
+	auto barCenter = rect.getGeometricCenter();
 
 	sf::Vector2f textPos{ barPos + barCenter };
-	mHpText.setPosition(textPos);
+	text.setPosition(textPos);
 }

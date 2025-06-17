@@ -130,10 +130,25 @@ sf::Vector2f Utilities::calculateNewBarSize(const Entity& entity, const sf::Vect
 	return sf::Vector2f{ xSize, originalSize.y };
 }
 
+sf::Vector2f Utilities::calculateNewBarSize(const sf::Vector2f& originalSize, int minV, int maxV)
+{
+	float fMin = static_cast<float>(minV);
+	float fMax = static_cast<float>(maxV);
+
+	float ratio = fMin / fMax;
+	float xSize = ratio * originalSize.x;
+	return { xSize, originalSize.y };
+}
+
 void Utilities::changeHpBarSize(const Entity& entity, const sf::Vector2f& newSize)
 {
 	auto& hpBarComp = entity.getComponent<HealthBarComponent>();
 	hpBarComp.cForegroundBar.setSize(newSize);
+}
+
+void Utilities::changeBarSize(sf::RectangleShape& rect, const sf::Vector2f& newSize)
+{
+	rect.setSize(newSize);
 }
 
 void Utilities::scaleSprite(sf::Sprite& sprite, const sf::Vector2f& newSize)

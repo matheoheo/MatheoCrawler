@@ -25,6 +25,7 @@ namespace Config
 
 	inline sf::Vector2f hpBarPlayerSize({ 50, 7 });
 	inline sf::Vector2f hpBarBossSize({ 50, 7 });
+	inline sf::Vector2f manaBarSize({ 40, 5 });
 	inline int difficulityLevel = 1;
 
 	void loadConfiguration();

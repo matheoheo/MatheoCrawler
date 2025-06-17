@@ -32,7 +32,9 @@ namespace Utilities
 
 	//calculates health bar size based on health ratio.
 	sf::Vector2f calculateNewBarSize(const Entity& entity, const sf::Vector2f& originalSize);
+	sf::Vector2f calculateNewBarSize(const sf::Vector2f& originalSize, int minV, int maxV);
 	void changeHpBarSize(const Entity& entity, const sf::Vector2f& newSize);
+	void changeBarSize(sf::RectangleShape& rect, const sf::Vector2f& newSize);
 	void scaleSprite(sf::Sprite& sprite, const sf::Vector2f& newSize);
 };
 

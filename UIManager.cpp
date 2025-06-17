@@ -4,6 +4,7 @@
 #include "PlayerStatusUI.h"
 #include "PlayerResourcesUI.h"
 #include "MessageLogUI.h"
+#include "ActionSelectionUI.h"
 
 UIManager::UIManager(GameContext& gameContext)
 	:mGameContext(gameContext),
@@ -48,4 +49,5 @@ void UIManager::createUI()
 	mUIComponents.emplace_back(std::make_unique<PlayerStatusUI>(mGameContext, *player));
 	mUIComponents.emplace_back(std::make_unique<PlayerResourcesUI>(mGameContext, *player));
 	mUIComponents.emplace_back(std::make_unique<MessageLogUI>(mGameContext, *player));
+	mUIComponents.emplace_back(std::make_unique<ActionSelectionUI>(mGameContext, *player));
 }

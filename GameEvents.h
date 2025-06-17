@@ -7,6 +7,7 @@ struct AttackData;
 enum class EntityType;
 enum class Direction;
 enum class MessageType;
+enum class StateIdentifier;
 
 struct IEvent
 {
@@ -271,4 +272,45 @@ struct LogMessageEvent : public IEvent
 		if (!custom.empty())
 			customMessage = std::string(custom);
 	}
+};
+
+struct SelectAttackEvent : public IEvent
+{
+	int attackId;
+
+	SelectAttackEvent(int attackId)
+		:attackId(attackId)
+	{}
+};
+
+struct SwitchStateEvent : public IEvent
+{
+	StateIdentifier stateId;
+	bool popPrevious;
+
+	SwitchStateEvent(StateIdentifier stateId, bool popPrevious)
+		:stateId(stateId),
+		popPrevious(popPrevious)
+	{
+
+	}
+};
+
+struct PopStateEvent : public IEvent
+{
+	//no need for data
+};
+
+struct EnterLoadingStateEvent : public IEvent
+{
+	std::vector<std::function<void()>> tasksVec;
+
+	EnterLoadingStateEvent(std::vector<std::function<void()>>&& tasksVec)
+		:tasksVec(tasksVec)
+	{}
+};
+
+struct UpdatePlayerStatusEvent : public IEvent
+{
+
 };

@@ -6,6 +6,7 @@ int main()
 {
 	Config::loadConfiguration();
 	Engine engine;
+	engine.preloadTextures();
 	engine.start();
 }
 

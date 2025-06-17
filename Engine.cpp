@@ -1,18 +1,18 @@
 #include "pch.h"
 #include "Engine.h"
 #include "Config.h"
-
+#include "StateIdentifiers.h"
 Engine::Engine()
 	:mWindow(sf::VideoMode(Config::windowSize), "Matheo Crawler", sf::Style::Titlebar | sf::Style::Close,
 		Config::fullscreen ? sf::State::Fullscreen : sf::State::Windowed),
-	mGameContext(mWindow, mTextures, mFonts, mEventManager)
+	mGameContext(mWindow, mTextures, mFonts, mEventManager),
+	mStateManager(mGameContext)
 {
-	preloadTextures();
-	mStateManager = std::make_unique<GameState>(mGameContext);
 }
 
 void Engine::start()
 {
+	mGameContext.eventManager.notify<SwitchStateEvent>(SwitchStateEvent(StateIdentifier::GameState, false));
 	using namespace std::chrono;
 
 	sf::Clock fpsClock;
@@ -46,29 +46,32 @@ void Engine::processEvents()
 	{
 		if (event->is<sf::Event::Closed>())
 			mWindow.close();
-		mStateManager->processEvents(event.value());
+		mStateManager.processEvents(event.value());
 	}
 }
 
 void Engine::update(const sf::Time& deltaTime)
 {
-	mStateManager->update(deltaTime);
+	mStateManager.update(deltaTime);
 }
 
 void Engine::render()
 {
 	mWindow.clear();
-	mStateManager->render();
+	mStateManager.render();
 	mWindow.display();
 }
 
 void Engine::preloadTextures()
 {
-	mTextures.load(TextureIdentifier::MattLogo, "assets/logo/mattGamesLogo.jpeg");
-	mTextures.load(TextureIdentifier::Player, "assets/entities/player/player.png");
-	mTextures.load(TextureIdentifier::Skletorus, "assets/entities/skeleton_axe/skeleton.png");
-	mTextures.load(TextureIdentifier::Suash, "assets/ui/suash/suashIcon.png");
-	mTextures.load(TextureIdentifier::Twarf, "assets/ui/twarf/twarfIcon.png");
+	mTextures.load(TextureIdentifier::LoadingScreen, "assets/loading/loadingScreen.png");
+	mTextures.load(TextureIdentifier::MattLogo,		 "assets/logo/mattGamesLogo.jpeg");
+	mTextures.load(TextureIdentifier::Player,		 "assets/entities/player/player.png");
+	mTextures.load(TextureIdentifier::Skletorus,	 "assets/entities/skeleton_axe/skeleton.png");
+	mTextures.load(TextureIdentifier::Bonvik,		 "assets/entities/Bonvik/bonvik.png");
+	mTextures.load(TextureIdentifier::Suash,		 "assets/ui/suash/suashIcon.png");
+	mTextures.load(TextureIdentifier::Twarf,		 "assets/ui/twarf/twarfIcon.png");
+	mTextures.load(TextureIdentifier::Devoyer,		 "assets/ui/attIcons/devoyer.png");
 
 	mFonts.load(FontIdentifiers::Default, "assets/font/dungeonFont.ttf");
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "IBehavior.h"
+#include "AnimationIdentifiers.h"
 
 class BasicMeleeBehavior :
     public IBehavior
@@ -22,6 +23,8 @@ private:
     void handleLogicIfChasing(Entity& entity, Entity& player);
     void handleLogicIfAttacking(Entity& entity, Entity& player);
     void resetLOSTimer(const Entity& entity) const;
+
+    AnimationIdentifier getRandomAttack(const Entity& entity);
 private:
 };
 

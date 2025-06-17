@@ -1,0 +1,180 @@
+{
+  "bodyTypeName": "male",
+  "url": "https://liberatedpixelcup.github.io/Universal-LPC-Spritesheet-Character-Generator/#?body=Body_color_lavender&head=Minotaur_lavender&sex=male&wings=Lizard_Wings_lavender&prosthesis_hand=none_Hook_hand&overalls=Overalls_black&weapon=Halberd_halberd",
+  "spritesheets": "https://liberatedpixelcup.github.io/Universal-LPC-Spritesheet-Character-Generator/spritesheets/",
+  "version": 1,
+  "datetime": "16.06.2025, 17:39:24",
+  "credits": [
+    {
+      "fileName": "body/bodies/male/lavender.png",
+      "licenses": "OGA-BY 3.0,CC-BY-SA 3.0,GPL 3.0",
+      "authors": "bluecarrot16,JaidynReiman,Benjamin K. Smith (BenCreating),Evert,Eliza Wyatt (ElizaWy),TheraHedwig,MuffinElZangano,Durrani,Johannes Sjölund (wulax),Stephen Challener (Redshrike)",
+      "urls": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles,https://opengameart.org/content/lpc-medieval-fantasy-character-sprites,https://opengameart.org/content/lpc-male-jumping-animation-by-durrani,https://opengameart.org/content/lpc-runcycle-and-diagonal-walkcycle,https://opengameart.org/content/lpc-revised-character-basics,https://opengameart.org/content/lpc-be-seated,https://opengameart.org/content/lpc-runcycle-for-male-muscular-and-pregnant-character-bases-with-modular-heads,https://opengameart.org/content/lpc-jump-expanded,https://opengameart.org/content/lpc-character-bases",
+      "notes": "see details at https://opengameart.org/content/lpc-character-bases; 'Thick' Male Revised Run/Climb by JaidynReiman (based on ElizaWy's LPC Revised)"
+    },
+    {
+      "fileName": "body/wings/lizard/adult/fg/lavender.png",
+      "licenses": "OGA-BY 3.0,CC-BY-SA 3.0,GPL 3.0",
+      "authors": "JaidynReiman,Nila122,bluecarrot16",
+      "urls": "https://opengameart.org/content/drakes-and-lizardfolk,https://opengameart.org/content/lpc-wings-new-animations",
+      "notes": "edited for v3 bases and recolored by bluecarrot16, sit/jump/run/emote/revised combat by JaidynReiman"
+    },
+    {
+      "fileName": "body/wings/lizard/adult/bg/lavender.png",
+      "licenses": "OGA-BY 3.0,CC-BY-SA 3.0,GPL 3.0",
+      "authors": "JaidynReiman,Nila122,bluecarrot16",
+      "urls": "https://opengameart.org/content/drakes-and-lizardfolk,https://opengameart.org/content/lpc-wings-new-animations",
+      "notes": "edited for v3 bases and recolored by bluecarrot16, sit/jump/run/emote/revised combat by JaidynReiman"
+    },
+    {
+      "fileName": "head/heads/minotaur/male/lavender.png",
+      "licenses": "CC-BY-SA 3.0,GPL 3.0",
+      "authors": "Evert,Nila122,Daniel Eddeland (daneeklu)",
+      "urls": "https://opengameart.org/content/lpc-style-farm-animals,https://opengameart.org/content/lpc-lizard-headgear,https://opengameart.org/content/lpc-faun-and-minotaur",
+      "notes": "original cow by daneeklu, combined with horns by Nila122 and adapted to minotaur by Evert"
+    },
+    {
+      "fileName": "torso/aprons/overalls/male/black.png",
+      "licenses": "OGA-BY 3.0,GPL 3.0",
+      "authors": "ElizaWy,bluecarrot16,JaidynReiman",
+      "urls": "https://opengameart.org/content/lpc-revised-character-basics,http://opengameart.org/content/lpc-clothing-updates",
+      "notes": "original overalls by ElizaWy, extended to all animation frames, adapted from teen to male base, and edited for v3 bases by bluecarrot16; extended to combat animations by JaidynReiman"
+    },
+    {
+      "fileName": "weapon/polearm/halberd/behind/halberd.png",
+      "licenses": "CC-BY-SA 3.0,GPL 3.0",
+      "authors": "Benjamin K. Smith (BenCreating),bluecarrot16,Sander Frenken (castelonia)",
+      "urls": "https://opengameart.org/content/lpc-medieval-weapons",
+      "notes": ""
+    },
+    {
+      "fileName": "weapon/polearm/halberd/halberd.png",
+      "licenses": "CC-BY-SA 3.0,GPL 3.0",
+      "authors": "Benjamin K. Smith (BenCreating),bluecarrot16,Sander Frenken (castelonia)",
+      "urls": "https://opengameart.org/content/lpc-medieval-weapons",
+      "notes": ""
+    },
+    {
+      "fileName": "weapon/polearm/halberd/attack_thrust/behind/halberd.png",
+      "licenses": "CC-BY-SA 3.0,GPL 3.0",
+      "authors": "Benjamin K. Smith (BenCreating),bluecarrot16,Sander Frenken (castelonia)",
+      "urls": "https://opengameart.org/content/lpc-medieval-weapons",
+      "notes": ""
+    },
+    {
+      "fileName": "weapon/polearm/halberd/attack_thrust/halberd.png",
+      "licenses": "CC-BY-SA 3.0,GPL 3.0",
+      "authors": "Benjamin K. Smith (BenCreating),bluecarrot16,Sander Frenken (castelonia)",
+      "urls": "https://opengameart.org/content/lpc-medieval-weapons",
+      "notes": ""
+    },
+    {
+      "fileName": "weapon/polearm/halberd/attack_slash/behind/halberd.png",
+      "licenses": "CC-BY-SA 3.0,GPL 3.0",
+      "authors": "Benjamin K. Smith (BenCreating),bluecarrot16,Sander Frenken (castelonia)",
+      "urls": "https://opengameart.org/content/lpc-medieval-weapons",
+      "notes": ""
+    },
+    {
+      "fileName": "weapon/polearm/halberd/attack_slash/halberd.png",
+      "licenses": "CC-BY-SA 3.0,GPL 3.0",
+      "authors": "Benjamin K. Smith (BenCreating),bluecarrot16,Sander Frenken (castelonia)",
+      "urls": "https://opengameart.org/content/lpc-medieval-weapons",
+      "notes": ""
+    }
+  ],
+  "layers": [
+    {
+      "fileName": "body/wings/lizard/adult/bg/lavender.png",
+      "zPos": 5,
+      "parentName": "wings",
+      "name": "Lizard_Wings",
+      "variant": "lavender",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "weapon/polearm/halberd/behind/halberd.png",
+      "zPos": 8,
+      "parentName": "weapon",
+      "name": "Halberd",
+      "variant": "halberd",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    },
+    {
+      "fileName": "weapon/polearm/halberd/attack_slash/behind/halberd.png",
+      "zPos": 8,
+      "custom_animation": "slash_oversize",
+      "parentName": "weapon",
+      "name": "Halberd",
+      "variant": "halberd",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    },
+    {
+      "fileName": "weapon/polearm/halberd/attack_thrust/behind/halberd.png",
+      "zPos": 9,
+      "custom_animation": "thrust_oversize",
+      "parentName": "weapon",
+      "name": "Halberd",
+      "variant": "halberd",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    },
+    {
+      "fileName": "body/bodies/male/lavender.png",
+      "zPos": 10,
+      "parentName": "body",
+      "name": "Body_color",
+      "variant": "lavender",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "torso/aprons/overalls/male/black.png",
+      "zPos": 38,
+      "parentName": "overalls",
+      "name": "Overalls",
+      "variant": "black",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "head/heads/minotaur/male/lavender.png",
+      "zPos": 100,
+      "parentName": "head",
+      "name": "Minotaur",
+      "variant": "lavender",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "body/wings/lizard/adult/fg/lavender.png",
+      "zPos": 105,
+      "parentName": "wings",
+      "name": "Lizard_Wings",
+      "variant": "lavender",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "weapon/polearm/halberd/halberd.png",
+      "zPos": 140,
+      "parentName": "weapon",
+      "name": "Halberd",
+      "variant": "halberd",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    },
+    {
+      "fileName": "weapon/polearm/halberd/attack_thrust/halberd.png",
+      "zPos": 150,
+      "custom_animation": "thrust_oversize",
+      "parentName": "weapon",
+      "name": "Halberd",
+      "variant": "halberd",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    },
+    {
+      "fileName": "weapon/polearm/halberd/attack_slash/halberd.png",
+      "zPos": 150,
+      "custom_animation": "slash_oversize",
+      "parentName": "weapon",
+      "name": "Halberd",
+      "variant": "halberd",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    }
+  ]
+}

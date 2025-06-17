@@ -55,7 +55,7 @@ void AnimationSystem::applyCurrentFrame(const Entity& entity, AnimationComponent
 	if (animationComponent.cApplyOffset)
 	{
 		sf::Vector2f mod = { 53.f, 30.f };
-		sprite.setPosition(animationComponent.cStartPosition - frame.offset + mod);
+		sprite.setPosition(animationComponent.cStartPosition - frame.offset);
 	}
 }
 
@@ -211,7 +211,7 @@ void AnimationSystem::registerToPlayAttackAnimationEvent()
 			//now calculate each frame duration
 			auto framesCount = animComp.cFrames->size();
 			animComp.cFrameDuration = fullAnimTime / static_cast<float>(framesCount);
-
+			applyCurrentFrame(data.entity, animComp);
 			mTrackedEntities.push_back(&data.entity);
 		});
 }

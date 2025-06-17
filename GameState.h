@@ -30,6 +30,9 @@ private:
     void initalizePathfinder();
     void spawnEntities();
     void initalizeUI();
+    void logFirstMessage();
+
+    void doFirstEnter();
 private:
     sf::View mGameView;
     TileMap mTileMap;

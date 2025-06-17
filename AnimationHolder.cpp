@@ -9,6 +9,7 @@ void AnimationHolder::loadAnimations()
     loadGenericAnimations();
     loadPlayerSpecificAnimations();
     loadSkletorusSpecificAnimations();
+    loadBonvikSpecificAnimations();
 }
 
 const AnimationHolder::AnimationFrames& AnimationHolder::get(const GenericAnimationKey& key) const
@@ -100,6 +101,25 @@ void AnimationHolder::loadSkletorusSpecificAnimations()
     } };
 
     loadAnimationsFromFile<EntityAnimationKey>(mEntityAnimations, "assets/entities/skeleton_axe/animations.txt",
+        [&idToEntityKey](int animId) {return idToEntityKey[animId]; });
+}
+
+void AnimationHolder::loadBonvikSpecificAnimations()
+{
+    constexpr std::array<EntityAnimationKey, 8> idToEntityKey =
+    { {
+        {AnimationIdentifier::Attack1, Direction::Up,     EntityType::Bonvik},
+        {AnimationIdentifier::Attack1, Direction::Left,   EntityType::Bonvik},
+        {AnimationIdentifier::Attack1, Direction::Bottom, EntityType::Bonvik},
+        {AnimationIdentifier::Attack1, Direction::Right,  EntityType::Bonvik},
+                                                                      
+        {AnimationIdentifier::Attack2, Direction::Up,     EntityType::Bonvik},
+        {AnimationIdentifier::Attack2, Direction::Left,   EntityType::Bonvik},
+        {AnimationIdentifier::Attack2, Direction::Bottom, EntityType::Bonvik},
+        {AnimationIdentifier::Attack2, Direction::Right,  EntityType::Bonvik}
+    } };
+
+    loadAnimationsFromFile<EntityAnimationKey>(mEntityAnimations, "assets/entities/Bonvik/animations.txt",
         [&idToEntityKey](int animId) {return idToEntityKey[animId]; });
 }
 

@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionSelectionUI.cpp" />
     <ClCompile Include="AnimationHolder.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="AttackSystem.cpp" />
@@ -179,7 +180,9 @@
     <ClCompile Include="DungeonGenerator.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityDataRepository.cpp" />
     <ClCompile Include="EntityDeathSystem.cpp" />
+    <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="EntityRenderSystem.cpp" />
     <ClCompile Include="EntitySpawnerSystem.cpp" />
@@ -192,6 +195,7 @@
     <ClCompile Include="IState.cpp" />
     <ClCompile Include="ISystem.cpp" />
     <ClCompile Include="ITask.cpp" />
+    <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MessageLogUI.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
@@ -201,8 +205,10 @@
     <ClCompile Include="PathRequestSystem.cpp" />
     <ClCompile Include="PatrolAISystem.cpp" />
     <ClCompile Include="PatrolTask.cpp" />
+    <ClCompile Include="PlayerRegenerationSystem.cpp" />
     <ClCompile Include="PlayerResourcesUI.cpp" />
     <ClCompile Include="PlayerStatusUI.cpp" />
+    <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="TileFadeSystem.cpp" />
     <ClCompile Include="TileMap.cpp" />
@@ -213,6 +219,7 @@
     <ClCompile Include="WaitUntilIdleTask.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionSelectionUI.h" />
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="AnimationHolder.h" />
     <ClInclude Include="AnimationIdentifiers.h" />
@@ -238,7 +245,9 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityAIState.h" />
+    <ClInclude Include="EntityDataRepository.h" />
     <ClInclude Include="EntityDeathSystem.h" />
+    <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="EntityRenderSystem.h" />
     <ClInclude Include="EntitySpawnerSystem.h" />
@@ -256,6 +265,7 @@
     <ClInclude Include="IState.h" />
     <ClInclude Include="ISystem.h" />
     <ClInclude Include="ITask.h" />
+    <ClInclude Include="LoadingState.h" />
     <ClInclude Include="MessageLogUI.h" />
     <ClInclude Include="MessageTypes.h" />
     <ClInclude Include="MovementSystem.h" />
@@ -266,9 +276,12 @@
     <ClInclude Include="PatrolAISystem.h" />
     <ClInclude Include="PatrolTask.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PlayerRegenerationSystem.h" />
     <ClInclude Include="PlayerResourcesUI.h" />
     <ClInclude Include="PlayerStatusUI.h" />
     <ClInclude Include="Random.h" />
+    <ClInclude Include="StateIdentifiers.h" />
+    <ClInclude Include="StateManager.h" />
     <ClInclude Include="SystemContext.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="TextureIdentifiers.h" />
