@@ -9,6 +9,7 @@
 #include "IBehavior.h"
 #include "AttackData.h"
 #include "Config.h"
+#include "SpellData.h"
 
 class Entity;
 
@@ -295,5 +296,17 @@ struct RegenerationComponent : public IComponent
 		:cHpRegen(1),
 		cManaRegen(2),
 		cTimeSinceLastRegen(0)
+	{}
+};
+
+struct SpellbookComponent : public IComponent
+{
+	std::unordered_map<SpellIdentifier, SpellInstance> cSpells;
+	SpellInstance* cLastSpell;
+	SpellIdentifier cLastSpellId;
+	std::vector<SpellInstance*> cCasted; //keep lastly casted spell instances, so we can subtract cooldown timer.
+	SpellbookComponent()
+		: cLastSpell(nullptr),
+		cLastSpellId(SpellIdentifier::BasicHeal)
 	{}
 };

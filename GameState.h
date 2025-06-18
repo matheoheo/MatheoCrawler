@@ -9,6 +9,7 @@
 #include "Pathfinder.h"
 #include "BehaviorContext.h"
 #include "UIManager.h"
+#include "SpellHolder.h"
 
 class GameState :
     public IState
@@ -43,7 +44,7 @@ private:
     AnimationHolder mAnimationHolder;
     Pathfinder mPathfinder;
     BehaviorContext mBehaviorContext;
-
     UIManager mUIManager;
+    SpellHolder mSpellHolder;
 };
 

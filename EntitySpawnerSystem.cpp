@@ -7,11 +7,11 @@
 #include "Utilities.h"
 
 EntitySpawnerSystem::EntitySpawnerSystem(SystemContext& systemContext, AssetManager<TextureIdentifier, sf::Texture>& textures,
-	BehaviorContext& behaviorContext)
+	BehaviorContext& behaviorContext, SpellHolder& spellHolder)
 	:ISystem(systemContext),
 	mTextures(textures),
 	mBehaviorContext(behaviorContext),
-	mEntityFactory(systemContext.entityManager, textures, behaviorContext, systemContext.eventManager)
+	mEntityFactory(systemContext.entityManager, textures, behaviorContext, systemContext.eventManager, spellHolder)
 {
 	registerToEvents();
 }

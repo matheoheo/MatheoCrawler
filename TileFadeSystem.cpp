@@ -98,13 +98,7 @@ void TileFadeSystem::fadeTile(Tile& tile)
 
 sf::Color TileFadeSystem::lerpColor(const sf::Color& startColor, const sf::Color& endColor, float t) const
 {
-	return sf::Color
-	{
-		static_cast<std::uint8_t>(startColor.r + (endColor.r - startColor.r) * t),
-		static_cast<std::uint8_t>(startColor.g + (endColor.g - startColor.g) * t),
-		static_cast<std::uint8_t>(startColor.b + (endColor.b - startColor.b) * t),
-		startColor.a
-	};
+	return Utilities::lerpColor(startColor, endColor, t);
 }
 
 bool TileFadeSystem::isColorCloseEnough(const sf::Color& currColor, const sf::Color& targetColor, int threshold) const

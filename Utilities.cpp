@@ -160,3 +160,14 @@ void Utilities::scaleSprite(sf::Sprite& sprite, const sf::Vector2f& newSize)
 
 	sprite.scale(factor);
 }
+
+sf::Color Utilities::lerpColor(const sf::Color& startColor, const sf::Color& endColor, float t)
+{
+	return sf::Color
+	{
+		static_cast<std::uint8_t>(startColor.r + (endColor.r - startColor.r) * t),
+		static_cast<std::uint8_t>(startColor.g + (endColor.g - startColor.g) * t),
+		static_cast<std::uint8_t>(startColor.b + (endColor.b - startColor.b) * t),
+		startColor.a
+	};
+}

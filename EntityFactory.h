@@ -5,11 +5,12 @@
 #include "EntityDataRepository.h"
 
 class EventManager;
+class SpellHolder;
 class EntityFactory
 {
 public:
 	EntityFactory(EntityManager& entityManager, AssetManager<TextureIdentifier, sf::Texture>& textures,
-        BehaviorContext& behaviorContext, EventManager& eventManager);
+        BehaviorContext& behaviorContext, EventManager& eventManager, SpellHolder& spellHolder);
 
     void spawnEntity(const sf::Vector2i& cellIndex, EntityType entType);
 private:
@@ -34,6 +35,7 @@ private:
 	AssetManager<TextureIdentifier, sf::Texture>& mTextures;
     BehaviorContext& mBehaviorContext;
     EventManager& mEventManager;
+    SpellHolder& mSpellHolder;
 	EntityDataRepository mEntityData;
 };
 

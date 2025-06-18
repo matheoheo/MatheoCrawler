@@ -5,12 +5,16 @@
 #include "BasicMeleeBehavior.h"
 #include "EventManager.h"
 #include "Utilities.h"
+#include "SpellHolder.h"
+#include "SpellIdentifiers.h"
+
 
 EntityFactory::EntityFactory(EntityManager& entityManager, AssetManager<TextureIdentifier, sf::Texture>& textures,
-	BehaviorContext& behaviorContext, EventManager& eventManager)
+	BehaviorContext& behaviorContext, EventManager& eventManager, SpellHolder& spellHolder)
     :mEntityManager(entityManager),
     mTextures(textures),
 	mBehaviorContext(behaviorContext),
+	mSpellHolder(spellHolder),
 	mEventManager(eventManager)
 {
 }
@@ -78,6 +82,11 @@ void EntityFactory::spawnPlayerEntity(const sf::Vector2i& cellIndex)
 	entity.addComponent<AttackSelectionComponent>();
 	entity.addComponent<PlayerManaBarComponent>();
 	entity.addComponent<RegenerationComponent>();
+	auto& spells = entity.addComponent<SpellbookComponent>();
+	spells.cSpells.emplace(SpellIdentifier::BasicHeal, SpellInstance{
+		.data = &mSpellHolder.get(SpellIdentifier::BasicHeal),
+		.cooldownRemaining = 0 });
+
 
 	notifyTileOccupied(entity);
 

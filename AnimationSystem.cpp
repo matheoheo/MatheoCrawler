@@ -29,8 +29,8 @@ void AnimationSystem::registerToEvents()
 {
 	registerToPlayGenericWalkEvent();
 	registerToFinalizeAnimationEvent();
-	registerToEntitySpecificAnimationEvent();
 	registerToPlayAttackAnimationEvent();
+	registerToCastSpellAnimationEvent();
 }
 
 void AnimationSystem::resetTimer(AnimationComponent& animationComponent) const
@@ -117,6 +117,11 @@ void AnimationSystem::notifyAnimationFinished(const Entity& entity, AnimationCom
 		mSystemContext.eventManager.notify<AttackAnimationFinishedEvent>
 			(AttackAnimationFinishedEvent(entity, attackComp.cLastAttackData));
 	}
+	else if (animId == AnimationIdentifier::GenericSpellCast)
+	{
+		auto spellid = entity.getComponent<SpellbookComponent>().cLastSpellId;
+		mSystemContext.eventManager.notify<CastSpellFinishedEvent>(CastSpellFinishedEvent(entity, spellid));
+	}
 }
 
 void AnimationSystem::removeFinishedEntities()
@@ -156,27 +161,6 @@ void AnimationSystem::registerToFinalizeAnimationEvent()
 		});
 }
 
-void AnimationSystem::registerToEntitySpecificAnimationEvent()
-{
-	mSystemContext.eventManager.registerEvent<PlayEntitySpecificAnimationEvent>([this](const PlayEntitySpecificAnimationEvent& data)
-		{
-			auto& animComp = data.entity.getComponent<AnimationComponent>();
-			if (animComp.cFrames)
-				return;
-			data.entity.getComponent<EntityStateComponent>().cCurrentState = EntityState::Attacking;
-
-			animComp.cCurrentIndex = 0;
-			animComp.cTimer = 0.f;
-			animComp.cFrameDuration = 50.f;
-			animComp.cFrames = &mAnimationHolder.get(data.key);
-			animComp.cStartPosition = data.entity.getComponent<SpriteComponent>().cSprite.getPosition();
-			animComp.cApplyOffset = true;
-
-			applyCurrentFrame(data.entity, animComp);
-			mTrackedEntities.push_back(&data.entity);
-		});
-}
-
 void AnimationSystem::registerToPlayAttackAnimationEvent()
 {
 	mSystemContext.eventManager.registerEvent<PlayAttackAnimationEvent>([this](const PlayAttackAnimationEvent& data)
@@ -211,7 +195,30 @@ void AnimationSystem::registerToPlayAttackAnimationEvent()
 			//now calculate each frame duration
 			auto framesCount = animComp.cFrames->size();
 			animComp.cFrameDuration = fullAnimTime / static_cast<float>(framesCount);
+
 			applyCurrentFrame(data.entity, animComp);
+			mTrackedEntities.push_back(&data.entity);
+		});
+}
+
+void AnimationSystem::registerToCastSpellAnimationEvent()
+{
+	mSystemContext.eventManager.registerEvent<PlayCastSpellAnimation>([this](const PlayCastSpellAnimation& data)
+		{
+			if (isEntityAlreadyTracked(data.entity))
+				return;
+
+			auto dir = data.entity.getComponent<DirectionComponent>().cCurrentDir;
+			GenericAnimationKey key{ AnimationIdentifier::GenericSpellCast, dir };
+			
+			auto& animComp = data.entity.getComponent<AnimationComponent>();
+			animComp.cFrames = &mAnimationHolder.get(key);
+			animComp.cApplyOffset = false;
+			animComp.cCurrentIndex = 0;
+			animComp.cTimer = 0.f;
+			animComp.cCurrentId = AnimationIdentifier::GenericSpellCast;
+			animComp.cFrameDuration = static_cast<float>(data.castTime) / static_cast<float>(animComp.cFrames->size());
+
 			mTrackedEntities.push_back(&data.entity);
 		});
 }

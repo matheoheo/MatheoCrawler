@@ -36,5 +36,7 @@ namespace Utilities
 	void changeHpBarSize(const Entity& entity, const sf::Vector2f& newSize);
 	void changeBarSize(sf::RectangleShape& rect, const sf::Vector2f& newSize);
 	void scaleSprite(sf::Sprite& sprite, const sf::Vector2f& newSize);
+
+	sf::Color lerpColor(const sf::Color& startColor, const sf::Color& endColor, float t);
 };
 

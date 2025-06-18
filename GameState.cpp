@@ -23,6 +23,9 @@
 #include "Utilities.h"
 #include "MessageTypes.h"
 #include "PlayerRegenerationSystem.h"
+#include "SpellSystem.h"
+#include "HealSpellSystem.h"
+#include "EffectSystem.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
@@ -53,10 +56,17 @@ void GameState::update(const sf::Time& deltaTime)
 	mSystemManager.update(deltaTime);
 
 	static sf::Clock randomClock;
-	if (randomClock.getElapsedTime().asMilliseconds() > 1000.f)
-	{
-	}
 	static bool f = false;
+
+	if (randomClock.getElapsedTime().asMilliseconds() > 2000.f)
+	{
+		if (f)
+		{
+			auto& player = mEntityManager.getPlayer();
+			mGameContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(player, nullptr, SpellIdentifier::BasicHeal));
+		}
+		randomClock.restart();
+	}
 	if (!f)
 	{
 		auto& spriteComp = mEntityManager.getPlayer().getComponent<SpriteComponent>();
@@ -109,8 +119,11 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<BehaviorAIUpdateSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<OnHitSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<TileFadeSystem>(mSystemContext));
-	mSystemManager.addSystem(std::make_unique<EntitySpawnerSystem>(mSystemContext, mGameContext.textures, mBehaviorContext));
+	mSystemManager.addSystem(std::make_unique<EntitySpawnerSystem>(mSystemContext, mGameContext.textures, mBehaviorContext, mSpellHolder));
 	mSystemManager.addSystem(std::make_unique<PlayerRegenerationSystem>(mSystemContext));
+	mSystemManager.addSystem(std::make_unique<SpellSystem>(mSystemContext));
+	mSystemManager.addSystem(std::make_unique<HealSpellSystem>(mSystemContext));
+	mSystemManager.addSystem(std::make_unique<EffectSystem>(mSystemContext));
 
 	mSystemManager.addSystem(std::make_unique<BarRenderSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntityRenderSystem>(mSystemContext));

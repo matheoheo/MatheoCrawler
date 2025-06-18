@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include "AnimationHolder.h"
+#include "SpellIdentifiers.h"
+
 class Entity;
 struct Tile;
 struct AttackData;
@@ -66,14 +68,14 @@ struct FinalizeAnimationEvent : public IEvent
 		:entity(entity) {}
 };
 
-struct PlayEntitySpecificAnimationEvent : public IEvent
+struct PlayCastSpellAnimation : public IEvent
 {
 	Entity& entity;
-	const EntityAnimationKey key;
+	int castTime;
 
-	PlayEntitySpecificAnimationEvent(Entity& entity, const EntityAnimationKey& key)
+	PlayCastSpellAnimation(Entity& entity, int castTime)
 		:entity(entity),
-		key(key) {}
+		castTime(castTime) {}
 };
 
 struct PlayAttackAnimationEvent : public IEvent
@@ -312,5 +314,52 @@ struct EnterLoadingStateEvent : public IEvent
 
 struct UpdatePlayerStatusEvent : public IEvent
 {
+	//no need for data
+};
 
+struct CastSpellEvent : public IEvent
+{
+	Entity& caster;
+	Entity* target;
+	SpellIdentifier spellId;
+
+	CastSpellEvent(Entity& caster, Entity* target, SpellIdentifier id)
+		:caster(caster),
+		target(target),
+		spellId(id)
+	{}
+};
+
+//called after casting animation is finished
+struct CastSpellFinishedEvent : public IEvent
+{
+	const Entity& caster;
+	SpellIdentifier id;
+
+	CastSpellFinishedEvent(const Entity& caster, SpellIdentifier id)
+		:caster(caster),
+		id(id)
+	{}
+};
+
+struct TriggerHealSpellEvent : public IEvent
+{
+	const Entity& caster;
+
+	TriggerHealSpellEvent(const Entity& caster)
+		:caster(caster)
+	{}
+};
+
+struct StartGlowUpEffect : public IEvent
+{
+	const Entity& entity;
+	sf::Color targetColor;
+	int duration;
+
+	StartGlowUpEffect(const Entity& entity, const sf::Color& targetColor, int duration)
+		:entity(entity),
+		targetColor(targetColor),
+		duration(duration)
+	{}
 };

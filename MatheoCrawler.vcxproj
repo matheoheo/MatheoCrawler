@@ -178,6 +178,7 @@
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="DelayTask.cpp" />
     <ClCompile Include="DungeonGenerator.cpp" />
+    <ClCompile Include="EffectSystem.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityDataRepository.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="HealSpellSystem.cpp" />
     <ClCompile Include="IBehavior.cpp" />
     <ClCompile Include="IMapGenerator.cpp" />
     <ClCompile Include="InputSystem.cpp" />
@@ -208,6 +210,8 @@
     <ClCompile Include="PlayerRegenerationSystem.cpp" />
     <ClCompile Include="PlayerResourcesUI.cpp" />
     <ClCompile Include="PlayerStatusUI.cpp" />
+    <ClCompile Include="SpellHolder.cpp" />
+    <ClCompile Include="SpellSystem.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="TileFadeSystem.cpp" />
@@ -242,6 +246,7 @@
     <ClInclude Include="DelayTask.h" />
     <ClInclude Include="Directions.h" />
     <ClInclude Include="DungeonGenerator.h" />
+    <ClInclude Include="EffectSystem.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityAIState.h" />
@@ -259,6 +264,7 @@
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="HealSpellSystem.h" />
     <ClInclude Include="IBehavior.h" />
     <ClInclude Include="IMapGenerator.h" />
     <ClInclude Include="InputSystem.h" />
@@ -280,6 +286,10 @@
     <ClInclude Include="PlayerResourcesUI.h" />
     <ClInclude Include="PlayerStatusUI.h" />
     <ClInclude Include="Random.h" />
+    <ClInclude Include="SpellData.h" />
+    <ClInclude Include="SpellHolder.h" />
+    <ClInclude Include="SpellIdentifiers.h" />
+    <ClInclude Include="SpellSystem.h" />
     <ClInclude Include="StateIdentifiers.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="SystemContext.h" />

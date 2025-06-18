@@ -4,5 +4,6 @@ enum class EntityState
 {
 	Idle,
 	Moving,
-	Attacking
+	Attacking,
+	CastingSpell
 };

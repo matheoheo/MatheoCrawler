@@ -26,10 +26,11 @@ private:
     bool isAnAttackAnimation(AnimationIdentifier id) const;
     void notifyAnimationFinished(const Entity& entity, AnimationComponent& animationComponent);
     void removeFinishedEntities();
+
     void registerToPlayGenericWalkEvent();
     void registerToFinalizeAnimationEvent();
-    void registerToEntitySpecificAnimationEvent();
     void registerToPlayAttackAnimationEvent();
+    void registerToCastSpellAnimationEvent();
 private:
     const AnimationHolder& mAnimationHolder;
     std::vector<const Entity*> mFinishedEntities;
