@@ -5,6 +5,7 @@
 #include "EntityStates.h"
 #include "TileMap.h"
 #include "Directions.h"
+#include "SpellIdentifiers.h"
 
 float Utilities::getDistanceBetween(const sf::Vector2f& pointA, const sf::Vector2f& pointB)
 {
@@ -137,6 +138,8 @@ sf::Vector2f Utilities::calculateNewBarSize(const sf::Vector2f& originalSize, in
 
 	float ratio = fMin / fMax;
 	float xSize = ratio * originalSize.x;
+	if (xSize < 0)
+		xSize = 0.f;
 	return { xSize, originalSize.y };
 }
 
@@ -170,4 +173,14 @@ sf::Color Utilities::lerpColor(const sf::Color& startColor, const sf::Color& end
 		static_cast<std::uint8_t>(startColor.b + (endColor.b - startColor.b) * t),
 		startColor.a
 	};
+}
+
+bool Utilities::isHealingSpell(SpellIdentifier spellid)
+{
+	constexpr std::array<SpellIdentifier, 2> healingSpells =
+	{
+		SpellIdentifier::QuickHeal, SpellIdentifier::MajorHeal
+	};
+
+	return std::ranges::find(healingSpells, spellid) != std::ranges::end(healingSpells);
 }

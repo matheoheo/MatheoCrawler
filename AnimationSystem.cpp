@@ -69,7 +69,7 @@ void AnimationSystem::updateFrame(Entity& entity, AnimationComponent& animationC
 	applyCurrentFrame(entity, animationComponent);
 }
 
-void AnimationSystem::finalizeAnimation(const Entity& entity, AnimationComponent& animationComponent) 
+void AnimationSystem::finalizeAnimation(Entity& entity, AnimationComponent& animationComponent) 
 {
 	animationComponent.cCurrentIndex = 0;
 	animationComponent.cTimer = 0.f;
@@ -107,7 +107,7 @@ bool AnimationSystem::isAnAttackAnimation(AnimationIdentifier id) const
 	return id == AnimationIdentifier::Attack1 || id == AnimationIdentifier::Attack2 || id == AnimationIdentifier::Attack3;
 }
 
-void AnimationSystem::notifyAnimationFinished(const Entity& entity, AnimationComponent& animationComponent)
+void AnimationSystem::notifyAnimationFinished(Entity& entity, AnimationComponent& animationComponent)
 {
 	auto animId = animationComponent.cCurrentId;
 	if (isAnAttackAnimation(animId))

@@ -83,10 +83,12 @@ void EntityFactory::spawnPlayerEntity(const sf::Vector2i& cellIndex)
 	entity.addComponent<PlayerManaBarComponent>();
 	entity.addComponent<RegenerationComponent>();
 	auto& spells = entity.addComponent<SpellbookComponent>();
-	spells.cSpells.emplace(SpellIdentifier::BasicHeal, SpellInstance{
-		.data = &mSpellHolder.get(SpellIdentifier::BasicHeal),
+	spells.cSpells.emplace(SpellIdentifier::HealthRegen, SpellInstance{
+		.data = &mSpellHolder.get(SpellIdentifier::HealthRegen),
 		.cooldownRemaining = 0 });
-
+	spells.cSpells.emplace(SpellIdentifier::ManaRegen, SpellInstance{
+		.data = &mSpellHolder.get(SpellIdentifier::ManaRegen),
+		.cooldownRemaining = 0 });
 
 	notifyTileOccupied(entity);
 

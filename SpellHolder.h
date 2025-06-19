@@ -7,10 +7,12 @@ class SpellHolder
 public:
 	SpellHolder();
 	void initalizeSpells();
-
 	const SpellData& get(SpellIdentifier id) const;
 private:
-	void createBasicHeal();
+	void createQuickHeal();
+	void createMajorHeal();
+	void createHealthRegen();
+	void createManaRegen();
 private:
 	std::unordered_map<SpellIdentifier, SpellData> mSpellsMap;
 };

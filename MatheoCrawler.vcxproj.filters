@@ -213,7 +213,7 @@
     <ClCompile Include="EntityFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerRegenerationSystem.cpp">
+    <ClCompile Include="RegenerationSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SpellHolder.cpp">
@@ -452,7 +452,7 @@
     <ClInclude Include="EntityFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerRegenerationSystem.h">
+    <ClInclude Include="RegenerationSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpellIdentifiers.h">

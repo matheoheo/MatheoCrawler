@@ -62,9 +62,9 @@ struct PlayGenericWalkEvent : public IEvent
 };
 struct FinalizeAnimationEvent : public IEvent
 {
-	const Entity& entity;
+	Entity& entity;
 
-	FinalizeAnimationEvent(const Entity& entity)
+	FinalizeAnimationEvent(Entity& entity)
 		:entity(entity) {}
 };
 
@@ -333,10 +333,10 @@ struct CastSpellEvent : public IEvent
 //called after casting animation is finished
 struct CastSpellFinishedEvent : public IEvent
 {
-	const Entity& caster;
+	Entity& caster;
 	SpellIdentifier id;
 
-	CastSpellFinishedEvent(const Entity& caster, SpellIdentifier id)
+	CastSpellFinishedEvent(Entity& caster, SpellIdentifier id)
 		:caster(caster),
 		id(id)
 	{}
@@ -360,6 +360,45 @@ struct StartGlowUpEffect : public IEvent
 	StartGlowUpEffect(const Entity& entity, const sf::Color& targetColor, int duration)
 		:entity(entity),
 		targetColor(targetColor),
+		duration(duration)
+	{}
+};
+
+struct TriggerHpRegenSpellEvent : public IEvent
+{
+	Entity& caster;
+	int bonusRegen;
+	int duration;
+
+	TriggerHpRegenSpellEvent(Entity& caster, int bonusRegen, int duration)
+		:caster(caster),
+		bonusRegen(bonusRegen),
+		duration(duration)
+	{}
+};
+
+struct TriggerMpRegenSpellEvent : public IEvent
+{
+	Entity& caster;
+	int bonusRegen;
+	int duration;
+
+	TriggerMpRegenSpellEvent(Entity& caster, int bonusRegen, int duration)
+		:caster(caster),
+		bonusRegen(bonusRegen),
+		duration(duration)
+	{}
+};
+
+struct StartRegenEffect : public IEvent
+{
+	Entity& caster;
+	sf::Color color;
+	int duration;
+
+	StartRegenEffect(Entity& entity, const sf::Color& color, int duration)
+		:caster(entity),
+		color(color),
 		duration(duration)
 	{}
 };

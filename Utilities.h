@@ -4,6 +4,7 @@ class Entity;
 class TileMap;
 struct Tile;
 enum class Direction;
+enum class SpellIdentifier;
 
 namespace Utilities
 {
@@ -38,5 +39,7 @@ namespace Utilities
 	void scaleSprite(sf::Sprite& sprite, const sf::Vector2f& newSize);
 
 	sf::Color lerpColor(const sf::Color& startColor, const sf::Color& endColor, float t);
+
+	bool isHealingSpell(SpellIdentifier spellid);
 };
 

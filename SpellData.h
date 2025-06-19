@@ -10,7 +10,10 @@ struct SpellData
 	int cooldown = 0; //in milliseconds
 	int castTime = 0; //in ms
 	float healValue = 0.f; //in percents
-
+	int duration = 0; //how long does the spelll last
+	
+	int bonusHpRegen = 0;
+	int bonusManaRegen = 0;
 	int minDmg = 0; //in case of attacking
 	int maxDmg = 0; 
 };
@@ -19,4 +22,5 @@ struct SpellInstance
 {
 	const SpellData* data = nullptr;
 	int cooldownRemaining = 0;
+	int durationRemaining = 0;
 };

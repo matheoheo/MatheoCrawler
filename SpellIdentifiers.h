@@ -2,7 +2,10 @@
 
 enum class SpellIdentifier
 {
-	BasicHeal,
+	QuickHeal,
+	MajorHeal,
+	HealthRegen,
+	ManaRegen,
 	Waterball
 };
 

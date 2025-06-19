@@ -81,7 +81,7 @@ void PlayerStatusUI::createHealthBar()
 {
 	auto& hpBarComp = player.getComponent<HealthBarComponent>();
 	hpBarComp.cIsVisible = true;
-	constexpr sf::Color foregroundColor{ 0, 200, 0 };
+	constexpr sf::Color foregroundColor{ Config::hpBarColor };
 	constexpr sf::Color backgroundColor{ 30, 30, 30 };
 	constexpr sf::Color outlineColor{ 150, 150, 150 };
 	constexpr float outlineThickness = 1.5f;

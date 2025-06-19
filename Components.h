@@ -262,7 +262,7 @@ struct PlayerManaBarComponent : public IComponent
 	{
 		cForegroundBar.setSize(Config::manaBarSize);
 		cBackgroundBar.setSize(Config::manaBarSize);
-		cForegroundBar.setFillColor({ 122, 92, 255 });
+		cForegroundBar.setFillColor(Config::manaBarColor);
 		cBackgroundBar.setFillColor({ 43, 24, 92 });
 		cBackgroundBar.setOutlineColor({ 161, 135, 255 });
 		cBackgroundBar.setOutlineThickness(1.5f);
@@ -292,10 +292,18 @@ struct RegenerationComponent : public IComponent
 	int cManaRegen;
 	int cTimeSinceLastRegen;
 
+	int cHpRegenBonus;
+	int cManaRegenBonus;
+	int cHpBonusDuration;
+	int cManaBonusDuration;
 	RegenerationComponent()
 		:cHpRegen(1),
-		cManaRegen(2),
-		cTimeSinceLastRegen(0)
+		cManaRegen(1),
+		cTimeSinceLastRegen(0),
+		cHpRegenBonus(0),
+		cManaRegenBonus(0),
+		cHpBonusDuration(0),
+		cManaBonusDuration(0)
 	{}
 };
 
@@ -307,6 +315,6 @@ struct SpellbookComponent : public IComponent
 	std::vector<SpellInstance*> cCasted; //keep lastly casted spell instances, so we can subtract cooldown timer.
 	SpellbookComponent()
 		: cLastSpell(nullptr),
-		cLastSpellId(SpellIdentifier::BasicHeal)
+		cLastSpellId(SpellIdentifier::QuickHeal)
 	{}
 };

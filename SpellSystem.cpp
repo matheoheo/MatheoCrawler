@@ -2,6 +2,7 @@
 #include "SpellSystem.h"
 #include "Utilities.h"
 #include "MessageTypes.h"
+#include "SpellHolder.h"
 
 SpellSystem::SpellSystem(SystemContext& systemContext)
 	:ISystem(systemContext)
@@ -56,11 +57,11 @@ void SpellSystem::registerToCastSpellEvent()
 			subtractMana(data.caster, spellbookComp);
 			auto& thisSpell = spellbookComp.cSpells[data.spellId];
 			thisSpell.cooldownRemaining = thisSpell.data->cooldown;
-			spellbookComp.cLastSpellId = data.spellId;
 			
 			data.caster.getComponent<EntityStateComponent>().cCurrentState = EntityState::CastingSpell;
+
 			notifyAnimationSystem(data.caster, thisSpell.data->castTime);
-			notifyEffectSystem(data.caster, sf::Color(100, 255, 100), thisSpell.data->castTime * 2);
+			notifyEffectSystem(data, thisSpell);
 			if(!isEntityAlreadyTracked(data.caster))
 				mTrackedEntities.push_back(&data.caster);
 		});
@@ -79,9 +80,18 @@ void SpellSystem::notifyAnimationSystem(Entity& entity, int castTime)
 	mSystemContext.eventManager.notify<PlayCastSpellAnimation>(PlayCastSpellAnimation(entity, castTime));
 }
 
-void SpellSystem::notifyEffectSystem(Entity& entity, const sf::Color& color, int durationTime)
+void SpellSystem::notifyEffectSystem(const CastSpellEvent& data, const SpellInstance& spell)
 {
-	mSystemContext.eventManager.notify<StartGlowUpEffect>(StartGlowUpEffect(entity, color, durationTime));
+	auto spellid = data.spellId;
+	auto& evm = mSystemContext.eventManager;
+	if(spellid == SpellIdentifier::QuickHeal || spellid == SpellIdentifier::MajorHeal)
+		evm.notify<StartGlowUpEffect>(StartGlowUpEffect(data.caster, sf::Color(100, 255, 100), spell.data->castTime));
+
+	else if (spellid == SpellIdentifier::ManaRegen || spellid == SpellIdentifier::HealthRegen)
+	{
+		auto color = (spellid == SpellIdentifier::HealthRegen) ? Config::hpBarColor : Config::manaBarColor;
+		evm.notify<StartRegenEffect>(StartRegenEffect(data.caster, color, spell.data->duration));
+	}
 }
 
 bool SpellSystem::canCastSpell(const CastSpellEvent& data, SpellbookComponent& spellbookComp) const
@@ -109,6 +119,7 @@ void SpellSystem::updateLastSpell(SpellbookComponent& spellbookComp, SpellIdenti
 	if (spellbookComp.cSpells.contains(id))
 	{
 		spellbookComp.cLastSpell = &spellbookComp.cSpells.at(id);
+		spellbookComp.cLastSpellId = id;
 		spellbookComp.cCasted.emplace_back(spellbookComp.cLastSpell);
 	}
 }
@@ -124,9 +135,21 @@ void SpellSystem::subtractMana(Entity& entity, SpellbookComponent& spellbookComp
 	mSystemContext.eventManager.notify<UpdatePlayerStatusEvent>(UpdatePlayerStatusEvent());
 }
 
-void SpellSystem::notifyCastFinished(const Entity& entity, SpellIdentifier id)
+void SpellSystem::notifyCastFinished(Entity& entity, SpellIdentifier id)
 {
-	if (id == SpellIdentifier::BasicHeal)
+	if (id == SpellIdentifier::HealthRegen || id == SpellIdentifier::ManaRegen)
+	{
+		//those 2 are also a healing spells, but they require different system
+		const SpellInstance* lastSpell = entity.getComponent<SpellbookComponent>().cLastSpell;
+		int regen = (id == SpellIdentifier::HealthRegen) ? lastSpell->data->bonusHpRegen : lastSpell->data->bonusManaRegen;
+		int duration = lastSpell->data->duration;
+
+		if (id == SpellIdentifier::HealthRegen)
+			mSystemContext.eventManager.notify<TriggerHpRegenSpellEvent>(TriggerHpRegenSpellEvent(entity, regen, duration));
+		else if (id == SpellIdentifier::ManaRegen)
+			mSystemContext.eventManager.notify<TriggerMpRegenSpellEvent>(TriggerMpRegenSpellEvent(entity, regen, duration));
+	}
+	else if (id == SpellIdentifier::QuickHeal || id == SpellIdentifier::MajorHeal)
 	{
 		mSystemContext.eventManager.notify<TriggerHealSpellEvent>(TriggerHealSpellEvent(entity));
 	}

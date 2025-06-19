@@ -18,13 +18,13 @@ private:
     bool hasFrameDurationPassed(const AnimationComponent& animationComponent) const;
     void applyCurrentFrame(const Entity& entity, AnimationComponent& animationComponent) const;
     void updateFrame(Entity& entity, AnimationComponent& animationComponent);
-    void finalizeAnimation(const Entity& entity, AnimationComponent& animationComponent);
+    void finalizeAnimation(Entity& entity, AnimationComponent& animationComponent);
     void applyDefaultFrame(const Entity& entiy, AnimationComponent& animationComponent) ;
 
     void setStateToIdle(const Entity& entity);
     void moveBackToStartingPosition(const Entity& entity, AnimationComponent& animationComponent);
     bool isAnAttackAnimation(AnimationIdentifier id) const;
-    void notifyAnimationFinished(const Entity& entity, AnimationComponent& animationComponent);
+    void notifyAnimationFinished(Entity& entity, AnimationComponent& animationComponent);
     void removeFinishedEntities();
 
     void registerToPlayGenericWalkEvent();

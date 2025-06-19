@@ -22,7 +22,7 @@
 #include "EntitySpawnerSystem.h"
 #include "Utilities.h"
 #include "MessageTypes.h"
-#include "PlayerRegenerationSystem.h"
+#include "RegenerationSystem.h"
 #include "SpellSystem.h"
 #include "HealSpellSystem.h"
 #include "EffectSystem.h"
@@ -63,7 +63,7 @@ void GameState::update(const sf::Time& deltaTime)
 		if (f)
 		{
 			auto& player = mEntityManager.getPlayer();
-			mGameContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(player, nullptr, SpellIdentifier::BasicHeal));
+			mGameContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(player, nullptr, SpellIdentifier::ManaRegen));
 		}
 		randomClock.restart();
 	}
@@ -102,6 +102,9 @@ void GameState::spawnPlayer()
 	auto playerPos = mTileMap.getFirstWalkablePos();
 	auto playerCell = Utilities::getCellIndex(playerPos);
 	mGameContext.eventManager.notify<SpawnEntityEvent>(SpawnEntityEvent(playerCell, EntityType::Player));
+
+	//add player to regeneration system
+	mGameContext.eventManager.notify<TriggerHpRegenSpellEvent>(TriggerHpRegenSpellEvent(mEntityManager.getPlayer(), 0, 0));
 }
 
 void GameState::createSystems()
@@ -120,7 +123,7 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<OnHitSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<TileFadeSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntitySpawnerSystem>(mSystemContext, mGameContext.textures, mBehaviorContext, mSpellHolder));
-	mSystemManager.addSystem(std::make_unique<PlayerRegenerationSystem>(mSystemContext));
+	mSystemManager.addSystem(std::make_unique<RegenerationSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<SpellSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<HealSpellSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EffectSystem>(mSystemContext));

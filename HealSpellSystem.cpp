@@ -10,7 +10,6 @@ HealSpellSystem::HealSpellSystem(SystemContext& systemContext)
 
 void HealSpellSystem::update(const sf::Time& deltaTime)
 {
-	
 }
 
 void HealSpellSystem::registerToEvents()
@@ -32,5 +31,7 @@ void HealSpellSystem::heal(const Entity& entity, float healPercent)
 	auto& combatStats = entity.getComponent<CombatStatsComponent>();
 	int healValue = static_cast<int>(combatStats.cMaxHealth * healPercent);
 	combatStats.cHealth = std::clamp(combatStats.cHealth + healValue, 0, combatStats.cMaxHealth);
-	std::cout << "x\n";
+
+	if (entity.hasComponent<PlayerComponent>())
+		mSystemContext.eventManager.notify<UpdatePlayerStatusEvent>(UpdatePlayerStatusEvent());
 }

@@ -12,12 +12,12 @@ private:
     void registerToCastSpellEvent();
     void registerToCastAnimationFinished();
     void notifyAnimationSystem(Entity& entity, int castTime);
-    void notifyEffectSystem(Entity& entity, const sf::Color& color, int durationTime);
+    void notifyEffectSystem(const CastSpellEvent& data, const SpellInstance& spell);
     bool canCastSpell(const CastSpellEvent& data, SpellbookComponent& spellbookComp) const;
     void updateLastSpell(SpellbookComponent& spellbookComp, SpellIdentifier id);
     void subtractMana(Entity& entity, SpellbookComponent& spellbookComp);
 
-    void notifyCastFinished(const Entity& entity, SpellIdentifier id);
+    void notifyCastFinished(Entity& entity, SpellIdentifier id);
     void addToFinished(Entity* entity);
     void removeFinishedEntities();
 private:
