@@ -6,6 +6,7 @@
 
 class EventManager;
 class SpellHolder;
+struct SpawnProjectileEvent;
 class EntityFactory
 {
 public:
@@ -13,6 +14,7 @@ public:
         BehaviorContext& behaviorContext, EventManager& eventManager, SpellHolder& spellHolder);
 
     void spawnEntity(const sf::Vector2i& cellIndex, EntityType entType);
+    void spawnProjectileEvent(const SpawnProjectileEvent& data);
 private:
     void addCommonComponents(Entity& entity, EntityType entType);
     void addSpriteComponent(Entity& entity, TextureIdentifier textureId, const sf::Vector2f& pos);
@@ -30,6 +32,12 @@ private:
     CombatStatsComponent getAdjustedCombatStats(EntityType entType) const;
 
     float getStatMultiplier() const;
+private:
+    //spawning projectiles
+    void spawnProjectile(const SpawnProjectileEvent& data);
+
+    float getProjectileRotation(Direction dir) const;
+    const sf::Texture& getProjectileTexture(SpellIdentifier id, const SpellData& data);
 private:
 	EntityManager& mEntityManager;
 	AssetManager<TextureIdentifier, sf::Texture>& mTextures;

@@ -13,6 +13,7 @@
 
 class Entity;
 
+
 struct IComponent
 {
 	virtual ~IComponent() = default;
@@ -30,7 +31,6 @@ struct MovementComponent : public IComponent
 	sf::Vector2f cInitialPosition;
 	sf::Vector2f cNextPos;
 	sf::Vector2f cDirectionVector;
-
 	MovementComponent(float moveSpeed) 
 		: cMoveSpeed(moveSpeed) 
 	{}
@@ -181,6 +181,7 @@ struct CombatStatsComponent : public IComponent
 	float cAttackSpeed; //attacks per second
 	int cMana;
 	int cMaxMana;
+	int cMagicDefence;
 
 	CombatStatsComponent()
 		:cHealth(100),
@@ -190,7 +191,8 @@ struct CombatStatsComponent : public IComponent
 		cDefence(3),
 		cAttackSpeed(1.0f),
 		cMana(12),
-		cMaxMana(cMana){}
+		cMaxMana(cMana),
+		cMagicDefence(1){}
 
 	CombatStatsComponent(const CombatStatsComponent& other)
 		:cHealth(other.cHealth),
@@ -200,7 +202,8 @@ struct CombatStatsComponent : public IComponent
 		cDefence(other.cDefence),
 		cAttackSpeed(other.cAttackSpeed),
 		cMana(other.cMana),
-		cMaxMana(other.cMaxMana)
+		cMaxMana(other.cMaxMana),
+		cMagicDefence(other.cMagicDefence)
 	{}
 };
 
@@ -316,5 +319,21 @@ struct SpellbookComponent : public IComponent
 	SpellbookComponent()
 		: cLastSpell(nullptr),
 		cLastSpellId(SpellIdentifier::QuickHeal)
+	{}
+};
+
+struct ProjectileComponent : public IComponent
+{
+	const ProjectileSpell* cSpellData;
+	float cDistanceTraveled;
+	bool cPlayerCasted;
+	float cMaxDistance;
+	std::vector<size_t> cHitTargets; //keep track of hit target ids so we do not rehit them.
+
+	ProjectileComponent(const ProjectileSpell& spellData, bool playerCasted)
+		:cSpellData(&spellData),
+		cDistanceTraveled(0.f),
+		cPlayerCasted(playerCasted),
+		cMaxDistance(Config::getCellSize().x * spellData.range)
 	{}
 };

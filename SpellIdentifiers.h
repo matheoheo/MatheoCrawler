@@ -2,11 +2,13 @@
 
 enum class SpellIdentifier
 {
+	//Healing Spells
 	QuickHeal,
 	MajorHeal,
 	HealthRegen,
 	ManaRegen,
-	Waterball
+
+	WaterBall
 };
 
 enum class SpellType

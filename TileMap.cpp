@@ -87,6 +87,13 @@ bool TileMap::isTileWalkable(const sf::Vector2f& tilePos) const
 	return isTileWalkable(index.x, index.y);
 }
 
+bool TileMap::isTileOccupied(int x, int y) const
+{
+	if(!isInMapBounds(x, y))
+		return false;
+	return !mTiles[y][x].occupyingEntities.empty();
+}
+
 bool TileMap::isBlockingSight(int x, int y) const
 {
 	if(!isInMapBounds(x, y))

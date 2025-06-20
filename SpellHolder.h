@@ -13,6 +13,8 @@ private:
 	void createMajorHeal();
 	void createHealthRegen();
 	void createManaRegen();
+
+	void createWaterBall();
 private:
 	std::unordered_map<SpellIdentifier, SpellData> mSpellsMap;
 };

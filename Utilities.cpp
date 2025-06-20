@@ -45,6 +45,11 @@ sf::Vector2i Utilities::getEntityCell(const Entity& entity)
 	return getCellIndex(pos);
 }
 
+sf::Vector2i Utilities::getEntityCellRaw(const Entity& entity)
+{
+	return getCellIndex(getEntityPos(entity));
+}
+
 bool Utilities::isEntityIdling(const Entity& entity)
 {
 	return entity.getComponent<EntityStateComponent>().cCurrentState == EntityState::Idle;
@@ -183,4 +188,22 @@ bool Utilities::isHealingSpell(SpellIdentifier spellid)
 	};
 
 	return std::ranges::find(healingSpells, spellid) != std::ranges::end(healingSpells);
+}
+
+sf::Vector2f Utilities::dirToVector(Direction dir)
+{
+	switch (dir)
+	{
+	case Direction::Up:
+		return { 0.f, -1.f };
+	case Direction::Bottom:
+		return { 0.f, 1.f };
+	case Direction::Left:
+		return { -1.f, 0.f };
+	case Direction::Right:
+		return { 1.f, 0.f };
+	default:
+		return { 0.f, 0.f };
+	}
+	return { 0.f, 0.f };
 }

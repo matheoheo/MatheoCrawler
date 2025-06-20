@@ -153,6 +153,10 @@ void SpellSystem::notifyCastFinished(Entity& entity, SpellIdentifier id)
 	{
 		mSystemContext.eventManager.notify<TriggerHealSpellEvent>(TriggerHealSpellEvent(entity));
 	}
+	if (id == SpellIdentifier::WaterBall)
+	{
+		mSystemContext.eventManager.notify<SpawnProjectileEvent>(SpawnProjectileEvent(entity, id));
+	}
 }
 
 void SpellSystem::addToFinished(Entity* entity)

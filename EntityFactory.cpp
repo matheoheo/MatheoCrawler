@@ -37,6 +37,11 @@ void EntityFactory::spawnEntity(const sf::Vector2i& cellIndex, EntityType entTyp
 	}
 }
 
+void EntityFactory::spawnProjectileEvent(const SpawnProjectileEvent& data)
+{
+	spawnProjectile(data);
+}
+
 void EntityFactory::addCommonComponents(Entity& entity, EntityType entType)
 {
 	const auto& entityData = mEntityData.get(entType);
@@ -90,6 +95,9 @@ void EntityFactory::spawnPlayerEntity(const sf::Vector2i& cellIndex)
 		.data = &mSpellHolder.get(SpellIdentifier::ManaRegen),
 		.cooldownRemaining = 0 });
 
+	spells.cSpells.emplace(SpellIdentifier::WaterBall, SpellInstance{
+		.data = &mSpellHolder.get(SpellIdentifier::WaterBall),
+		.cooldownRemaining = 0 });
 	notifyTileOccupied(entity);
 
 }
@@ -154,4 +162,64 @@ CombatStatsComponent EntityFactory::getAdjustedCombatStats(EntityType entType) c
 float EntityFactory::getStatMultiplier() const
 {
 	return std::pow(1.20f, Config::difficulityLevel - 1);
+}
+
+void EntityFactory::spawnProjectile(const SpawnProjectileEvent& data)
+{
+	constexpr sf::Vector2f projectileSize{ 48.f, 48.f };
+
+	auto& spellBookComp = data.caster.getComponent<SpellbookComponent>();
+	auto& thisSpell = spellBookComp.cSpells.at(data.projId);
+	auto& spellData = thisSpell.data;
+	if (spellData->type != SpellType::Projectile || !spellData->projectile)
+		return;
+
+	auto& projData = spellData->projectile.value();
+	auto casterPos = Utilities::getEntityPos(data.caster);
+	auto casterDir = data.caster.getComponent<DirectionComponent>().cCurrentDir;
+	bool playerCasted = data.caster.hasComponent<PlayerComponent>();
+	sf::Vector2f offset{ Config::getCellSize().x / 2.f, Config::getCellSize().y / 2.f };
+
+	auto& entity = mEntityManager.createEntity();
+	auto& spriteComp = entity.addComponent<SpriteComponent>(getProjectileTexture(data.projId, *spellData));
+	spriteComp.cSprite.setOrigin(projectileSize * 0.5f);
+	spriteComp.cSprite.setPosition(casterPos + offset);
+	spriteComp.cSprite.setRotation(sf::degrees(getProjectileRotation(casterDir)));
+
+	auto& moveComp = entity.addComponent<MovementComponent>(projData.speed);
+	moveComp.cDirectionVector = Utilities::dirToVector(casterDir);
+
+	auto& projComp = entity.addComponent<ProjectileComponent>(projData, playerCasted);
+
+	mEventManager.notify<ProjectileSpawnedEvent>(ProjectileSpawnedEvent(entity));
+}
+
+float EntityFactory::getProjectileRotation(Direction dir) const
+{
+	switch (dir)
+	{
+	case Direction::Right:
+		return 0.f;
+	case Direction::Bottom:
+		return 90.f;
+	case Direction::Left:
+		return 180.f;
+	case Direction::Up:
+		return 270.f;
+	default:
+		return 0.f;
+	}
+	return 0.0f;
+}
+
+const sf::Texture& EntityFactory::getProjectileTexture(SpellIdentifier id, const SpellData& data)
+{
+	//this class will be developed more in future.
+	if (id == SpellIdentifier::WaterBall)
+	{
+		return mTextures.get(TextureIdentifier::WaterBall0);
+	}
+
+	//default return;
+	return mTextures.get(TextureIdentifier::WaterBall0);
 }

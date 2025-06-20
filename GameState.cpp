@@ -26,6 +26,7 @@
 #include "SpellSystem.h"
 #include "HealSpellSystem.h"
 #include "EffectSystem.h"
+#include "ProjectileSystem.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
@@ -63,7 +64,7 @@ void GameState::update(const sf::Time& deltaTime)
 		if (f)
 		{
 			auto& player = mEntityManager.getPlayer();
-			mGameContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(player, nullptr, SpellIdentifier::ManaRegen));
+			mGameContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(player, nullptr, SpellIdentifier::WaterBall));
 		}
 		randomClock.restart();
 	}
@@ -127,6 +128,7 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<SpellSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<HealSpellSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EffectSystem>(mSystemContext));
+	mSystemManager.addSystem(std::make_unique<ProjectileSystem>(mSystemContext, mTileMap));
 
 	mSystemManager.addSystem(std::make_unique<BarRenderSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntityRenderSystem>(mSystemContext));
@@ -157,7 +159,6 @@ void GameState::spawnEntities()
 		mGameContext.eventManager.notify<SpawnEntityEvent>(SpawnEntityEvent(point, entityType));
 		//createSkeletonAxe(point);
 	}
-	std::cout << "Spawned: " << spawnPoints.size() << " entities\n";
 }
 
 void GameState::initalizeUI()

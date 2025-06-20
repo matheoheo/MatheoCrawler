@@ -18,7 +18,7 @@ namespace Utilities
 	//this function returns original position modified by {40, 40} offset.
 	sf::Vector2f getEntityVisualPosition(const Entity& entity);
 	sf::Vector2i getEntityCell(const Entity& entity);
-
+	sf::Vector2i getEntityCellRaw(const Entity& entity);
 	bool isEntityIdling(const Entity& entity);
 
 	const sf::Color& getVisibleTileColor(const Tile& tile);
@@ -39,7 +39,8 @@ namespace Utilities
 	void scaleSprite(sf::Sprite& sprite, const sf::Vector2f& newSize);
 
 	sf::Color lerpColor(const sf::Color& startColor, const sf::Color& endColor, float t);
-
 	bool isHealingSpell(SpellIdentifier spellid);
+
+	sf::Vector2f dirToVector(Direction dir);
 };
 

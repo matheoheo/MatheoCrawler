@@ -18,6 +18,7 @@ public:
 	bool isTileWalkable(const Tile* tile) const;
 	bool isTileWalkable(int x, int y) const;
 	bool isTileWalkable(const sf::Vector2f& tilePos) const;
+	bool isTileOccupied(int x, int y) const;
 	bool isBlockingSight(int x, int y) const;
 	bool isLineOfSightClear(const sf::Vector2i& fromCell, const sf::Vector2i& toCell) const;
 	sf::Vector2f getFirstWalkablePos() const;

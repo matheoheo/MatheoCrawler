@@ -207,6 +207,7 @@
     <ClCompile Include="PathRequestSystem.cpp" />
     <ClCompile Include="PatrolAISystem.cpp" />
     <ClCompile Include="PatrolTask.cpp" />
+    <ClCompile Include="ProjectileSystem.cpp" />
     <ClCompile Include="RegenerationSystem.cpp" />
     <ClCompile Include="PlayerResourcesUI.cpp" />
     <ClCompile Include="PlayerStatusUI.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="PatrolAISystem.h" />
     <ClInclude Include="PatrolTask.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ProjectileSystem.h" />
     <ClInclude Include="RegenerationSystem.h" />
     <ClInclude Include="PlayerResourcesUI.h" />
     <ClInclude Include="PlayerStatusUI.h" />

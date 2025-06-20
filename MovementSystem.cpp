@@ -28,24 +28,6 @@ void MovementSystem::registerToEvents()
 	registerToMoveAllowedEvent();
 }
 
-sf::Vector2f MovementSystem::calculateDirectionVector(Direction dir)
-{
-	switch (dir)
-	{
-	case Direction::Up:
-		return { 0.f, -1.f };
-	case Direction::Bottom:
-		return { 0.f, 1.f };
-	case Direction::Left:
-		return { -1.f, 0.f };
-	case Direction::Right:
-		return { 1.f, 0.f };
-	default:
-		return { 0.f, 0.f };
-	}
-	return { 0.f, 0.f };
-}
-
 void MovementSystem::moveEntity(const Entity& entity, const sf::Time& deltaTime)
 {
 	auto& spriteComp = entity.getComponent<SpriteComponent>();
@@ -101,7 +83,7 @@ void MovementSystem::registerToMoveAllowedEvent()
 
 			moveComp.cNextPos = data.nextPos;
 			moveComp.cInitialPosition = data.entity.getComponent<SpriteComponent>().cSprite.getPosition();
-			moveComp.cDirectionVector = calculateDirectionVector(dirComp.cNextDir);
+			moveComp.cDirectionVector = Utilities::dirToVector(dirComp.cNextDir);
 			stateComp.cCurrentState = EntityState::Moving;
 			dirComp.cLastDir = dirComp.cCurrentDir;
 			dirComp.cCurrentDir = dirComp.cNextDir;

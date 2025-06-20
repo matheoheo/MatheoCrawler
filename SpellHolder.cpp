@@ -12,6 +12,8 @@ void SpellHolder::initalizeSpells()
     createQuickHeal();
     createHealthRegen();
     createManaRegen();
+
+    createWaterBall();
 }
 
 const SpellData& SpellHolder::get(SpellIdentifier id) const
@@ -20,7 +22,6 @@ const SpellData& SpellHolder::get(SpellIdentifier id) const
 
     return mSpellsMap.at(id);
 }
-
 
 void SpellHolder::createQuickHeal()
 {
@@ -75,4 +76,25 @@ void SpellHolder::createManaRegen()
         .bonusHpRegen = 0,
         .bonusManaRegen = 8
     };
+}
+
+void SpellHolder::createWaterBall()
+{
+    SpellData data;
+    data.type = SpellType::Projectile;
+    data.castTime = 450;
+    data.cooldown = 2 * 1000;
+    data.cost = 1;
+    
+    data.projectile = ProjectileSpell{
+        .minDmg = 5,
+        .maxDmg = 8,
+        .shotAmount = 1,
+        .range = 6,
+        .speed = 300.f,
+        .pierce = false,
+        .maxTargets = 1
+    };
+
+    mSpellsMap.emplace(SpellIdentifier::WaterBall, std::move(data));
 }

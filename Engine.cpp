@@ -72,6 +72,6 @@ void Engine::preloadTextures()
 	mTextures.load(TextureIdentifier::Suash,		 "assets/ui/suash/suashIcon.png");
 	mTextures.load(TextureIdentifier::Twarf,		 "assets/ui/twarf/twarfIcon.png");
 	mTextures.load(TextureIdentifier::Devoyer,		 "assets/ui/attIcons/devoyer.png");
-
+	mTextures.load(TextureIdentifier::WaterBall0,    "assets/entities/projectiles/waterball/Water__05.png");
 	mFonts.load(FontIdentifiers::Default, "assets/font/dungeonFont.ttf");
 }

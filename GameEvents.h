@@ -402,3 +402,38 @@ struct StartRegenEffect : public IEvent
 		duration(duration)
 	{}
 };
+
+struct SpawnProjectileEvent : public IEvent
+{
+	Entity& caster;
+	SpellIdentifier projId;
+
+	SpawnProjectileEvent(Entity& caster, SpellIdentifier id)
+		:caster(caster),
+		projId(id)
+	{}
+};
+
+struct ProjectileSpawnedEvent : public IEvent
+{
+	Entity& entity;
+
+	ProjectileSpawnedEvent(Entity& entity)
+		:entity(entity)
+	{}
+};
+
+struct HitByProjectileEvent : public IEvent
+{
+	Entity& hitEntity;
+	int projectileDamage;
+	bool isPlayerHit;
+	bool playerCasted;
+
+	HitByProjectileEvent(Entity& hitEntity, int dmg, bool playerHit, bool playerCasted)
+		:hitEntity(hitEntity),
+		projectileDamage(dmg),
+		isPlayerHit(playerHit),
+		playerCasted(playerCasted)
+	{}
+};

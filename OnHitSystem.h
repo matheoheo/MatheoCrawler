@@ -11,8 +11,11 @@ public:
 private:
     void registerToEvents();
     void registerToHitByAttackEvent();
+    void registerToHitByProjectileEvent();
     int calculateDamage(const Entity& attacker, const Entity& target) const;
+    int calculateProjectileDamage(const Entity& target, int projectileDmg) const;
 
+    void processHit(Entity& target, int damage, bool attackerIsPlayer, bool targetIsPlayer);
     //returns taken damage(if target goes under 0 hp then the damage is modified to reflect this situation)
     //also returns true if entities hp went to 0, false otherwise
     std::pair<int, bool> takeDamage(const Entity& target, int damage);

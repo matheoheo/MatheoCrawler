@@ -15,6 +15,7 @@ public:
 private:
     void registerToEvents();
     void registerToSpawnEntityEvent();
+    void registerToSpawnProjectileEvent();
 private:
     AssetManager<TextureIdentifier, sf::Texture>& mTextures;
     BehaviorContext& mBehaviorContext;
