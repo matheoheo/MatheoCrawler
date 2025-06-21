@@ -54,14 +54,21 @@ void SpellSystem::registerToCastSpellEvent()
 				return;
 
 			updateLastSpell(spellbookComp, data.spellId);
-			subtractMana(data.caster, spellbookComp);
+		//	subtractMana(data.caster, spellbookComp);
 			auto& thisSpell = spellbookComp.cSpells[data.spellId];
 			thisSpell.cooldownRemaining = thisSpell.data->cooldown;
-			
+			if (data.usedKey)
+			{
+				//notify UISystem to start cooldown counter.
+				notifyUISystem(data.usedKey.value(), thisSpell.cooldownRemaining);
+			}
+			auto animType = getAnimationBasedOnSpellType(*thisSpell.data);
 			data.caster.getComponent<EntityStateComponent>().cCurrentState = EntityState::CastingSpell;
 
-			notifyAnimationSystem(data.caster, thisSpell.data->castTime);
+			notifyAnimationSystem(data.caster, thisSpell.data->castTime, animType);
 			notifyEffectSystem(data, thisSpell);
+
+
 			if(!isEntityAlreadyTracked(data.caster))
 				mTrackedEntities.push_back(&data.caster);
 		});
@@ -75,9 +82,15 @@ void SpellSystem::registerToCastAnimationFinished()
 		});
 }
 
-void SpellSystem::notifyAnimationSystem(Entity& entity, int castTime)
+void SpellSystem::notifyUISystem(sf::Keyboard::Key key, int& cooldown)
 {
-	mSystemContext.eventManager.notify<PlayCastSpellAnimation>(PlayCastSpellAnimation(entity, castTime));
+	mSystemContext.eventManager.notify<StartSpellCooldownUIEvent>(StartSpellCooldownUIEvent(key, cooldown));
+		
+}
+
+void SpellSystem::notifyAnimationSystem(Entity& entity, int castTime, AnimationIdentifier animId)
+{
+	mSystemContext.eventManager.notify<PlayCastSpellAnimation>(PlayCastSpellAnimation(entity, castTime, animId));
 }
 
 void SpellSystem::notifyEffectSystem(const CastSpellEvent& data, const SpellInstance& spell)
@@ -153,10 +166,21 @@ void SpellSystem::notifyCastFinished(Entity& entity, SpellIdentifier id)
 	{
 		mSystemContext.eventManager.notify<TriggerHealSpellEvent>(TriggerHealSpellEvent(entity));
 	}
-	if (id == SpellIdentifier::WaterBall)
+	if (id == SpellIdentifier::WaterBall || id == SpellIdentifier::PureProjectile ||
+		id == SpellIdentifier::Fireball || id == SpellIdentifier::Bloodball)
 	{
 		mSystemContext.eventManager.notify<SpawnProjectileEvent>(SpawnProjectileEvent(entity, id));
 	}
+}
+
+AnimationIdentifier SpellSystem::getAnimationBasedOnSpellType(const SpellData& data) const
+{
+	if (data.type == SpellType::Heal)
+		return AnimationIdentifier::GenericSpellCast;
+	else if (data.type == SpellType::Projectile)
+		return AnimationIdentifier::GenericShoot;
+
+	return AnimationIdentifier::GenericSpellCast;
 }
 
 void SpellSystem::addToFinished(Entity* entity)

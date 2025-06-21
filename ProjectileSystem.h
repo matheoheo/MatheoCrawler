@@ -19,7 +19,7 @@ private:
     void handleEntityHit(const Entity& projectile);
     void addEntityTargetHit(const Entity& hit, ProjectileComponent& projComp);
     void onHit(Entity& hitEntity, Entity::EntityID projId, ProjectileComponent& projComp, bool wasPlayerHit);
-    void handleCollision(const Entity& projectile);
+    bool hasHitWall(const Entity& projectile) const;
 
     //checks if provided entity was already hit by specific projectile.
     bool wasAlreadyHit(const Entity& entity, ProjectileComponent& projComp);

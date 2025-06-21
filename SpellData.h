@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include "SpellIdentifiers.h"
+#include "TextureIdentifiers.h"
+
 struct ProjectileSpell
 {
 	int minDmg = 0;
@@ -15,7 +17,7 @@ struct ProjectileSpell
 struct SpellData
 {
 	SpellType type = SpellType::Heal;
-	std::string name = "spell_default";
+	SpellIdentifier spellId = SpellIdentifier::QuickHeal;
 	int cost = 0; //manacost or maybe in future hp cost?
 	int cooldown = 0; //in milliseconds
 	int castTime = 0; //in ms
@@ -33,4 +35,20 @@ struct SpellInstance
 	const SpellData* data = nullptr;
 	int cooldownRemaining = 0;
 	int durationRemaining = 0;
+	int spellLevel = 0;
+};
+
+struct SpellInfo
+{
+	std::string name;
+	std::string shortDescription;
+	std::string longDescription;
+	TextureIdentifier textureId;
+	std::vector<std::pair<std::string, std::string>> attributes;
+};
+
+struct SpellDefinition
+{
+	SpellData* data = nullptr;
+	SpellInfo spellInfo;
 };

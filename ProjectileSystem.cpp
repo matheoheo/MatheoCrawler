@@ -21,7 +21,7 @@ void ProjectileSystem::update(const sf::Time& deltaTime)
 		{
 			handleEntityHit(*entity);
 		}
-		if (hasExceededRange(*entity))
+		if (hasExceededRange(*entity) || hasHitWall(*entity))
 		{
 			markAsFinished(entity->getEntityId());
 		}
@@ -61,7 +61,7 @@ void ProjectileSystem::moveProjectile(const Entity& entity, const sf::Time& delt
 	auto& projComp = entity.getComponent<ProjectileComponent>();
 
 	const sf::Vector2f moveVector{moveComp.cDirectionVector * moveComp.cMoveSpeed * deltaTime.asSeconds()};
-	const float movedDistance = moveVector.x + moveVector.y;
+	const float movedDistance = std::abs(moveVector.x) + std::abs(moveVector.y);
 	sprite.move(moveVector);
 
 	projComp.cDistanceTraveled += movedDistance;
@@ -120,9 +120,10 @@ void ProjectileSystem::onHit(Entity& hitEntity, Entity::EntityID projId, Project
 	mSystemContext.eventManager.notify<HitByProjectileEvent>(HitByProjectileEvent(hitEntity, projDmg, wasPlayerHit, playerCasted));
 }
 
-void ProjectileSystem::handleCollision(const Entity& projectile)
+bool ProjectileSystem::hasHitWall(const Entity& projectile) const
 {
-
+	auto cellIndex = Utilities::getEntityCellRaw(projectile);
+	return mTileMap.isTileSolid(cellIndex.x, cellIndex.y);
 }
 
 bool ProjectileSystem::wasAlreadyHit(const Entity& entity, ProjectileComponent& projComp)

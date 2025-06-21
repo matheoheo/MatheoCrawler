@@ -33,8 +33,12 @@ private:
 
     float getStatMultiplier() const;
 private:
-    //spawning projectiles
-    void spawnProjectile(const SpawnProjectileEvent& data);
+    //spawns projectile on provided cell
+    void spawnProjectile(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex, Direction casterDir);
+    void spawnWaterBall(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex, Direction casterDir);
+    void spawnPureProjectiles(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex, Direction casterDir);
+    void spawnFireballProjectiles(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex);
+    void spawnBloodballProjectiles(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex, Direction casterDir);
 
     float getProjectileRotation(Direction dir) const;
     const sf::Texture& getProjectileTexture(SpellIdentifier id, const SpellData& data);

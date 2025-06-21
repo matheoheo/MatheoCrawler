@@ -63,8 +63,8 @@ void GameState::update(const sf::Time& deltaTime)
 	{
 		if (f)
 		{
-			auto& player = mEntityManager.getPlayer();
-			mGameContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(player, nullptr, SpellIdentifier::WaterBall));
+			//auto& player = mEntityManager.getPlayer();
+			//mGameContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(player, nullptr, SpellIdentifier::Bloodball));
 		}
 		randomClock.restart();
 	}

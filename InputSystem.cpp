@@ -6,6 +6,7 @@
 InputSystem::InputSystem(SystemContext& systemContext)
 	:ISystem(systemContext)
 {
+	createSpellKeyToIntMap();
 }
 
 void InputSystem::processEvents(const sf::Event event)
@@ -13,6 +14,7 @@ void InputSystem::processEvents(const sf::Event event)
 	if (auto data = event.getIf<sf::Event::KeyPressed>())
 	{
 		handleAttackSelecting(data->code);
+		handleCastingSpell(data->code);
 	}
 }
 
@@ -74,6 +76,21 @@ void InputSystem::handleAttacking()
 	}
 }
 
+void InputSystem::handleCastingSpell(sf::Keyboard::Key pressedKey)
+{
+	if (auto it = mSpellKeyToInt.find(pressedKey); it != std::end(mSpellKeyToInt))
+	{
+		auto& player = mSystemContext.entityManager.getPlayer();
+		auto& assigned = player.getComponent<AssignedSpellsComponent>();
+		auto& spells = assigned.cAssignedSpells;
+		if (auto it2 = spells.find(it->second); it2 != std::end(spells))
+		{
+			auto spellId = it2->second->data->spellId;
+			mSystemContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(player, nullptr, spellId, pressedKey));
+		}
+	}
+}
+
 void InputSystem::notifyMoveRequest(Direction dir)
 {
 	auto& player = mSystemContext.entityManager.getPlayer();
@@ -91,5 +108,15 @@ void InputSystem::selectAttack(AnimationIdentifier animId, int id)
 	attSelectComp.cSelectedId = animId;
 
 	mSystemContext.eventManager.notify<SelectAttackEvent>(SelectAttackEvent(id));
+}
+
+void InputSystem::createSpellKeyToIntMap()
+{
+	mSpellKeyToInt[sf::Keyboard::Key::Z] = 0;
+	mSpellKeyToInt[sf::Keyboard::Key::X] = 1;
+	mSpellKeyToInt[sf::Keyboard::Key::C] = 2;
+	mSpellKeyToInt[sf::Keyboard::Key::V] = 3;
+	mSpellKeyToInt[sf::Keyboard::Key::B] = 4;
+
 }
 

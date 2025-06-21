@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <map>
 #include "Directions.h"
 #include "EntityStates.h"
 #include "AnimationIdentifiers.h"
@@ -312,7 +313,7 @@ struct RegenerationComponent : public IComponent
 
 struct SpellbookComponent : public IComponent
 {
-	std::unordered_map<SpellIdentifier, SpellInstance> cSpells;
+	std::unordered_map<SpellIdentifier, SpellInstance> cSpells; //every spell, that entity can use is in this map
 	SpellInstance* cLastSpell;
 	SpellIdentifier cLastSpellId;
 	std::vector<SpellInstance*> cCasted; //keep lastly casted spell instances, so we can subtract cooldown timer.
@@ -336,4 +337,11 @@ struct ProjectileComponent : public IComponent
 		cPlayerCasted(playerCasted),
 		cMaxDistance(Config::getCellSize().x * spellData.range)
 	{}
+};
+
+//UI
+struct AssignedSpellsComponent : public IComponent
+{
+	bool shifted;
+	std::map<int, SpellInstance*> cAssignedSpells; //in UI slots
 };

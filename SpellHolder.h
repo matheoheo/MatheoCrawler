@@ -8,6 +8,7 @@ public:
 	SpellHolder();
 	void initalizeSpells();
 	const SpellData& get(SpellIdentifier id) const;
+	const SpellDefinition& getDefinition(SpellIdentifier id) const;
 private:
 	void createQuickHeal();
 	void createMajorHeal();
@@ -15,7 +16,11 @@ private:
 	void createManaRegen();
 
 	void createWaterBall();
+	void createPureProjectile();
+	void createFireball();
+	void createBloodball();
 private:
 	std::unordered_map<SpellIdentifier, SpellData> mSpellsMap;
+	std::unordered_map<SpellIdentifier, SpellDefinition> mDefinitions;
 };
 

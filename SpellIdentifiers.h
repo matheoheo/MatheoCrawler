@@ -8,7 +8,10 @@ enum class SpellIdentifier
 	HealthRegen,
 	ManaRegen,
 
-	WaterBall
+	WaterBall,
+	PureProjectile,
+	Fireball,
+	Bloodball
 };
 
 enum class SpellType

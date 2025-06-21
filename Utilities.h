@@ -5,6 +5,7 @@ class TileMap;
 struct Tile;
 enum class Direction;
 enum class SpellIdentifier;
+enum class AnimationIdentifier;
 
 namespace Utilities
 {
@@ -12,6 +13,8 @@ namespace Utilities
 	float getDistanceBetween(const sf::Vector2i& pointA, const sf::Vector2i& pointB);
 
 	sf::Vector2i getCellIndex(const sf::Vector2f& pos);
+	//returns next cell from provided currentCell and direction
+	sf::Vector2i getNextCellIndex(const sf::Vector2i& currentCell, Direction dir);
 	sf::Vector2f getEntityPos(const Entity& entity);
 	//sometimes entities might change their position because of animations offsets
 	//because of this - other functions return wrong cell on grid
@@ -40,7 +43,8 @@ namespace Utilities
 
 	sf::Color lerpColor(const sf::Color& startColor, const sf::Color& endColor, float t);
 	bool isHealingSpell(SpellIdentifier spellid);
-
+	bool isSpellCastAnimation(AnimationIdentifier animId);
+	bool isAnAttackAnimation(AnimationIdentifier animId);
 	sf::Vector2f dirToVector(Direction dir);
 };
 

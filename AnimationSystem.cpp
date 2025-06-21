@@ -2,6 +2,7 @@
 #include "AnimationSystem.h"
 #include "Config.h"
 #include "Entity.h"
+#include "Utilities.h"
 
 AnimationSystem::AnimationSystem(SystemContext& systemContext, const AnimationHolder& animationHolder)
 	:ISystem(systemContext),
@@ -59,7 +60,6 @@ void AnimationSystem::applyCurrentFrame(const Entity& entity, AnimationComponent
 	}
 }
 
-
 void AnimationSystem::updateFrame(Entity& entity, AnimationComponent& animationComponent) 
 {
 	++animationComponent.cCurrentIndex;
@@ -102,22 +102,18 @@ void AnimationSystem::moveBackToStartingPosition(const Entity& entity, Animation
 		entity.getComponent<SpriteComponent>().cSprite.setPosition(animationComponent.cStartPosition);
 }
 
-bool AnimationSystem::isAnAttackAnimation(AnimationIdentifier id) const
-{
-	return id == AnimationIdentifier::Attack1 || id == AnimationIdentifier::Attack2 || id == AnimationIdentifier::Attack3;
-}
 
 void AnimationSystem::notifyAnimationFinished(Entity& entity, AnimationComponent& animationComponent)
 {
 	auto animId = animationComponent.cCurrentId;
-	if (isAnAttackAnimation(animId))
+	if (Utilities::isAnAttackAnimation(animId))
 	{
 		auto& attackComp = entity.getComponent<AttackComponent>();
 		attackComp.cLastAttackId = attackComp.cNextAttackId;
 		mSystemContext.eventManager.notify<AttackAnimationFinishedEvent>
 			(AttackAnimationFinishedEvent(entity, attackComp.cLastAttackData));
 	}
-	else if (animId == AnimationIdentifier::GenericSpellCast)
+	else if (Utilities::isSpellCastAnimation(animId))
 	{
 		auto spellid = entity.getComponent<SpellbookComponent>().cLastSpellId;
 		mSystemContext.eventManager.notify<CastSpellFinishedEvent>(CastSpellFinishedEvent(entity, spellid));
@@ -165,7 +161,7 @@ void AnimationSystem::registerToPlayAttackAnimationEvent()
 {
 	mSystemContext.eventManager.registerEvent<PlayAttackAnimationEvent>([this](const PlayAttackAnimationEvent& data)
 		{
-			if (isEntityAlreadyTracked(data.entity) || !isAnAttackAnimation(data.animId))
+			if (isEntityAlreadyTracked(data.entity) || !Utilities::isAnAttackAnimation(data.animId))
 				return;
 
 			auto dir = data.entity.getComponent<DirectionComponent>().cCurrentDir;
@@ -209,14 +205,14 @@ void AnimationSystem::registerToCastSpellAnimationEvent()
 				return;
 
 			auto dir = data.entity.getComponent<DirectionComponent>().cCurrentDir;
-			GenericAnimationKey key{ AnimationIdentifier::GenericSpellCast, dir };
+			GenericAnimationKey key{ data.animId, dir };
 			
 			auto& animComp = data.entity.getComponent<AnimationComponent>();
 			animComp.cFrames = &mAnimationHolder.get(key);
 			animComp.cApplyOffset = false;
 			animComp.cCurrentIndex = 0;
 			animComp.cTimer = 0.f;
-			animComp.cCurrentId = AnimationIdentifier::GenericSpellCast;
+			animComp.cCurrentId = key.id;
 			animComp.cFrameDuration = static_cast<float>(data.castTime) / static_cast<float>(animComp.cFrames->size());
 
 			mTrackedEntities.push_back(&data.entity);

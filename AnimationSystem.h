@@ -23,7 +23,6 @@ private:
 
     void setStateToIdle(const Entity& entity);
     void moveBackToStartingPosition(const Entity& entity, AnimationComponent& animationComponent);
-    bool isAnAttackAnimation(AnimationIdentifier id) const;
     void notifyAnimationFinished(Entity& entity, AnimationComponent& animationComponent);
     void removeFinishedEntities();
 

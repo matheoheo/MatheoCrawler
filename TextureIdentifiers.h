@@ -17,6 +17,9 @@ enum class TextureIdentifier
 	//toDo: add more attack icons
 	// add more spell icons
 	//Projectiles
-	WaterBall0
+	WaterBall0,
+	PureProjectile0,
+	Fireball0,
+	Bloodball0
 
 };

@@ -13,7 +13,6 @@ public:
 		const sf::Vector2i& minRoomSize, const sf::Vector2i& maxRoomSize);
 
 	void render(sf::RenderWindow& window) const;
-	void calculateVisibleTiles(const sf::Vector2f& centerPosition);
 
 	bool isTileWalkable(const Tile* tile) const;
 	bool isTileWalkable(int x, int y) const;
@@ -21,6 +20,7 @@ public:
 	bool isTileOccupied(int x, int y) const;
 	bool isBlockingSight(int x, int y) const;
 	bool isLineOfSightClear(const sf::Vector2i& fromCell, const sf::Vector2i& toCell) const;
+	bool isTileSolid(int x, int y) const;
 	sf::Vector2f getFirstWalkablePos() const;
 
 	std::vector<std::vector<Tile>>& getTiles();

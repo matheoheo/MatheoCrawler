@@ -39,7 +39,17 @@ void EntityFactory::spawnEntity(const sf::Vector2i& cellIndex, EntityType entTyp
 
 void EntityFactory::spawnProjectileEvent(const SpawnProjectileEvent& data)
 {
-	spawnProjectile(data);
+	auto casterDir = data.caster.getComponent<DirectionComponent>().cCurrentDir;
+	auto casterCellIndex = Utilities::getEntityCell(data.caster);
+
+	if (data.projId == SpellIdentifier::WaterBall)
+		spawnWaterBall(data, casterCellIndex, casterDir);
+	else if (data.projId == SpellIdentifier::PureProjectile)
+		spawnPureProjectiles(data, casterCellIndex, casterDir);
+	else if (data.projId == SpellIdentifier::Fireball)
+		spawnFireballProjectiles(data, casterCellIndex);
+	else if (data.projId == SpellIdentifier::Bloodball)
+		spawnBloodballProjectiles(data, casterCellIndex, casterDir);
 }
 
 void EntityFactory::addCommonComponents(Entity& entity, EntityType entType)
@@ -87,17 +97,26 @@ void EntityFactory::spawnPlayerEntity(const sf::Vector2i& cellIndex)
 	entity.addComponent<AttackSelectionComponent>();
 	entity.addComponent<PlayerManaBarComponent>();
 	entity.addComponent<RegenerationComponent>();
+	auto& assigned = entity.addComponent<AssignedSpellsComponent>();
 	auto& spells = entity.addComponent<SpellbookComponent>();
-	spells.cSpells.emplace(SpellIdentifier::HealthRegen, SpellInstance{
-		.data = &mSpellHolder.get(SpellIdentifier::HealthRegen),
-		.cooldownRemaining = 0 });
-	spells.cSpells.emplace(SpellIdentifier::ManaRegen, SpellInstance{
-		.data = &mSpellHolder.get(SpellIdentifier::ManaRegen),
-		.cooldownRemaining = 0 });
 
-	spells.cSpells.emplace(SpellIdentifier::WaterBall, SpellInstance{
-		.data = &mSpellHolder.get(SpellIdentifier::WaterBall),
-		.cooldownRemaining = 0 });
+	constexpr std::array<SpellIdentifier, 5> playerSpells =
+	{
+		SpellIdentifier::QuickHeal,
+		SpellIdentifier::ManaRegen,
+		SpellIdentifier::PureProjectile,
+		SpellIdentifier::WaterBall,
+		SpellIdentifier::Fireball
+	};
+
+	int i = 0;
+	for (auto id : playerSpells )
+	{
+		spells.cSpells.emplace(id, SpellInstance{ .data = &mSpellHolder.get(id)});
+		assigned.cAssignedSpells.emplace(i, &spells.cSpells.at(id));
+		++i;
+	}
+	
 	notifyTileOccupied(entity);
 
 }
@@ -164,7 +183,7 @@ float EntityFactory::getStatMultiplier() const
 	return std::pow(1.20f, Config::difficulityLevel - 1);
 }
 
-void EntityFactory::spawnProjectile(const SpawnProjectileEvent& data)
+void EntityFactory::spawnProjectile(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex, Direction casterDir)
 {
 	constexpr sf::Vector2f projectileSize{ 48.f, 48.f };
 
@@ -175,15 +194,14 @@ void EntityFactory::spawnProjectile(const SpawnProjectileEvent& data)
 		return;
 
 	auto& projData = spellData->projectile.value();
-	auto casterPos = Utilities::getEntityPos(data.caster);
-	auto casterDir = data.caster.getComponent<DirectionComponent>().cCurrentDir;
+	sf::Vector2f spawnPos{ cellIndex.x * Config::getCellSize().x, cellIndex.y * Config::getCellSize().y };
 	bool playerCasted = data.caster.hasComponent<PlayerComponent>();
 	sf::Vector2f offset{ Config::getCellSize().x / 2.f, Config::getCellSize().y / 2.f };
 
 	auto& entity = mEntityManager.createEntity();
 	auto& spriteComp = entity.addComponent<SpriteComponent>(getProjectileTexture(data.projId, *spellData));
 	spriteComp.cSprite.setOrigin(projectileSize * 0.5f);
-	spriteComp.cSprite.setPosition(casterPos + offset);
+	spriteComp.cSprite.setPosition(spawnPos + offset);
 	spriteComp.cSprite.setRotation(sf::degrees(getProjectileRotation(casterDir)));
 
 	auto& moveComp = entity.addComponent<MovementComponent>(projData.speed);
@@ -192,6 +210,59 @@ void EntityFactory::spawnProjectile(const SpawnProjectileEvent& data)
 	auto& projComp = entity.addComponent<ProjectileComponent>(projData, playerCasted);
 
 	mEventManager.notify<ProjectileSpawnedEvent>(ProjectileSpawnedEvent(entity));
+	std::cout << "Spawned at: " << cellIndex.x << ' ' << cellIndex.y << '\n';
+}
+
+void EntityFactory::spawnWaterBall(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex, Direction casterDir)
+{
+	auto spawnCell = Utilities::getNextCellIndex(cellIndex, casterDir);
+	spawnProjectile(data, spawnCell, casterDir);
+}
+
+void EntityFactory::spawnPureProjectiles(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex, Direction casterDir)
+{
+	std::vector<sf::Vector2i> cells;
+	if (casterDir == Direction::Up || casterDir == Direction::Bottom)
+		cells = std::vector<sf::Vector2i>{ {cellIndex.x - 1, cellIndex.y}, {cellIndex.x + 1, cellIndex.y} };
+	else if (casterDir == Direction::Left || casterDir == Direction::Right)
+		cells = std::vector<sf::Vector2i>{ {cellIndex.x, cellIndex.y - 1}, {cellIndex.x, cellIndex.y + 1} };
+	cells.push_back(cellIndex);
+
+	for (const auto& cell : cells)
+	{
+		
+		auto spawnCell = Utilities::getNextCellIndex(cell, casterDir);
+		spawnProjectile(data, spawnCell, casterDir);
+	}
+}
+
+void EntityFactory::spawnFireballProjectiles(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex)
+{
+	constexpr std::array<Direction, 4> dirs =
+	{
+		Direction::Up, Direction::Left, Direction::Bottom, Direction::Right
+	};
+
+	for (Direction dir : dirs)
+	{
+		auto spawnCell = Utilities::getNextCellIndex(cellIndex, dir);
+		spawnProjectile(data, spawnCell, dir);
+	}
+}
+
+void EntityFactory::spawnBloodballProjectiles(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex, Direction casterDir)
+{
+	std::vector<Direction> projDirections;
+	if (casterDir == Direction::Up || casterDir == Direction::Bottom)
+		projDirections = std::vector<Direction>{ Direction::Left, Direction::Right };
+	else if (casterDir == Direction::Left || casterDir == Direction::Right)
+		projDirections = std::vector<Direction>{ Direction::Up, Direction::Bottom };
+
+	for (Direction dir : projDirections)
+	{
+		auto spawnCell = Utilities::getNextCellIndex(cellIndex, dir);
+		spawnProjectile(data, spawnCell, dir);
+	}
 }
 
 float EntityFactory::getProjectileRotation(Direction dir) const
@@ -219,7 +290,18 @@ const sf::Texture& EntityFactory::getProjectileTexture(SpellIdentifier id, const
 	{
 		return mTextures.get(TextureIdentifier::WaterBall0);
 	}
-
+	else if (id == SpellIdentifier::PureProjectile)
+	{
+		return mTextures.get(TextureIdentifier::PureProjectile0);
+	}
+	else if (id == SpellIdentifier::Fireball)
+	{
+		return mTextures.get(TextureIdentifier::Fireball0);
+	}
+	else if (id == SpellIdentifier::Bloodball)
+	{
+		return mTextures.get(TextureIdentifier::Bloodball0);
+	}
 	//default return;
 	return mTextures.get(TextureIdentifier::WaterBall0);
 }

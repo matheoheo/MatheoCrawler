@@ -168,7 +168,7 @@ void PlayerStatusUI::createText(sf::Text& text)
 	sf::Vector2f origin{ bounds.size.x / 2.f, bounds.size.y / 2.f };
 	text.setOrigin(origin);
 }
-
+ 
 void PlayerStatusUI::updateText(sf::Text& text, int curr, int max)
 {
 	std::string currStr = std::to_string(curr);

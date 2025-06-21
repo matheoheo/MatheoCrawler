@@ -72,10 +72,13 @@ struct PlayCastSpellAnimation : public IEvent
 {
 	Entity& entity;
 	int castTime;
+	AnimationIdentifier animId;
 
-	PlayCastSpellAnimation(Entity& entity, int castTime)
+	PlayCastSpellAnimation(Entity& entity, int castTime, AnimationIdentifier animId)
 		:entity(entity),
-		castTime(castTime) {}
+		castTime(castTime),
+		animId(animId)
+	{}
 };
 
 struct PlayAttackAnimationEvent : public IEvent
@@ -322,11 +325,13 @@ struct CastSpellEvent : public IEvent
 	Entity& caster;
 	Entity* target;
 	SpellIdentifier spellId;
+	std::optional<sf::Keyboard::Key> usedKey;
 
-	CastSpellEvent(Entity& caster, Entity* target, SpellIdentifier id)
+	CastSpellEvent(Entity& caster, Entity* target, SpellIdentifier id, std::optional<sf::Keyboard::Key> key = {})
 		:caster(caster),
 		target(target),
-		spellId(id)
+		spellId(id),
+		usedKey(key)
 	{}
 };
 
@@ -339,6 +344,17 @@ struct CastSpellFinishedEvent : public IEvent
 	CastSpellFinishedEvent(Entity& caster, SpellIdentifier id)
 		:caster(caster),
 		id(id)
+	{}
+};
+
+struct StartSpellCooldownUIEvent : public IEvent
+{
+	sf::Keyboard::Key usedKey;
+	int& spellCd;
+
+	StartSpellCooldownUIEvent(sf::Keyboard::Key usedKey, int& spellCd)
+		:usedKey(usedKey),
+		spellCd(spellCd)
 	{}
 };
 
@@ -437,3 +453,4 @@ struct HitByProjectileEvent : public IEvent
 		playerCasted(playerCasted)
 	{}
 };
+

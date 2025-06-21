@@ -73,5 +73,11 @@ void Engine::preloadTextures()
 	mTextures.load(TextureIdentifier::Twarf,		 "assets/ui/twarf/twarfIcon.png");
 	mTextures.load(TextureIdentifier::Devoyer,		 "assets/ui/attIcons/devoyer.png");
 	mTextures.load(TextureIdentifier::WaterBall0,    "assets/entities/projectiles/waterball/Water__05.png");
+	mTextures.load(TextureIdentifier::PureProjectile0, "assets/entities/projectiles/pure/Pure_08.png");
+	mTextures.load(TextureIdentifier::Fireball0,  "assets/entities/projectiles/fireball/Fireball_01.png");
+	mTextures.load(TextureIdentifier::Bloodball0, "assets/entities/projectiles/bloodball/Blood_01.png");
+
+
+
 	mFonts.load(FontIdentifiers::Default, "assets/font/dungeonFont.ttf");
 }

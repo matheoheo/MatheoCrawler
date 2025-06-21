@@ -30,41 +30,6 @@ void TileMap::render(sf::RenderWindow& window) const
 	renderVisibleTiles(window);
 }
 
-void TileMap::calculateVisibleTiles(const sf::Vector2f& centerPosition)
-{
-	if (mTiles.empty())
-		return;
-
-	mVisibleTiles.clear();
-
-	const auto viewSize = mGameView.getSize();
-	const auto cellSize = Config::getCellSize();
-	const sf::Vector2f halfView(viewSize * 0.5f);
-
-	const sf::Vector2i cellsInHalf(static_cast<int>(halfView.x / cellSize.x), 
-		static_cast<int>(halfView.y / cellSize.y));
-	const sf::Vector2i myCell = Utilities::getCellIndex(centerPosition);
-	const int margin = 2; //how many more tiles outside view render
-	const int mapHeight = static_cast<int>(mTiles.size());
-	const int mapWidth = static_cast<int>(mTiles[0].size());
-
-	int minCellX = std::max(0, myCell.x - cellsInHalf.x - margin);
-	int maxCellX = std::min(myCell.x + cellsInHalf.x + margin, mapWidth);
-
-	int minCellY = std::max(0, myCell.y - cellsInHalf.y - margin);
-	int maxCellY = std::min(myCell.y + cellsInHalf.y + margin, mapHeight);
-
-	for (int y = minCellY; y < maxCellY; ++y)
-	{
-		for (int x = minCellX; x < maxCellX; ++x)
-		{
-			if (mTiles[y][x].tileType == TileType::None)
-				continue;
-			mVisibleTiles.push_back(&mTiles[y][x]);
-		}
-	}
-}
-
 bool TileMap::isTileWalkable(const Tile* tile) const
 {
 	if(!tile)
@@ -135,6 +100,14 @@ bool TileMap::isLineOfSightClear(const sf::Vector2i& fromCell, const sf::Vector2
 	}
 
 	return true;
+}
+
+bool TileMap::isTileSolid(int x, int y) const
+{
+	if (!isInMapBounds(x, y))
+		return true;
+
+	return !mTiles[y][x].isWalkableRaw();
 }
 
 sf::Vector2f TileMap::getFirstWalkablePos() const

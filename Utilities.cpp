@@ -6,6 +6,7 @@
 #include "TileMap.h"
 #include "Directions.h"
 #include "SpellIdentifiers.h"
+#include "AnimationIdentifiers.h"
 
 float Utilities::getDistanceBetween(const sf::Vector2f& pointA, const sf::Vector2f& pointB)
 {
@@ -25,6 +26,20 @@ sf::Vector2i Utilities::getCellIndex(const sf::Vector2f& pos)
 	int cellX = static_cast<int>(pos.x) / static_cast<int>(Config::getCellSize().x);
 	int cellY = static_cast<int>(pos.y) / static_cast<int>(Config::getCellSize().y);
 	return { cellX, cellY };
+}
+
+sf::Vector2i Utilities::getNextCellIndex(const sf::Vector2i& currentCell, Direction dir)
+{
+	if (dir == Direction::Up)
+		return currentCell + sf::Vector2i{ 0, -1 };
+	else if (dir == Direction::Bottom)
+		return currentCell + sf::Vector2i{ 0, 1 };
+	else if (dir == Direction::Left)
+		return currentCell + sf::Vector2i{ -1,0 };
+	else if (dir == Direction::Right)
+		return currentCell + sf::Vector2i{ 1, 0 };
+
+	return currentCell;
 }
 
 sf::Vector2f Utilities::getEntityPos(const Entity& entity)
@@ -188,6 +203,20 @@ bool Utilities::isHealingSpell(SpellIdentifier spellid)
 	};
 
 	return std::ranges::find(healingSpells, spellid) != std::ranges::end(healingSpells);
+}
+
+bool Utilities::isSpellCastAnimation(AnimationIdentifier animId)
+{
+	return animId == AnimationIdentifier::GenericSpellCast ||
+		   animId == AnimationIdentifier::GenericShoot;
+}
+
+bool Utilities::isAnAttackAnimation(AnimationIdentifier animId)
+{
+	return animId == AnimationIdentifier::Attack1 ||
+		   animId == AnimationIdentifier::Attack2 ||
+		   animId == AnimationIdentifier::Attack3;
+
 }
 
 sf::Vector2f Utilities::dirToVector(Direction dir)
