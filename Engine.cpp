@@ -72,6 +72,16 @@ void Engine::preloadTextures()
 	mTextures.load(TextureIdentifier::Suash,		 "assets/ui/suash/suashIcon.png");
 	mTextures.load(TextureIdentifier::Twarf,		 "assets/ui/twarf/twarfIcon.png");
 	mTextures.load(TextureIdentifier::Devoyer,		 "assets/ui/attIcons/devoyer.png");
+	mTextures.load(TextureIdentifier::QuickHealIcon, "assets/ui/spellIcons/healing/QuickHeal.png");
+	mTextures.load(TextureIdentifier::MajorHealIcon, "assets/ui/spellIcons/healing/MajorHeal.png");
+	mTextures.load(TextureIdentifier::HealthRegenIcon, "assets/ui/spellIcons/healing/HealthRegen.png");
+	mTextures.load(TextureIdentifier::ManaRegenIcon, "assets/ui/spellIcons/healing/ManaRegen.png");
+	mTextures.load(TextureIdentifier::WaterballIcon, "assets/ui/spellIcons/projectiles/waterball.png");
+	mTextures.load(TextureIdentifier::PureProjIcon, "assets/ui/spellIcons/projectiles/pure.png");
+	mTextures.load(TextureIdentifier::FireballIcon, "assets/ui/spellIcons/projectiles/fireball.png");
+	mTextures.load(TextureIdentifier::BloodballIcon, "assets/ui/spellIcons/projectiles/bloodball.png");
+
+
 	mTextures.load(TextureIdentifier::WaterBall0,    "assets/entities/projectiles/waterball/Water__05.png");
 	mTextures.load(TextureIdentifier::PureProjectile0, "assets/entities/projectiles/pure/Pure_08.png");
 	mTextures.load(TextureIdentifier::Fireball0,  "assets/entities/projectiles/fireball/Fireball_01.png");
@@ -79,5 +89,7 @@ void Engine::preloadTextures()
 
 
 
-	mFonts.load(FontIdentifiers::Default, "assets/font/dungeonFont.ttf");
+	mFonts.load(FontIdentifiers::Default, "assets/font/gameFont/dungeonFont.ttf");
+	mFonts.load(FontIdentifiers::UIFont, "assets/font/uiFont/unitblockFont.ttf");
+
 }

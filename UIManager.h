@@ -3,6 +3,7 @@
 #include "EventManager.h"
 #include "GameContext.h"
 #include "UIComponent.h"
+#include "Shop.h"
 class UIManager
 {
 public:
@@ -20,5 +21,6 @@ private:
 	Entity* player;
 	sf::View mUIView;
 	std::vector<std::unique_ptr<UIComponent>> mUIComponents;
+	std::unique_ptr<Shop> mShop;
 };
 

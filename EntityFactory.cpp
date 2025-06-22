@@ -97,6 +97,7 @@ void EntityFactory::spawnPlayerEntity(const sf::Vector2i& cellIndex)
 	entity.addComponent<AttackSelectionComponent>();
 	entity.addComponent<PlayerManaBarComponent>();
 	entity.addComponent<RegenerationComponent>();
+	entity.addComponent<StatisticsUpgradeComponent>();
 	auto& assigned = entity.addComponent<AssignedSpellsComponent>();
 	auto& spells = entity.addComponent<SpellbookComponent>();
 

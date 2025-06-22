@@ -2,5 +2,6 @@
 
 enum class FontIdentifiers
 {
-	Default
+	Default,
+	UIFont
 };

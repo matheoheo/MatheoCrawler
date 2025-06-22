@@ -20,6 +20,17 @@ void UIManager::processEvents(const sf::Event event)
 	{
 		comp->processEvents(event);
 	}
+
+	if (auto data = event.getIf<sf::Event::KeyReleased>())
+	{
+		if (data->code == sf::Keyboard::Key::M)
+		{
+			if (mShop)
+				mShop = nullptr;
+			else
+				mShop = std::make_unique<Shop>(mGameContext, *player);
+		}
+	}
 }
 
 void UIManager::update(const sf::Time& deltaTime)
@@ -28,6 +39,8 @@ void UIManager::update(const sf::Time& deltaTime)
 	{
 		comp->update({ 0.f, 0.f }, deltaTime);
 	}
+	if (mShop)
+		mShop->update({ 0.f, 0.f }, deltaTime);
 }
 
 void UIManager::render()
@@ -37,6 +50,8 @@ void UIManager::render()
 	{
 		comp->render();
 	}
+	if (mShop)
+		mShop->render();
 }
 
 void UIManager::setPlayer(Entity* entity)

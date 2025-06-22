@@ -194,6 +194,7 @@
     <ClCompile Include="IBehavior.cpp" />
     <ClCompile Include="IMapGenerator.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="IShopCategory.cpp" />
     <ClCompile Include="IState.cpp" />
     <ClCompile Include="ISystem.cpp" />
     <ClCompile Include="ITask.cpp" />
@@ -211,10 +212,13 @@
     <ClCompile Include="RegenerationSystem.cpp" />
     <ClCompile Include="PlayerResourcesUI.cpp" />
     <ClCompile Include="PlayerStatusUI.cpp" />
+    <ClCompile Include="Shop.cpp" />
     <ClCompile Include="SpellHolder.cpp" />
     <ClCompile Include="SpellSystem.cpp" />
     <ClCompile Include="StateManager.cpp" />
+    <ClCompile Include="StatisticsShopCategory.cpp" />
     <ClCompile Include="SystemManager.cpp" />
+    <ClCompile Include="TextButton.cpp" />
     <ClCompile Include="TileFadeSystem.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="UIComponent.cpp" />
@@ -269,6 +273,7 @@
     <ClInclude Include="IBehavior.h" />
     <ClInclude Include="IMapGenerator.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="IShopCategory.h" />
     <ClInclude Include="IState.h" />
     <ClInclude Include="ISystem.h" />
     <ClInclude Include="ITask.h" />
@@ -288,14 +293,17 @@
     <ClInclude Include="PlayerResourcesUI.h" />
     <ClInclude Include="PlayerStatusUI.h" />
     <ClInclude Include="Random.h" />
+    <ClInclude Include="Shop.h" />
     <ClInclude Include="SpellData.h" />
     <ClInclude Include="SpellHolder.h" />
     <ClInclude Include="SpellIdentifiers.h" />
     <ClInclude Include="SpellSystem.h" />
     <ClInclude Include="StateIdentifiers.h" />
     <ClInclude Include="StateManager.h" />
+    <ClInclude Include="StatisticsShopCategory.h" />
     <ClInclude Include="SystemContext.h" />
     <ClInclude Include="SystemManager.h" />
+    <ClInclude Include="TextButton.h" />
     <ClInclude Include="TextureIdentifiers.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileFadeSystem.h" />

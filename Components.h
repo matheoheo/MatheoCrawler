@@ -345,3 +345,8 @@ struct AssignedSpellsComponent : public IComponent
 	bool shifted;
 	std::map<int, SpellInstance*> cAssignedSpells; //in UI slots
 };
+
+struct StatisticsUpgradeComponent : public IComponent
+{
+	std::unordered_map<std::string, int> cUpgradesMap;
+};

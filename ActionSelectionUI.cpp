@@ -84,10 +84,10 @@ void ActionSelectionUI::createSpellSlots()
 	constexpr size_t slotCount = 5;
 	const std::array<SlotData, slotCount> slotDatas =
 	{
-		SlotData{TextureIdentifier::Devoyer, "Z", Key::Z},
-		SlotData{TextureIdentifier::Devoyer, "X", Key::X},
-		SlotData{TextureIdentifier::Devoyer, "C", Key::C},
-		SlotData{TextureIdentifier::Devoyer, "V", Key::V},
+		SlotData{TextureIdentifier::WaterballIcon, "Z", Key::Z},
+		SlotData{TextureIdentifier::PureProjIcon, "X", Key::X},
+		SlotData{TextureIdentifier::FireballIcon, "C", Key::C},
+		SlotData{TextureIdentifier::BloodballIcon, "V", Key::V},
 		SlotData{TextureIdentifier::Devoyer, "B", Key::B}
 	};
 	createSlotsList(slotDatas, pos);
