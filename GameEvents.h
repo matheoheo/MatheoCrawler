@@ -454,3 +454,8 @@ struct HitByProjectileEvent : public IEvent
 	{}
 };
 
+
+struct CloseShopEvent : public IEvent
+{
+	//no need for data
+};

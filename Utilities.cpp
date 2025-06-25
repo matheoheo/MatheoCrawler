@@ -236,3 +236,9 @@ sf::Vector2f Utilities::dirToVector(Direction dir)
 	}
 	return { 0.f, 0.f };
 }
+
+void Utilities::setTextOriginOnCenter(sf::Text& text)
+{
+	auto size = text.getGlobalBounds().size;
+	text.setOrigin(size * 0.5f);
+}

@@ -20,3 +20,8 @@ void IShopCategory::update(const sf::Vector2f& mousePosition, const sf::Time& de
 void IShopCategory::render()
 {
 }
+
+const std::string& IShopCategory::getCategoryName() const
+{
+	return mName;
+}

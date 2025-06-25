@@ -15,6 +15,17 @@ public:
 	TextButton(const sf::Font& font, const std::string& label, const unsigned int charSize = 30, const sf::Vector2f& position = sf::Vector2f(0.f, 0.f));
 	void setCallback(ButtonCallback callback);
 	void setPosition(const sf::Vector2f& position);
+	void setCharacterSize(unsigned int size);
+	void setDefaultColor(const sf::Color& color);
+	void setHoverColor(const sf::Color& color);
+	void setOriginOnCenter();
+	void setActiveState(bool state);
+	
+	sf::Vector2f getSize() const;
+	sf::Vector2f getPosition() const;
+	const sf::Color& getDefaultColor() const;
+	std::string getButtonString() const;
+
 	bool isPressed(sf::Event event);
 	void invoke();
 
@@ -24,5 +35,9 @@ public:
 private:
 	sf::Text mText;
 	ButtonCallback mCallback;
+	sf::Color mDefaultColor;
+	sf::Color mHoverColor;
+	sf::Color mInactiveColor;
+	bool mActive;
 };
 

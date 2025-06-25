@@ -29,12 +29,13 @@ void EntityDataRepository::createPlayerEntityData()
 
 	data.combatStats.cAttackDamage = 19;
 	data.combatStats.cAttackRange = 1;
-	data.combatStats.cAttackSpeed = 1.3f;
+	data.combatStats.cAttackSpeed = 1.1f;
 	data.combatStats.cDefence = 8;
 	data.combatStats.cHealth = 188;
 	data.combatStats.cMaxHealth = data.combatStats.cHealth;
 	data.combatStats.cMana = 100;
 	data.combatStats.cMaxMana = data.combatStats.cMana;
+	data.combatStats.cMagicDefence = 10;
 	data.cAttackDataMap = std::move(createPlayerAttackDataMap());
 
 	mEntityData.emplace(EntityType::Player, std::move(data));

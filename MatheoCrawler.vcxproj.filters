@@ -201,9 +201,6 @@
     <ClCompile Include="ActionSelectionUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="StateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -213,22 +210,7 @@
     <ClCompile Include="EntityFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RegenerationSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SpellHolder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SpellSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HealSpellSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjectileSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Shop.cpp">
@@ -242,6 +224,24 @@
     </ClCompile>
     <ClCompile Include="TextButton.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RegenerationSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectileSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="HealSpellSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SpellSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingState.cpp">
+      <Filter>Game Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -452,9 +452,6 @@
     <ClInclude Include="ActionSelectionUI.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="LoadingState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -467,9 +464,6 @@
     <ClInclude Include="EntityFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RegenerationSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SpellIdentifiers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -477,18 +471,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpellData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SpellSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HealSpellSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjectileSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Shop.h">
@@ -502,6 +484,24 @@
     </ClInclude>
     <ClInclude Include="TextButton.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="HealSpellSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="RegenerationSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingState.h">
+      <Filter>Game Logic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

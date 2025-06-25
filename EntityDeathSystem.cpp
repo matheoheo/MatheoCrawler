@@ -18,6 +18,20 @@ void EntityDeathSystem::update(const sf::Time& deltaTime)
 		mFinishedEntities.push_back(entity->getEntityId());
 	}
 	removeFinishedEntities();
+	//temporary
+
+	static sf::Clock c;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U))
+	{
+		if (c.getElapsedTime().asMilliseconds() > 1000.f)
+		{
+			for (auto& e : mSystemContext.entityManager.getEntitiesWithComponents<EnemyComponent>())
+			{
+				mSystemContext.eventManager.notify<EntityDiedEvent>(EntityDiedEvent(*e));
+			}
+			c.restart();
+		}
+	}
 }
 
 void EntityDeathSystem::registerToEvents()
@@ -44,7 +58,13 @@ void EntityDeathSystem::removeFinishedEntities()
 {
 	mDeadEntities.clear();
 	for (const auto& id : mFinishedEntities)
-		mSystemContext.entityManager.removeEntity(id);
+	{
+		Entity* ent = mSystemContext.entityManager.getEntity(id);
+		if (ent)
+		{
+			ent->getComponent<SpriteComponent>().cSprite.setPosition({ -500.f, -500.f });
+		}
+	}
 	mFinishedEntities.clear();
 }
 

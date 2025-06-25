@@ -12,7 +12,9 @@ public:
 	virtual void render() override;
 
 	virtual void create(const sf::Vector2f& pos, const sf::Vector2f& categorySize) = 0;
+	const std::string& getCategoryName() const;
 protected:
 	sf::Vector2f mIconSize;
+	std::string mName;
 };
 

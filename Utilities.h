@@ -46,5 +46,7 @@ namespace Utilities
 	bool isSpellCastAnimation(AnimationIdentifier animId);
 	bool isAnAttackAnimation(AnimationIdentifier animId);
 	sf::Vector2f dirToVector(Direction dir);
+
+	void setTextOriginOnCenter(sf::Text& text);
 };
 

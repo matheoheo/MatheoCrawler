@@ -15,7 +15,9 @@ public:
 	void setPlayer(Entity* entity);
 	void createUI();
 private:
-
+	void registerToEvents();
+	void registerToCloseShopEvent();
+	void handleShopEvents(const sf::Event event);
 private:
 	GameContext& mGameContext;
 	Entity* player;
