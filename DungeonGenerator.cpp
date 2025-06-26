@@ -13,10 +13,10 @@ IMapGenerator::GeneratedMap DungeonGenerator::generate(const sf::Vector2i& size,
     collectLeafNodes(rootNode);
     createRooms(minRoomSize);
     placeRoomsOnMap(map);
+    sortRooms();
     generateObstacles(map);
     createRoomConnections(map);
     addWalls(map);
-    sortRooms();
     populateSpawnPoints(map);
     return map;
 }
@@ -401,8 +401,13 @@ void DungeonGenerator::generateObstacles(GeneratedMap& map)
     const int maxChance = 100;
     const int minRoomArea = 35;
 
-    for (const auto& room : mRooms)
+    for (int i = -1; const auto& room : mRooms)
     {
+        //skip first room, because player spawns there.
+        ++i;
+        if (i == 0)
+            continue;
+
         int roomArea = getRoomArea(room);
         if (roomArea < minRoomArea)
             continue;

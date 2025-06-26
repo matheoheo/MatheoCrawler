@@ -5,7 +5,7 @@
 
 LoadingState::LoadingState(GameContext& gameContext, LoaderTaskVec taskQueue)
 	:IState(gameContext),
-	mLoadingSprite(gameContext.textures.get(TextureIdentifier::LoadingScreen)),
+	mLoadingSprite(gameContext.textures.get(TextureIdentifier::MattLogo)),
 	mGameLogo(gameContext.textures.get(TextureIdentifier::MattLogo)),
 	mLoadingText(gameContext.fonts.get(FontIdentifiers::Default)),
 	mStringIndex(0),
@@ -102,6 +102,8 @@ void LoadingState::runTasks()
 	for (const auto& task : mTasks)
 	{
 		task();
+		//std::this_thread::sleep_for(std::chrono::milliseconds(1250));
+
 	}
 
 	std::cout << "All tasks loaded\n";

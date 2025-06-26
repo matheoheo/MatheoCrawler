@@ -1,5 +1,7 @@
 #pragma once
 #include "UIComponent.h"
+struct ShopItem;
+
 class IShopCategory : public UIComponent
 {
 public:
@@ -11,10 +13,25 @@ public:
 	virtual void update(const sf::Vector2f& mousePosition, const sf::Time& deltaTime) override;
 	virtual void render() override;
 
-	virtual void create(const sf::Vector2f& pos, const sf::Vector2f& categorySize) = 0;
-	const std::string& getCategoryName() const;
+	void create(const sf::Vector2f& pos, const sf::Vector2f& categorySize);
+protected:
+	virtual void onCreate(const sf::Vector2f& pos, const sf::Vector2f& categorySize) = 0;
+	virtual void updateItemPrice(ShopItem& item) = 0;
+	virtual void upgrade(ShopItem& item) = 0;
+
+	int getUpgradeLevel(const std::string& upgradeName) const;
+	bool canBuy(const ShopItem& item) const;
+	void upgradeStatisticLevel(const ShopItem& item);
+	void notifyUIAfterBuy();
+	void tryBuy(ShopItem& item);
+
+	void createItemDescription(const sf::Vector2f& pos, const std::string& descText);
+	void removeItemDescription();
+	void renderItemDescription();
 protected:
 	sf::Vector2f mIconSize;
-	std::string mName;
+	sf::Vector2f mCategoryPos;
+	sf::Vector2f mCategorySize;
+	std::optional<sf::Text> mItemDescription;
 };
 

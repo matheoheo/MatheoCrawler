@@ -213,6 +213,8 @@
     <ClCompile Include="PlayerResourcesUI.cpp" />
     <ClCompile Include="PlayerStatusUI.cpp" />
     <ClCompile Include="Shop.cpp" />
+    <ClCompile Include="ShopData.cpp" />
+    <ClCompile Include="SpellcraftShopCategory.cpp" />
     <ClCompile Include="SpellHolder.cpp" />
     <ClCompile Include="SpellSystem.cpp" />
     <ClCompile Include="StateManager.cpp" />
@@ -294,6 +296,8 @@
     <ClInclude Include="PlayerStatusUI.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Shop.h" />
+    <ClInclude Include="ShopData.h" />
+    <ClInclude Include="SpellcraftShopCategory.h" />
     <ClInclude Include="SpellData.h" />
     <ClInclude Include="SpellHolder.h" />
     <ClInclude Include="SpellIdentifiers.h" />

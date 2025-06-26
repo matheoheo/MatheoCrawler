@@ -242,3 +242,43 @@ void Utilities::setTextOriginOnCenter(sf::Text& text)
 	auto size = text.getGlobalBounds().size;
 	text.setOrigin(size * 0.5f);
 }
+
+std::string Utilities::wrapText(const std::string& originalStr, const sf::Font& font, float maxWidth, unsigned int charSize)
+{
+	sf::Text text(font, "", charSize);
+	std::string wrappedText;
+
+	auto splitStr = originalStr | std::views::split(' ');
+	std::string fullLine = "";
+
+	for (const auto& wordView : splitStr)
+	{
+		std::string word{ std::ranges::begin(wordView), std::ranges::end(wordView) };
+		std::string potentialNewLine = "";
+
+		if (fullLine.empty())
+			potentialNewLine = word;
+		else
+			potentialNewLine = fullLine + " " + word;
+
+		text.setString(potentialNewLine);
+		auto textWidth = text.getLocalBounds().size.x;
+
+		if (textWidth >= maxWidth)
+		{
+			if (!fullLine.empty())
+				wrappedText += fullLine + "\n";
+			fullLine = word;
+		}
+		else
+		{
+			if (!fullLine.empty())
+				fullLine += " ";
+			fullLine += word;
+		}
+	}
+	if (!fullLine.empty())
+		wrappedText += fullLine;
+
+	return wrappedText;
+}

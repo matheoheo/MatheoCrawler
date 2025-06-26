@@ -52,6 +52,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{b3cc7bf7-5a13-4ccd-a36f-0a393f28b6c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shop">
+      <UniqueIdentifier>{33e04794-772b-4f39-b2c4-9647ba229f32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -204,22 +207,7 @@
     <ClCompile Include="StateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EntityDataRepository.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SpellHolder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IShopCategory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StatisticsShopCategory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextButton.cpp">
@@ -242,6 +230,27 @@
     </ClCompile>
     <ClCompile Include="LoadingState.cpp">
       <Filter>Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Shop.cpp">
+      <Filter>Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="IShopCategory.cpp">
+      <Filter>Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="SpellcraftShopCategory.cpp">
+      <Filter>Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="StatisticsShopCategory.cpp">
+      <Filter>Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityFactory.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityDataRepository.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ShopData.cpp">
+      <Filter>Shop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -458,12 +467,6 @@
     <ClInclude Include="StateIdentifiers.h">
       <Filter>Definitions</Filter>
     </ClInclude>
-    <ClInclude Include="EntityDataRepository.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SpellIdentifiers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -471,15 +474,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpellData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shop.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IShopCategory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StatisticsShopCategory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextButton.h">
@@ -502,6 +496,27 @@
     </ClInclude>
     <ClInclude Include="LoadingState.h">
       <Filter>Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityFactory.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityDataRepository.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="IShopCategory.h">
+      <Filter>Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="Shop.h">
+      <Filter>Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellcraftShopCategory.h">
+      <Filter>Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="StatisticsShopCategory.h">
+      <Filter>Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopData.h">
+      <Filter>Shop</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -48,5 +48,10 @@ namespace Utilities
 	sf::Vector2f dirToVector(Direction dir);
 
 	void setTextOriginOnCenter(sf::Text& text);
+
+	//This function breaks the text into words, and checks if adding next word will exceed the 'maxWidth' position.
+	//If it does, a new line character is inserted to word before that one.
+	std::string wrapText(const std::string& originalStr, const sf::Font& font,
+		float maxWidth, unsigned int charSize);
 };
 

@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Utilities.h"
 #include "TextButton.h"
+#include "ShopData.h"
 
 StatisticsShopCategory::StatisticsShopCategory(GameContext& gameContext, Entity& player)
 	:IShopCategory(gameContext, player),
@@ -35,33 +36,34 @@ void StatisticsShopCategory::update(const sf::Vector2f& mousePosition, const sf:
 	for (auto& item : mItems)
 	{
 		item.upgradeButton.update(mousePosition);
-		bool buyable = canUpgrade(item);
-		item.upgradeButton.setActiveState(buyable);
-
+		item.upgradeButton.setActiveState(canBuy(item));
 		if (item.interactionBounds.contains(mousePosition))
 		{
 			interactedItem = &item;
 		}
 	}
 
-	if (interactedItem && mDescriptionLines.empty())
+	if (interactedItem && !mItemDescription)
 	{
-		createDescription(*interactedItem);
+		onItemHover(*interactedItem);
 	}
-	else if (!interactedItem && !mDescriptionLines.empty())
+	else if (!interactedItem && mItemDescription)
 	{
-		clearDescription();
+		onItemUnhover();
 	}
 }
 
 void StatisticsShopCategory::render()
 {
 	for (const auto& item : mItems)
-		renderItem(item);
-	renderDescription();
+		ShopUtils::renderItem(mGameContext.window, item);
+	renderItemDescription();
+
+	for (const auto& statText : mStatDisplayTexts)
+		mGameContext.window.draw(statText);
 }
 
-void StatisticsShopCategory::create(const sf::Vector2f& pos, const sf::Vector2f& categorySize)
+void StatisticsShopCategory::onCreate(const sf::Vector2f& pos, const sf::Vector2f& categorySize)
 {
 	mCategoryWidth = categorySize.x;
 	createItems();
@@ -88,14 +90,14 @@ void StatisticsShopCategory::createItems()
 	for (const auto& data : itemsData)
 	{
 		tryMakeStatisticUpgradeData(data.name);
-		mItems.emplace_back(createItem(data));
+		mItems.emplace_back(ShopUtils::createItem(data, mGameContext.textures, mGameContext.fonts));
 	}
 
 	//add upgrade functionality
 	for (auto& item : mItems)
 	{
 		item.upgradeButton.setCallback([this, &item]() {
-			tryBuy(item);
+				tryBuy(item);
 			});
 	}
 }
@@ -109,8 +111,8 @@ void StatisticsShopCategory::positionItems(const sf::Vector2f& pos, const sf::Ve
 	itemPos.x += space;
 	for (auto& item : mItems)
 	{
-		positionItem(item, itemPos);
-		updateItemPriceVisual(item);
+		ShopUtils::positionItem(item, itemPos);
+		updateItemPrice(item);
 		itemPos.x += itemWidth + space;
 	}
 }
@@ -166,17 +168,6 @@ int StatisticsShopCategory::calculateItemCost(const ShopItem& item) const
 	return calculateItemCost(item.statType, upgradeLevel);
 }
 
-int StatisticsShopCategory::getUpgradeLevel(const std::string& upgradeName) const
-{
-	auto& statsComp = player.getComponent<StatisticsUpgradeComponent>();
-	auto& upgrades = statsComp.cUpgradesMap;
-
-	if (auto it = upgrades.find(upgradeName); it != std::end(upgrades))
-		return it->second;
-
-	return 0;
-}
-
 int StatisticsShopCategory::getStatTypeCost(StatType type) const
 {
 	switch (type)
@@ -193,76 +184,6 @@ int StatisticsShopCategory::getStatTypeCost(StatType type) const
 		return 800;
 	}
 	return 0;
-}
-
-StatisticsShopCategory::ShopItem StatisticsShopCategory::createItem(const ItemInitData& itemInit)
-{
-	const auto& font = mGameContext.fonts.get(FontIdentifiers::UIFont);
-	const auto& iconTexture = mGameContext.textures.get(itemInit.iconId);
-	const auto& currencyTexture = mGameContext.textures.get(TextureIdentifier::Suash);
-	ShopItem item(font, iconTexture, currencyTexture, itemInit.type);
-	item.itemName = itemInit.name;
-	Utilities::scaleSprite(item.itemVisual, mIconSize);
-
-	item.itemNameText.setCharacterSize(mCharSize);
-	item.itemNameText.setString(item.itemName);
-	item.itemNameText.setFillColor(sf::Color{ 230, 230, 230 });
-
-	Utilities::scaleSprite(item.currencySprite, sf::Vector2f(mCharSize, mCharSize));
-	item.itemCostText.setCharacterSize(mCharSize);
-	item.itemCostText.setString("57893"); //placeholder
-	item.itemCostText.setFillColor(sf::Color{ 255, 223, 50 });
-
-	item.upgradeButton.setCharacterSize(mCharSize);
-	item.upgradeButton.setOriginOnCenter();
-
-	return item;
-}
-
-void StatisticsShopCategory::positionItem(ShopItem& item, const sf::Vector2f& pos)
-{
-	constexpr float margin = 5.f;
-	item.itemVisual.setPosition(pos);
-
-	const float sprCenter{ pos.x + item.itemVisual.getGlobalBounds().size.x / 2 };
-	
-	const sf::Vector2f itemNamePos{ sprCenter, pos.y + mIconSize.y + margin };
-	item.itemNameText.setPosition(itemNamePos);
-	Utilities::setTextOriginOnCenter(item.itemNameText);
-
-	const sf::Vector2f itemCostPos{ sprCenter, itemNamePos.y + mCharSize + margin };
-	item.itemCostText.setPosition(itemCostPos);
-	Utilities::setTextOriginOnCenter(item.itemCostText);
-
-	const sf::Vector2f buttonPos{ sprCenter, itemCostPos.y + mCharSize + margin };
-	item.upgradeButton.setPosition(buttonPos);
-
-}
-
-void StatisticsShopCategory::renderItem(const ShopItem& item)
-{
-	auto& window = mGameContext.window;
-	window.draw(item.itemVisual);
-	window.draw(item.itemNameText);
-	window.draw(item.itemCostText);
-	window.draw(item.currencySprite);
-	item.upgradeButton.render(window);
-}
-
-void StatisticsShopCategory::updateItemPriceVisual(ShopItem& item)
-{
-	int price = calculateItemCost(item);
-	item.cost = price;
-	std::string priceStr = std::to_string(price);
-	item.itemCostText.setString(priceStr);
-	Utilities::setTextOriginOnCenter(item.itemCostText);
-
-	//set currency sprite so it preceedes itemCostText
-	const sf::Vector2f costPos{ item.itemCostText.getPosition() };
-	const sf::Vector2f currSize{ item.currencySprite.getGlobalBounds().size };
-	const sf::Vector2f currPos{ costPos.x - currSize.x - mCharSize, costPos.y - 3 };
-
-	item.currencySprite.setPosition(currPos);
 }
 
 float StatisticsShopCategory::calculateItemWidth() const
@@ -306,7 +227,7 @@ std::string StatisticsShopCategory::getStatDescription(StatType type) const
 	switch (type)
 	{
 	case StatType::Attack:
-		return "Boosts the damage you deal with each attack, enabling you to defeat enemies more quickly and efficiently.";
+		return "Boosts the damage you deal with each attack, enabling you to defeat enemies more quickly and efficiently. ";
 		break;
 	case StatType::AttackSpeed:
 		return "Improves how fast you can strike, letting you perform more attacks within a shorter time.";
@@ -324,57 +245,11 @@ std::string StatisticsShopCategory::getStatDescription(StatType type) const
 	return "";
 }
 
-void StatisticsShopCategory::createDescription(const ShopItem& item)
-{
-	mDescriptionLines.clear();
-
-	const auto& font = mGameContext.fonts.get(FontIdentifiers::UIFont);
-	auto desc = getStatDescription(item.statType);
-
-	auto splitDesc = std::views::split(desc, ' ');
-	auto start = std::ranges::begin(splitDesc);
-	auto end = std::ranges::end(splitDesc);
-	
-	for (auto it = start; it != end; ++it)
-	{
-		std::string_view strView{ std::ranges::begin(*it), std::ranges::end(*it) };
-		mDescriptionLines.emplace_back(font, std::string(strView), mDescCharSize);
-		mDescriptionLines.back().setFillColor(mDescColor);
-	}
-
-	positionDescriptionLines();
-	createCurrentStatText(item);
-}
-
-void StatisticsShopCategory::positionDescriptionLines()
-{
-	if (mDescriptionLines.empty())
-		return;
-
-	const float wordsMargin = mDescCharSize * 0.3f;
-	auto getNextPosX = [wordsMargin](const sf::Text& text)
-	{
-		return text.getPosition().x + text.getGlobalBounds().size.x + wordsMargin;
-	};
-	sf::Vector2f pos{ mDescriptionPos };
-	mDescriptionLines[0].setPosition(pos);
-	const float xMax = mDescriptionPos.x + mCategoryWidth;
-
-	for (size_t i = 1; i < mDescriptionLines.size(); ++i)
-	{
-		pos.x = getNextPosX(mDescriptionLines[i - 1]);
-		float thisWidth = mDescriptionLines[i].getGlobalBounds().size.x;
-		if (pos.x + thisWidth > xMax)
-		{
-			pos.x = mDescriptionPos.x;
-			pos.y += mDescCharSize + wordsMargin;
-		}
-		mDescriptionLines[i].setPosition(pos);
-	}
-}
-
 void StatisticsShopCategory::createCurrentStatText(const ShopItem& item)
 {
+	if (!mItemDescription)
+		return;
+
 	constexpr sf::Color currStrColor{150, 200, 255};
 	constexpr sf::Color currValueColor{255, 255, 255};
 	constexpr sf::Color arrowColor{ 136, 204, 255 };
@@ -409,9 +284,9 @@ void StatisticsShopCategory::createCurrentStatText(const ShopItem& item)
 	const sf::Font& font = mGameContext.fonts.get(FontIdentifiers::UIFont);
 	auto createText = [this, &font](const sf::Color& color, const std::string& str, const sf::Vector2f& pos)
 	{
-		mDescriptionLines.emplace_back(font, str, mDescCharSize);
-		mDescriptionLines.back().setPosition(pos);
-		mDescriptionLines.back().setFillColor(color);
+		mStatDisplayTexts.emplace_back(font, str, mDescCharSize);
+		mStatDisplayTexts.back().setPosition(pos);
+		mStatDisplayTexts.back().setFillColor(color);
 	};
 
 	const float wordsMargin = mDescCharSize * 0.3f;
@@ -419,25 +294,18 @@ void StatisticsShopCategory::createCurrentStatText(const ShopItem& item)
 	{
 		return text.getPosition().x + text.getGlobalBounds().size.x + wordsMargin;
 	};
-	sf::Vector2f pos{ mDescriptionPos.x, mDescriptionLines.back().getPosition().y + mDescCharSize*2 + wordsMargin };
+
+	const auto& descText = mItemDescription.value();
+	float posY = descText.getPosition().y + descText.getLocalBounds().size.y + ShopUtils::getItemDescSize() * 2;
+	sf::Vector2f pos{ mDescriptionPos.x, posY };
+
 	createText(currStrColor, currStr, pos);
-	pos.x = getNextPosX(mDescriptionLines.back());
+	pos.x = getNextPosX(mStatDisplayTexts.back());
 	createText(currValueColor, currValStr, pos);
-	pos.x = getNextPosX(mDescriptionLines.back());
+	pos.x = getNextPosX(mStatDisplayTexts.back());
 	createText(arrowColor, arrowStr, pos);
-	pos.x = getNextPosX(mDescriptionLines.back());
+	pos.x = getNextPosX(mStatDisplayTexts.back());
 	createText(newValueColor, nextValStr, pos);
-}
-
-void StatisticsShopCategory::renderDescription()
-{
-	for (const auto& desc : mDescriptionLines)
-		mGameContext.window.draw(desc);
-}
-
-void StatisticsShopCategory::clearDescription()
-{
-	mDescriptionLines.clear();
 }
 
 float StatisticsShopCategory::getIncreasePerLvl(StatType type) const
@@ -490,13 +358,7 @@ std::string StatisticsShopCategory::getStatValueStr(StatType type, const CombatS
 	return "";
 }
 
-bool StatisticsShopCategory::canUpgrade(const ShopItem& item) const
-{
-	const auto& goldComp = player.getComponent<PlayerResourcesComponent>();
-	return goldComp.cGold >= item.cost;
-}
-
-void StatisticsShopCategory::upgradeStat(const ShopItem& item)
+void StatisticsShopCategory::upgrade(ShopItem& item)
 {
 	float increase = getIncreasePerLvl(item.statType);
 	int i_increase = static_cast<int>(increase);
@@ -520,26 +382,32 @@ void StatisticsShopCategory::upgradeStat(const ShopItem& item)
 	case StatType::MagicDefence:
 		stats.cMagicDefence += i_increase;
 	};
-
-	auto& upgradeStats = player.getComponent<StatisticsUpgradeComponent>();
-	auto& upgMap = upgradeStats.cUpgradesMap;
-
-	if (upgMap.contains(item.itemName))
-		upgMap.at(item.itemName)++;
-
-	mGameContext.eventManager.notify<UpdatePlayerStatusEvent>(UpdatePlayerStatusEvent());
-	mGameContext.eventManager.notify<UpdatePlayerResourcesEvent>(UpdatePlayerResourcesEvent());
-
 }
 
-bool StatisticsShopCategory::tryBuy(ShopItem& item)
+void StatisticsShopCategory::updateItemPrice(ShopItem& item)
 {
-	if(!canUpgrade(item))
-		return false;
+	int price = calculateItemCost(item);
+	item.cost = price;
+	std::string priceStr = std::to_string(price);
+	item.itemCostText.setString(priceStr);
+	Utilities::setTextOriginOnCenter(item.itemCostText);
 
-	auto& goldComp = player.getComponent<PlayerResourcesComponent>();
-	goldComp.cGold -= item.cost;
-	upgradeStat(item);
-	updateItemPriceVisual(item);
-	clearDescription();
+	//set currency sprite so it preceedes itemCostText
+	const sf::Vector2f costPos{ item.itemCostText.getPosition() };
+	const sf::Vector2f currSize{ item.currencySprite.getGlobalBounds().size };
+	const sf::Vector2f currPos{ costPos.x - currSize.x - mCharSize, costPos.y - 3 };
+
+	item.currencySprite.setPosition(currPos);
+}
+
+void StatisticsShopCategory::onItemHover(const ShopItem& item)
+{
+	createItemDescription(mDescriptionPos, getStatDescription(item.statType));
+	createCurrentStatText(item);
+}
+
+void StatisticsShopCategory::onItemUnhover()
+{
+	removeItemDescription();
+	mStatDisplayTexts.clear();
 }
