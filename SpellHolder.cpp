@@ -6,17 +6,16 @@ SpellHolder::SpellHolder()
     initalizeSpells();
 }
 
-void SpellHolder::initalizeSpells()
+SpellHolder& SpellHolder::getInstance()
 {
-    createMajorHeal();
-    createQuickHeal();
-    createHealthRegen();
-    createManaRegen();
+    static SpellHolder holder;
+    return holder;
+}
 
-    createWaterBall();
-    createPureProjectile();
-    createFireball();
-    createBloodball();
+SpellData& SpellHolder::get(SpellIdentifier id)
+{
+    assert(mSpellsMap.contains(id));
+    return mSpellsMap.at(id);
 }
 
 const SpellData& SpellHolder::get(SpellIdentifier id) const
@@ -29,6 +28,19 @@ const SpellDefinition& SpellHolder::getDefinition(SpellIdentifier id) const
 {
     assert(mDefinitions.contains(id));
     return mDefinitions.at(id);
+}
+
+void SpellHolder::initalizeSpells()
+{
+    createMajorHeal();
+    createQuickHeal();
+    createHealthRegen();
+    createManaRegen();
+
+    createWaterBall();
+    createPureProjectile();
+    createFireball();
+    createBloodball();
 }
 
 void SpellHolder::createQuickHeal()
@@ -46,10 +58,10 @@ void SpellHolder::createQuickHeal()
     mDefinitions[id] = SpellDefinition{
         .data = &mSpellsMap[id],
         .spellInfo{
-            .name = "Ridiculus",
+            .name = "Vita Resurgo",
             .shortDescription = "Quick Heal.",
             .longDescription = "Restores a small amount of health points at a low cost.",
-            .textureId = TextureIdentifier::Devoyer //placeholder
+            .textureId = TextureIdentifier::QuickHealIcon   
         }
     };
 }
@@ -72,7 +84,7 @@ void SpellHolder::createMajorHeal()
          .name = "Restorer",
          .shortDescription = "Major Heal.",
          .longDescription = "Heals for a significant part of health points.",
-         .textureId = TextureIdentifier::Devoyer //placeholder
+         .textureId = TextureIdentifier::MajorHealIcon //placeholder
      }
     };
 }
@@ -99,7 +111,7 @@ void SpellHolder::createHealthRegen()
          .name = "Bloodrush",
          .shortDescription = "Health Regeneration.",
          .longDescription = "Boosts restoring health points for a few seconds.",
-         .textureId = TextureIdentifier::Devoyer //placeholder
+         .textureId = TextureIdentifier::HealthRegenIcon //placeholder
      }
     };
 }
@@ -126,7 +138,7 @@ void SpellHolder::createManaRegen()
          .name = "Harmony",
          .shortDescription = "Mana Regeneration.",
          .longDescription = "Brings calmness to your soul, granting increased mana regeneration.",
-         .textureId = TextureIdentifier::Devoyer //placeholder
+         .textureId = TextureIdentifier::ManaRegenIcon //placeholder
      }
     };
 }
@@ -160,7 +172,7 @@ void SpellHolder::createWaterBall()
          .name = "Aqua Balloon",
          .shortDescription = "Water Ball Projectile.",
          .longDescription = "Launches a concentrated orb of water in a straight line that travels quickly.",
-         .textureId = TextureIdentifier::Devoyer //placeholder
+         .textureId = TextureIdentifier::WaterballIcon //placeholder
      }
     };
 }
@@ -193,7 +205,7 @@ void SpellHolder::createPureProjectile()
          .name = "Salver",
          .shortDescription = "Triple Shot.",
          .longDescription = "Fires 3 bullets in looking direction, allowing you to hit several targets.",
-         .textureId = TextureIdentifier::Devoyer //placeholder
+         .textureId = TextureIdentifier::PureProjIcon //placeholder
      }
     };
 }
@@ -226,7 +238,7 @@ void SpellHolder::createFireball()
          .name = "Fireball",
          .shortDescription = "The blaze of the fire.",
          .longDescription = "Cast a powerful spell that realeses blazing fireballs outward in all four directions.",
-         .textureId = TextureIdentifier::Devoyer //placeholder
+         .textureId = TextureIdentifier::FireballIcon //placeholder
      }
     };
 }
@@ -259,7 +271,7 @@ void SpellHolder::createBloodball()
          .name = "Bloodball",
          .shortDescription = "Cursed blood energy.",
          .longDescription = "A sphere charget with energy of spilled blood, designed to hit hard and leave its mark.",
-         .textureId = TextureIdentifier::Devoyer //placeholder
+         .textureId = TextureIdentifier::BloodballIcon //placeholder
      }
     };
 }

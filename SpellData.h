@@ -3,6 +3,7 @@
 #include "SpellIdentifiers.h"
 #include "TextureIdentifiers.h"
 
+
 struct ProjectileSpell
 {
 	int minDmg = 0;
@@ -35,7 +36,6 @@ struct SpellInstance
 	const SpellData* data = nullptr;
 	int cooldownRemaining = 0;
 	int durationRemaining = 0;
-	int spellLevel = 0;
 };
 
 struct SpellInfo

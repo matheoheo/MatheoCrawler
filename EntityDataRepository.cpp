@@ -27,7 +27,7 @@ void EntityDataRepository::createPlayerEntityData()
 	data.moveSpeed = 165.f;
 	data.fovRange = 5;
 
-	data.combatStats.cAttackDamage = 19;
+	data.combatStats.cAttackDamage = 23;
 	data.combatStats.cAttackRange = 1;
 	data.combatStats.cAttackSpeed = 1.1f;
 	data.combatStats.cDefence = 8;
@@ -52,7 +52,7 @@ void EntityDataRepository::createSkletorusEntityData()
 	data.combatStats.cAttackRange = 1;
 	data.combatStats.cAttackSpeed = 1.1f;
 	data.combatStats.cDefence = 2;
-	data.combatStats.cHealth = 43;
+	data.combatStats.cHealth = 33;
 	data.combatStats.cMaxHealth = data.combatStats.cHealth;
 
 	data.cAttackDataMap = createSimpleMeleeAttackDataMap();
@@ -63,14 +63,14 @@ void EntityDataRepository::createBonvikEntityData()
 {
 	BaseEntityData data;
 	data.tag = "Bonvik";
-	data.moveSpeed = 125.f;
+	data.moveSpeed = 120.f;
 	data.fovRange = 4;
 
 	data.combatStats.cAttackDamage = 11;
 	data.combatStats.cAttackRange = 1;
 	data.combatStats.cAttackSpeed = 0.9f;
-	data.combatStats.cDefence = 4;
-	data.combatStats.cHealth = 51;
+	data.combatStats.cDefence = 3;
+	data.combatStats.cHealth = 46;
 	data.combatStats.cMaxHealth = data.combatStats.cHealth;
 
 	data.cAttackDataMap = createDualStrikeMeleeAttackDataMap();

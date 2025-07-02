@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Shop.h"
 #include "StatisticsShopCategory.h"
+#include "SpellcraftShopCategory.h"
 #include "Config.h"
 #include "Utilities.h"
 
@@ -127,10 +128,10 @@ void Shop::createCategoriesCallbacks()
 			onCategoryPress(0);
 		},
 		[this]() {
-
 		},
 		[this]() {
-
+			mActiveCategory = std::make_unique<SpellcraftShopCategory>(mGameContext, player);
+			onCategoryPress(2);
 		}
 	};
 

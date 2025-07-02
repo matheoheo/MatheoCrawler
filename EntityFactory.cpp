@@ -10,11 +10,10 @@
 
 
 EntityFactory::EntityFactory(EntityManager& entityManager, AssetManager<TextureIdentifier, sf::Texture>& textures,
-	BehaviorContext& behaviorContext, EventManager& eventManager, SpellHolder& spellHolder)
+	BehaviorContext& behaviorContext, EventManager& eventManager)
     :mEntityManager(entityManager),
     mTextures(textures),
 	mBehaviorContext(behaviorContext),
-	mSpellHolder(spellHolder),
 	mEventManager(eventManager)
 {
 }
@@ -113,7 +112,7 @@ void EntityFactory::spawnPlayerEntity(const sf::Vector2i& cellIndex)
 	int i = 0;
 	for (auto id : playerSpells )
 	{
-		spells.cSpells.emplace(id, SpellInstance{ .data = &mSpellHolder.get(id)});
+		spells.cSpells.emplace(id, SpellInstance{ .data = &SpellHolder::getInstance().get(id)});
 		assigned.cAssignedSpells.emplace(i, &spells.cSpells.at(id));
 		++i;
 	}

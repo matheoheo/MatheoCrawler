@@ -45,6 +45,5 @@ private:
     Pathfinder mPathfinder;
     BehaviorContext mBehaviorContext;
     UIManager mUIManager;
-    SpellHolder mSpellHolder;
 };
 

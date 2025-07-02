@@ -92,3 +92,32 @@ sf::Text ShopUtils::createItemDescription(const sf::Font& font, const std::strin
 
 	return text;
 }
+
+float ShopUtils::getItemWidth(const ShopItem& item)
+{
+	constexpr float margin = 10.f;
+	float max = 0.f;
+
+	auto updateBounds = [&](const sf::FloatRect& bounds)
+	{
+		max = std::max(max, bounds.size.x);
+	};
+
+	updateBounds(item.itemNameText.getGlobalBounds());
+	updateBounds(item.itemCostText.getGlobalBounds());
+	updateBounds(item.itemVisual.getGlobalBounds());
+
+	float res = max + margin;
+	return res;
+}
+
+float ShopUtils::getItemHeight(const ShopItem& item)
+{
+	constexpr float margin = 5.f;
+
+	auto sprPos = item.itemVisual.getPosition();
+	auto btnPos = item.upgradeButton.getPosition();
+	auto btnHeight = item.upgradeButton.getSize().y;
+
+	return ((btnPos.y + btnHeight) - sprPos.y) + margin;
+}

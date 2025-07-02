@@ -1,5 +1,6 @@
 #pragma once
 #include "IShopCategory.h"
+#include "ISpellUpgradeStrategy.h"
 class SpellcraftShopCategory :
     public IShopCategory
 {
@@ -14,9 +15,32 @@ public:
 protected:
     // Inherited via IShopCategory
     virtual void onCreate(const sf::Vector2f& pos, const sf::Vector2f& categorySize) override;
-private:
+	virtual void updateItemPrice(ShopItem& item) override;
+	virtual void upgrade(ShopItem& item) override;
+	virtual std::string getItemDescriptionStr(const ShopItem& item) const override;
+	virtual void createStatUpgradeTexts(const ShopItem& item);
 
+	void createStatTypeToSpellIdMap();
+	void createSpellUpgrades();
 private:
+	struct SpellShopMapping {
+		SpellIdentifier spellId;
+		StatType statType;
+	};
 
+	//creates buttons to differentiate between different classes of spells - Healing/Attacking, etc.
+	void createSpellsCategories();
+	void onSpellCategoryPress(size_t id);
+	std::vector<ItemInitData> getRestorationItemsInitData() const;
+	std::vector<ItemInitData> getProjectilesItemsInitData() const;
+	std::vector<ItemInitData> createItemInitData(std::span<const SpellShopMapping> spellsData) const;
+
+	int calculateSpellCost(const ShopItem& item) const;
+	int getBasicItemCost(StatType type) const;
+	float getStatIncrease(StatType type) const;
+private:
+	std::vector<TextButton> mSpellCategories;
+	std::unordered_map<StatType, SpellIdentifier> mStatTypeToSpellIdMap;
+	std::unordered_map<StatType, std::unique_ptr<ISpellUpgradeStrategy>> mSpellUpgrades;
+	static constexpr size_t mSpellTypesCount = static_cast<size_t>(SpellType::Count);
 };
-

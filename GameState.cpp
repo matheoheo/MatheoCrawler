@@ -123,7 +123,7 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<BehaviorAIUpdateSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<OnHitSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<TileFadeSystem>(mSystemContext));
-	mSystemManager.addSystem(std::make_unique<EntitySpawnerSystem>(mSystemContext, mGameContext.textures, mBehaviorContext, mSpellHolder));
+	mSystemManager.addSystem(std::make_unique<EntitySpawnerSystem>(mSystemContext, mGameContext.textures, mBehaviorContext));
 	mSystemManager.addSystem(std::make_unique<RegenerationSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<SpellSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<HealSpellSystem>(mSystemContext));

@@ -2,12 +2,14 @@
 #include "IShopCategory.h"
 #include "Config.h"
 #include "Entity.h"
-#include "ShopData.h"
 
 IShopCategory::IShopCategory(GameContext& gameContext, Entity& player)
-	:UIComponent(gameContext, player)
+	:UIComponent(gameContext, player),
+	mItemsPerRow(0),
+	mDescCharSize(ShopUtils::getItemDescSize()),
+	mCharSize(ShopUtils::getItemCharSize())
 {
-	float iconSize = Config::fWindowSize.x * 0.035;
+	float iconSize = Config::fWindowSize.x * 0.035f;
 	mIconSize = { iconSize, iconSize };
 }
 
@@ -30,7 +32,6 @@ void IShopCategory::create(const sf::Vector2f& pos, const sf::Vector2f& category
 
 	onCreate(pos, categorySize);
 }
-
 
 int IShopCategory::getUpgradeLevel(const std::string& upgradeName) const
 {
@@ -74,23 +75,242 @@ void IShopCategory::tryBuy(ShopItem& item)
 	upgrade(item);
 	upgradeStatisticLevel(item);
 	updateItemPrice(item);
-
+	onItemUnhover();
 	notifyUIAfterBuy();
 }
 
-void IShopCategory::createItemDescription(const sf::Vector2f& pos, const std::string& descText)
+void IShopCategory::createItemDescription(const std::string& descText)
 {
 	const sf::Font& font = mGameContext.fonts.get(FontIdentifiers::UIFont);
-	mItemDescription = ShopUtils::createItemDescription(font, descText, pos, mCategorySize.x);
+	mItemDescription = ShopUtils::createItemDescription(font, descText, mDescriptionPos, mCategorySize.x);
 }
 
 void IShopCategory::removeItemDescription()
 {
-	mItemDescription = std::nullopt;
+	mItemDescription = {};
 }
 
 void IShopCategory::renderItemDescription()
 {
 	if (mItemDescription)
 		mGameContext.window.draw(mItemDescription.value());
+}
+
+void IShopCategory::setDescriptionPos(const sf::Vector2f& categoryPos)
+{
+	const auto& first = mItems[0];
+	mDescriptionPos.x = categoryPos.x;
+	mDescriptionPos.y = first.interactionBounds.position.y + first.interactionBounds.size.y + mDescCharSize * 2;
+}
+
+void IShopCategory::createItems(std::span<const ItemInitData> itemsData)
+{
+	generateItems(itemsData);
+	positionItems(mItemsPerRow);
+	createItemsBounds();
+	createOnUpgradeFunctionality();
+}
+
+void IShopCategory::generateItems(std::span<const ItemInitData> itemsData)
+{
+	for (const auto& data : itemsData)
+	{
+		tryMakeStatisticUpgradeData(data.name);
+		mItems.emplace_back(ShopUtils::createItem(data, mGameContext.textures, mGameContext.fonts));
+	}
+}
+
+void IShopCategory::positionItems(int itemsPerRow)
+{
+	if (mItems.empty())
+		return;
+
+	float itemWidth = ShopUtils::getItemWidth(mItems[0]);
+	float space = (mCategorySize.x - (itemWidth * itemsPerRow)) / (itemsPerRow + 1);
+	sf::Vector2f itemPos{ mCategoryPos };
+
+	itemPos.x += space;
+	for (auto& item : mItems)
+	{
+		ShopUtils::positionItem(item, itemPos);
+		updateItemPrice(item);
+		itemPos.x += itemWidth + space;
+	}
+}
+
+void IShopCategory::createItemsBounds()
+{
+	if (mItems.empty())
+		return;
+
+	float height = ShopUtils::getItemHeight(mItems[0]);
+
+	auto updateLR = [](const sf::FloatRect& rect, float& left, float& right)
+	{
+		left = std::min(left, rect.position.x);
+		right = std::max(right, rect.position.x + rect.size.x);
+	};
+
+	for (auto& item : mItems)
+	{
+		float left = std::numeric_limits<float>::max();
+		float right = std::numeric_limits<float>::min();
+
+		updateLR(item.itemVisual.getGlobalBounds(), left, right);
+		updateLR(item.itemCostText.getGlobalBounds(), left, right);
+		updateLR(item.itemNameText.getGlobalBounds(), left, right);
+
+		const float width = right - left;
+		const sf::Vector2f pos{ left, item.itemVisual.getPosition().y };
+		const sf::Vector2f size{ width, height };
+
+		item.interactionBounds = sf::FloatRect(pos, size);
+	}
+}
+
+void IShopCategory::createOnUpgradeFunctionality()
+{
+	for (auto& item : mItems)
+	{
+		item.upgradeButton.setCallback([this, &item]() 
+			{
+				tryBuy(item);
+			});
+	}
+}
+
+void IShopCategory::renderItems()
+{
+	for (const auto& item : mItems)
+		ShopUtils::renderItem(mGameContext.window, item);
+}
+
+void IShopCategory::tryMakeStatisticUpgradeData(const std::string& name)
+{
+	//This function will create upgrade data on the first entrance.
+	//This is best place to put this in, try_emplace will not override anyway.
+	auto& statsComp = player.getComponent<StatisticsUpgradeComponent>();
+	auto& upgrades = statsComp.cUpgradesMap;
+
+	upgrades.try_emplace(name, 1);
+}
+
+void IShopCategory::updateItemsAndDescription(const sf::Vector2f& mousePos)
+{
+	const ShopItem* hoveredItem = nullptr;
+	for (auto& item : mItems)
+	{
+		item.upgradeButton.update(mousePos);
+		item.upgradeButton.setActiveState(canBuy(item));
+		if (item.interactionBounds.contains(mousePos))
+		{
+			hoveredItem = &item;
+			break;
+		}
+	}
+
+	if (hoveredItem && !mItemDescription)
+	{
+		onItemHover(*hoveredItem);
+	}
+	else if (!hoveredItem && mItemDescription)
+	{
+		onItemUnhover();
+	}
+}
+
+void IShopCategory::onItemHover(const ShopItem& item)
+{
+	createItemDescription(getItemDescriptionStr(item));
+	createStatUpgradeTexts(item);
+}
+
+void IShopCategory::onItemUnhover()
+{
+	removeItemDescription();
+	mStatUpgradeTexts.clear();
+}
+
+void IShopCategory::renderStatsUpgradeText()
+{
+	for (const auto& text : mStatUpgradeTexts)
+		mGameContext.window.draw(text);
+}
+
+void IShopCategory::makeUpgradeText(const sf::Vector2f& pos, const std::string& upgradeName, const std::string& currValue, const std::string& nextValue)
+{
+	if (!mItemDescription)
+		return;
+
+	constexpr sf::Color currStrColor{ 150, 200, 255 };
+	constexpr sf::Color currValueColor{ 255, 255, 255 };
+	constexpr sf::Color arrowColor{ 136, 204, 255 };
+	constexpr sf::Color newValueColor{ 0, 204, 102 };
+
+	const auto& combStats = player.getComponent<CombatStatsComponent>();
+	std::string currStr = "Current " + upgradeName + ":";
+	std::string arrowStr = "->";
+
+	const sf::Font& font = mGameContext.fonts.get(FontIdentifiers::UIFont);
+	auto createText = [this, &font](const sf::Color& color, const std::string& str, const sf::Vector2f& pos)
+	{
+		mStatUpgradeTexts.emplace_back(font, str, mDescCharSize);
+		mStatUpgradeTexts.back().setPosition(pos);
+		mStatUpgradeTexts.back().setFillColor(color);
+	};
+
+	const float wordsMargin = mDescCharSize * 0.3f;
+	auto getNextPosX = [wordsMargin](const sf::Text& text)
+	{
+		return text.getPosition().x + text.getGlobalBounds().size.x + wordsMargin;
+	};
+
+	const auto& descText = mItemDescription.value();
+	float posY = descText.getPosition().y + descText.getLocalBounds().size.y + ShopUtils::getItemDescSize() * 2;
+
+	sf::Vector2f textPos{ pos };
+	createText(currStrColor, currStr, textPos);
+
+	textPos.x = getNextPosX(mStatUpgradeTexts.back());
+	createText(currValueColor, currValue, textPos);
+
+	textPos.x = getNextPosX(mStatUpgradeTexts.back());
+	createText(arrowColor, arrowStr, textPos);
+
+	textPos.x = getNextPosX(mStatUpgradeTexts.back());
+	createText(newValueColor, nextValue, textPos);
+}
+
+sf::Vector2f IShopCategory::getNextUpgradeTextPos() const
+{
+	if (!mItemDescription)
+		return {};
+	float posX = 0.f;
+	float posY = 0.f;
+	if (mStatUpgradeTexts.empty())
+	{
+		const auto& descText = mItemDescription.value();
+		posX = mDescriptionPos.x;
+		posY = descText.getPosition().y + descText.getLocalBounds().size.y + ShopUtils::getItemDescSize() * 2;
+	}
+	else
+	{
+		const auto& last = mStatUpgradeTexts.back();
+		posX = mDescriptionPos.x;
+		posY = last.getPosition().y + last.getLocalBounds().size.y + ShopUtils::getItemDescSize();
+	}
+
+	return { posX, posY };
+}
+
+void IShopCategory::processUpgradeButtonEvents(const sf::Event event)
+{
+	for (auto& item : mItems)
+	{
+		if (item.upgradeButton.isPressed(event))
+		{
+			item.upgradeButton.invoke();
+			return;
+		}
+	}
 }
