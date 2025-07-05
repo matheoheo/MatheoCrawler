@@ -204,13 +204,7 @@
     <ClCompile Include="ActionSelectionUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="StateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SpellHolder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RegenerationSystem.cpp">
@@ -252,16 +246,31 @@
     <ClCompile Include="ShopData.cpp">
       <Filter>Shop</Filter>
     </ClCompile>
-    <ClCompile Include="ISpellUpgradeStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HealingSpellUpgradeStrategy.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Shop</Filter>
     </ClCompile>
-    <ClCompile Include="RegenSpellUpgradeStrategy.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ISpellUpgradeStrategy.cpp">
+      <Filter>Shop</Filter>
     </ClCompile>
     <ClCompile Include="ProjectileSpellUpgradeStrategy.cpp">
+      <Filter>Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="RegenSpellUpgradeStrategy.cpp">
+      <Filter>Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="TextButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicRangedBehavior.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PositioningAISystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFollowSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -473,22 +482,10 @@
     <ClInclude Include="ActionSelectionUI.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="StateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StateIdentifiers.h">
       <Filter>Definitions</Filter>
     </ClInclude>
-    <ClInclude Include="SpellIdentifiers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SpellHolder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SpellData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EffectSystem.h">
@@ -530,16 +527,37 @@
     <ClInclude Include="ShopData.h">
       <Filter>Shop</Filter>
     </ClInclude>
-    <ClInclude Include="ISpellUpgradeStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="HealingSpellUpgradeStrategy.h">
-      <Filter>Header Files</Filter>
+      <Filter>Shop</Filter>
     </ClInclude>
-    <ClInclude Include="RegenSpellUpgradeStrategy.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ISpellUpgradeStrategy.h">
+      <Filter>Shop</Filter>
     </ClInclude>
     <ClInclude Include="ProjectileSpellUpgradeStrategy.h">
+      <Filter>Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="RegenSpellUpgradeStrategy.h">
+      <Filter>Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellData.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellIdentifiers.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="TextButton.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicRangedBehavior.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PositioningAISystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFollowSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

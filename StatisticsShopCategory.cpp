@@ -161,12 +161,7 @@ void StatisticsShopCategory::updateItemPrice(ShopItem& item)
 	item.itemCostText.setString(priceStr);
 	Utilities::setTextOriginOnCenter(item.itemCostText);
 
-	//set currency sprite so it preceedes itemCostText
-	const sf::Vector2f costPos{ item.itemCostText.getPosition() };
-	const sf::Vector2f currSize{ item.currencySprite.getGlobalBounds().size };
-	const sf::Vector2f currPos{ costPos.x - currSize.x - mCharSize, costPos.y - 3 };
-
-	item.currencySprite.setPosition(currPos);
+	setItemCurrencySprite(item);
 }
 
 std::string StatisticsShopCategory::getItemDescriptionStr(const ShopItem& item) const

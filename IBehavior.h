@@ -9,6 +9,11 @@ public:
 	virtual ~IBehavior() = default;
 	virtual void update(Entity& entity, const sf::Time& deltaTime) = 0;
 protected:
+	virtual void determineNextTask(Entity& entity) = 0;
+
+	void updateTasks(Entity& entity, const sf::Time& deltaTime);
+	void updateTimers(Entity& entity, const sf::Time& deltaTime);
+
 	void pushTask(std::unique_ptr<ITask> task);
 	void updateFrontTask(Entity& entity, const sf::Time& deltaTime);
 	void popCompletedTasks();
@@ -16,6 +21,7 @@ protected:
 
 	bool isCellReachable(const sf::Vector2i& targetCell) const;
 	bool isCellReachable(const sf::Vector2f& targetPos) const;
+
 	//returns true if entity has walkable tiles around him(4 directions)
 	//returns false if all tiles around entity(4 directions) are not walkable
 	bool isEntityReachable(const Entity& entity) const;
@@ -27,6 +33,12 @@ protected:
 	//returns random delay between [minInterval, minInterval * 1.3]
 	//used so different entities dont swap their states at the same time.
 	int getRandomDelay(int minInterval) const;
+
+	//swaps entity state to patrol state
+	void swapToPatrol();
+
+	//entities attack only in straight line
+	bool canAttack(const Entity& entity, const Entity& target) const;
 protected:
 	BehaviorContext& mBehaviorContext;
 	std::deque<std::unique_ptr<ITask>> mTasks;

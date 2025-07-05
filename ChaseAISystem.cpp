@@ -4,8 +4,7 @@
 
 ChaseAISystem::ChaseAISystem(SystemContext& systemContext, const TileMap& tileMap)
 	:ISystem(systemContext),
-	mTileMap(tileMap),
-	mPathRecalculationCooldown(4000.f)
+	mTileMap(tileMap)
 {
 	registerToEvents();
 }
@@ -18,18 +17,18 @@ void ChaseAISystem::update(const sf::Time& deltaTime)
 	{
 		auto& chaseComp = ent->getComponent<ChaseAIComponent>();
 		auto& pathComp = ent->getComponent<PathComponent>();
-		chaseComp.cTimeSinceLastRecalculation += deltaTime.asMilliseconds();
-
+		pathComp.cTimeSinceLastRecalculation += deltaTime.asMilliseconds();
+		/*
 		auto nextStep = getPathStep(pathComp);
 		if (!nextStep)
 		{
 			askForPathRecalculation(*ent);
 			continue;
 		}
-		doStep(*ent, pathComp, nextStep.value());
+		//doStep(*ent, pathComp, nextStep.value());
 
-		if (isPathRecalculationDue(chaseComp))
-			askForPathRecalculation(*ent);
+		if (isPathRecalculationDue(pathComp))
+			askForPathRecalculation(*ent);*/
 	}
 }
 
@@ -37,6 +36,7 @@ void ChaseAISystem::registerToEvents()
 {
 	registerToStartChasingEvent();
 	registerToPlayerMovedEvent();
+	registerToPathAbortedEvent();
 }
 
 void ChaseAISystem::registerToStartChasingEvent()
@@ -52,6 +52,7 @@ void ChaseAISystem::registerToStartChasingEvent()
 			auto& pathComp = data.entity.getComponent<PathComponent>();
 			resetChaseComponent(chaseComp, &data.target);
 			resetPathComponent(pathComp);
+			askForPathRecalculation(data.entity);
 			mTrackedEntities.push_back(&data.entity);
 		});
 }
@@ -65,73 +66,41 @@ void ChaseAISystem::registerToPlayerMovedEvent()
 		});
 }
 
+void ChaseAISystem::registerToPathAbortedEvent()
+{
+	mSystemContext.eventManager.registerEvent<PathAbortedEvent>([this](const PathAbortedEvent& data)
+		{
+			if (isEntityAlreadyTracked(data.entity))
+			{
+				askForPathRecalculation(data.entity);
+			}
+		});
+}
+
 void ChaseAISystem::resetChaseComponent(ChaseAIComponent& chaseComp, Entity* target)
 {
 	chaseComp.cTarget = target;
-	chaseComp.cTimeSinceLastRecalculation = 0.f;
 }
 
 void ChaseAISystem::resetPathComponent(PathComponent& pathComp)
 {
 	pathComp.cPathCells.clear();
+	pathComp.cTimeSinceLastRecalculation = 0;
 }
 
-std::optional<sf::Vector2i> ChaseAISystem::getPathStep(PathComponent& pathComp) const
+bool ChaseAISystem::isPathRecalculationDue(const PathComponent& chaseComp) const
 {
-	if (pathComp.cPathCells.empty())
-		return std::nullopt;
-
-	return pathComp.cPathCells.front();
-}
-
-bool ChaseAISystem::isStepWalkable(const Entity& entity, const sf::Vector2i& stepCell) const
-{
-	return mTileMap.isTileWalkable(stepCell.x, stepCell.y);
-}
-
-void ChaseAISystem::doStep(Entity& entity, PathComponent& pathComp, const sf::Vector2i& stepCell)
-{
-	if (!Utilities::isEntityIdling(entity))
-		return;
-
-	auto entCell = Utilities::getEntityCell(entity);
-
-	auto nextStepDir = getStepDirection(entCell, stepCell);
-	if (!nextStepDir)
-		return;
-
-	mSystemContext.eventManager.notify<MoveRequestedEvent>(MoveRequestedEvent(entity, nextStepDir.value()));
-	pathComp.cPathCells.pop_front();
-}
-
-std::optional<Direction> ChaseAISystem::getStepDirection(const sf::Vector2i& fromCell, const sf::Vector2i& toCell) const
-{
-	int dx = toCell.x - fromCell.x;
-	int dy = toCell.y - fromCell.y;
-
-	if (std::abs(dx) > 1 || std::abs(dy) > 1)
-		return std::nullopt;
-
-	if (dx == -1)
-		return Direction::Left;
-	else if (dx == 1)
-		return Direction::Right;
-	else if (dy == -1)
-		return Direction::Up;
-	else if (dy == 1)
-		return Direction::Bottom;
-
-	return std::nullopt;
-}
-
-bool ChaseAISystem::isPathRecalculationDue(const ChaseAIComponent& chaseComp) const
-{
-	return chaseComp.cTimeSinceLastRecalculation >= mPathRecalculationCooldown;
+	constexpr int pathRecalcCooldown = 4000;
+	return chaseComp.cTimeSinceLastRecalculation >= pathRecalcCooldown;
 }
 
 void ChaseAISystem::askForPathRecalculation(Entity& entity)
 {
-	mSystemContext.eventManager.notify<RequestPathEvent>(RequestPathEvent(entity));
+	auto& chaseComp = entity.getComponent<ChaseAIComponent>();
+	if (!chaseComp.cTarget)
+		return;
+	auto targetCell = Utilities::getEntityCell(*chaseComp.cTarget);
+	mSystemContext.eventManager.notify<RequestPathEvent>(RequestPathEvent(entity, targetCell));
 }
 
 void ChaseAISystem::removeNotChasingEntities()

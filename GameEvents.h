@@ -147,11 +147,31 @@ struct StartChasingEvent : public IEvent
 struct RequestPathEvent : public IEvent
 {
 	Entity& entity;
+	const sf::Vector2i destinationCell;
 	bool forceRecalculation;
 
-	RequestPathEvent(Entity& entity, bool forceRecalculation = false)
+	RequestPathEvent(Entity& entity, sf::Vector2i destinationCell, bool forceRecalculation = false)
 		:entity(entity),
-		forceRecalculation(forceRecalculation) {}
+		forceRecalculation(forceRecalculation),
+		destinationCell(destinationCell)
+	{}
+};
+
+struct PathAbortedEvent : public IEvent
+{
+	Entity& entity;
+
+	PathAbortedEvent(Entity& ent)
+		:entity(ent)
+	{}
+};
+
+struct AddToPathFollowSystemEvent : public IEvent
+{
+	Entity& entity;
+	AddToPathFollowSystemEvent(Entity& entity)
+		:entity(entity)
+	{}
 };
 
 struct MonsterAppearedEvent : public IEvent
@@ -458,4 +478,15 @@ struct HitByProjectileEvent : public IEvent
 struct CloseShopEvent : public IEvent
 {
 	//no need for data
+};
+
+struct RepositionToAttackEvent : public IEvent
+{
+	Entity& entity;
+	Entity& target;
+
+	RepositionToAttackEvent(Entity& entity, Entity& target)
+		:entity(entity),
+		target(target)
+	{}
 };

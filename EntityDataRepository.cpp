@@ -18,6 +18,7 @@ void EntityDataRepository::createEntityData()
     createPlayerEntityData();
     createSkletorusEntityData();
     createBonvikEntityData();
+	createMorannaEntityData();
 }
 
 void EntityDataRepository::createPlayerEntityData()
@@ -75,6 +76,24 @@ void EntityDataRepository::createBonvikEntityData()
 
 	data.cAttackDataMap = createDualStrikeMeleeAttackDataMap();
 	mEntityData.emplace(EntityType::Bonvik, std::move(data));
+}
+
+void EntityDataRepository::createMorannaEntityData()
+{
+	BaseEntityData data;
+	data.tag = "Moranna";
+	data.moveSpeed = 115.f;
+	data.fovRange = 6;
+
+	data.combatStats.cAttackDamage = 11;
+	data.combatStats.cAttackRange = 4;
+	data.combatStats.cAttackSpeed = 1.4f;
+	data.combatStats.cDefence = 2;
+	data.combatStats.cHealth = 33;
+	data.combatStats.cMaxHealth = data.combatStats.cHealth;
+
+	data.cAttackDataMap = createSimpleMeleeAttackDataMap();
+	mEntityData.emplace(EntityType::Moranna, std::move(data));
 }
 
 EntityDataRepository::AttackDataMap EntityDataRepository::createSimpleMeleeAttackDataMap() const

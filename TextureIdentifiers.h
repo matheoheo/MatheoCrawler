@@ -9,6 +9,7 @@ enum class TextureIdentifier
 	Player,
 	Skletorus,
 	Bonvik,
+	Moranna,
 
 	//icons
 	Suash, //gold icon

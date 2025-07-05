@@ -4,8 +4,7 @@
 
 PathRequestSystem::PathRequestSystem(SystemContext& systemContext, Pathfinder& pathfinder)
 	:ISystem(systemContext),
-	mPathfinder(pathfinder),
-	mMinRecalculationInterval(500.f)
+	mPathfinder(pathfinder)
 {
 	registerToEvents();
 }
@@ -38,31 +37,24 @@ void PathRequestSystem::registerToPathRequestEvent()
 {
 	mSystemContext.eventManager.registerEvent<RequestPathEvent>([this](const RequestPathEvent& data)
 		{
-			if(isEntityAlreadyTracked(data.entity))
+			auto& pathComp = data.entity.getComponent<PathComponent>();
+			pathComp.cPathCells.clear();
+			pathComp.cTargetCell = data.destinationCell;
+			if (isEntityAlreadyTracked(data.entity))
 				return;
-			//clear previous path
-			data.entity.getComponent<PathComponent>().cPathCells.clear();
+
 			mTrackedEntities.push_back(&data.entity);
 		});
 }
 
-void PathRequestSystem::updatePathToTarget(const Entity& entity)
+void PathRequestSystem::updatePathToTarget(Entity& entity)
 {
-	auto& chaseComp = entity.getComponent<ChaseAIComponent>();
 	auto& pathComp = entity.getComponent<PathComponent>();
-
-	if (!chaseComp.cTarget)
-		return;
-	
-	auto entityPos = Utilities::getEntityPos(entity);
-	auto targetPos = Utilities::getEntityPos(*chaseComp.cTarget);
-	auto path = mPathfinder.getPath(entityPos, targetPos);
-	chaseComp.cTargetReachableByPath = !path.empty();
-
-	//std::cout << "Found path of size: " << path.size() << std::endl;
-
+	auto entityCell = Utilities::getEntityCell(entity);
+	auto targetCell = pathComp.cTargetCell;
+	auto path = mPathfinder.getPath(entityCell, targetCell);
 	pathComp.cPathCells.assign(std::begin(path), std::end(path));
-	chaseComp.cTimeSinceLastRecalculation = 0.f;
+	mSystemContext.eventManager.notify<AddToPathFollowSystemEvent>(AddToPathFollowSystemEvent(entity));
 }
 
 void PathRequestSystem::removeFinishedEntities()
@@ -76,6 +68,7 @@ void PathRequestSystem::removeFinishedEntities()
 
 bool PathRequestSystem::hasRecalculationIntervalPassed(const Entity& entity) const
 {
-	auto& chaseComp = entity.getComponent<ChaseAIComponent>();
-	return chaseComp.cTimeSinceLastRecalculation > mMinRecalculationInterval;
+	constexpr int minRecalculationInterval = 500; //milliseconds
+	auto& chaseComp = entity.getComponent<PathComponent>();
+	return chaseComp.cTimeSinceLastRecalculation > minRecalculationInterval;
 }

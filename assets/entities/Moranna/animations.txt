@@ -1,0 +1,272 @@
+[spritesheetData]
+animationId: 0
+[frame]
+frameLeft: 82
+frameTop: 3533
+frameWidth: 31
+frameHeight: 49
+frameOffsetX: -17
+frameOffsetY: -14
+[/frame]
+[frame]
+frameLeft: 275
+frameTop: 3534
+frameWidth: 29
+frameHeight: 50
+frameOffsetX: -18
+frameOffsetY: -14
+[/frame]
+[frame]
+frameLeft: 469
+frameTop: 3533
+frameWidth: 26
+frameHeight: 51
+frameOffsetX: -20
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 661
+frameTop: 3533
+frameWidth: 31
+frameHeight: 51
+frameOffsetX: -20
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 854
+frameTop: 3534
+frameWidth: 34
+frameHeight: 50
+frameOffsetX: -21
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 1046
+frameTop: 3534
+frameWidth: 34
+frameHeight: 50
+frameOffsetX: -21
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 1238
+frameTop: 3534
+frameWidth: 34
+frameHeight: 50
+frameOffsetX: -21
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 1429
+frameTop: 3533
+frameWidth: 31
+frameHeight: 51
+frameOffsetX: -20
+frameOffsetY: -12
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 1
+[frame]
+frameLeft: 83
+frameTop: 3724
+frameWidth: 24
+frameHeight: 50
+frameOffsetX: -18
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 262
+frameTop: 3724
+frameWidth: 37
+frameHeight: 50
+frameOffsetX: -5
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 453
+frameTop: 3724
+frameWidth: 41
+frameHeight: 50
+frameOffsetX: -4
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 647
+frameTop: 3724
+frameWidth: 40
+frameHeight: 50
+frameOffsetX: -4
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 834
+frameTop: 3724
+frameWidth: 40
+frameHeight: 50
+frameOffsetX: 1
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 1024
+frameTop: 3724
+frameWidth: 42
+frameHeight: 50
+frameOffsetX: 3
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 1218
+frameTop: 3724
+frameWidth: 40
+frameHeight: 50
+frameOffsetX: 1
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 1415
+frameTop: 3724
+frameWidth: 40
+frameHeight: 50
+frameOffsetX: -4
+frameOffsetY: -13
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 2
+[frame]
+frameLeft: 82
+frameTop: 3916
+frameWidth: 31
+frameHeight: 50
+frameOffsetX: -17
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 275
+frameTop: 3916
+frameWidth: 33
+frameHeight: 50
+frameOffsetX: -18
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 464
+frameTop: 3916
+frameWidth: 32
+frameHeight: 49
+frameOffsetX: -16
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 656
+frameTop: 3916
+frameWidth: 27
+frameHeight: 49
+frameOffsetX: -16
+frameOffsetY: -13
+[/frame]
+[frame]
+frameLeft: 850
+frameTop: 3917
+frameWidth: 25
+frameHeight: 49
+frameOffsetX: -18
+frameOffsetY: -14
+[/frame]
+[frame]
+frameLeft: 1043
+frameTop: 3917
+frameWidth: 24
+frameHeight: 51
+frameOffsetX: -19
+frameOffsetY: -14
+[/frame]
+[frame]
+frameLeft: 1234
+frameTop: 3917
+frameWidth: 25
+frameHeight: 49
+frameOffsetX: -18
+frameOffsetY: -14
+[/frame]
+[frame]
+frameLeft: 1424
+frameTop: 3916
+frameWidth: 27
+frameHeight: 49
+frameOffsetX: -16
+frameOffsetY: -13
+[/frame]
+
+[/spritesheetData]
+[spritesheetData]
+animationId: 3
+[frame]
+frameLeft: 85
+frameTop: 4107
+frameWidth: 24
+frameHeight: 51
+frameOffsetX: -20
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 277
+frameTop: 4107
+frameWidth: 37
+frameHeight: 51
+frameOffsetX: -20
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 466
+frameTop: 4107
+frameWidth: 41
+frameHeight: 51
+frameOffsetX: -17
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 657
+frameTop: 4107
+frameWidth: 40
+frameHeight: 51
+frameOffsetX: -18
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 854
+frameTop: 4107
+frameWidth: 40
+frameHeight: 51
+frameOffsetX: -23
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 1046
+frameTop: 4107
+frameWidth: 42
+frameHeight: 51
+frameOffsetX: -23
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 1238
+frameTop: 4107
+frameWidth: 40
+frameHeight: 51
+frameOffsetX: -23
+frameOffsetY: -12
+[/frame]
+[frame]
+frameLeft: 1425
+frameTop: 4107
+frameWidth: 40
+frameHeight: 51
+frameOffsetX: -18
+frameOffsetY: -12
+[/frame]
+
+[/spritesheetData]

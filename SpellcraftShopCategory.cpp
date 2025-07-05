@@ -63,12 +63,7 @@ void SpellcraftShopCategory::updateItemPrice(ShopItem& item)
 	item.itemCostText.setString(priceStr);
 	Utilities::setTextOriginOnCenter(item.itemCostText);
 
-	//set currency sprite so it preceedes itemCostText
-	const sf::Vector2f costPos{ item.itemCostText.getPosition() };
-	const sf::Vector2f currSize{ item.currencySprite.getGlobalBounds().size };
-	const sf::Vector2f currPos{ costPos.x - currSize.x - mCharSize, costPos.y - 3 };
-
-	item.currencySprite.setPosition(currPos);
+	setItemCurrencySprite(item);
 }
 
 void SpellcraftShopCategory::upgrade(ShopItem& item)
@@ -78,28 +73,7 @@ void SpellcraftShopCategory::upgrade(ShopItem& item)
 	{
 		mSpellUpgrades.at(stat)->upgrade();
 	}
-	/*
-	auto increase = getStatIncrease(item.statType);
-	int int_increase = static_cast<int>(increase);
-	auto spellId = mStatTypeToSpellIdMap.at(item.statType);
-	if (item.statType == StatType::QuickHealSpell || item.statType == StatType::MajorHealSpell)
-	{
-		SpellHolder::getInstance().get(spellId).healValue += increase;
-	}
-	else if (item.statType == StatType::HealthRegenSpell)
-	{
-		SpellHolder::getInstance().get(spellId).bonusHpRegen += int_increase;
-	}
-	else if (item.statType == StatType::ManaRegenSpell)
-	{
-		SpellHolder::getInstance().get(spellId).bonusManaRegen += int_increase;
-	}
-	else if (item.statType == StatType::WaterballSpell || item.statType == StatType::PureProjSpell ||
-		item.statType == StatType::FireballSpell || item.statType == StatType::BloodballSpell)
-	{
-		SpellHolder::getInstance().get(spellId).projectile.value().minDmg += int_increase;
-		SpellHolder::getInstance().get(spellId).projectile.value().maxDmg += int_increase;
-	}*/
+	
 }
 
 std::string SpellcraftShopCategory::getItemDescriptionStr(const ShopItem& item) const
@@ -164,6 +138,25 @@ void SpellcraftShopCategory::createSpellUpgrades()
 		(SpellIdentifier::Bloodball, getStatIncrease(StatType::BloodballSpell));
 }
 
+void SpellcraftShopCategory::setUpgradeLevelsLimit()
+{
+	using PairType = std::pair<StatType, int>;
+	constexpr std::array<PairType, 2> limits =
+	{ {
+		{StatType::QuickHealSpell, 11},
+		{StatType::MajorHealSpell, 16}
+	} };
+
+	for (auto& item : mItems)
+	{
+		auto it = std::ranges::find(limits, item.statType, &PairType::first);
+		if (it != std::ranges::end(limits))
+		{
+			item.maxUpgradeLevel = it->second;
+		}
+	}
+}
+
 void SpellcraftShopCategory::createSpellsCategories()
 {
 	const auto& font = mGameContext.fonts.get(FontIdentifiers::UIFont);
@@ -209,6 +202,7 @@ void SpellcraftShopCategory::onSpellCategoryPress(size_t id)
 
 	mSpellCategories.clear();
 	setDescriptionPos(mCategoryPos);
+	setUpgradeLevelsLimit();
 }
 
 std::vector<ItemInitData> SpellcraftShopCategory::getRestorationItemsInitData() const

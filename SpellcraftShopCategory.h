@@ -22,6 +22,7 @@ protected:
 
 	void createStatTypeToSpellIdMap();
 	void createSpellUpgrades();
+	void setUpgradeLevelsLimit();
 private:
 	struct SpellShopMapping {
 		SpellIdentifier spellId;
@@ -43,4 +44,5 @@ private:
 	std::unordered_map<StatType, SpellIdentifier> mStatTypeToSpellIdMap;
 	std::unordered_map<StatType, std::unique_ptr<ISpellUpgradeStrategy>> mSpellUpgrades;
 	static constexpr size_t mSpellTypesCount = static_cast<size_t>(SpellType::Count);
+	
 };

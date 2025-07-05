@@ -8,6 +8,11 @@
 #include "SpellIdentifiers.h"
 #include "AnimationIdentifiers.h"
 
+int Utilities::getDistanceBetweenCells(const sf::Vector2i& cellA, const sf::Vector2i& cellB)
+{
+	return std::abs(cellA.x - cellB.x) + std::abs(cellA.y - cellB.y);
+}
+
 float Utilities::getDistanceBetween(const sf::Vector2f& pointA, const sf::Vector2f& pointB)
 {
 	return std::hypotf(pointA.x - pointB.x, pointA.y - pointB.y);

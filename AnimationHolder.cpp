@@ -7,9 +7,11 @@ AnimationHolder::AnimationHolder()
 void AnimationHolder::loadAnimations()
 {
     loadGenericAnimations();
+
     loadPlayerSpecificAnimations();
     loadSkletorusSpecificAnimations();
     loadBonvikSpecificAnimations();
+    loadMorannaSpecificAnimations();
 }
 
 const AnimationHolder::AnimationFrames& AnimationHolder::get(const GenericAnimationKey& key) const
@@ -120,6 +122,20 @@ void AnimationHolder::loadBonvikSpecificAnimations()
     } };
 
     loadAnimationsFromFile<EntityAnimationKey>(mEntityAnimations, "assets/entities/Bonvik/animations.txt",
+        [&idToEntityKey](int animId) {return idToEntityKey[animId]; });
+}
+
+void AnimationHolder::loadMorannaSpecificAnimations()
+{
+    constexpr std::array<EntityAnimationKey, 4> idToEntityKey =
+    { {
+        {AnimationIdentifier::Attack1, Direction::Up,     EntityType::Moranna},
+        {AnimationIdentifier::Attack1, Direction::Left,   EntityType::Moranna},
+        {AnimationIdentifier::Attack1, Direction::Bottom, EntityType::Moranna},
+        {AnimationIdentifier::Attack1, Direction::Right,  EntityType::Moranna}
+    } };
+
+    loadAnimationsFromFile<EntityAnimationKey>(mEntityAnimations, "assets/entities/Moranna/animations.txt",
         [&idToEntityKey](int animId) {return idToEntityKey[animId]; });
 }
 

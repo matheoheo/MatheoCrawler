@@ -9,6 +9,9 @@ enum class AnimationIdentifier;
 
 namespace Utilities
 {
+	//returns manhattan distance
+	int getDistanceBetweenCells(const sf::Vector2i& cellA, const sf::Vector2i& cellB);
+	//returns euclidean distance
 	float getDistanceBetween(const sf::Vector2f& pointA, const sf::Vector2f& pointB);
 	float getDistanceBetween(const sf::Vector2i& pointA, const sf::Vector2i& pointB);
 

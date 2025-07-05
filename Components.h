@@ -137,20 +137,27 @@ struct PatrolAIComponent : public IComponent
 struct ChaseAIComponent : public IComponent
 {
 	Entity* cTarget;
-	float cTimeSinceLastRecalculation;
 	int cUnreachableRetryCount;
 	bool cTargetReachableByPath;
 
 	ChaseAIComponent()
 		:cTarget(nullptr),
-		cTimeSinceLastRecalculation(0.f),
 		cUnreachableRetryCount(0),
-		cTargetReachableByPath(false){}
+		cTargetReachableByPath(false)
+	{}
 };
 
 struct PathComponent : public IComponent
 {
+	int cTimeSinceLastRecalculation;
+	sf::Vector2i cTargetCell;
 	std::deque<sf::Vector2i> cPathCells;
+	bool cPathAborted;
+
+	PathComponent()
+		:cTimeSinceLastRecalculation(0),
+		cPathAborted(false)
+	{}
 };
 
 struct AITimersComponent : public IComponent
@@ -349,4 +356,17 @@ struct AssignedSpellsComponent : public IComponent
 struct StatisticsUpgradeComponent : public IComponent
 {
 	std::unordered_map<std::string, int> cUpgradesMap;
+};
+
+struct PositioningComponent : public IComponent
+{
+	int cMinRange;
+	int cMaxRange;
+	bool cFocusOnDistance; //is entity more focused on keeping max range, or on finding any closest position.
+	
+	PositioningComponent(int minRange, int maxRange)
+		:cMinRange(minRange),
+		cMaxRange(maxRange),
+		cFocusOnDistance(true)
+	{}
 };

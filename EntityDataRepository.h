@@ -25,6 +25,7 @@ private:
     void createPlayerEntityData();
     void createSkletorusEntityData();
     void createBonvikEntityData();
+    void createMorannaEntityData();
 
     AttackDataMap createSimpleMeleeAttackDataMap() const;
     AttackDataMap createDualStrikeMeleeAttackDataMap() const;

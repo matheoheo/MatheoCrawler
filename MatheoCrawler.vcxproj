@@ -170,6 +170,7 @@
     <ClCompile Include="AttackTask.cpp" />
     <ClCompile Include="BarRenderSystem.cpp" />
     <ClCompile Include="BasicMeleeBehavior.cpp" />
+    <ClCompile Include="BasicRangedBehavior.cpp" />
     <ClCompile Include="BehaviorAIUpdateSystem.cpp" />
     <ClCompile Include="CameraSystem.cpp" />
     <ClCompile Include="ChaseAISystem.cpp" />
@@ -207,9 +208,11 @@
     <ClCompile Include="OnHitSystem.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Pathfinder.cpp" />
+    <ClCompile Include="PathFollowSystem.cpp" />
     <ClCompile Include="PathRequestSystem.cpp" />
     <ClCompile Include="PatrolAISystem.cpp" />
     <ClCompile Include="PatrolTask.cpp" />
+    <ClCompile Include="PositioningAISystem.cpp" />
     <ClCompile Include="ProjectileSpellUpgradeStrategy.cpp" />
     <ClCompile Include="ProjectileSystem.cpp" />
     <ClCompile Include="RegenerationSystem.cpp" />
@@ -245,6 +248,7 @@
     <ClInclude Include="AttackTask.h" />
     <ClInclude Include="BarRenderSystem.h" />
     <ClInclude Include="BasicMeleeBehavior.h" />
+    <ClInclude Include="BasicRangedBehavior.h" />
     <ClInclude Include="BehaviorAIUpdateSystem.h" />
     <ClInclude Include="BehaviorContext.h" />
     <ClInclude Include="CameraSystem.h" />
@@ -292,10 +296,12 @@
     <ClInclude Include="OnHitSystem.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Pathfinder.h" />
+    <ClInclude Include="PathFollowSystem.h" />
     <ClInclude Include="PathRequestSystem.h" />
     <ClInclude Include="PatrolAISystem.h" />
     <ClInclude Include="PatrolTask.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PositioningAISystem.h" />
     <ClInclude Include="ProjectileSpellUpgradeStrategy.h" />
     <ClInclude Include="ProjectileSystem.h" />
     <ClInclude Include="RegenerationSystem.h" />

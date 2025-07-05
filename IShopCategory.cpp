@@ -2,6 +2,7 @@
 #include "IShopCategory.h"
 #include "Config.h"
 #include "Entity.h"
+#include "Utilities.h"
 
 IShopCategory::IShopCategory(GameContext& gameContext, Entity& player)
 	:UIComponent(gameContext, player),
@@ -46,8 +47,8 @@ int IShopCategory::getUpgradeLevel(const std::string& upgradeName) const
 
 bool IShopCategory::canBuy(const ShopItem& item) const
 {
-	const auto& goldComp = player.getComponent<PlayerResourcesComponent>();
-	return goldComp.cGold >= item.cost;
+	bool enoughGold = player.getComponent<PlayerResourcesComponent>().cGold >= item.cost;
+	return enoughGold && !isUpgradeLevelReached(item);
 }
 
 void IShopCategory::upgradeStatisticLevel(const ShopItem& item)
@@ -72,11 +73,14 @@ void IShopCategory::tryBuy(ShopItem& item)
 
 	auto& goldComp = player.getComponent<PlayerResourcesComponent>();
 	goldComp.cGold -= item.cost;
+
 	upgrade(item);
 	upgradeStatisticLevel(item);
 	updateItemPrice(item);
 	onItemUnhover();
+	checkIfUpgradeLevelReached(item);
 	notifyUIAfterBuy();
+
 }
 
 void IShopCategory::createItemDescription(const std::string& descText)
@@ -177,6 +181,22 @@ void IShopCategory::createOnUpgradeFunctionality()
 				tryBuy(item);
 			});
 	}
+}
+
+void IShopCategory::setItemCurrencySprite(ShopItem& item)
+{
+	if (isUpgradeLevelReached(item))
+	{
+		item.currencySprite.setPosition({ -1000.f, -1000.f });
+		return;
+	}
+	constexpr float margin = 3.f;
+	//set currency sprite so it preceedes itemCostText
+	const sf::Vector2f costPos{ item.itemCostText.getPosition() };
+	const sf::Vector2f currSize{ item.currencySprite.getGlobalBounds().size };
+	const sf::Vector2f currPos{ costPos.x - currSize.x - mCharSize, costPos.y - margin };
+
+	item.currencySprite.setPosition(currPos);
 }
 
 void IShopCategory::renderItems()
@@ -312,5 +332,27 @@ void IShopCategory::processUpgradeButtonEvents(const sf::Event event)
 			item.upgradeButton.invoke();
 			return;
 		}
+	}
+}
+
+bool IShopCategory::isUpgradeLevelReached(const ShopItem& item) const
+{
+	if (!item.maxUpgradeLevel)
+		return false;
+	
+	auto currUpgradeLevel = getUpgradeLevel(item.itemName);
+	return currUpgradeLevel >= item.maxUpgradeLevel.value();
+}
+
+void IShopCategory::checkIfUpgradeLevelReached(ShopItem& item)
+{
+	if (isUpgradeLevelReached(item))
+	{
+		//item.cost = 9999999;
+		item.itemCostText.setString("MAXED");
+		item.itemCostText.setFillColor({ 255, 100, 100 });
+		item.itemCostText.setStyle(sf::Text::Bold);
+		Utilities::setTextOriginOnCenter(item.itemCostText);
+
 	}
 }

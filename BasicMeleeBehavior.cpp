@@ -19,17 +19,8 @@ BasicMeleeBehavior::BasicMeleeBehavior(BehaviorContext& behaviorContext)
 
 void BasicMeleeBehavior::update(Entity& entity, const sf::Time& deltaTime)
 {
-	auto& comp = entity.getComponent<AITimersComponent>();
-	comp.cTimeSinceLastLOSCheck += deltaTime.asMilliseconds();
-
-	if (isTaskQueued())
-	{
-		updateFrontTask(entity, deltaTime);
-		popCompletedTasks();
-		return;
-	}
-
-	determineNextTask(entity);
+	updateTimers(entity, deltaTime);
+	updateTasks(entity, deltaTime);
 }
 
 void BasicMeleeBehavior::determineNextTask(Entity& entity)
@@ -78,19 +69,6 @@ bool BasicMeleeBehavior::canCastLOS(const Entity& entity) const
 {
 	constexpr float LOSCheckCooldown = 200.f;
 	return entity.getComponent<AITimersComponent>().cTimeSinceLastLOSCheck >= LOSCheckCooldown;
-}
-
-bool BasicMeleeBehavior::canAttack(const Entity& entity, const Entity& target) const
-{
-	return Utilities::isEntityWithinAttackRange(entity, target);
-}
-
-void BasicMeleeBehavior::swapToPatrol()
-{
-	//pushDelayTask(getRandomDelay(150));
-	pushTask(std::make_unique<WaitUntilIdleTask>());
-	pushTask(std::make_unique<PatrolTask>());
-	pushDelayTask(getRandomDelay(250));
 }
 
 void BasicMeleeBehavior::swapToChase(Entity& target)

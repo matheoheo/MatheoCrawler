@@ -27,6 +27,8 @@
 #include "HealSpellSystem.h"
 #include "EffectSystem.h"
 #include "ProjectileSystem.h"
+#include "PositioningAISystem.h"
+#include "PathFollowSystem.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
@@ -118,6 +120,7 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<VisibilitySystem>(mSystemContext, mTileMap, mGameView));
 	mSystemManager.addSystem(std::make_unique<PatrolAISystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<ChaseAISystem>(mSystemContext, mTileMap));
+	mSystemManager.addSystem(std::make_unique<PositioningAISystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<AttackSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<PathRequestSystem>(mSystemContext, mPathfinder));
 	mSystemManager.addSystem(std::make_unique<BehaviorAIUpdateSystem>(mSystemContext, mTileMap));
@@ -129,7 +132,7 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<HealSpellSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EffectSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<ProjectileSystem>(mSystemContext, mTileMap));
-
+	mSystemManager.addSystem(std::make_unique<PathFollowSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<BarRenderSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntityRenderSystem>(mSystemContext));
 
@@ -156,7 +159,7 @@ void GameState::spawnEntities()
 		EntityType entityType = EntityType::Skletorus;
 		if (!sklet)
 			entityType = EntityType::Bonvik;
-		mGameContext.eventManager.notify<SpawnEntityEvent>(SpawnEntityEvent(point, entityType));
+		mGameContext.eventManager.notify<SpawnEntityEvent>(SpawnEntityEvent(point, EntityType::Moranna));
 		//createSkeletonAxe(point);
 	}
 }
@@ -186,5 +189,3 @@ void GameState::doFirstEnter()
 
 	mGameContext.eventManager.notify<EnterLoadingStateEvent>(EnterLoadingStateEvent(std::move(tasks)));
 }
-
-

@@ -9,13 +9,12 @@ public:
     BasicMeleeBehavior(BehaviorContext& behaviorContext);
     // Inherited via IBehavior
     virtual void update(Entity& entity, const sf::Time& deltaTime) override;
+protected:
+    virtual void determineNextTask(Entity& entity) override;
 private:
-    void determineNextTask(Entity& entity);
     bool canChaseEntity(const Entity& entity, const Entity& target) const;
     bool canCastLOS(const Entity& entity) const;
-    bool canAttack(const Entity& entity, const Entity& target) const;
 
-    void swapToPatrol();
     void swapToChase(Entity& target);
     void swapToAttacking(Entity& entity, Entity& target);
 

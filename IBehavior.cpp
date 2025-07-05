@@ -5,10 +5,29 @@
 #include "Entity.h"
 #include "Random.h"
 #include "DelayTask.h"
+#include "WaitUntilIdleTask.h"
+#include "PatrolTask.h"
 
 IBehavior::IBehavior(BehaviorContext& behaviorContext)
 	:mBehaviorContext(behaviorContext)
 {
+}
+
+void IBehavior::updateTasks(Entity& entity, const sf::Time& deltaTime)
+{
+	if (isTaskQueued())
+	{
+		updateFrontTask(entity, deltaTime);
+		popCompletedTasks();
+		return;
+	}
+	determineNextTask(entity);
+}
+
+void IBehavior::updateTimers(Entity& entity, const sf::Time& deltaTime)
+{
+	auto& comp = entity.getComponent<AITimersComponent>();
+	comp.cTimeSinceLastLOSCheck += deltaTime.asMilliseconds();
 }
 
 void IBehavior::pushTask(std::unique_ptr<ITask> task)
@@ -69,4 +88,28 @@ int IBehavior::getRandomDelay(int minInterval) const
 {
 	int maxInterval = minInterval + static_cast<int>(minInterval * 0.3);
 	return Random::get(minInterval, maxInterval);
+}
+
+void IBehavior::swapToPatrol()
+{
+	//pushDelayTask(getRandomDelay(150));
+	pushTask(std::make_unique<WaitUntilIdleTask>());
+	pushTask(std::make_unique<PatrolTask>());
+	pushDelayTask(getRandomDelay(250));
+}
+
+bool IBehavior::canAttack(const Entity& entity, const Entity& target) const
+{
+	//We need to check if entity is close enough to attack
+	//Then, if this is true, we cast Line Of Sight to determine if there is visibility.
+	bool isInRange = Utilities::isEntityWithinAttackRange(entity, target);
+	bool isInLOS = false;
+	if (isInRange)
+	{
+		auto casterCell = Utilities::getEntityCell(entity);
+		auto targetCell = Utilities::getEntityCell(target);
+		isInLOS = mBehaviorContext.tileMap.isLineOfSightClear(casterCell, targetCell);
+	}
+
+	return isInRange && isInLOS;
 }

@@ -42,13 +42,15 @@ struct ShopItem
 	sf::FloatRect interactionBounds;
 	std::optional<int> maxUpgradeLevel; ///optional, because not every item/spell is gonna have a limit
 
-	ShopItem(const sf::Font& font, const sf::Texture& itemTexture, const sf::Texture& currencyTexture, StatType type)
+	ShopItem(const sf::Font& font, const sf::Texture& itemTexture, const sf::Texture& currencyTexture, StatType type,
+		std::optional<int> maxUpgrade = std::nullopt)
 		:itemVisual(itemTexture),
 		statType(type),
 		currencySprite(currencyTexture),
 		itemNameText(font),
 		itemCostText(font),
-		upgradeButton(font, "Upgrade")
+		upgradeButton(font, "Upgrade"),
+		maxUpgradeLevel(maxUpgrade)
 	{}
 };
 struct ItemInitData 
@@ -56,6 +58,7 @@ struct ItemInitData
 	TextureIdentifier iconId;
 	std::string name;
 	StatType type;
+	std::optional<int> maxUpgrade = std::nullopt;
 };
 
 namespace ShopUtils

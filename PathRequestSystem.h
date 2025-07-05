@@ -12,13 +12,12 @@ public:
 private:
     void registerToEvents();
     void registerToPathRequestEvent();
-    void updatePathToTarget(const Entity& entity);
+    void updatePathToTarget(Entity& entity);
     void removeFinishedEntities();
 
     bool hasRecalculationIntervalPassed(const Entity& entity) const;
 private:
     Pathfinder& mPathfinder;
     std::vector<size_t> mFinishedRequestsIds;
-    const float mMinRecalculationInterval;
 };
 

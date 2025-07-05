@@ -5,5 +5,8 @@ enum class EntityAIState
 	None,
 	Patrolling,
 	Chasing,
-	Attacking
+	Attacking,
+
+	RepositionToAttack,
+	Retreat
 };

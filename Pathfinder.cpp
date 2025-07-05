@@ -190,7 +190,8 @@ bool Pathfinder::isNodeWalkableRaw(const PathNode* node) const
 
 int Pathfinder::calculateGuessCost(const PathNode* from, const PathNode* to) const
 {
-	return std::abs(from->cellIndex.x - to->cellIndex.x) + std::abs(from->cellIndex.y - to->cellIndex.y);
+	return Utilities::getDistanceBetweenCells(from->cellIndex, to->cellIndex);
+	//return std::abs(from->cellIndex.x - to->cellIndex.x) + std::abs(from->cellIndex.y - to->cellIndex.y);
 }
 
 void Pathfinder::resetNode(PathNode& node)

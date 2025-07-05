@@ -31,6 +31,9 @@ void EntityFactory::spawnEntity(const sf::Vector2i& cellIndex, EntityType entTyp
 	case EntityType::Bonvik:
 		spawnBonvikEntity(cellIndex);
 		break;
+	case EntityType::Moranna:
+		spawnMorannaEntity(cellIndex);
+		break;
 	default:
 		break;
 	}
@@ -76,6 +79,7 @@ void EntityFactory::addSpriteComponent(Entity& entity, TextureIdentifier texture
 
 void EntityFactory::addAIComponents(Entity& entity)
 {
+
 	entity.addComponent<EnemyComponent>();
 	entity.addComponent<EntityAIStateComponent>();
 	entity.addComponent<PatrolAIComponent>(static_cast<float>(getRandomPatrolDelay(1600, 3200)));
@@ -84,6 +88,12 @@ void EntityFactory::addAIComponents(Entity& entity)
 	entity.addComponent<CombatStatsComponent>();
 	entity.addComponent<AITimersComponent>();
 	entity.addComponent<AvailableAttacksComponent>();
+}
+
+void EntityFactory::addPositioningComponent(Entity& entity, int minRange)
+{
+	const auto& combatComp = entity.getComponent<CombatStatsComponent>();
+	entity.addComponent<PositioningComponent>(minRange, combatComp.cAttackRange);
 }
 
 void EntityFactory::spawnPlayerEntity(const sf::Vector2i& cellIndex)
@@ -142,6 +152,17 @@ void EntityFactory::spawnBonvikEntity(const sf::Vector2i& cellIndex)
 	auto& avAttacksComp = entity.getComponent<AvailableAttacksComponent>();
 	avAttacksComp.mAttacks.emplace_back(AnimationIdentifier::Attack2);
 
+	notifyTileOccupied(entity);
+}
+
+void EntityFactory::spawnMorannaEntity(const sf::Vector2i& cellIndex)
+{
+	auto& entity = mEntityManager.createEntity();
+	addSpriteComponent(entity, TextureIdentifier::Moranna, cellIndexToPos(cellIndex));
+	addCommonComponents(entity, EntityType::Moranna);
+	addAIComponents(entity);
+	addPositioningComponent(entity, 2);
+	entity.addComponent<BehaviorComponent>(std::make_unique<BasicMeleeBehavior>(mBehaviorContext));
 	notifyTileOccupied(entity);
 }
 

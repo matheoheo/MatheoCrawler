@@ -37,6 +37,7 @@ protected:
 	void positionItems(int itemsPerRow);
 	void createItemsBounds();
 	void createOnUpgradeFunctionality();
+	void setItemCurrencySprite(ShopItem& item);
 	void renderItems();
 
 	void tryMakeStatisticUpgradeData(const std::string& name);
@@ -51,6 +52,8 @@ protected:
 
 	sf::Vector2f getNextUpgradeTextPos() const;
 	void processUpgradeButtonEvents(const sf::Event event);
+	bool isUpgradeLevelReached(const ShopItem& item) const;
+	void checkIfUpgradeLevelReached(ShopItem& item);
 protected:
 	size_t mItemsPerRow;
 	const unsigned int mDescCharSize;

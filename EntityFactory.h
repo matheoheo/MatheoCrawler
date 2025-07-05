@@ -18,10 +18,12 @@ private:
     void addCommonComponents(Entity& entity, EntityType entType);
     void addSpriteComponent(Entity& entity, TextureIdentifier textureId, const sf::Vector2f& pos);
     void addAIComponents(Entity& entity);
+    void addPositioningComponent(Entity& entity, int minRange);
 
     void spawnPlayerEntity(const sf::Vector2i& cellIndex);
     void spawnSkletorusEntity(const sf::Vector2i& cellIndex);
     void spawnBonvikEntity(const sf::Vector2i& cellIndex);
+    void spawnMorannaEntity(const sf::Vector2i& cellIndex);
 
     sf::Vector2f cellIndexToPos(const sf::Vector2i& cellIndex) const;
     int getRandomPatrolDelay(int min, int max) const;
