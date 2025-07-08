@@ -214,9 +214,9 @@ struct StartAttackingEvent : public IEvent
 
 struct AttackAnimationFinishedEvent : public IEvent
 {
-	const Entity& entity;
+	Entity& entity;
 	const AttackData* lastAttackData;
-	AttackAnimationFinishedEvent(const Entity& entity, const AttackData* lastAttackData)
+	AttackAnimationFinishedEvent(Entity& entity, const AttackData* lastAttackData)
 		:entity(entity),
 		lastAttackData(lastAttackData){}
 };

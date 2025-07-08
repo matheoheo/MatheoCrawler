@@ -32,8 +32,9 @@ private:
     void spawnEntities();
     void initalizeUI();
     void logFirstMessage();
-
     void doFirstEnter();
+
+    void tryDebug();
 private:
     sf::View mGameView;
     TileMap mTileMap;

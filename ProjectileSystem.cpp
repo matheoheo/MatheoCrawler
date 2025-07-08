@@ -58,7 +58,7 @@ void ProjectileSystem::moveProjectile(const Entity& entity, const sf::Time& delt
 	//with tile reservations and occupation, but projectiles move more freely
 	auto& moveComp = entity.getComponent<MovementComponent>();
 	auto& sprite = entity.getComponent<SpriteComponent>().cSprite;
-	auto& projComp = entity.getComponent<ProjectileComponent>();
+	auto& projComp = entity.getComponent<SpellProjectileComponent>();
 
 	const sf::Vector2f moveVector{moveComp.cDirectionVector * moveComp.cMoveSpeed * deltaTime.asSeconds()};
 	const float movedDistance = std::abs(moveVector.x) + std::abs(moveVector.y);
@@ -69,7 +69,7 @@ void ProjectileSystem::moveProjectile(const Entity& entity, const sf::Time& delt
 
 bool ProjectileSystem::hasExceededRange(const Entity& entity)
 {
-	auto& projComp = entity.getComponent<ProjectileComponent>();
+	auto& projComp = entity.getComponent<SpellProjectileComponent>();
 	return projComp.cDistanceTraveled > projComp.cMaxDistance;
 }
 
@@ -83,7 +83,7 @@ void ProjectileSystem::handleEntityHit(const Entity& projectile)
 {
 	auto cellIndex = Utilities::getEntityCellRaw(projectile);
 	auto hitEntities = mTileMap.getEntitiesOnTile(cellIndex.x, cellIndex.y);
-	auto& projComp = projectile.getComponent<ProjectileComponent>();
+	auto& projComp = projectile.getComponent<SpellProjectileComponent>();
 	bool playerCasted = projComp.cPlayerCasted;
 
 	for (Entity* ent : hitEntities)
@@ -99,12 +99,12 @@ void ProjectileSystem::handleEntityHit(const Entity& projectile)
 	}
 }
 
-void ProjectileSystem::addEntityTargetHit(const Entity& hit, ProjectileComponent& projComp)
+void ProjectileSystem::addEntityTargetHit(const Entity& hit, SpellProjectileComponent& projComp)
 {
 	projComp.cHitTargets.emplace_back(hit.getEntityId());
 }
 
-void ProjectileSystem::onHit(Entity& hitEntity, Entity::EntityID projId, ProjectileComponent& projComp, bool wasPlayerHit)
+void ProjectileSystem::onHit(Entity& hitEntity, Entity::EntityID projId, SpellProjectileComponent& projComp, bool wasPlayerHit)
 {
 	if (!projComp.cSpellData->pierce)
 		markAsFinished(projId);
@@ -115,7 +115,7 @@ void ProjectileSystem::onHit(Entity& hitEntity, Entity::EntityID projId, Project
 		if (hitTargetsSize >= projComp.cSpellData->maxTargets)
 			markAsFinished(projId);
 	}
-	int projDmg = Random::get(projComp.cSpellData->minDmg, projComp.cSpellData->maxDmg);
+	int projDmg = projComp.cFinalDmg;
 	bool playerCasted = projComp.cPlayerCasted;
 	mSystemContext.eventManager.notify<HitByProjectileEvent>(HitByProjectileEvent(hitEntity, projDmg, wasPlayerHit, playerCasted));
 }
@@ -126,7 +126,7 @@ bool ProjectileSystem::hasHitWall(const Entity& projectile) const
 	return mTileMap.isTileSolid(cellIndex.x, cellIndex.y);
 }
 
-bool ProjectileSystem::wasAlreadyHit(const Entity& entity, ProjectileComponent& projComp)
+bool ProjectileSystem::wasAlreadyHit(const Entity& entity, SpellProjectileComponent& projComp)
 {
 	return std::ranges::find(projComp.cHitTargets, entity.getEntityId()) != std::ranges::end(projComp.cHitTargets);
 }

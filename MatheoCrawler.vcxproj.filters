@@ -273,6 +273,9 @@
     <ClCompile Include="PathFollowSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PositionToAttackTask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -558,6 +561,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PathFollowSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionToAttackTask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

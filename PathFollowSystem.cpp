@@ -99,6 +99,9 @@ bool PathFollowSystem::isPathEmpty(const PathComponent& pathComp) const
 
 void PathFollowSystem::abortPath(Entity& ent)
 {
+	auto& pathComp = ent.getComponent<PathComponent>();
+	pathComp.cPathCells.clear();
+	pathComp.cPathAborted = true;
 	mSystemContext.eventManager.notify<PathAbortedEvent>(PathAbortedEvent(ent));
 	markAsFinished(&ent);
 }

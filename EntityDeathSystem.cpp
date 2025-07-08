@@ -46,11 +46,11 @@ void EntityDeathSystem::registerToEvents()
 
 void EntityDeathSystem::markEntityAsDead(Entity& entity)
 {
-	auto entityPos = Utilities::getEntityVisualPosition(entity);
 	auto& evMng = mSystemContext.eventManager;
+	auto& moveComp = entity.getComponent<MovementComponent>();
 
-	evMng.notify<TileVacatedEvent>(TileVacatedEvent(entity, entityPos));
-	evMng.notify<ReserveTileEvent>(ReserveTileEvent(nullptr, entityPos));
+	evMng.notify<TileVacatedEvent>(TileVacatedEvent(entity, moveComp.cInitialPosition));
+	evMng.notify<ReserveTileEvent>(ReserveTileEvent(nullptr, moveComp.cNextPos));
 	evMng.notify<RemoveEntityFromSystemEvent>(RemoveEntityFromSystemEvent(entity));
 }
 
@@ -62,7 +62,7 @@ void EntityDeathSystem::removeFinishedEntities()
 		Entity* ent = mSystemContext.entityManager.getEntity(id);
 		if (ent)
 		{
-			ent->getComponent<SpriteComponent>().cSprite.setPosition({ -500.f, -500.f });
+			ent->getComponent<SpriteComponent>().cSprite.setPosition({ -5000.f, -5000.f });
 		}
 	}
 	mFinishedEntities.clear();

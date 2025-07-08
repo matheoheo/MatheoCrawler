@@ -163,8 +163,13 @@ bool TileMap::doesPathExist(const Entity& from, const Entity& to)
 {
 	auto fromCell = Utilities::getEntityCell(from);
 	auto toCell = Utilities::getEntityCell(to);
-	auto path = mPathfinder.getPath(fromCell, toCell, false);
+	
+	return doesPathExist(fromCell, toCell);
+}
 
+bool TileMap::doesPathExist(const sf::Vector2i& from, const sf::Vector2i& to) const
+{
+	auto path = mPathfinder.getPath(from, to);
 	return !path.empty();
 }
 

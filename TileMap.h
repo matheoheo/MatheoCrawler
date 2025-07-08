@@ -32,6 +32,7 @@ public:
 	bool isInMapBounds(int x, int y) const;
 	bool isInMapBounds(const sf::Vector2f& pos) const;
 	bool doesPathExist(const Entity& from, const Entity& to);
+	bool doesPathExist(const sf::Vector2i& from, const sf::Vector2i& to) const;
 
 	std::vector<Entity*>& getVisibleEntities();
 	const std::vector<Entity*>& getVisibleEntities() const;

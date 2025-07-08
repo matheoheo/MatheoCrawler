@@ -8,10 +8,14 @@ enum class SpellIdentifier
 	HealthRegen,
 	ManaRegen,
 
+	//Projectile Spells
 	WaterBall,
 	PureProjectile,
 	Fireball,
-	Bloodball
+	Bloodball,
+	
+	//Spells that are treated as basic attacks for ranged entities
+	MorannaProjectile
 };
 
 enum class SpellType

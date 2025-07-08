@@ -42,7 +42,8 @@ private:
     void spawnBloodballProjectiles(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex, Direction casterDir);
 
     float getProjectileRotation(Direction dir) const;
-    const sf::Texture& getProjectileTexture(SpellIdentifier id, const SpellData& data);
+    const sf::Texture& getProjectileTexture(SpellIdentifier id);
+    int calculateProjectileDamage(const SpawnProjectileEvent& data, const ProjectileSpell& spellData) const;
 private:
 	EntityManager& mEntityManager;
 	AssetManager<TextureIdentifier, sf::Texture>& mTextures;

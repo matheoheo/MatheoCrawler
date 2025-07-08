@@ -1,6 +1,8 @@
 #pragma once
 #include "BehaviorContext.h"
 #include "ITask.h"
+enum class Direction;
+enum class AnimationIdentifier;
 
 class IBehavior
 {
@@ -10,6 +12,9 @@ public:
 	virtual void update(Entity& entity, const sf::Time& deltaTime) = 0;
 protected:
 	virtual void determineNextTask(Entity& entity) = 0;
+	virtual void swapToTargetting(Entity& entity) = 0;
+	virtual void swapToAttacking(Entity& entity, Entity& target) = 0;
+	virtual void fallbackOnNoDirection(Entity& self, Entity& target) = 0;
 
 	void updateTasks(Entity& entity, const sf::Time& deltaTime);
 	void updateTimers(Entity& entity, const sf::Time& deltaTime);
@@ -37,8 +42,17 @@ protected:
 	//swaps entity state to patrol state
 	void swapToPatrol();
 
-	//entities attack only in straight line
+	bool isTargetInFOV(const Entity& entity, const Entity& target) const;
+	bool canReachEntity(const Entity& entity, const Entity& target) const;
+	bool canTargetEntity(const Entity& entity, const Entity& target) const;
 	bool canAttack(const Entity& entity, const Entity& target) const;
+	bool canCastLOS(const Entity& entity) const;
+	void resetLOSTimer(const Entity& entity) const;
+	bool setDirectionTowardTarget(Entity& self, Entity& target);
+	std::optional<Direction> getDirectionToTarget(const Entity& self, const Entity& target) const;
+
+	void handleLogicIfPatrolling(Entity& entity, Entity& player);
+	AnimationIdentifier getRandomAttack(const Entity& entity);
 protected:
 	BehaviorContext& mBehaviorContext;
 	std::deque<std::unique_ptr<ITask>> mTasks;

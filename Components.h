@@ -330,19 +330,21 @@ struct SpellbookComponent : public IComponent
 	{}
 };
 
-struct ProjectileComponent : public IComponent
+struct SpellProjectileComponent : public IComponent
 {
 	const ProjectileSpell* cSpellData;
 	float cDistanceTraveled;
 	bool cPlayerCasted;
 	float cMaxDistance;
 	std::vector<size_t> cHitTargets; //keep track of hit target ids so we do not rehit them.
+	int cFinalDmg;
 
-	ProjectileComponent(const ProjectileSpell& spellData, bool playerCasted)
+	SpellProjectileComponent(const ProjectileSpell& spellData, bool playerCasted, int cDmg)
 		:cSpellData(&spellData),
 		cDistanceTraveled(0.f),
 		cPlayerCasted(playerCasted),
-		cMaxDistance(Config::getCellSize().x * spellData.range)
+		cMaxDistance(Config::getCellSize().x * spellData.range),
+		cFinalDmg(cDmg)
 	{}
 };
 
@@ -363,10 +365,24 @@ struct PositioningComponent : public IComponent
 	int cMinRange;
 	int cMaxRange;
 	bool cFocusOnDistance; //is entity more focused on keeping max range, or on finding any closest position.
-	
+	sf::Vector2i cTargetCell;
+	bool cLastRepositionTryFailed;
+
 	PositioningComponent(int minRange, int maxRange)
 		:cMinRange(minRange),
 		cMaxRange(maxRange),
-		cFocusOnDistance(true)
+		cFocusOnDistance(true),
+		cLastRepositionTryFailed(false)
+	{}
+};
+
+struct RangedEnemyComponent : public IComponent
+{
+	//Ranged enemies cast projectiles as basic attacks.
+	//This variable determines a spell that is assigned for enemy entity.
+	SpellIdentifier cSpellId;
+
+	RangedEnemyComponent(SpellIdentifier spellId)
+		:cSpellId(spellId)
 	{}
 };

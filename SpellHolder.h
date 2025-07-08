@@ -28,6 +28,8 @@ private:
 	void createPureProjectile();
 	void createFireball();
 	void createBloodball();
+
+	void createMorannaProjectile();
 private:
 	std::unordered_map<SpellIdentifier, SpellData> mSpellsMap;
 	std::unordered_map<SpellIdentifier, SpellDefinition> mDefinitions;

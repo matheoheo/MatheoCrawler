@@ -57,10 +57,11 @@ Pathfinder::PathfinderResult Pathfinder::getPath(const sf::Vector2i& cellA, cons
 		return result;
 
 	auto nodes = getPathNodes(start, finish, ignoreLastCell);
+	
 	if (!nodes.empty())
 		nodes.pop_back();
-	if (!nodes.empty())
-		nodes.erase(std::begin(nodes));
+	/*if (!nodes.empty())
+		nodes.erase(std::begin(nodes));*/
 	for (const auto& node : nodes)
 		result.push_back(node->cellIndex);
 
@@ -102,8 +103,12 @@ std::vector<Pathfinder::PathNode*> Pathfinder::getPathNodes(PathNode* start, Pat
 		mLastlyUsedNodes.insert(current);
 
 		if (current == finish)
+		{
+			//if (earlyExit)
+				//return std::vector<PathNode*>{ finish };
+
 			return reconstructPath(finish);
-		
+		}
 		current->visited = true;
 		auto neighbors = getNeighbors(current, finish, ignoreLastCell);
 
@@ -190,8 +195,7 @@ bool Pathfinder::isNodeWalkableRaw(const PathNode* node) const
 
 int Pathfinder::calculateGuessCost(const PathNode* from, const PathNode* to) const
 {
-	return Utilities::getDistanceBetweenCells(from->cellIndex, to->cellIndex);
-	//return std::abs(from->cellIndex.x - to->cellIndex.x) + std::abs(from->cellIndex.y - to->cellIndex.y);
+	return Utilities::getDistanceBetweenCells(from->cellIndex, to->cellIndex) * 10;
 }
 
 void Pathfinder::resetNode(PathNode& node)

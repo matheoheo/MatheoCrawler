@@ -213,6 +213,7 @@
     <ClCompile Include="PatrolAISystem.cpp" />
     <ClCompile Include="PatrolTask.cpp" />
     <ClCompile Include="PositioningAISystem.cpp" />
+    <ClCompile Include="PositionToAttackTask.cpp" />
     <ClCompile Include="ProjectileSpellUpgradeStrategy.cpp" />
     <ClCompile Include="ProjectileSystem.cpp" />
     <ClCompile Include="RegenerationSystem.cpp" />
@@ -302,6 +303,7 @@
     <ClInclude Include="PatrolTask.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PositioningAISystem.h" />
+    <ClInclude Include="PositionToAttackTask.h" />
     <ClInclude Include="ProjectileSpellUpgradeStrategy.h" />
     <ClInclude Include="ProjectileSystem.h" />
     <ClInclude Include="RegenerationSystem.h" />

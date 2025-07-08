@@ -49,6 +49,14 @@ void AttackSystem::registerToAttackFinishedEvent()
 {
 	mSystemContext.eventManager.registerEvent<AttackAnimationFinishedEvent>([this](const AttackAnimationFinishedEvent& data)
 		{
+			//ranged entities act differently - they spawn projectiles
+			if (data.entity.hasComponent<RangedEnemyComponent>())
+			{
+				const auto& rangedComp = data.entity.getComponent<RangedEnemyComponent>();
+				mSystemContext.eventManager.notify<SpawnProjectileEvent>(SpawnProjectileEvent(data.entity, rangedComp.cSpellId));
+				return;
+			}
+
 			if (!data.lastAttackData)
 				return;
 

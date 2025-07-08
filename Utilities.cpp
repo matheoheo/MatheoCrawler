@@ -93,6 +93,7 @@ const sf::Color& Utilities::getExploredTileColor(const Tile& tile)
 
 bool Utilities::isEntityWithinFOVRange(const Entity& observer, const Entity& target)
 {
+	
 	auto observerCell = Utilities::getEntityCell(observer);
 	auto targetCell = Utilities::getEntityCell(target);
 
@@ -124,14 +125,10 @@ Direction Utilities::getDirectionToTarget(const Entity& entity, const Entity& ta
 	int dx = toCell.x - fromCell.x;
 	int dy = toCell.y - fromCell.y;
 
-	if (dx == -1)
-		return Direction::Left;
-	else if (dx == 1)
-		return Direction::Right;
-	else if (dy == -1)
-		return Direction::Up;
-	else if (dy == 1)
-		return Direction::Bottom;
+	if (dx != 0)
+		return dx > 0 ? Direction::Right : Direction::Left;
+	else if (dy != 0)
+		return dy > 0 ? Direction::Bottom : Direction::Up;
 
 	return Direction::Up;
 }

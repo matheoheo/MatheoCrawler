@@ -11,15 +11,37 @@ PositioningAISystem::PositioningAISystem(SystemContext& systemContext, TileMap& 
 
 void PositioningAISystem::update(const sf::Time& deltaTime)
 {
-
 }
 
 void PositioningAISystem::registerToEvents()
 {
+	registerToRepositionToAttackEvent();
 }
 
 void PositioningAISystem::registerToRepositionToAttackEvent()
 {
+	mSystemContext.eventManager.registerEvent<RepositionToAttackEvent>([this](const RepositionToAttackEvent& data) 
+		{
+			auto& aiStateComp = data.entity.getComponent<EntityAIStateComponent>();
+			if (!isInOptimalPositionToAttack(data.entity, data.target))
+			{
+				auto& posComp = data.entity.getComponent<PositioningComponent>();
+				auto nextPos = getOptimalAttackPosition(data.entity, data.target);
+				if (nextPos)
+				{
+					auto& val = nextPos.value();
+					posComp.cTargetCell = val;
+					mSystemContext.eventManager.notify<RequestPathEvent>(RequestPathEvent(data.entity, val));
+					aiStateComp.cState = EntityAIState::RepositionToAttack;
+				}
+				else
+				{
+					aiStateComp.cState = EntityAIState::None;
+					posComp.cLastRepositionTryFailed = true;
+					posComp.cTargetCell = { 0, 0 };
+				}
+			}
+		});
 }
 
 bool PositioningAISystem::isInOptimalPositionToAttack(const Entity& self, const Entity& target) const
@@ -31,6 +53,8 @@ bool PositioningAISystem::isInOptimalPositionToAttack(const Entity& self, const 
 	int dx = std::abs(targetCell.x - selfCell.x);
 	int dy = std::abs(targetCell.y - selfCell.y);
 	if(dx != 0 && dy != 0)
+		return false;
+	if (dx < positioningComp.cMinRange || dy < positioningComp.cMinRange)
 		return false;
 
 	return mTileMap.isLineOfSightClear(selfCell, targetCell);
@@ -65,7 +89,7 @@ std::optional<sf::Vector2i> PositioningAISystem::getOptimalAttackPosition(Entity
 		for (int i = positioningComp.cMinRange; i <= positioningComp.cMaxRange; ++i)
 		{
 			sf::Vector2i rangeOffset{ offset.x * i, offset.y * i };
-			sf::Vector2i offsetCell = targetCell + rangeOffset;
+			sf::Vector2i offsetCell = targetCell - rangeOffset;
 
 			//if checked cell is not walkable - we must skip it, as it is no use for us.
 			if (!mTileMap.isTileWalkable(offsetCell.x, offsetCell.y))
@@ -94,15 +118,20 @@ std::optional<sf::Vector2i> PositioningAISystem::getOptimalAttackPosition(Entity
 	//now, we have to sort candidates.
 	std::sort(std::begin(candidates), std::end(candidates), [&distFrom, posFocus, &myCell, &targetCell](const auto& a, const auto& b)
 		{
-			int da = distFrom(posFocus ? targetCell : myCell, a);
-			int db = distFrom(posFocus ? targetCell : myCell, b);
-
-			if (da != db)
-				return da < db;
-
 			return distFrom(myCell, a) < distFrom(myCell, b);
 		});
 
-	//now candidates[0] is our result.
-	return candidates.front();
+	//we need to check if path exists to given place, and return only then.
+	//for performance reason, we only check first 3 positions - if no path, we fail.
+	int i = 0;
+	constexpr int maxChecks = 3;
+	for (const auto& cand : candidates)
+	{
+		if (mTileMap.doesPathExist(myCell, cand))
+			return cand;
+		if (++i > maxChecks)
+			break;
+	}
+
+	return std::nullopt;
 }

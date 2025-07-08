@@ -85,10 +85,10 @@ void EntityDataRepository::createMorannaEntityData()
 	data.moveSpeed = 115.f;
 	data.fovRange = 6;
 
-	data.combatStats.cAttackDamage = 11;
+	data.combatStats.cAttackDamage = 8;
 	data.combatStats.cAttackRange = 4;
-	data.combatStats.cAttackSpeed = 1.4f;
-	data.combatStats.cDefence = 2;
+	data.combatStats.cAttackSpeed = 1.2f;
+	data.combatStats.cDefence = 1;
 	data.combatStats.cHealth = 33;
 	data.combatStats.cMaxHealth = data.combatStats.cHealth;
 

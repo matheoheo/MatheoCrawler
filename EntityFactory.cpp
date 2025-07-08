@@ -7,7 +7,7 @@
 #include "Utilities.h"
 #include "SpellHolder.h"
 #include "SpellIdentifiers.h"
-
+#include "BasicRangedBehavior.h"
 
 EntityFactory::EntityFactory(EntityManager& entityManager, AssetManager<TextureIdentifier, sf::Texture>& textures,
 	BehaviorContext& behaviorContext, EventManager& eventManager)
@@ -44,14 +44,15 @@ void EntityFactory::spawnProjectileEvent(const SpawnProjectileEvent& data)
 	auto casterDir = data.caster.getComponent<DirectionComponent>().cCurrentDir;
 	auto casterCellIndex = Utilities::getEntityCell(data.caster);
 
-	if (data.projId == SpellIdentifier::WaterBall)
-		spawnWaterBall(data, casterCellIndex, casterDir);
-	else if (data.projId == SpellIdentifier::PureProjectile)
-		spawnPureProjectiles(data, casterCellIndex, casterDir);
-	else if (data.projId == SpellIdentifier::Fireball)
-		spawnFireballProjectiles(data, casterCellIndex);
-	else if (data.projId == SpellIdentifier::Bloodball)
-		spawnBloodballProjectiles(data, casterCellIndex, casterDir);
+	switch (data.projId)
+	{
+	case SpellIdentifier::WaterBall:      return spawnWaterBall(data, casterCellIndex, casterDir); 
+	case SpellIdentifier::PureProjectile: return spawnPureProjectiles(data, casterCellIndex, casterDir);
+	case SpellIdentifier::Fireball:       return spawnFireballProjectiles(data, casterCellIndex);
+	case SpellIdentifier::Bloodball:      return spawnBloodballProjectiles(data, casterCellIndex, casterDir);
+	case SpellIdentifier::MorannaProjectile: return spawnWaterBall(data, casterCellIndex, casterDir); //placeholder
+	default:							  break;
+	}
 }
 
 void EntityFactory::addCommonComponents(Entity& entity, EntityType entType)
@@ -79,7 +80,6 @@ void EntityFactory::addSpriteComponent(Entity& entity, TextureIdentifier texture
 
 void EntityFactory::addAIComponents(Entity& entity)
 {
-
 	entity.addComponent<EnemyComponent>();
 	entity.addComponent<EntityAIStateComponent>();
 	entity.addComponent<PatrolAIComponent>(static_cast<float>(getRandomPatrolDelay(1600, 3200)));
@@ -162,7 +162,9 @@ void EntityFactory::spawnMorannaEntity(const sf::Vector2i& cellIndex)
 	addCommonComponents(entity, EntityType::Moranna);
 	addAIComponents(entity);
 	addPositioningComponent(entity, 2);
-	entity.addComponent<BehaviorComponent>(std::make_unique<BasicMeleeBehavior>(mBehaviorContext));
+
+	entity.addComponent<RangedEnemyComponent>(SpellIdentifier::MorannaProjectile);
+	entity.addComponent<BehaviorComponent>(std::make_unique<BasicRangedBehavior>(mBehaviorContext));
 	notifyTileOccupied(entity);
 }
 
@@ -208,19 +210,17 @@ void EntityFactory::spawnProjectile(const SpawnProjectileEvent& data, const sf::
 {
 	constexpr sf::Vector2f projectileSize{ 48.f, 48.f };
 
-	auto& spellBookComp = data.caster.getComponent<SpellbookComponent>();
-	auto& thisSpell = spellBookComp.cSpells.at(data.projId);
-	auto& spellData = thisSpell.data;
-	if (spellData->type != SpellType::Projectile || !spellData->projectile)
+	auto& spellData = SpellHolder::getInstance().get(data.projId);
+	if (spellData.type != SpellType::Projectile || !spellData.projectile)
 		return;
 
-	auto& projData = spellData->projectile.value();
+	auto& projData = spellData.projectile.value();
 	sf::Vector2f spawnPos{ cellIndex.x * Config::getCellSize().x, cellIndex.y * Config::getCellSize().y };
 	bool playerCasted = data.caster.hasComponent<PlayerComponent>();
 	sf::Vector2f offset{ Config::getCellSize().x / 2.f, Config::getCellSize().y / 2.f };
 
 	auto& entity = mEntityManager.createEntity();
-	auto& spriteComp = entity.addComponent<SpriteComponent>(getProjectileTexture(data.projId, *spellData));
+	auto& spriteComp = entity.addComponent<SpriteComponent>(getProjectileTexture(data.projId));
 	spriteComp.cSprite.setOrigin(projectileSize * 0.5f);
 	spriteComp.cSprite.setPosition(spawnPos + offset);
 	spriteComp.cSprite.setRotation(sf::degrees(getProjectileRotation(casterDir)));
@@ -228,10 +228,10 @@ void EntityFactory::spawnProjectile(const SpawnProjectileEvent& data, const sf::
 	auto& moveComp = entity.addComponent<MovementComponent>(projData.speed);
 	moveComp.cDirectionVector = Utilities::dirToVector(casterDir);
 
-	auto& projComp = entity.addComponent<ProjectileComponent>(projData, playerCasted);
+	int projDmg = calculateProjectileDamage(data, projData);
+	auto& projComp = entity.addComponent<SpellProjectileComponent>(projData, playerCasted, projDmg);
 
 	mEventManager.notify<ProjectileSpawnedEvent>(ProjectileSpawnedEvent(entity));
-	std::cout << "Spawned at: " << cellIndex.x << ' ' << cellIndex.y << '\n';
 }
 
 void EntityFactory::spawnWaterBall(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex, Direction casterDir)
@@ -276,6 +276,7 @@ void EntityFactory::spawnBloodballProjectiles(const SpawnProjectileEvent& data, 
 	std::vector<Direction> projDirections;
 	if (casterDir == Direction::Up || casterDir == Direction::Bottom)
 		projDirections = std::vector<Direction>{ Direction::Left, Direction::Right };
+
 	else if (casterDir == Direction::Left || casterDir == Direction::Right)
 		projDirections = std::vector<Direction>{ Direction::Up, Direction::Bottom };
 
@@ -304,25 +305,37 @@ float EntityFactory::getProjectileRotation(Direction dir) const
 	return 0.0f;
 }
 
-const sf::Texture& EntityFactory::getProjectileTexture(SpellIdentifier id, const SpellData& data)
+const sf::Texture& EntityFactory::getProjectileTexture(SpellIdentifier id)
 {
-	//this class will be developed more in future.
-	if (id == SpellIdentifier::WaterBall)
+	switch (id)
 	{
-		return mTextures.get(TextureIdentifier::WaterBall0);
+	case SpellIdentifier::WaterBall:      return mTextures.get(TextureIdentifier::WaterBall0);
+	case SpellIdentifier::PureProjectile: return mTextures.get(TextureIdentifier::PureProjectile0);
+	case SpellIdentifier::Fireball:       return mTextures.get(TextureIdentifier::Fireball0);
+	case SpellIdentifier::Bloodball:      return mTextures.get(TextureIdentifier::Bloodball0);
+	default:							  break;
 	}
-	else if (id == SpellIdentifier::PureProjectile)
-	{
-		return mTextures.get(TextureIdentifier::PureProjectile0);
-	}
-	else if (id == SpellIdentifier::Fireball)
-	{
-		return mTextures.get(TextureIdentifier::Fireball0);
-	}
-	else if (id == SpellIdentifier::Bloodball)
-	{
-		return mTextures.get(TextureIdentifier::Bloodball0);
-	}
+
 	//default return;
 	return mTextures.get(TextureIdentifier::WaterBall0);
+}
+
+int EntityFactory::calculateProjectileDamage(const SpawnProjectileEvent& data, const ProjectileSpell& spellData) const
+{
+	int damage = Random::get(spellData.minDmg, spellData.maxDmg);
+	bool isRangedEnemy = data.caster.hasComponent<RangedEnemyComponent>();
+
+	//if caster is ranged enemy & this projectile will be only his basic attack (not plain spell)
+	//then we add to damage based on caster's combat stats
+	if (isRangedEnemy)
+	{
+		const auto& rangedComp = data.caster.getComponent<RangedEnemyComponent>();
+		if (rangedComp.cSpellId == data.projId)
+		{
+			const auto& combatStats = data.caster.getComponent<CombatStatsComponent>();
+			damage += combatStats.cAttackDamage;
+		}
+	}
+
+	return damage;
 }

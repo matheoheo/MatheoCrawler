@@ -17,12 +17,12 @@ private:
     bool hasExceededRange(const Entity& projectile);
     bool hasHitSomeone(const Entity& projectile);
     void handleEntityHit(const Entity& projectile);
-    void addEntityTargetHit(const Entity& hit, ProjectileComponent& projComp);
-    void onHit(Entity& hitEntity, Entity::EntityID projId, ProjectileComponent& projComp, bool wasPlayerHit);
+    void addEntityTargetHit(const Entity& hit, SpellProjectileComponent& projComp);
+    void onHit(Entity& hitEntity, Entity::EntityID projId, SpellProjectileComponent& projComp, bool wasPlayerHit);
     bool hasHitWall(const Entity& projectile) const;
 
     //checks if provided entity was already hit by specific projectile.
-    bool wasAlreadyHit(const Entity& entity, ProjectileComponent& projComp);
+    bool wasAlreadyHit(const Entity& entity, SpellProjectileComponent& projComp);
     void markAsFinished(Entity::EntityID id);
     void removeFinished();
 private:

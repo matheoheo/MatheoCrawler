@@ -41,6 +41,8 @@ void SpellHolder::initalizeSpells()
     createPureProjectile();
     createFireball();
     createBloodball();
+
+    createMorannaProjectile();
 }
 
 void SpellHolder::createQuickHeal()
@@ -274,4 +276,27 @@ void SpellHolder::createBloodball()
          .textureId = TextureIdentifier::BloodballIcon //placeholder
      }
     };
+}
+
+void SpellHolder::createMorannaProjectile()
+{
+    SpellIdentifier id{ SpellIdentifier::MorannaProjectile };
+    SpellData data;
+    data.type = SpellType::Projectile;
+    data.spellId = id;
+    data.castTime = 0; 
+    data.cooldown = 0;
+    data.cost = 0;
+
+    data.projectile = ProjectileSpell{
+        .minDmg = 1,
+        .maxDmg = 2,
+        .shotAmount = 1,
+        .range = 4,
+        .speed = 600.f,
+        .pierce = false,
+        .maxTargets = 1
+    };
+
+    mSpellsMap.emplace(id, std::move(data));
 }
