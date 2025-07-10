@@ -111,11 +111,9 @@ void BasicRangedBehavior::swapToAttacking(Entity& entity, Entity& target)
 	if (!setDirectionTowardTarget(entity, target))
 		return;
 
-	//entity.getComponent<EntityAIStateComponent>().cState = EntityAIState::Attacking;
-	std::string msg = std::format("Entity of id {} has swapped to attacking.", entity.getEntityId());
-	mBehaviorContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::Custom, {}, msg));
+	auto randomAttack = getRandomAttack(entity);
 	pushTask(std::make_unique<WaitUntilIdleTask>());
-	pushTask(std::make_unique<AttackTask>(AnimationIdentifier::Attack1));
+	pushTask(std::make_unique<AttackTask>(randomAttack));
 	pushDelayTask(getRandomDelay(250));
 
 }
@@ -127,7 +125,10 @@ void BasicRangedBehavior::fallbackOnNoDirection(Entity& self, Entity& target)
 
 bool BasicRangedBehavior::canReachEntity(const Entity& entity, const Entity& target) const
 {
-	std::cout << "RANGED BEHAVIOR\n";
+	//This function is override of function from IBehavior
+	//Originally, this function checks whether there is path to closest tiles around target
+	//(used originally for melee entities that much check if they can reach entity)
+	//But since ranged entities do not care about this - we just return true
 	return true;
 }
 

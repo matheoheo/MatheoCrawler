@@ -2,6 +2,7 @@
 #include <iostream>
 #include "AnimationHolder.h"
 #include "SpellIdentifiers.h"
+#include "IMapGenerator.h"
 
 class Entity;
 struct Tile;
@@ -254,9 +255,12 @@ struct RemoveEntityFromSystemEvent : public IEvent
 struct EntityDiedEvent : public IEvent
 {
 	Entity& entity;
+	bool grantMoney; //this parametr decides wether player should reviced money or not
 
-	EntityDiedEvent(Entity& entity)
-		:entity(entity) {}
+	EntityDiedEvent(Entity& entity, bool grantMoney = true)
+		:entity(entity),
+		grantMoney(grantMoney)
+	{}
 };
 
 struct SpawnEntityEvent : public IEvent
@@ -488,5 +492,24 @@ struct RepositionToAttackEvent : public IEvent
 	RepositionToAttackEvent(Entity& entity, Entity& target)
 		:entity(entity),
 		target(target)
+	{}
+};
+
+struct LoadNextLevelEvent : public IEvent
+{
+	//no need for data
+};
+
+struct BeforeLoadNextLevelEvent : public IEvent
+{
+	//Called before loading next level.
+};
+
+struct GenerateEntitiesEvent : public IEvent
+{
+	const IMapGenerator::SpawnPoints spawnPoints;
+
+	GenerateEntitiesEvent(const IMapGenerator::SpawnPoints& spawnPoints)
+		:spawnPoints(spawnPoints)
 	{}
 };

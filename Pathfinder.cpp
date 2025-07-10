@@ -26,11 +26,6 @@ void Pathfinder::initalize()
 	}
 }
 
-void Pathfinder::setSolidTypes(const std::vector<TileType>& solidTypes)
-{
-	mSolidTypes = solidTypes;
-}
-
 Pathfinder::PathfinderResult Pathfinder::getPath(const sf::Vector2f& positionA, const sf::Vector2f& positionB, bool ignoreLastCell)
 {
 	auto indexA = Utilities::getCellIndex(positionA);
@@ -104,9 +99,6 @@ std::vector<Pathfinder::PathNode*> Pathfinder::getPathNodes(PathNode* start, Pat
 
 		if (current == finish)
 		{
-			//if (earlyExit)
-				//return std::vector<PathNode*>{ finish };
-
 			return reconstructPath(finish);
 		}
 		current->visited = true;

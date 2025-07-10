@@ -64,6 +64,5 @@ private:
 private:
     std::vector<BSPNode*> mLeafNodes;
     std::vector<Room> mRooms;
-    std::unordered_map<const Room*, std::vector<sf::Vector2i>> mEntrances;
 };
 

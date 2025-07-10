@@ -25,9 +25,9 @@ enum class TextureIdentifier
 	PureProjIcon,
 	FireballIcon,
 	BloodballIcon,
-	//toDo: add more attack icons
-	// add more spell icons
-	//Projectiles
+
+	//Raw projectiles
+	//They have '0', because the plan was to add more of those.
 	WaterBall0,
 	PureProjectile0,
 	Fireball0,

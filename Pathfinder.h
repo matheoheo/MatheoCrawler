@@ -25,7 +25,6 @@ public:
 public:
 	Pathfinder(const TileMap& tileMap);
 	void initalize();
-	void setSolidTypes(const std::vector<TileType>& solidTypes);
 
 	PathfinderResult getPath(const sf::Vector2f& positionA, const sf::Vector2f& positionB, bool ignoreLastCell = true);
 	PathfinderResult getPath(const sf::Vector2i& cellA, const sf::Vector2i& cellB, bool ignoreLastCell = true);
@@ -44,7 +43,6 @@ private:
 	std::vector<PathNode*> reconstructPath(PathNode* finish);
 private:
 	const TileMap& mTileMap;
-	std::vector<TileType> mSolidTypes;
 	std::vector<std::vector<PathNode>> mNodes;
 	std::unordered_set<PathNode*> mLastlyUsedNodes;
 	const std::vector<std::vector<Tile>>* mTiles;

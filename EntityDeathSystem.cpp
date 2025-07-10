@@ -39,8 +39,11 @@ void EntityDeathSystem::registerToEvents()
 	mSystemContext.eventManager.registerEvent<EntityDiedEvent>([this](const EntityDiedEvent& data)
 		{
 			mDeadEntities.push_back(&data.entity);
-			addGoldToPlayer(data.entity);
-			notifyUISystem();
+			if (data.grantMoney)
+			{
+				addGoldToPlayer(data.entity);
+				notifyUISystem();
+			}
 		});
 }
 
@@ -50,6 +53,7 @@ void EntityDeathSystem::markEntityAsDead(Entity& entity)
 	auto& moveComp = entity.getComponent<MovementComponent>();
 
 	evMng.notify<TileVacatedEvent>(TileVacatedEvent(entity, moveComp.cInitialPosition));
+	evMng.notify<TileVacatedEvent>(TileVacatedEvent(entity, moveComp.cNextPos));
 	evMng.notify<ReserveTileEvent>(ReserveTileEvent(nullptr, moveComp.cNextPos));
 	evMng.notify<RemoveEntityFromSystemEvent>(RemoveEntityFromSystemEvent(entity));
 }
@@ -59,12 +63,9 @@ void EntityDeathSystem::removeFinishedEntities()
 	mDeadEntities.clear();
 	for (const auto& id : mFinishedEntities)
 	{
-		Entity* ent = mSystemContext.entityManager.getEntity(id);
-		if (ent)
-		{
-			ent->getComponent<SpriteComponent>().cSprite.setPosition({ -5000.f, -5000.f });
-		}
+		mSystemContext.entityManager.removeEntity(id);
 	}
+
 	mFinishedEntities.clear();
 }
 

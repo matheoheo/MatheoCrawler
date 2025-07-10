@@ -35,6 +35,11 @@ void EntityManager::removeEntity(size_t id)
         });
 }
 
+const std::vector<std::unique_ptr<Entity>>& EntityManager::getEntities() const
+{
+    return mEntities;
+}
+
 Entity& EntityManager::getPlayer() const
 {
     auto it = std::ranges::find_if(mEntities, [](const auto& ent)

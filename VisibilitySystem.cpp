@@ -39,6 +39,7 @@ void VisibilitySystem::registerToEvents()
 	registerToMoveAllowedEvent();
 	registerToEntityFinishedMoveEvent();
 	regToRemoveEntityFromSystemEvent();
+	registerToBeforeLoadNextLevelEvent();
 }
 
 void VisibilitySystem::registerToPlayerMoveFinishedEvent()
@@ -79,6 +80,17 @@ void VisibilitySystem::regToRemoveEntityFromSystemEvent()
 	mSystemContext.eventManager.registerEvent<RemoveEntityFromSystemEvent>([this](const RemoveEntityFromSystemEvent& data)
 		{
 			mLastVisibleEntities.erase(&data.entity);
+		});
+}
+
+void VisibilitySystem::registerToBeforeLoadNextLevelEvent()
+{
+	mSystemContext.eventManager.registerEvent<BeforeLoadNextLevelEvent>([this](const BeforeLoadNextLevelEvent& data)
+		{
+			std::cout << "Clearing in visibility system\n";
+			mTilesInFieldOfView.clear();
+			mPreviousFOV.clear();
+			mLastVisibleEntities.clear();
 		});
 }
 

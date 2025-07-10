@@ -11,6 +11,8 @@ public:
 private:
     void registerToEvents();
     void registerToTileFadeRequestEvent();
+    void registerToBeforeLoadNextLevelEvent();
+
     void removeFinishedTiles();
     void setTileColor(Tile& tile, const sf::Color& color);
     void markTileAsFinished(Tile& tile);

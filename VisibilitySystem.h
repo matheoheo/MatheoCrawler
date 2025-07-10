@@ -19,6 +19,7 @@ private:
 	void registerToMoveAllowedEvent();
 	void registerToEntityFinishedMoveEvent();
 	void regToRemoveEntityFromSystemEvent();
+	void registerToBeforeLoadNextLevelEvent();
 
 	void collectTilesInCameraView();
 	CellBounds getCellBoundsInCameraView() const;

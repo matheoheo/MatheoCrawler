@@ -9,7 +9,7 @@ public:
 	void start();
 
 	//loads all required textures before even displaying a window.
-	void preloadTextures();
+	void preloadAssets();
 private:
 	void processEvents();
 	void update(const sf::Time& deltaTime);

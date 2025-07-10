@@ -225,6 +225,7 @@ void TileMap::registerToEvents(EventManager& eventManager)
 	registerToTileOccupiedEvent(eventManager);
 	registerToTileVacatedEvent(eventManager);
 	registerToRemoveEntityFromSystemEvent(eventManager);
+	registerToBeforeLoadNextLevelEvent(eventManager);
 }
 
 void TileMap::registerToReserveTileEvent(EventManager& eventManager)
@@ -283,6 +284,16 @@ void TileMap::registerToRemoveEntityFromSystemEvent(EventManager& eventManager)
 	eventManager.registerEvent<RemoveEntityFromSystemEvent>([this](const RemoveEntityFromSystemEvent& data)
 		{
 			std::erase(mVisibleEntities, &data.entity);
+		});
+}
+
+void TileMap::registerToBeforeLoadNextLevelEvent(EventManager& eventManager)
+{
+	eventManager.registerEvent<BeforeLoadNextLevelEvent>([this](const BeforeLoadNextLevelEvent& data)
+		{
+			mVisibleTiles.clear();
+			mVisibleEntities.clear();
+			mTilesInCameraBounds.clear();
 		});
 }
 

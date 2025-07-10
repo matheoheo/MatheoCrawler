@@ -23,16 +23,23 @@ public:
     virtual void update(const sf::Time& deltaTime) override;
     virtual void render() override;
 private:
+    void registerToEvents();
+    void registerToLoadNextLevelEvent();
+
     void createMap();
     void renderMap();
     void spawnPlayer();
+    void positionPlayer();
     void createSystems();
     void loadAnimations();
     void initalizePathfinder();
     void spawnEntities();
     void initalizeUI();
-    void logFirstMessage();
+    void logOnEnterMessage();
     void doFirstEnter();
+    void removeEntities();
+    void loadNextLevel();
+    void notifyMoveFinished();
 
     void tryDebug();
 private:
@@ -46,5 +53,7 @@ private:
     Pathfinder mPathfinder;
     BehaviorContext mBehaviorContext;
     UIManager mUIManager;
+    bool mLevelLoaded;
+    bool mLoadNextLevel;
 };
 

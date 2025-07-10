@@ -6,6 +6,10 @@
 
 IMapGenerator::GeneratedMap DungeonGenerator::generate(const sf::Vector2i& size, int maxDepth, const sf::Vector2i& minRoomSize, const sf::Vector2i& maxRoomSize)
 {
+    mLeafNodes.clear();
+    mRooms.clear();
+    mSpawnPoints.clear();
+
     IMapGenerator::GeneratedMap map;
     BSPNode rootNode({});
     initalize(map, rootNode, size);

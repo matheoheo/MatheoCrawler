@@ -43,7 +43,7 @@ protected:
 	void swapToPatrol();
 
 	bool isTargetInFOV(const Entity& entity, const Entity& target) const;
-	bool canReachEntity(const Entity& entity, const Entity& target) const;
+	virtual bool canReachEntity(const Entity& entity, const Entity& target) const;
 	bool canTargetEntity(const Entity& entity, const Entity& target) const;
 	bool canAttack(const Entity& entity, const Entity& target) const;
 	bool canCastLOS(const Entity& entity) const;

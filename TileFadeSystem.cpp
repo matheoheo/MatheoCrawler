@@ -37,6 +37,7 @@ void TileFadeSystem::update(const sf::Time& deltaTime)
 void TileFadeSystem::registerToEvents()
 {
 	registerToTileFadeRequestEvent();
+	registerToBeforeLoadNextLevelEvent();
 }
 
 void TileFadeSystem::registerToTileFadeRequestEvent()
@@ -44,6 +45,15 @@ void TileFadeSystem::registerToTileFadeRequestEvent()
 	mSystemContext.eventManager.registerEvent<TileFadeRequestEvent>([this](const TileFadeRequestEvent& data)
 		{
 			mFadingTiles.insert(std::begin(data.tiles), std::end(data.tiles));
+		});
+}
+
+void TileFadeSystem::registerToBeforeLoadNextLevelEvent()
+{
+	mSystemContext.eventManager.registerEvent<BeforeLoadNextLevelEvent>([this](const BeforeLoadNextLevelEvent& data)
+		{
+			mFadingTiles.clear();
+			mFinishedFadingTiles.clear();
 		});
 }
 

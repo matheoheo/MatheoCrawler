@@ -118,7 +118,7 @@ std::string StatisticsShopCategory::getStatValueStr(StatType type, const CombatS
 		return std::to_string(stats.cDefence);
 		break;
 	case StatType::Health:
-		return std::to_string(stats.cHealth);
+		return std::to_string(stats.cMaxHealth);
 		break;
 	case StatType::MagicDefence:
 		return std::to_string(stats.cMagicDefence);

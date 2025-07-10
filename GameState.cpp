@@ -37,8 +37,11 @@ GameState::GameState(GameContext& gameContext)
 	mSystemContext(gameContext.eventManager, mEntityManager),
 	mPathfinder(mTileMap),
 	mBehaviorContext(gameContext.eventManager, mEntityManager, mTileMap),
-	mUIManager(gameContext)
+	mUIManager(gameContext),
+	mLoadNextLevel(false),
+	mLevelLoaded(false)
 {
+	registerToEvents();
 }
 
 void GameState::onEnter()
@@ -59,26 +62,31 @@ void GameState::update(const sf::Time& deltaTime)
 	mSystemManager.update(deltaTime);
 
 	static sf::Clock randomClock;
-	static bool f = false;
-
-	if (randomClock.getElapsedTime().asMilliseconds() > 2000.f)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Numpad5))
 	{
-		if (f)
+		if (randomClock.getElapsedTime().asMilliseconds() > 1000)
 		{
-			//auto& player = mEntityManager.getPlayer();
-			//mGameContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(player, nullptr, SpellIdentifier::Bloodball));
+			mGameContext.eventManager.notify<LoadNextLevelEvent>(LoadNextLevelEvent());
+			randomClock.restart();
+			return;
 		}
-		randomClock.restart();
 	}
-	if (!f)
+	
+	if (!mLevelLoaded)
 	{
-		auto& spriteComp = mEntityManager.getPlayer().getComponent<SpriteComponent>();
-		mGameContext.eventManager.notify<PlayerMoveFinishedEvent>(PlayerMoveFinishedEvent(spriteComp.cSprite.getPosition()));
-		f = true;
-		std::cout << "Is done!\n";
+		notifyMoveFinished();
+		mLevelLoaded = true;
 	}
 
 	mUIManager.update(deltaTime);
+
+	if (mLoadNextLevel)
+	{
+		std::cout << "UMM?\n";
+		mLoadNextLevel = false;
+		loadNextLevel();
+		return;
+	}
 }
 
 void GameState::render()
@@ -88,6 +96,20 @@ void GameState::render()
 	mSystemManager.render(mGameContext.window);
 
 	mUIManager.render();
+}
+
+void GameState::registerToEvents()
+{
+	registerToLoadNextLevelEvent();
+}
+
+void GameState::registerToLoadNextLevelEvent()
+{
+	mGameContext.eventManager.registerEvent<LoadNextLevelEvent>([this](const LoadNextLevelEvent& data)
+		{
+			mLoadNextLevel = true;
+			std::cout << "LOAD NEXT LEVEL = TRUE\n\n";
+		});
 }
 
 void GameState::createMap()
@@ -108,6 +130,18 @@ void GameState::spawnPlayer()
 
 	//add player to regeneration system
 	mGameContext.eventManager.notify<TriggerHpRegenSpellEvent>(TriggerHpRegenSpellEvent(mEntityManager.getPlayer(), 0, 0));
+}
+
+void GameState::positionPlayer()
+{
+	//This function is getting called when loading to the next level of dungeon.
+
+	auto& player = mEntityManager.getPlayer();
+	//in case player is animating we finalize it
+	//mGameContext.eventManager.notify<FinalizeAnimationEvent>(FinalizeAnimationEvent(player));
+	auto validPos = mTileMap.getFirstWalkablePos();
+	player.getComponent<SpriteComponent>().cSprite.setPosition(validPos);
+	mGameContext.eventManager.notify<TileOccupiedEvent>(TileOccupiedEvent(player, validPos));
 }
 
 void GameState::createSystems()
@@ -146,22 +180,13 @@ void GameState::loadAnimations()
 
 void GameState::initalizePathfinder()
 {
-	mPathfinder.setSolidTypes({ TileType::Wall, TileType::None });
 	mPathfinder.initalize();
 }
 
 void GameState::spawnEntities()
 {
 	const auto& spawnPoints = mGenerator.getSpawnPoints();
-	for (const auto& point : spawnPoints)
-	{
-		bool sklet = Random::get(0, 1);
-		EntityType entityType = EntityType::Skletorus;
-		if (!sklet)
-			entityType = EntityType::Bonvik;
-		mGameContext.eventManager.notify<SpawnEntityEvent>(SpawnEntityEvent(point, EntityType::Moranna));
-		//createSkeletonAxe(point);
-	}
+	mGameContext.eventManager.notify<GenerateEntitiesEvent>(GenerateEntitiesEvent(spawnPoints));
 }
 
 void GameState::initalizeUI()
@@ -170,9 +195,13 @@ void GameState::initalizeUI()
 	mUIManager.createUI();
 }
 
-void GameState::logFirstMessage()
+void GameState::logOnEnterMessage()
 {
-	mGameContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::Custom, 0, "Welcome to MattRawler!"));
+	auto lvl = Config::difficulityLevel;
+	if(lvl == 1)
+		mGameContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::Custom, 0, "Welcome to MattRawler!"));
+	std::string msg = "You descend to floor " + std::to_string(lvl);
+	mGameContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::Custom, 0, msg));
 }
 
 void GameState::doFirstEnter()
@@ -185,9 +214,46 @@ void GameState::doFirstEnter()
 	tasks.push_back([this]() { spawnPlayer(); });
 	tasks.push_back([this]() { spawnEntities(); });
 	tasks.push_back([this]() { initalizeUI(); });
-	tasks.push_back([this]() { logFirstMessage(); });
+	tasks.push_back([this]() { logOnEnterMessage(); });
 
 	mGameContext.eventManager.notify<EnterLoadingStateEvent>(EnterLoadingStateEvent(std::move(tasks)));
+}
+
+void GameState::removeEntities()
+{
+	//we call to remove all entities
+	//this is called when loading next level - we do not want old entities in our memory no more.
+	for (const auto& ent : mEntityManager.getEntities())
+	{
+		if (ent->hasComponent<PlayerComponent>())
+			continue;
+
+		mGameContext.eventManager.notify<EntityDiedEvent>(EntityDiedEvent(*ent, false));
+	}
+}
+
+void GameState::loadNextLevel()
+{
+	mGameContext.eventManager.notify<BeforeLoadNextLevelEvent>(BeforeLoadNextLevelEvent());
+	++Config::difficulityLevel;
+	std::vector<std::function<void()>> tasks;
+	tasks.push_back([this]() { removeEntities(); }); 
+	tasks.push_back([this]() { createMap(); });
+	tasks.push_back([this]() { initalizePathfinder(); });
+	tasks.push_back([this]() { positionPlayer(); });
+	tasks.push_back([this]() { spawnEntities(); });
+	tasks.push_back([this]() { logOnEnterMessage(); });
+	tasks.push_back([this]() { mLevelLoaded = false; });
+
+	mGameContext.eventManager.notify<EnterLoadingStateEvent>(EnterLoadingStateEvent(std::move(tasks)));
+	std::cout << "xdxdxd\n";
+}
+
+void GameState::notifyMoveFinished()
+{
+	//We simulate the movement, so the visibility gets updated.
+	auto& spriteComp = mEntityManager.getPlayer().getComponent<SpriteComponent>();
+	mGameContext.eventManager.notify<PlayerMoveFinishedEvent>(PlayerMoveFinishedEvent(spriteComp.cSprite.getPosition()));
 }
 
 void GameState::tryDebug()

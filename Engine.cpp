@@ -62,35 +62,35 @@ void Engine::render()
 	mWindow.display();
 }
 
-void Engine::preloadTextures()
+void Engine::preloadAssets()
 {
-	mTextures.load(TextureIdentifier::LoadingScreen, "assets/loading/loadingScreen.png");
-	mTextures.load(TextureIdentifier::MattLogo,		 "assets/logo/mattGamesLogo.jpeg");
-	mTextures.load(TextureIdentifier::Player,		 "assets/entities/player/player.png");
-	mTextures.load(TextureIdentifier::Moranna,       "assets/entities/Moranna/moranna.png");
-	mTextures.load(TextureIdentifier::Skletorus,	 "assets/entities/skeleton_axe/skeleton.png");
-	mTextures.load(TextureIdentifier::Bonvik,		 "assets/entities/Bonvik/bonvik.png");
-	mTextures.load(TextureIdentifier::Suash,		 "assets/ui/suash/suashIcon.png");
-	mTextures.load(TextureIdentifier::Twarf,		 "assets/ui/twarf/twarfIcon.png");
-	mTextures.load(TextureIdentifier::Devoyer,		 "assets/ui/attIcons/devoyer.png");
-	mTextures.load(TextureIdentifier::QuickHealIcon, "assets/ui/spellIcons/healing/QuickHeal.png");
-	mTextures.load(TextureIdentifier::MajorHealIcon, "assets/ui/spellIcons/healing/MajorHeal.png");
+	mTextures.load(TextureIdentifier::LoadingScreen,   "assets/loading/loadingScreen.png");
+	mTextures.load(TextureIdentifier::MattLogo,		   "assets/logo/mattGamesLogo.jpeg");
+	mTextures.load(TextureIdentifier::Player,		   "assets/entities/player/player.png");
+	mTextures.load(TextureIdentifier::Moranna,         "assets/entities/Moranna/moranna.png");
+	mTextures.load(TextureIdentifier::Skletorus,	   "assets/entities/skeleton_axe/skeleton.png");
+	mTextures.load(TextureIdentifier::Bonvik,		   "assets/entities/Bonvik/bonvik.png");
+	mTextures.load(TextureIdentifier::Suash,		   "assets/ui/suash/suashIcon.png");
+	mTextures.load(TextureIdentifier::Twarf,		   "assets/ui/twarf/twarfIcon.png");
+	mTextures.load(TextureIdentifier::Devoyer,		   "assets/ui/attIcons/devoyer.png");
+	mTextures.load(TextureIdentifier::QuickHealIcon,   "assets/ui/spellIcons/healing/QuickHeal.png");
+	mTextures.load(TextureIdentifier::MajorHealIcon,   "assets/ui/spellIcons/healing/MajorHeal.png");
 	mTextures.load(TextureIdentifier::HealthRegenIcon, "assets/ui/spellIcons/healing/HealthRegen.png");
-	mTextures.load(TextureIdentifier::ManaRegenIcon, "assets/ui/spellIcons/healing/ManaRegen.png");
-	mTextures.load(TextureIdentifier::WaterballIcon, "assets/ui/spellIcons/projectiles/waterball.png");
-	mTextures.load(TextureIdentifier::PureProjIcon, "assets/ui/spellIcons/projectiles/pure.png");
-	mTextures.load(TextureIdentifier::FireballIcon, "assets/ui/spellIcons/projectiles/fireball.png");
-	mTextures.load(TextureIdentifier::BloodballIcon, "assets/ui/spellIcons/projectiles/bloodball.png");
+	mTextures.load(TextureIdentifier::ManaRegenIcon,   "assets/ui/spellIcons/healing/ManaRegen.png");
+	mTextures.load(TextureIdentifier::WaterballIcon,   "assets/ui/spellIcons/projectiles/waterball.png");
+	mTextures.load(TextureIdentifier::PureProjIcon,    "assets/ui/spellIcons/projectiles/pure.png");
+	mTextures.load(TextureIdentifier::FireballIcon,    "assets/ui/spellIcons/projectiles/fireball.png");
+	mTextures.load(TextureIdentifier::BloodballIcon,   "assets/ui/spellIcons/projectiles/bloodball.png");
 
 
-	mTextures.load(TextureIdentifier::WaterBall0,    "assets/entities/projectiles/waterball/Water__05.png");
-	mTextures.load(TextureIdentifier::PureProjectile0, "assets/entities/projectiles/pure/Pure_08.png");
-	mTextures.load(TextureIdentifier::Fireball0,  "assets/entities/projectiles/fireball/Fireball_01.png");
-	mTextures.load(TextureIdentifier::Bloodball0, "assets/entities/projectiles/bloodball/Blood_01.png");
+	mTextures.load(TextureIdentifier::WaterBall0,      "assets/entities/projectiles/waterball/Water_Spell.png");
+	mTextures.load(TextureIdentifier::PureProjectile0, "assets/entities/projectiles/pure/Pure_Proj_Spell.png");
+	mTextures.load(TextureIdentifier::Fireball0,       "assets/entities/projectiles/fireball/Fireball_Spell.png");
+	mTextures.load(TextureIdentifier::Bloodball0,      "assets/entities/projectiles/bloodball/Blood_Spell.png");
 
 
 
 	mFonts.load(FontIdentifiers::Default, "assets/font/gameFont/dungeonFont.ttf");
-	mFonts.load(FontIdentifiers::UIFont, "assets/font/uiFont/unitblockFont.ttf");
+	mFonts.load(FontIdentifiers::UIFont,  "assets/font/uiFont/unitblockFont.ttf");
 
 }

@@ -8,7 +8,9 @@ public:
 	Entity& createEntity();
 	Entity* getEntity(size_t id);
 	void removeEntity(size_t id);
-	
+
+	const std::vector<std::unique_ptr<Entity>>& getEntities() const;
+
 	template <ComponentType... Components>
 	std::vector<Entity*> getEntitiesWithComponents() const; 
 

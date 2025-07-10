@@ -33,14 +33,6 @@ void BehaviorAIUpdateSystem::registerToEvents()
 
 void BehaviorAIUpdateSystem::registerToMonsterAppearEvent()
 {
-	mSystemContext.eventManager.registerEvent<MonsterAppearedEvent>([this](const MonsterAppearedEvent& data)
-		{
-			if (!data.entity.hasComponent<EntityAIStateComponent>())
-				return;
-
-			//changeEntityAIState(data.entity, EntityAIState::Patrolling);
-			//mSystemContext.eventManager.notify<StartPatrollingEvent>(StartPatrollingEvent(data.entity));
-		});
 }
 
 void BehaviorAIUpdateSystem::registerToMonsterDisappearEvent()
