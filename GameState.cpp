@@ -246,7 +246,6 @@ void GameState::loadNextLevel()
 	tasks.push_back([this]() { mLevelLoaded = false; });
 
 	mGameContext.eventManager.notify<EnterLoadingStateEvent>(EnterLoadingStateEvent(std::move(tasks)));
-	std::cout << "xdxdxd\n";
 }
 
 void GameState::notifyMoveFinished()

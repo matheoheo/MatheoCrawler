@@ -3,6 +3,8 @@
 #include "GameState.h"
 #include "StateIdentifiers.h"
 #include "LoadingState.h"
+#include "MenuState.h"
+#include "OptionsState.h"
 
 StateManager::StateManager(GameContext& gameContext)
     :mGameContext(gameContext)
@@ -84,9 +86,13 @@ void StateManager::switchState(StateIdentifier stateId)
     switch (stateId)
     {
     case StateIdentifier::MenuState:
+        pushState(std::make_unique<MenuState>(mGameContext));
         break;
     case StateIdentifier::GameState:
         pushState(std::make_unique<GameState>(mGameContext));
+        break;
+    case StateIdentifier::OptionsState:
+        pushState(std::make_unique<OptionsState>(mGameContext));
         break;
     default:
         break;

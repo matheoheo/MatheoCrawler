@@ -276,6 +276,12 @@
     <ClCompile Include="PositionToAttackTask.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MenuState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -564,6 +570,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PositionToAttackTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

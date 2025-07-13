@@ -207,7 +207,7 @@ void StatisticsShopCategory::createStatUpgradeTexts(const ShopItem& item)
 		tmpCombStats.cDefence += static_cast<int>(increase);
 		break;
 	case StatType::Health:
-		tmpCombStats.cHealth += static_cast<int>(increase);
+		tmpCombStats.cMaxHealth += static_cast<int>(increase);
 		break;
 	case StatType::MagicDefence:
 		tmpCombStats.cMagicDefence += static_cast<int>(increase);

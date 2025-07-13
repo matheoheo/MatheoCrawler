@@ -203,9 +203,11 @@
     <ClCompile Include="ITask.cpp" />
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="MessageLogUI.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="OnHitSystem.cpp" />
+    <ClCompile Include="OptionsState.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="PathFollowSystem.cpp" />
@@ -291,10 +293,12 @@
     <ClInclude Include="ISystem.h" />
     <ClInclude Include="ITask.h" />
     <ClInclude Include="LoadingState.h" />
+    <ClInclude Include="MenuState.h" />
     <ClInclude Include="MessageLogUI.h" />
     <ClInclude Include="MessageTypes.h" />
     <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="OnHitSystem.h" />
+    <ClInclude Include="OptionsState.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="PathFollowSystem.h" />

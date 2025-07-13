@@ -12,7 +12,7 @@ Engine::Engine()
 
 void Engine::start()
 {
-	mGameContext.eventManager.notify<SwitchStateEvent>(SwitchStateEvent(StateIdentifier::GameState, false));
+	mGameContext.eventManager.notify<SwitchStateEvent>(SwitchStateEvent(StateIdentifier::MenuState, false));
 	using namespace std::chrono;
 
 	sf::Clock fpsClock;
@@ -64,8 +64,10 @@ void Engine::render()
 
 void Engine::preloadAssets()
 {
-	mTextures.load(TextureIdentifier::LoadingScreen,   "assets/loading/loadingScreen.png");
-	mTextures.load(TextureIdentifier::MattLogo,		   "assets/logo/mattGamesLogo.jpeg");
+	mTextures.load(TextureIdentifier::MenuBackground,    "assets/menu/MenuBackground.png");
+	mTextures.load(TextureIdentifier::MattLogo,		     "assets/logo/mattGamesLogo.jpeg");
+	mTextures.load(TextureIdentifier::OptionsBackground, "assets/menu/OptionsBackground.jpeg");
+
 	mTextures.load(TextureIdentifier::Player,		   "assets/entities/player/player.png");
 	mTextures.load(TextureIdentifier::Moranna,         "assets/entities/Moranna/moranna.png");
 	mTextures.load(TextureIdentifier::Skletorus,	   "assets/entities/skeleton_axe/skeleton.png");

@@ -19,6 +19,7 @@ protected:
 	virtual void upgrade(ShopItem& item) override;
 	virtual std::string getItemDescriptionStr(const ShopItem& item) const override;
 	virtual void createStatUpgradeTexts(const ShopItem& item);
+	virtual void createAssignableOptions();
 
 	void createStatTypeToSpellIdMap();
 	void createSpellUpgrades();

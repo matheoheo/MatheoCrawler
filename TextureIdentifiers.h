@@ -2,8 +2,10 @@
 
 enum class TextureIdentifier
 {
+	//screens
 	MattLogo,
-	LoadingScreen,
+	MenuBackground,
+	OptionsBackground,
 
 	//entities
 	Player,

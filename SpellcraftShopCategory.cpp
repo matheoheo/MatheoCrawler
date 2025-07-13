@@ -18,6 +18,7 @@ SpellcraftShopCategory::SpellcraftShopCategory(GameContext& gameContext, Entity&
 
 	createStatTypeToSpellIdMap();
 	createSpellUpgrades();
+	initAssignables();
 }
 
 void SpellcraftShopCategory::processEvents(const sf::Event event)
@@ -31,13 +32,17 @@ void SpellcraftShopCategory::processEvents(const sf::Event event)
 		}
 	}
 	processUpgradeButtonEvents(event);
+	handleAssignPopupClick(event);
+	handleAssignButtonClick(event);
 }
 
 void SpellcraftShopCategory::update(const sf::Vector2f& mousePosition, const sf::Time& deltaTime)
 {
 	for (auto& button : mSpellCategories)
 		button.update(mousePosition);
+
 	updateItemsAndDescription(mousePosition);
+	updateAssignPopupButtons(mousePosition);
 }
 
 void SpellcraftShopCategory::render()
@@ -48,6 +53,7 @@ void SpellcraftShopCategory::render()
 	renderItems();
 	renderItemDescription();
 	renderStatsUpgradeText();
+	renderAssignablePopup();
 }
 
 void SpellcraftShopCategory::onCreate(const sf::Vector2f& pos, const sf::Vector2f& categorySize)
@@ -98,6 +104,17 @@ void SpellcraftShopCategory::createStatUpgradeTexts(const ShopItem& item)
 		auto info = data->getSpellUpgradeInfo();
 		makeUpgradeText(getNextUpgradeTextPos(), info.name + " " + info.unit, info.currValue, info.nextValue);
 	}
+}
+
+void SpellcraftShopCategory::createAssignableOptions()
+{
+	//This is hardcoded to correspond to UI Action Slots
+	using Key = sf::Keyboard::Key;
+	mAssignableOptions.emplace_back(Key::Z, "Z");
+	mAssignableOptions.emplace_back(Key::X, "X");
+	mAssignableOptions.emplace_back(Key::C, "C");
+	mAssignableOptions.emplace_back(Key::V, "V");
+	mAssignableOptions.emplace_back(Key::B, "B");
 }
 
 void SpellcraftShopCategory::createStatTypeToSpellIdMap()
@@ -195,14 +212,22 @@ void SpellcraftShopCategory::createSpellsCategories()
 void SpellcraftShopCategory::onSpellCategoryPress(size_t id)
 {
 	mItems.clear();
-	if (id == 0)
+	switch (id)
+	{
+	case 0:
 		createItems(getRestorationItemsInitData());
-	else if (id == 1)
+		break;
+	case 1:
 		createItems(getProjectilesItemsInitData());
+		break;
+	default:
+		break;
+	}
 
 	mSpellCategories.clear();
 	setDescriptionPos(mCategoryPos);
 	setUpgradeLevelsLimit();
+	makeItemsAssignable();
 }
 
 std::vector<ItemInitData> SpellcraftShopCategory::getRestorationItemsInitData() const

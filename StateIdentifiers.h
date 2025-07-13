@@ -4,5 +4,8 @@ enum class StateIdentifier
 {
 	MenuState,
 	GameState,
-	LoaderState
+	LoaderState,
+	OptionsState,
+	CreditsState,
+	AboutState
 };

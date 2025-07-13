@@ -8,10 +8,13 @@ IShopCategory::IShopCategory(GameContext& gameContext, Entity& player)
 	:UIComponent(gameContext, player),
 	mItemsPerRow(0),
 	mDescCharSize(ShopUtils::getItemDescSize()),
-	mCharSize(ShopUtils::getItemCharSize())
+	mCharSize(ShopUtils::getItemCharSize()),
+	mAssignToText(gameContext.fonts.get(FontIdentifiers::UIFont), "Bind To Key:", mDescCharSize),
+	mIsAssignableActive(false)
 {
 	float iconSize = Config::fWindowSize.x * 0.035f;
 	mIconSize = { iconSize, iconSize };
+	mAssignableButtons.reserve(mAssignableOptions.size());
 }
 
 void IShopCategory::processEvents(const sf::Event event)
@@ -32,6 +35,11 @@ void IShopCategory::create(const sf::Vector2f& pos, const sf::Vector2f& category
 	mCategorySize = categorySize;
 
 	onCreate(pos, categorySize);
+}
+
+void IShopCategory::createAssignableOptions()
+{
+	//to override, but not by all systems.
 }
 
 int IShopCategory::getUpgradeLevel(const std::string& upgradeName) const
@@ -355,4 +363,132 @@ void IShopCategory::checkIfUpgradeLevelReached(ShopItem& item)
 		Utilities::setTextOriginOnCenter(item.itemCostText);
 
 	}
+}
+
+void IShopCategory::makeItemsAssignable()
+{
+	for (auto& item : mItems)
+		item.isAssignable = true;
+}
+
+void IShopCategory::initAssignables()
+{
+	createAssignableOptions();
+	createAssignablePopup();
+}
+
+void IShopCategory::createAssignablePopup()
+{
+	const auto& font = mGameContext.fonts.get(FontIdentifiers::UIFont);
+	mAssignableBackground.setFillColor({ 32, 32, 40 });
+	mAssignToText.setFillColor({ 200, 200, 220 });
+	const sf::Vector2f backgroundSize{
+		Config::fWindowSize.x * 0.12f,
+		Config::fWindowSize.y * 0.08f
+	};
+	mAssignableBackground.setSize(backgroundSize);
+
+	const sf::Vector2f textSize = mAssignToText.getGlobalBounds().size;
+	mAssignToText.setOrigin(textSize * 0.5f);
+
+	for (const auto& [key, val] : mAssignableOptions)
+	{
+		mAssignableButtons.emplace_back(font, "[" + val + "]", mDescCharSize);
+		mAssignableButtons.back().setDefaultColor({ 100, 180, 255 });
+	}
+}
+
+void IShopCategory::layoutAssignPopup(const ShopItem& item)
+{
+	constexpr float margin = 5.f;
+	auto itemPos = item.itemVisual.getPosition();
+	auto backgroundSize = mAssignableBackground.getSize();
+	const sf::Vector2f backgroundPos = { itemPos.x, itemPos.y - backgroundSize.y - 1.f };
+	mAssignableBackground.setPosition(backgroundPos);
+
+	sf::Vector2f assignTextPos{
+		backgroundPos.x + backgroundSize.x / 2,
+		backgroundPos.y + margin
+	};
+
+	mAssignToText.setPosition(assignTextPos);
+	const float btnWidth = mAssignableButtons[0].getSize().x;
+	const size_t btnCount = mAssignableButtons.size();
+
+	float space = (backgroundSize.x - (btnWidth * btnCount)) / (btnCount + 1);
+	sf::Vector2f btnPos{ backgroundPos.x, assignTextPos.y + mDescCharSize + margin };
+
+	btnPos.x += space;
+	for (auto& button : mAssignableButtons)
+	{
+		button.setPosition(btnPos);
+		btnPos.x += mAssignableButtons.back().getSize().x + space;
+	}
+}
+
+void IShopCategory::handleAssignPopupClick(const sf::Event event)
+{
+	if (auto data = event.getIf<sf::Event::MouseButtonPressed>())
+	{
+		if (data->button != sf::Mouse::Button::Left)
+			return;
+
+		const sf::Vector2f pos{
+			static_cast<float>(data->position.x),
+			static_cast<float>(data->position.y)
+		};
+
+		for (const auto& item : mItems)
+		{
+			if (!item.isAssignable)
+				continue;
+
+			auto bounds = item.itemVisual.getGlobalBounds();
+			if (bounds.contains(pos))
+			{
+				mIsAssignableActive = !mIsAssignableActive;
+				if (mIsAssignableActive)
+					layoutAssignPopup(item);
+				return;
+			}
+		}
+	}
+}
+
+bool IShopCategory::handleAssignButtonClick(const sf::Event event)
+{
+	if (!mIsAssignableActive)
+		return false;
+	for (auto& btn : mAssignableButtons)
+	{
+		if (btn.isPressed(event))
+		{
+			btn.invoke();
+			return true;
+		}
+	}
+	return false;
+}
+
+void IShopCategory::updateAssignPopupButtons(const sf::Vector2f& mousePos)
+{
+	if (!mIsAssignableActive)
+		return;
+
+	for (auto& btn : mAssignableButtons)
+	{
+		btn.update(mousePos);
+	}
+}
+
+void IShopCategory::renderAssignablePopup()
+{
+	if (!mIsAssignableActive)
+		return;
+
+	mGameContext.window.draw(mAssignableBackground);
+	mGameContext.window.draw(mAssignToText);
+
+	for (const auto& btn : mAssignableButtons)
+		btn.render(mGameContext.window);
 }

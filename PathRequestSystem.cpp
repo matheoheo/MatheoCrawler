@@ -33,15 +33,6 @@ void PathRequestSystem::update(const sf::Time& deltaTime)
 	removeFinishedEntities();
 }
 
-void PathRequestSystem::render(sf::RenderWindow& window)
-{
-	for (const auto& [id, vec] : paths)
-	{
-		for (const auto& r : vec)
-			window.draw(r);
-	}
-}
-
 void PathRequestSystem::registerToEvents()
 {
 	registerToPathRequestEvent();
@@ -71,7 +62,6 @@ void PathRequestSystem::updatePathToTarget(Entity& entity)
 	pathComp.cPathCells.assign(std::begin(path), std::end(path));
 
 	mSystemContext.eventManager.notify<AddToPathFollowSystemEvent>(AddToPathFollowSystemEvent(entity));
-	createPathVisual(entity);
 
 	if (!pathComp.cPathCells.empty())
 	{
@@ -97,39 +87,3 @@ bool PathRequestSystem::hasRecalculationIntervalPassed(const Entity& entity) con
 	return chaseComp.cTimeSinceLastRecalculation > minRecalculationInterval;
 }
 
-void PathRequestSystem::createPathVisual(Entity& entity)
-{
-	auto& pathComp = entity.getComponent<PathComponent>();
-	auto createRect = [](const sf::Vector2i& cell, const sf::Color& color)
-	{
-		sf::RectangleShape r;
-		r.setSize({ 16.f, 16.f });
-		r.setOrigin({ 8.f, 8.f });
-		r.setFillColor(color);
-		r.setPosition({ cell.x * 64.f + 32.f, cell.y * 64.f + 32.f });
-		return r;
-	};
-
-	sf::Color color{
-		static_cast<uint8_t>(Random::get(0, 255)),
-		static_cast<uint8_t>(Random::get(0, 255)),
-		static_cast<uint8_t>(Random::get(0, 255))
-	};
-	auto entId = entity.getEntityId();
-	auto it = paths.find(entId);
-	if (it == paths.end())
-	{
-		paths.emplace(entId, std::vector<sf::RectangleShape>());
-	}
-	else
-	{
-		it->second.clear();
-	}
-
-	auto& cells = pathComp.cPathCells;
-	for (const auto& cell : cells)
-	{
-		paths.at(entId).emplace_back(createRect(cell, color));
-	}
-
-}
