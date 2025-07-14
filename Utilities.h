@@ -56,5 +56,7 @@ namespace Utilities
 	//If it does, a new line character is inserted to word before that one.
 	std::string wrapText(const std::string& originalStr, const sf::Font& font,
 		float maxWidth, unsigned int charSize);
+
+	bool strToBool(std::string_view str);
 };
 

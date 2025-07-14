@@ -284,3 +284,9 @@ std::string Utilities::wrapText(const std::string& originalStr, const sf::Font& 
 
 	return wrappedText;
 }
+
+bool Utilities::strToBool(std::string_view str)
+{
+	//for configuration files
+	return str == "On";
+}

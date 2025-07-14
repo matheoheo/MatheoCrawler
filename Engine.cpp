@@ -2,12 +2,13 @@
 #include "Engine.h"
 #include "Config.h"
 #include "StateIdentifiers.h"
-Engine::Engine()
+Engine::Engine(const sf::ContextSettings& settings)
 	:mWindow(sf::VideoMode(Config::windowSize), "Matheo Crawler", sf::Style::Titlebar | sf::Style::Close,
-		Config::fullscreen ? sf::State::Fullscreen : sf::State::Windowed),
+		Config::fullscreen ? sf::State::Fullscreen : sf::State::Windowed, settings),
 	mGameContext(mWindow, mTextures, mFonts, mEventManager),
 	mStateManager(mGameContext)
 {
+	mWindow.setVerticalSyncEnabled(Config::vSync);
 }
 
 void Engine::start()

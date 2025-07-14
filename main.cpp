@@ -5,7 +5,9 @@
 int main()
 {
 	Config::loadConfiguration();
-	Engine engine;
+	sf::ContextSettings settings;
+	settings.antiAliasingLevel = Config::aaLevel;
+	Engine engine(settings);
 	engine.preloadAssets();
 	engine.start();
 }

@@ -7,7 +7,8 @@ TextButton::TextButton(const sf::Font& font, const std::string& label, const uns
 	mCallback([]() {}),
 	mDefaultColor(sf::Color::White),
 	mHoverColor(sf::Color{255, 200, 0}),
-	mInactiveColor(80, 80, 80)
+	mInactiveColor(80, 80, 80),
+	mActive(true)
 {
 	setPosition(position);
 }

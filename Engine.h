@@ -5,7 +5,7 @@
 class Engine
 {
 public:
-	Engine();
+	Engine(const sf::ContextSettings& settings);
 	void start();
 
 	//loads all required textures before even displaying a window.

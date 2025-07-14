@@ -207,6 +207,7 @@
     <ClCompile Include="MessageLogUI.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="OnHitSystem.cpp" />
+    <ClCompile Include="OptionSelector.cpp" />
     <ClCompile Include="OptionsState.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Pathfinder.cpp" />
@@ -298,6 +299,7 @@
     <ClInclude Include="MessageTypes.h" />
     <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="OnHitSystem.h" />
+    <ClInclude Include="OptionSelector.h" />
     <ClInclude Include="OptionsState.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Pathfinder.h" />

@@ -6,6 +6,8 @@ namespace Config
 	inline sf::Vector2u windowSize(1920, 1080);
 	inline sf::Vector2f fWindowSize(1920, 1080.f);
 	inline bool fullscreen = true;
+	inline bool vSync = false;
+	inline unsigned int aaLevel = 0; //antiAliasing
 
 	inline unsigned int getCharacterSize() { return windowSize.y / 17; }
 	inline sf::Vector2f getCellSize() { return { 64.f, 64.f }; }
