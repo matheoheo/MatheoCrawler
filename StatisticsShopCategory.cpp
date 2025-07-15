@@ -44,6 +44,7 @@ void StatisticsShopCategory::onCreate(const sf::Vector2f& pos, const sf::Vector2
 
 	createItems(itemsData);
 	setDescriptionPos(pos);
+	determineItemsBorderColor();
 }
 
 int StatisticsShopCategory::calculateItemCost(StatType type, int level) const

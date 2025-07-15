@@ -285,6 +285,15 @@
     <ClCompile Include="OptionSelector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IVisualEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlowUpVisualEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RegenerationVisualEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -582,6 +591,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OptionSelector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IVisualEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlowUpVisualEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RegenerationVisualEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

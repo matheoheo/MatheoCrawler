@@ -1,0 +1,7 @@
+[windowInit]
+width:1920
+height:1080
+antialiasing:0
+fullscreen:On
+vsync:Off
+[/windowInit]

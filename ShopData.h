@@ -42,6 +42,7 @@ struct ShopItem
 	sf::FloatRect interactionBounds;
 	std::optional<int> maxUpgradeLevel; ///optional, because not every item/spell is gonna have a limit
 	bool isAssignable; //can this shop item be assigned to UI Action Slot
+	sf::RectangleShape border; //border for visual presentation
 
 	ShopItem(const sf::Font& font, const sf::Texture& itemTexture, const sf::Texture& currencyTexture, StatType type,
 		std::optional<int> maxUpgrade = std::nullopt)

@@ -14,11 +14,12 @@ public:
 	void setLabelPosition(const sf::Vector2f& pos);
 	void setValuePosition(const sf::Vector2f& pos);
 	void setArrowPosition(const sf::Vector2f& pos);
-
 	void setPositions(const sf::Vector2f& labelPos, const sf::Vector2f& valuePos, const sf::Vector2f& arrowPos);
+	void setValue(std::string_view str);
+
 
 	//returns currently picked value
-	const std::string& getValue() const;
+	std::string getValue() const;
 	//returns width of label Text
 	float getLabelWidth() const;
 	//returns width of longest value.

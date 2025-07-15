@@ -96,7 +96,17 @@ void OptionSelector::setPositions(const sf::Vector2f& labelPos, const sf::Vector
 	setArrowPosition(arrowPos);
 }
 
-const std::string& OptionSelector::getValue() const
+void OptionSelector::setValue(std::string_view str)
+{
+	auto it = std::ranges::find(mValueOptions, str);
+	if (it != std::ranges::end(mValueOptions))
+	{
+		mCurrValueIndex = std::distance(std::begin(mValueOptions), it);
+		updateValueText();
+	}
+}
+
+std::string OptionSelector::getValue() const
 {
 	if (mCurrValueIndex < mValueOptions.size())
 		return mValueOptions[mCurrValueIndex];

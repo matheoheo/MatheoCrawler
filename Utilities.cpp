@@ -290,3 +290,11 @@ bool Utilities::strToBool(std::string_view str)
 	//for configuration files
 	return str == "On";
 }
+
+std::string Utilities::boolToStr(bool status)
+{
+	if (status)
+		return "On";
+	
+	return "Off";
+}

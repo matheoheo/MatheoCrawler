@@ -33,6 +33,10 @@ ShopItem ShopUtils::createItem(const ItemInitData& data, const TexturesHolder& t
 	item.itemName = data.name;
 	Utilities::scaleSprite(item.itemVisual, { iconSize, iconSize });
 
+	item.border.setSize({ iconSize, iconSize });
+	item.border.setOutlineThickness(2.0f);
+	item.border.setFillColor(sf::Color::Transparent);
+
 	item.itemNameText.setCharacterSize(charSize);
 	item.itemNameText.setString(item.itemName);
 	item.itemNameText.setFillColor(sf::Color{ 230, 230, 230 });
@@ -53,8 +57,9 @@ void ShopUtils::positionItem(ShopItem& item, const sf::Vector2f& iconPos)
 	auto iconSize = getIconSize();
 	auto charSize = getItemCharSize();
 
-	constexpr float margin = 5.f;
+	constexpr float margin = 8.f;
 	item.itemVisual.setPosition(iconPos);
+	item.border.setPosition(iconPos);
 
 	const float sprCenter{ iconPos.x + item.itemVisual.getGlobalBounds().size.x / 2 };
 
@@ -74,6 +79,7 @@ void ShopUtils::positionItem(ShopItem& item, const sf::Vector2f& iconPos)
 void ShopUtils::renderItem(sf::RenderWindow& window, const ShopItem& item)
 {
 	window.draw(item.itemVisual);
+	window.draw(item.border);
 	window.draw(item.itemNameText);
 	window.draw(item.itemCostText);
 	window.draw(item.currencySprite);

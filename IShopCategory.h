@@ -66,6 +66,7 @@ protected:
 	void updateAssignPopupButtons(const sf::Vector2f& mousePos);
 	void renderAssignablePopup();
 
+	void determineItemsBorderColor();
 protected:
 	size_t mItemsPerRow;
 	const unsigned int mDescCharSize;

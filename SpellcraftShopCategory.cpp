@@ -228,6 +228,7 @@ void SpellcraftShopCategory::onSpellCategoryPress(size_t id)
 	setDescriptionPos(mCategoryPos);
 	setUpgradeLevelsLimit();
 	makeItemsAssignable();
+	determineItemsBorderColor();
 }
 
 std::vector<ItemInitData> SpellcraftShopCategory::getRestorationItemsInitData() const

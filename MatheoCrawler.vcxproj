@@ -31,6 +31,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -44,6 +45,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -191,6 +193,7 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="GlowUpVisualEffect.cpp" />
     <ClCompile Include="HealingSpellUpgradeStrategy.cpp" />
     <ClCompile Include="HealSpellSystem.cpp" />
     <ClCompile Include="IBehavior.cpp" />
@@ -201,6 +204,7 @@
     <ClCompile Include="IState.cpp" />
     <ClCompile Include="ISystem.cpp" />
     <ClCompile Include="ITask.cpp" />
+    <ClCompile Include="IVisualEffect.cpp" />
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuState.cpp" />
@@ -222,6 +226,7 @@
     <ClCompile Include="RegenerationSystem.cpp" />
     <ClCompile Include="PlayerResourcesUI.cpp" />
     <ClCompile Include="PlayerStatusUI.cpp" />
+    <ClCompile Include="RegenerationVisualEffect.cpp" />
     <ClCompile Include="RegenSpellUpgradeStrategy.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="ShopData.cpp" />
@@ -283,6 +288,7 @@
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="GlowUpVisualEffect.h" />
     <ClInclude Include="HealingSpellUpgradeStrategy.h" />
     <ClInclude Include="HealSpellSystem.h" />
     <ClInclude Include="IBehavior.h" />
@@ -293,6 +299,7 @@
     <ClInclude Include="IState.h" />
     <ClInclude Include="ISystem.h" />
     <ClInclude Include="ITask.h" />
+    <ClInclude Include="IVisualEffect.h" />
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="MessageLogUI.h" />
@@ -316,6 +323,7 @@
     <ClInclude Include="PlayerResourcesUI.h" />
     <ClInclude Include="PlayerStatusUI.h" />
     <ClInclude Include="Random.h" />
+    <ClInclude Include="RegenerationVisualEffect.h" />
     <ClInclude Include="RegenSpellUpgradeStrategy.h" />
     <ClInclude Include="Shop.h" />
     <ClInclude Include="ShopData.h" />

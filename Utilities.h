@@ -58,5 +58,6 @@ namespace Utilities
 		float maxWidth, unsigned int charSize);
 
 	bool strToBool(std::string_view str);
+	std::string boolToStr(bool status);
 };
 

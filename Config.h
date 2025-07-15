@@ -3,7 +3,11 @@
 
 namespace Config
 {
-	inline sf::Vector2u windowSize(1920, 1080);
+	inline constexpr std::string_view configFile = "assets/config/configuration.matt";
+	inline constexpr std::string_view configWindowCategory = "windowInit";
+	inline const char delimiter = ':';
+
+	inline sf::Vector2u windowSize(sf::VideoMode::getFullscreenModes()[0].size);
 	inline sf::Vector2f fWindowSize(1920, 1080.f);
 	inline bool fullscreen = true;
 	inline bool vSync = false;
@@ -11,8 +15,6 @@ namespace Config
 
 	inline unsigned int getCharacterSize() { return windowSize.y / 17; }
 	inline sf::Vector2f getCellSize() { return { 64.f, 64.f }; }
-
-	inline const char delimiter = ':';
 
 	inline constexpr sf::Color floorTileColor({ 180, 180, 160 });          // slight warm tint on visible floor
 	inline constexpr sf::Color wallTileColor({ 90, 90, 80 });              // subtle warm gray on walls
@@ -38,4 +40,8 @@ namespace Config
 	inline int difficulityLevel = 1;
 
 	void loadConfiguration();
+	void readOrCreateConfigurationFile();
+	void saveConfigToFile(const sf::Vector2u& resSize, unsigned int antiAliasing, bool fullscreen, bool vsync);
+	void readConfigFile();
+	void setVariables();
 }

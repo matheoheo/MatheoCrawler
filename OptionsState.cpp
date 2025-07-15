@@ -6,17 +6,18 @@
 OptionsState::OptionsState(GameContext& gameContext)
 	:IState(gameContext),
 	mCharSize(Config::getCharacterSize()),
-	mMarginPercent(0.075f),
-	mBackButton(gameContext.fonts.get(FontIdentifiers::Default), "Go Back", mCharSize),
+	mLeftMarginPercent(0.075f),
+	mRightMarginPercent(0.85f),
 	mBackground(gameContext.textures.get(TextureIdentifier::OptionsBackground)),
 	mHeaderText(gameContext.fonts.get(FontIdentifiers::Default)),
-	mApplyChangesText(gameContext.fonts.get(FontIdentifiers::Default))
+	mApplyChangesText(gameContext.fonts.get(FontIdentifiers::Default)),
+	mConfigSaved(false)
 {
 }
 
 void OptionsState::onEnter()
 {
-	createBackButton();
+	createButtons();
 	createBackground();
 	createHeaderText();
 	createApplyChangesText();
@@ -26,10 +27,13 @@ void OptionsState::onEnter()
 
 void OptionsState::processEvents(sf::Event event)
 {
-	if (mBackButton.isPressed(event))
+	for (auto& btn : mButtons)
 	{
-		mBackButton.invoke();
-		return;
+		if (btn.isPressed(event))
+		{
+			btn.invoke();
+			return;
+		}
 	}
 
 	for (auto& [key, val] : mOptions)
@@ -39,7 +43,8 @@ void OptionsState::processEvents(sf::Event event)
 void OptionsState::update(const sf::Time& deltaTime)
 {
 	IState::updateMousePosition();
-	mBackButton.update(fMousePos);
+	for (auto& btn : mButtons)
+		btn.update(fMousePos);
 
 	for (auto& [key, val] : mOptions)
 		val.update(fMousePos);
@@ -49,24 +54,52 @@ void OptionsState::render()
 {
 	mGameContext.window.draw(mBackground);
 	mGameContext.window.draw(mHeaderText);
-	mGameContext.window.draw(mApplyChangesText);
-	mBackButton.render(mGameContext.window);
+
+	if(mConfigSaved)
+		mGameContext.window.draw(mApplyChangesText);
+
+	for (const auto& btn : mButtons)
+		btn.render(mGameContext.window);
 
 	for (auto& [key, val] : mOptions)
 		val.render(mGameContext.window);
 }
 
-void OptionsState::createBackButton()
+void OptionsState::createButtons()
 {
-	mBackButton.setCallback([this]() {
-		mGameContext.eventManager.notify<PopStateEvent>(PopStateEvent());
-		});
-
-	const sf::Vector2f pos{
-		Config::fWindowSize.x * mMarginPercent, //so we get left position
-		Config::fWindowSize.y * (1.0f - mMarginPercent) //so we got bottom position
+	constexpr size_t buttonsCount = 2;
+	const auto& font = mGameContext.fonts.get(FontIdentifiers::Default);
+	const std::array<TextButton::TextButtonInitData, 2> buttonsData =
+	{ {
+		{.label = "Apply Changes", .callback = [this]() {
+				applyChanges();
+			}
+		},
+		{.label = "Go Back", .callback = [this]() {
+				mGameContext.eventManager.notify<PopStateEvent>(PopStateEvent());
+			}
+		}
+	} };
+	const std::array<sf::Vector2f, buttonsCount> buttonsPos =
+	{
+		sf::Vector2f{
+			Config::fWindowSize.x * mLeftMarginPercent, //so we get left position
+			Config::fWindowSize.y * (1.0f - mLeftMarginPercent) //so we got bottom position
+		},
+		sf::Vector2f{
+			Config::fWindowSize.x * mRightMarginPercent, //right position
+			Config::fWindowSize.y * (1.0f - mLeftMarginPercent) //bottom pos
+		}
 	};
-	mBackButton.setPosition(pos);
+
+	mButtons.reserve(buttonsCount);
+
+	for (int i = 0; i < buttonsCount; ++i)
+	{
+		mButtons.emplace_back(font, buttonsData[i].label, mCharSize);
+		mButtons.back().setCallback(buttonsData[i].callback);
+		mButtons.back().setPosition(buttonsPos[i]);
+	}
 }
 
 void OptionsState::createBackground()
@@ -97,12 +130,11 @@ void OptionsState::createHeaderText()
 void OptionsState::createApplyChangesText()
 {
 	mApplyChangesText.setFillColor(sf::Color::White);
-	mApplyChangesText.setString("Please restart the game to apply changes.");
+	mApplyChangesText.setString("Configuration has been saved. Please restart the game to apply changes.");
 	mApplyChangesText.setCharacterSize(mCharSize);
 
 	mApplyChangesText.setOutlineThickness(2.f);
 	mApplyChangesText.setOutlineColor(sf::Color::Black);
-	mApplyChangesText.setStyle(sf::Text::Style::Italic);
 	mApplyChangesText.setOrigin(mApplyChangesText.getGlobalBounds().size * 0.5f);
 
 	constexpr float bottomMargin = 0.25f;
@@ -111,6 +143,17 @@ void OptionsState::createApplyChangesText()
 		Config::fWindowSize.y * (1.0f - bottomMargin)
 	};
 	mApplyChangesText.setPosition(pos);
+}
+
+void OptionsState::applyChanges()
+{
+	auto resolution = getResolutionValue();
+	auto antiAliasingLevel = getAntiAliasingValue();
+	bool fullscreen = Utilities::strToBool(mOptions.at(OptionID::Fullscreen).getValue());
+	bool vsync = Utilities::strToBool(mOptions.at(OptionID::VSync).getValue());
+	Config::saveConfigToFile(resolution, antiAliasingLevel, fullscreen, vsync);
+
+	mConfigSaved = true;
 }
 
 std::string OptionsState::optionIDToString(OptionID id) const
@@ -148,6 +191,7 @@ void OptionsState::createOptions()
 	createBooleanValues(mOptions.at(OptionID::Fullscreen));
 	createBooleanValues(mOptions.at(OptionID::VSync));
 	positionOptions();
+	setActualValuesToOptions();
 }
 
 void OptionsState::createResolutionOptionValues()
@@ -163,7 +207,8 @@ void OptionsState::createResolutionOptionValues()
 		});
 
 	for (const auto& mode : filteredModes)
-		option.addValue(getResolutionValue(mode.size));
+		option.addValue(resolutionToString(mode.size));
+
 }
 
 void OptionsState::createAntiAliasingOptionValues()
@@ -185,11 +230,6 @@ void OptionsState::createBooleanValues(OptionSelector& option)
 	option.addValue("Off");
 }
 
-std::string OptionsState::getResolutionValue(const sf::Vector2u& res) const
-{
-	return std::to_string(res.x) + "x" + std::to_string(res.y);
-}
-
 void OptionsState::positionOptions()
 {
 
@@ -206,9 +246,9 @@ void OptionsState::positionOptions()
 	constexpr float marginInRow = 12.f;
 	const float marginBetweenOptions = mCharSize * 0.25f;
 
-	const float labelX = Config::fWindowSize.x * mMarginPercent;
+	const float labelX = Config::fWindowSize.x * (5*mLeftMarginPercent);
 	const float headerHeight = mHeaderText.getGlobalBounds().size.y;
-	float y = mHeaderText.getPosition().y + headerHeight + (headerHeight * mMarginPercent);
+	float y = mHeaderText.getPosition().y + headerHeight + (headerHeight );
 
 	const float valueX = labelX + labelWidth + marginInRow;
 	const float arrowX = valueX + valueWidth + marginInRow;
@@ -225,4 +265,55 @@ void OptionsState::positionOptions()
 		opt.setPositions({ labelX, y }, { valueX, y }, { arrowX, y });
 		y += mCharSize + marginBetweenOptions;
 	}
+}
+
+void OptionsState::setActualValuesToOptions()
+{
+	const std::array<std::pair<OptionID, std::string>, 4> values =
+	{ {
+		{OptionID::AntiAliasing, std::to_string(Config::aaLevel) + "x"},
+		{OptionID::Fullscreen,   Utilities::boolToStr(Config::fullscreen)},
+		{OptionID::VSync,		 Utilities::boolToStr(Config::vSync)},
+		{OptionID::Resolution,   resolutionToString(Config::windowSize)}
+	} };
+
+	for (auto& [key, val] : mOptions)
+	{
+		auto it = std::ranges::find_if(values, [key](const auto& pair) {
+			return pair.first == key;
+		});
+
+		if (it != std::ranges::end(values))
+			val.setValue(it->second);
+	}
+}
+
+std::string OptionsState::resolutionToString(const sf::Vector2u& res) const
+{
+	return std::to_string(res.x) + "x" + std::to_string(res.y);
+}
+
+sf::Vector2u OptionsState::getResolutionValue() const
+{
+	//need to take option by option, parse and save to file
+	auto resolutionValue = mOptions.at(OptionID::Resolution).getValue();
+	//resolution comes in 1920x1080 way, so we must split it
+	auto splitPos = resolutionValue.find('x');
+	std::string width = resolutionValue.substr(0, splitPos);
+	std::string height = resolutionValue.substr(splitPos + 1, resolutionValue.size() - 1);
+
+	return
+	{
+		static_cast<unsigned int>(std::stoi(width)),
+		static_cast<unsigned int>(std::stoi(height))
+	};
+}
+
+unsigned int OptionsState::getAntiAliasingValue() const
+{
+	std::string value = mOptions.at(OptionID::AntiAliasing).getValue();
+	//AntiAliasing comes in a format '0x', '2x', etc.. so we just need to get first char and thats all
+	std::string opt{ value[0] };
+
+	return static_cast<unsigned int>(std::stoi(opt));
 }

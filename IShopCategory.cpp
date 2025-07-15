@@ -492,3 +492,15 @@ void IShopCategory::renderAssignablePopup()
 	for (const auto& btn : mAssignableButtons)
 		btn.render(mGameContext.window);
 }
+
+void IShopCategory::determineItemsBorderColor()
+{
+	constexpr sf::Color assignable{ 60, 200, 120 };
+	constexpr sf::Color notAssignable{ 90, 90, 90 };
+
+	for (auto& item : mItems)
+	{
+		bool isAss = item.isAssignable;
+		item.border.setOutlineColor(isAss ? assignable : notAssignable);
+	}
+}

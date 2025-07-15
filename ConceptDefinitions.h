@@ -26,3 +26,10 @@ concept ComponentType = std::derived_from<T, IComponent>;
 //Constrains provided template parametr to be one of 2 types, animationKeys are either GenericAnimationKey or EntityAnimationKey
 template <typename T>
 concept AnimationKeyType = std::is_same_v<T, GenericAnimationKey> || std::is_same_v<T, EntityAnimationKey>;
+
+//For File handling - template parametrs must support '<<' operator.
+template <typename T>
+concept Streamable = requires(T t, std::ostream out)
+{
+	{out << t} -> std::same_as<std::ostream&>;
+};

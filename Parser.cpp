@@ -111,7 +111,6 @@ Parser::ParserNode Parser::parseCategory(std::string_view currentCategory, auto&
         if (!p1.empty() && !p2.empty())
         {
             auto key = removeSpaces(p1);
-         //   if (key == "frameOffsetY") std::cout << "Y Found.\n";
             auto value = removeSpaces(p2);
             node.data.emplace(key, value);
         }
