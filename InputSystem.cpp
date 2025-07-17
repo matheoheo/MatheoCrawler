@@ -6,6 +6,7 @@
 InputSystem::InputSystem(SystemContext& systemContext)
 	:ISystem(systemContext)
 {
+	registerToEvents();
 	createSpellKeyToIntMap();
 }
 
@@ -22,6 +23,56 @@ void InputSystem::update(const sf::Time& deltaTime)
 {
 	handleMovement();
 	handleAttacking();
+}
+
+void InputSystem::registerToEvents()
+{
+	registerToBindSpellEvent();
+}
+
+void InputSystem::registerToBindSpellEvent()
+{
+	mSystemContext.eventManager.registerEvent<BindSpellEvent>([this](const BindSpellEvent& data)
+		{
+			const auto& player = mSystemContext.entityManager.getPlayer();
+			//firstly, we must check if this spell is in player's spellbook
+			if (!doesPlayerHaveSpell(data.spellId))
+				return;
+			
+			//now we check if this spell isn't already assigned 
+			auto assigned = isSpellAlreadyAssigned(data.spellId);
+			if (std::holds_alternative<bool>(assigned)) //the spell isn't assigned already, we can do it.
+				assignSpell(data.slotKey, data.spellId);
+			else //otherwise we must either swap or just bind to different slot 
+			{
+				//this is our actual slot that the spell is assigned to
+				int assignedSlotId = std::get<int>(assigned);
+				auto assignedSlotKey = getKeyBasedOnId(assignedSlotId);
+				if (!assignedSlotKey || !mSpellKeyToInt.contains(data.slotKey))
+					return; //should never happen
+
+				//now we check, if the slot we want to assign has any spell assigned or not
+				auto desiredId = mSpellKeyToInt.at(data.slotKey);
+				auto& assignedSpells = player.getComponent<AssignedSpellsComponent>().cAssignedSpells;
+				SpellInstance* desiredInstance = assignedSpells.at(desiredId);
+				if (!desiredInstance)
+				{
+					//no need to swap, we can remove from old spot and add to new one.
+					assignedSpells.at(assignedSlotId) = nullptr;
+					mSystemContext.eventManager.notify<RemoveActionBindEvent>(RemoveActionBindEvent(assignedSlotKey.value()));
+					assignSpell(data.slotKey, data.spellId);
+				}
+				else
+				{
+					if (!desiredInstance->data)
+						return;
+					//just swap
+					auto spellIdOfDesiredSlot = desiredInstance->data->spellId;
+					assignSpell(data.slotKey, data.spellId);
+					assignSpell(assignedSlotKey.value(), spellIdOfDesiredSlot);
+				}
+			}
+		});
 }
 
 void InputSystem::handleMovement()
@@ -85,6 +136,9 @@ void InputSystem::handleCastingSpell(sf::Keyboard::Key pressedKey)
 		auto& spells = assigned.cAssignedSpells;
 		if (auto it2 = spells.find(it->second); it2 != std::end(spells))
 		{
+			if (!it2->second || !it2->second->data)
+				return;
+
 			auto spellId = it2->second->data->spellId;
 			mSystemContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(player, nullptr, spellId, pressedKey));
 		}
@@ -118,5 +172,66 @@ void InputSystem::createSpellKeyToIntMap()
 	mSpellKeyToInt[sf::Keyboard::Key::V] = 3;
 	mSpellKeyToInt[sf::Keyboard::Key::B] = 4;
 
+}
+
+bool InputSystem::doesPlayerHaveSpell(SpellIdentifier id) const
+{
+	const auto& player = mSystemContext.entityManager.getPlayer();
+	const auto& spells = player.getComponent<SpellbookComponent>().cSpells;
+	auto it = std::ranges::find_if(spells, [id](const auto& pair){
+			return pair.second.data && pair.second.data->spellId == id;
+		});
+
+	return it != std::ranges::end(spells);
+}
+
+std::variant<int, bool> InputSystem::isSpellAlreadyAssigned(SpellIdentifier id) const
+{
+	const auto& player = mSystemContext.entityManager.getPlayer();
+	const auto& assignedComp = player.getComponent<AssignedSpellsComponent>();
+	const auto& asSpells = assignedComp.cAssignedSpells; //assignedSpells
+
+	auto it = std::ranges::find_if(asSpells, [id](const auto& pair)	{
+			return pair.second && pair.second->data->spellId == id;
+		});
+	if (it == std::ranges::end(asSpells))
+		return false;
+
+	return it->first;
+}
+
+void InputSystem::assignSpell(sf::Keyboard::Key slotKey, SpellIdentifier spellId)
+{
+	if (mSpellKeyToInt.contains(slotKey))
+	{
+		const auto& player = mSystemContext.entityManager.getPlayer();
+		auto& assignedSpells = player.getComponent<AssignedSpellsComponent>().cAssignedSpells;
+		auto& availableSpells = player.getComponent<SpellbookComponent>().cSpells;
+
+		int correspondingId = mSpellKeyToInt.at(slotKey);
+		if (correspondingId >= assignedSpells.size())
+			return; //this should never happen
+
+		//must find corresponding spell instance
+		auto it = std::ranges::find_if(availableSpells, [spellId](const auto& pair) {
+			return pair.second.data && pair.second.data->spellId == spellId;
+			});
+		if (it == std::ranges::end(availableSpells))
+			return;
+
+		assignedSpells.at(correspondingId) = &it->second;
+		mSystemContext.eventManager.notify<ReBindSpellActionEvent>(ReBindSpellActionEvent(slotKey, spellId));
+	}
+}
+
+std::optional<sf::Keyboard::Key> InputSystem::getKeyBasedOnId(int id) const
+{
+	auto it = std::ranges::find_if(mSpellKeyToInt, [id](const auto& pair) {
+		return pair.second == id;
+		});
+	if (it == std::ranges::end(mSpellKeyToInt))
+		return {};
+
+	return it->first;
 }
 

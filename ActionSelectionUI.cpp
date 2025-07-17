@@ -2,6 +2,8 @@
 #include "ActionSelectionUI.h"
 #include "Config.h"
 #include "Utilities.h"
+#include "SpellHolder.h"
+#include "Entity.h"
 
 ActionSelectionUI::ActionSelectionUI(GameContext& gameContext, Entity& player)
 	:UIComponent(gameContext, player),
@@ -36,6 +38,8 @@ void ActionSelectionUI::registerToEvents()
 {
 	registerToSelectAttackEvent();
 	registerToStartSpellCooldownUIEvent();
+	registerToReBindSpellActionEvent();
+	registerToRemoveActionBindEvent();
 }
 
 void ActionSelectionUI::registerToSelectAttackEvent()
@@ -62,15 +66,38 @@ void ActionSelectionUI::registerToStartSpellCooldownUIEvent()
 		});
 }
 
+void ActionSelectionUI::registerToReBindSpellActionEvent()
+{
+	mGameContext.eventManager.registerEvent<ReBindSpellActionEvent>([this](const ReBindSpellActionEvent& data)
+		{
+			UIIconSlot* slot = getSlotBasedOnActivationKey(data.newSlotKey);
+			if (slot)
+			{
+				auto textId = getTextureIDBasedOnSpell(data.spellId);
+				setSlotIcon(*slot, textId);
+			}
+		});
+}
+
+void ActionSelectionUI::registerToRemoveActionBindEvent()
+{
+	mGameContext.eventManager.registerEvent<RemoveActionBindEvent>([this](const RemoveActionBindEvent& data)
+		{
+			UIIconSlot* slot = getSlotBasedOnActivationKey(data.slotKey);
+			if (slot)
+				slot->icon = {};
+		});
+}
+
 void ActionSelectionUI::createAttackSlots()
 {
 	sf::Vector2f pos{ Config::fWindowSize.x * 0.21f, Config::fWindowSize.y - mSlotSize - 2.f };
 	constexpr size_t slotCount = 3;
 	const std::array<SlotData, slotCount> slotDatas =
 	{
-		SlotData{TextureIdentifier::Devoyer, "1", Key::Num1},
-		SlotData{TextureIdentifier::Devoyer, "2", Key::Num2},
-		SlotData{TextureIdentifier::Devoyer, "3", Key::Num3}
+		SlotData{"1", Key::Num1},
+		SlotData{"2", Key::Num2},
+		SlotData{"3", Key::Num3}
 	};
 	createSlotsList(slotDatas, pos);
 	
@@ -84,11 +111,11 @@ void ActionSelectionUI::createSpellSlots()
 	constexpr size_t slotCount = 5;
 	const std::array<SlotData, slotCount> slotDatas =
 	{
-		SlotData{TextureIdentifier::WaterballIcon, "Z", Key::Z},
-		SlotData{TextureIdentifier::PureProjIcon,  "X", Key::X},
-		SlotData{TextureIdentifier::FireballIcon,  "C", Key::C},
-		SlotData{TextureIdentifier::BloodballIcon, "V", Key::V},
-		SlotData{TextureIdentifier::Devoyer,       "B", Key::B}
+		SlotData{"Z", Key::Z},
+		SlotData{"X", Key::X},
+		SlotData{"C", Key::C},
+		SlotData{"V", Key::V},
+		SlotData{"B", Key::B}
 	};
 	createSlotsList(slotDatas, pos);
 }
@@ -100,31 +127,41 @@ void ActionSelectionUI::createSlotsList(std::span< const SlotData> dataSpan, sf:
 
 	for (const auto& data : dataSpan)
 	{
-		mIconSlots.push_back(createSlot(data.textureId, slotSize, pos, data.keyLabel, data.activationKey));
+		mIconSlots.push_back(createSlot(slotSize, pos, data.keyLabel, data.activationKey));
 		pos.x += slotSize.x + 2 * margin;
 	}
 }
 
+void ActionSelectionUI::setSlotIcon(UIIconSlot& slot, TextureIdentifier id)
+{
+	if (slot.icon)
+		slot.icon = {};
+
+	slot.icon.emplace(mGameContext.textures.get(id));
+	Utilities::scaleSprite(slot.icon.value(), { mSlotSize, mSlotSize });
+	slot.icon.value().setPosition(slot.border.getPosition());
+
+}
+
 void ActionSelectionUI::renderSlot(const UIIconSlot& slot)
 {
-	mGameContext.window.draw(slot.icon);
+	if (slot.icon)
+		mGameContext.window.draw(slot.icon.value());
+
 	mGameContext.window.draw(slot.border);
 	mGameContext.window.draw(slot.keyText);
 }
 
-ActionSelectionUI::UIIconSlot ActionSelectionUI::createSlot(TextureIdentifier textureId, const sf::Vector2f& size,
+ActionSelectionUI::UIIconSlot ActionSelectionUI::createSlot(const sf::Vector2f& size,
 	const sf::Vector2f& pos, const std::string& keyLabel, Key key) const
 {
 	constexpr float borderThickness = 2.f;
-	UIIconSlot slot(mGameContext.textures.get(textureId), mFont, key);
+	UIIconSlot slot(mFont, key);
 	slot.border.setSize(size);
 	slot.border.setFillColor(sf::Color::Transparent);
 	slot.border.setOutlineColor(mInactiveBorderColor);
 	slot.border.setOutlineThickness(borderThickness);
 	slot.border.setPosition(pos);
-	
-	Utilities::scaleSprite(slot.icon, size);
-	slot.icon.setPosition(pos);
 
 	sf::Vector2f offset{ 1.f, 1.f };
 	slot.keyText.setCharacterSize(Config::getCharacterSize() / 2);
@@ -134,13 +171,18 @@ ActionSelectionUI::UIIconSlot ActionSelectionUI::createSlot(TextureIdentifier te
 	return slot;
 }
 
-const ActionSelectionUI::UIIconSlot* ActionSelectionUI::getSlotBasedOnActivationKey(Key key) const
+ActionSelectionUI::UIIconSlot* ActionSelectionUI::getSlotBasedOnActivationKey(Key key)
 {
 	auto it = std::ranges::find(mIconSlots, key, &UIIconSlot::activationKey);
 	if(it == std::ranges::end(mIconSlots))
 		return nullptr;
 
 	return &(*it);
+}
+
+TextureIdentifier ActionSelectionUI::getTextureIDBasedOnSpell(SpellIdentifier spellID) const
+{
+	return SpellHolder::getInstance().getDefinition(spellID).spellInfo.textureId;
 }
 
 void ActionSelectionUI::createCooldown(const UIIconSlot& slot, int* cooldown)

@@ -110,21 +110,16 @@ void EntityFactory::spawnPlayerEntity(const sf::Vector2i& cellIndex)
 	auto& assigned = entity.addComponent<AssignedSpellsComponent>();
 	auto& spells = entity.addComponent<SpellbookComponent>();
 
-	constexpr std::array<SpellIdentifier, 5> playerSpells =
+	for (int i = 0; i <= static_cast<int>(SpellIdentifier::Bloodball); ++i)
 	{
-		SpellIdentifier::QuickHeal,
-		SpellIdentifier::ManaRegen,
-		SpellIdentifier::PureProjectile,
-		SpellIdentifier::WaterBall,
-		SpellIdentifier::Fireball
-	};
+		auto id = static_cast<SpellIdentifier>(i);
+		spells.cSpells.emplace(id, 
+			SpellInstance{.data = &SpellHolder::getInstance().get(id)});
+	}
 
-	int i = 0;
-	for (auto id : playerSpells )
+	for (int i = 0; i < 5; ++i)
 	{
-		spells.cSpells.emplace(id, SpellInstance{ .data = &SpellHolder::getInstance().get(id)});
-		assigned.cAssignedSpells.emplace(i, &spells.cSpells.at(id));
-		++i;
+		assigned.cAssignedSpells.emplace(i, nullptr);
 	}
 	
 	notifyTileOccupied(entity);

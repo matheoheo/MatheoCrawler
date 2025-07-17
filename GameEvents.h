@@ -513,3 +513,37 @@ struct GenerateEntitiesEvent : public IEvent
 		:spawnPoints(spawnPoints)
 	{}
 };
+
+struct BindSpellEvent : public IEvent
+{
+	sf::Keyboard::Key slotKey; //(from Z to B)
+	SpellIdentifier spellId;
+
+	BindSpellEvent(sf::Keyboard::Key slotKey, SpellIdentifier id)
+		:slotKey(slotKey),
+		spellId(id)
+	{}
+};
+
+struct ReBindSpellActionEvent : public IEvent
+{
+	using Key = sf::Keyboard::Key;
+	Key newSlotKey;
+	SpellIdentifier spellId;
+	std::optional<Key> oldSlotKey; //in case spell was already binded we will just swap
+
+	ReBindSpellActionEvent(Key newSlotKey, SpellIdentifier spellId, std::optional<Key> oldSlotKey = {})
+		:newSlotKey(newSlotKey),
+		spellId(spellId),
+		oldSlotKey(oldSlotKey)
+	{}
+};
+
+struct RemoveActionBindEvent : public IEvent
+{
+	sf::Keyboard::Key slotKey;
+
+	RemoveActionBindEvent(sf::Keyboard::Key slotKey)
+		:slotKey(slotKey)
+	{}
+};

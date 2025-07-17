@@ -20,10 +20,12 @@ protected:
 	virtual std::string getItemDescriptionStr(const ShopItem& item) const override;
 	virtual void createStatUpgradeTexts(const ShopItem& item);
 	virtual void createAssignableOptions();
+	virtual void setAssignableButtonsCallbacks();
 
 	void createStatTypeToSpellIdMap();
 	void createSpellUpgrades();
 	void setUpgradeLevelsLimit();
+	void notifySpellBindEvent(const TextButton& button);
 private:
 	struct SpellShopMapping {
 		SpellIdentifier spellId;

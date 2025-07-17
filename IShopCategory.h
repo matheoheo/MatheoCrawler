@@ -65,7 +65,7 @@ protected:
 	bool handleAssignButtonClick(const sf::Event event);
 	void updateAssignPopupButtons(const sf::Vector2f& mousePos);
 	void renderAssignablePopup();
-
+	virtual void setAssignableButtonsCallbacks();
 	void determineItemsBorderColor();
 protected:
 	size_t mItemsPerRow;
@@ -80,9 +80,10 @@ protected:
 	std::vector<sf::Text> mStatUpgradeTexts;
 	std::vector<std::pair<sf::Keyboard::Key, std::string>> mAssignableOptions; //neither map nor unordered_map keep the order i need.
 
-	sf::Text mAssignToText; //for assignable spells.
-	std::vector<TextButton> mAssignableButtons; //action slots that u can assign shop item to.
+	sf::Text mAssignToText; //just a quick 'bind to key:' text, informative.
+	std::vector<TextButton> mAssignableButtons; //each button corresponds to each ActionSlot in UI.
 	sf::RectangleShape mAssignableBackground;
 	bool mIsAssignableActive; //only if true we update and render assignable stuff.
+	const ShopItem* mLastPressedItem; //we need to track which item was lastly pressed, so we can send corresponding data to other system.
 };
 

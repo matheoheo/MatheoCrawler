@@ -10,7 +10,8 @@ IShopCategory::IShopCategory(GameContext& gameContext, Entity& player)
 	mDescCharSize(ShopUtils::getItemDescSize()),
 	mCharSize(ShopUtils::getItemCharSize()),
 	mAssignToText(gameContext.fonts.get(FontIdentifiers::UIFont), "Bind To Key:", mDescCharSize),
-	mIsAssignableActive(false)
+	mIsAssignableActive(false),
+	mLastPressedItem(nullptr)
 {
 	float iconSize = Config::fWindowSize.x * 0.035f;
 	mIconSize = { iconSize, iconSize };
@@ -396,6 +397,7 @@ void IShopCategory::createAssignablePopup()
 		mAssignableButtons.emplace_back(font, "[" + val + "]", mDescCharSize);
 		mAssignableButtons.back().setDefaultColor({ 100, 180, 255 });
 	}
+	setAssignableButtonsCallbacks();
 }
 
 void IShopCategory::layoutAssignPopup(const ShopItem& item)
@@ -449,6 +451,7 @@ void IShopCategory::handleAssignPopupClick(const sf::Event event)
 				mIsAssignableActive = !mIsAssignableActive;
 				if (mIsAssignableActive)
 					layoutAssignPopup(item);
+				mLastPressedItem = (mIsAssignableActive) ? &item : nullptr;
 				return;
 			}
 		}
@@ -491,6 +494,10 @@ void IShopCategory::renderAssignablePopup()
 
 	for (const auto& btn : mAssignableButtons)
 		btn.render(mGameContext.window);
+}
+
+void IShopCategory::setAssignableButtonsCallbacks()
+{
 }
 
 void IShopCategory::determineItemsBorderColor()

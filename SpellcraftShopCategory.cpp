@@ -75,11 +75,9 @@ void SpellcraftShopCategory::updateItemPrice(ShopItem& item)
 void SpellcraftShopCategory::upgrade(ShopItem& item)
 {
 	auto stat = item.statType;
+
 	if (mSpellUpgrades.contains(stat))
-	{
 		mSpellUpgrades.at(stat)->upgrade();
-	}
-	
 }
 
 std::string SpellcraftShopCategory::getItemDescriptionStr(const ShopItem& item) const
@@ -115,6 +113,17 @@ void SpellcraftShopCategory::createAssignableOptions()
 	mAssignableOptions.emplace_back(Key::C, "C");
 	mAssignableOptions.emplace_back(Key::V, "V");
 	mAssignableOptions.emplace_back(Key::B, "B");
+}
+
+void SpellcraftShopCategory::setAssignableButtonsCallbacks()
+{
+	for (auto& button : mAssignableButtons)
+	{
+		button.setCallback([this, &button]()
+			{
+				notifySpellBindEvent(button);
+			});
+	}
 }
 
 void SpellcraftShopCategory::createStatTypeToSpellIdMap()
@@ -172,6 +181,39 @@ void SpellcraftShopCategory::setUpgradeLevelsLimit()
 			item.maxUpgradeLevel = it->second;
 		}
 	}
+}
+
+void SpellcraftShopCategory::notifySpellBindEvent(const TextButton& button)
+{
+	if (!mLastPressedItem)
+		return;
+
+	//We need to get the std::string from the button
+	//It looks like this: [Z] [X] ... and so on
+	//so we get the button string and then just take the key at index [1]
+	auto buttonStr = button.getButtonString();
+	std::string keyStr{ buttonStr[1] };
+
+	//Now we need map this key in string to sf::Keyboard::Key object
+	//We can do this by iterating over mAssignableOptions map
+	sf::Keyboard::Key realKey{ sf::Keyboard::Key::Z }; //by default Z
+	for (const auto& [key, val] : mAssignableOptions)
+	{
+		if (val == keyStr)
+		{
+			realKey = key;
+			break;
+		}
+	}
+	//now, we have key to which spell should be assigned to.
+	
+	//Also, based on mLastPressed item, we need to get proper SpellIdentifier
+	auto type = mLastPressedItem->statType;
+	if (!mStatTypeToSpellIdMap.contains(type))
+		return;
+	auto spellId = mStatTypeToSpellIdMap.at(type); // we have our spellId
+	//now we can send bind event.
+	mGameContext.eventManager.notify<BindSpellEvent>(BindSpellEvent(realKey, spellId));
 }
 
 void SpellcraftShopCategory::createSpellsCategories()

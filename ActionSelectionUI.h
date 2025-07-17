@@ -10,38 +10,39 @@ public:
     virtual void processEvents(const sf::Event event) override;
     virtual void update(const sf::Vector2f& mousePosition, const sf::Time& deltaTime) override;
     virtual void render() override;
-
 private:
     struct UIIconSlot {
-        sf::Sprite icon;
+        std::optional<sf::Sprite> icon;
         sf::RectangleShape border;
         sf::Text keyText;
         Key activationKey;
 
-        UIIconSlot(const sf::Texture& iconTexture, const sf::Font& font, Key key)
-            :icon(iconTexture),
-            keyText(font),
+        UIIconSlot(const sf::Font& font, Key key)
+            :keyText(font),
             activationKey(key)
         {}
     };
     struct SlotData {
-        TextureIdentifier textureId;
         std::string keyLabel;
         sf::Keyboard::Key activationKey;
     };
     void registerToEvents();
     void registerToSelectAttackEvent();
     void registerToStartSpellCooldownUIEvent();
+    void registerToReBindSpellActionEvent();
+    void registerToRemoveActionBindEvent();
     void createAttackSlots();
     void createSpellSlots();
 
     void createSlotsList(std::span<const SlotData> dataSpan, sf::Vector2f pos);
+    void setSlotIcon(UIIconSlot& slot, TextureIdentifier id);
     void renderSlot(const UIIconSlot& slot);
 
-    UIIconSlot createSlot(TextureIdentifier textureId, const sf::Vector2f& size, const sf::Vector2f& pos, 
+    UIIconSlot createSlot(const sf::Vector2f& pos, const sf::Vector2f& size,
         const std::string& keyLabel, Key key) const;
 
-    const UIIconSlot* getSlotBasedOnActivationKey(Key key) const;
+    UIIconSlot* getSlotBasedOnActivationKey(Key key);
+    TextureIdentifier getTextureIDBasedOnSpell(SpellIdentifier spellID) const;
 private:
     struct UICooldown {
         sf::RectangleShape overlay;
