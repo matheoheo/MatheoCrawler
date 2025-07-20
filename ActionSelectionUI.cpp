@@ -58,7 +58,7 @@ void ActionSelectionUI::registerToStartSpellCooldownUIEvent()
 {
 	mGameContext.eventManager.registerEvent<StartSpellCooldownUIEvent>([this](const StartSpellCooldownUIEvent& data)
 		{
-			const UIIconSlot* slot = getSlotBasedOnActivationKey(data.usedKey);
+			UIIconSlot* slot = getSlotBasedOnActivationKey(data.usedKey);
 			if (!slot)
 				return;
 
@@ -75,6 +75,23 @@ void ActionSelectionUI::registerToReBindSpellActionEvent()
 			{
 				auto textId = getTextureIDBasedOnSpell(data.spellId);
 				setSlotIcon(*slot, textId);
+				if (data.oldSlotKey) //this means, that spell was already assigned to some slot
+				{
+					//if there was a cooldown on old spot we must swap it too
+					UIIconSlot* oldSlot = getSlotBasedOnActivationKey(data.oldSlotKey.value());
+					if (oldSlot && oldSlot->uiCooldown && oldSlot->uiCooldown->cooldown)
+					{
+						int* oldCd = oldSlot->uiCooldown->cooldown;
+						int* newCd = nullptr;
+						//we must check also if current slot has cooldown
+						if (slot->uiCooldown && slot->uiCooldown->cooldown)
+							newCd = slot->uiCooldown->cooldown;
+						setSlotCooldown(*slot, oldCd); //new slot gets old cd(which mean cd from his previous spot)
+						setSlotCooldown(*oldSlot, newCd);
+					}
+				}
+				else
+					slot->uiCooldown = {}; //otherwise just remove the cooldown.
 			}
 		});
 }
@@ -85,7 +102,11 @@ void ActionSelectionUI::registerToRemoveActionBindEvent()
 		{
 			UIIconSlot* slot = getSlotBasedOnActivationKey(data.slotKey);
 			if (slot)
+			{
 				slot->icon = {};
+				if (slot->uiCooldown)
+					slot->uiCooldown = {  };
+			}
 		});
 }
 
@@ -185,14 +206,21 @@ TextureIdentifier ActionSelectionUI::getTextureIDBasedOnSpell(SpellIdentifier sp
 	return SpellHolder::getInstance().getDefinition(spellID).spellInfo.textureId;
 }
 
-void ActionSelectionUI::createCooldown(const UIIconSlot& slot, int* cooldown)
+void ActionSelectionUI::createCooldown(UIIconSlot& slot, int* cooldown)
 {
 	if (!cooldown)
 		return;
+	//if this slot already has ongoing cooldown we just adjust cooldown varaible
+	if (slot.uiCooldown)
+	{
+		slot.uiCooldown.value().cooldown = cooldown;
+		return;
+	}
 
 	constexpr sf::Color overlayColor{0, 0, 0, 150};
 	unsigned int charSize = Config::getCharacterSize() / 2;
-	UICooldown cd(mFont);
+	slot.uiCooldown.emplace(mFont);
+	auto& cd = slot.uiCooldown.value();
 	cd.cooldown = cooldown;
 	cd.overlay.setFillColor(overlayColor);
 	cd.overlay.setSize(slot.border.getSize());
@@ -203,7 +231,6 @@ void ActionSelectionUI::createCooldown(const UIIconSlot& slot, int* cooldown)
 	sf::Vector2f origin{ cd.timerText.getGlobalBounds().size * 0.5f };
 	cd.timerText.setOrigin(origin);
 	cd.timerText.setPosition(cd.overlay.getPosition() + cd.overlay.getGeometricCenter());
-	mCooldowns.push_back(std::move(cd));
 }
 
 void ActionSelectionUI::updateCooldownText(UICooldown& cd)
@@ -216,10 +243,15 @@ void ActionSelectionUI::updateCooldownText(UICooldown& cd)
 
 void ActionSelectionUI::removeFinishedCooldowns()
 {
-	std::erase_if(mCooldowns, [](const UICooldown& cd)
+	for (auto& slot : mIconSlots)
+	{
+		if (slot.uiCooldown)
 		{
-			return *cd.cooldown <= 250;
-		});
+			const auto& cd = slot.uiCooldown.value();
+			if (*cd.cooldown <= 250)
+				slot.uiCooldown = {};
+		}
+	}
 }
 
 void ActionSelectionUI::updateCooldowns()
@@ -228,9 +260,13 @@ void ActionSelectionUI::updateCooldowns()
 	if (mCooldownFrames != 15)
 		return;
 
-	for (auto& cd : mCooldowns)
+	for (auto& slot : mIconSlots)
 	{
-		updateCooldownText(cd);
+		if (slot.uiCooldown)
+		{
+			auto& cd = slot.uiCooldown.value();
+			updateCooldownText(cd);
+		}
 	}
 	mCooldownFrames = 0;
 	removeFinishedCooldowns();
@@ -238,9 +274,20 @@ void ActionSelectionUI::updateCooldowns()
 
 void ActionSelectionUI::renderCooldowns()
 {
-	for (auto& cd : mCooldowns)
+	for (auto& slot : mIconSlots)
 	{
-		mGameContext.window.draw(cd.overlay);
-		mGameContext.window.draw(cd.timerText);
+		if (slot.uiCooldown)
+		{
+			const auto& val = slot.uiCooldown.value();
+			mGameContext.window.draw(val.overlay);
+			mGameContext.window.draw(val.timerText);
+		}
 	}
+}
+
+void ActionSelectionUI::setSlotCooldown(UIIconSlot& slot, int* cd)
+{
+	if (!slot.uiCooldown || !cd)
+		return;
+	slot.uiCooldown->cooldown = cd;
 }

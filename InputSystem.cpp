@@ -57,10 +57,9 @@ void InputSystem::registerToBindSpellEvent()
 				SpellInstance* desiredInstance = assignedSpells.at(desiredId);
 				if (!desiredInstance)
 				{
-					//no need to swap, we can remove from old spot and add to new one.
+					//remove from old spot and assign to new one.
 					assignedSpells.at(assignedSlotId) = nullptr;
-					mSystemContext.eventManager.notify<RemoveActionBindEvent>(RemoveActionBindEvent(assignedSlotKey.value()));
-					assignSpell(data.slotKey, data.spellId);
+					assignSpell(data.slotKey, data.spellId, assignedSlotKey.value());
 				}
 				else
 				{
@@ -68,7 +67,7 @@ void InputSystem::registerToBindSpellEvent()
 						return;
 					//just swap
 					auto spellIdOfDesiredSlot = desiredInstance->data->spellId;
-					assignSpell(data.slotKey, data.spellId);
+					assignSpell(data.slotKey, data.spellId, assignedSlotKey.value());
 					assignSpell(assignedSlotKey.value(), spellIdOfDesiredSlot);
 				}
 			}
@@ -200,7 +199,7 @@ std::variant<int, bool> InputSystem::isSpellAlreadyAssigned(SpellIdentifier id) 
 	return it->first;
 }
 
-void InputSystem::assignSpell(sf::Keyboard::Key slotKey, SpellIdentifier spellId)
+void InputSystem::assignSpell(sf::Keyboard::Key slotKey, SpellIdentifier spellId, std::optional<sf::Keyboard::Key> oldSlotKey)
 {
 	if (mSpellKeyToInt.contains(slotKey))
 	{
@@ -220,7 +219,7 @@ void InputSystem::assignSpell(sf::Keyboard::Key slotKey, SpellIdentifier spellId
 			return;
 
 		assignedSpells.at(correspondingId) = &it->second;
-		mSystemContext.eventManager.notify<ReBindSpellActionEvent>(ReBindSpellActionEvent(slotKey, spellId));
+		mSystemContext.eventManager.notify<ReBindSpellActionEvent>(ReBindSpellActionEvent(slotKey, spellId, oldSlotKey));
 	}
 }
 

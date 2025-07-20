@@ -154,7 +154,9 @@ void SpellSystem::notifyCastFinished(Entity& entity, SpellIdentifier id)
 	{
 		//those 2 are also a healing spells, but they require different system
 		const SpellInstance* lastSpell = entity.getComponent<SpellbookComponent>().cLastSpell;
-		int regen = (id == SpellIdentifier::HealthRegen) ? lastSpell->data->bonusHpRegen : lastSpell->data->bonusManaRegen;
+		int regen = (id == SpellIdentifier::HealthRegen) ? 
+			lastSpell->data->healing->bonusHpRegen : 
+			lastSpell->data->healing->bonusManaRegen;
 		int duration = lastSpell->data->duration;
 
 		if (id == SpellIdentifier::HealthRegen)

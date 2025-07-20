@@ -12,6 +12,7 @@ private:
     void registerToEvents();
     void registerToHitByAttackEvent();
     void registerToHitByProjectileEvent();
+    void registerToHitByTickDamageEvent();
     int calculateDamage(const Entity& attacker, const Entity& target) const;
     int calculateProjectileDamage(const Entity& target, int projectileDmg) const;
 

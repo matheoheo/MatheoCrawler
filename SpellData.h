@@ -3,6 +3,12 @@
 #include "SpellIdentifiers.h"
 #include "TextureIdentifiers.h"
 
+struct HealingSpell
+{
+	float healValue = 0.f;
+	int bonusHpRegen = 0;
+	int bonusManaRegen = 0;
+};
 
 struct ProjectileSpell
 {
@@ -13,6 +19,7 @@ struct ProjectileSpell
 	float speed = 0.f; //px per sec
 	bool pierce = false; //'continues attacking after impact with first target'
 	int maxTargets = 1; //if pierce == true
+	SpellEffect effect = SpellEffect::None; //eventual effect on hit
 };
 
 struct SpellData
@@ -22,12 +29,9 @@ struct SpellData
 	int cost = 0; //manacost or maybe in future hp cost?
 	int cooldown = 0; //in milliseconds
 	int castTime = 0; //in ms
-	
-	float healValue = 0.f; //in percents
 	int duration = 0; //how long does the spelll last
-	int bonusHpRegen = 0;
-	int bonusManaRegen = 0;
 
+	std::optional<HealingSpell> healing;
 	std::optional<ProjectileSpell> projectile;
 };
 

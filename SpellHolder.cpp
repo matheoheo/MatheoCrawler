@@ -47,6 +47,10 @@ void SpellHolder::initalizeSpells()
 
 void SpellHolder::createQuickHeal()
 {
+    HealingSpell hs{
+        .healValue = 0.13f
+    };
+
     SpellIdentifier id = SpellIdentifier::QuickHeal;
     mSpellsMap[id] = SpellData{
         .type = SpellType::Heal,
@@ -54,7 +58,8 @@ void SpellHolder::createQuickHeal()
         .cost = 15,
         .cooldown = 9 * 1000,
         .castTime = 300,
-        .healValue = 0.13f
+        .duration = 0,
+        .healing = hs
     };
 
     mDefinitions[id] = SpellDefinition{
@@ -70,6 +75,9 @@ void SpellHolder::createQuickHeal()
 
 void SpellHolder::createMajorHeal()
 {
+    HealingSpell hs{
+        .healValue = 0.350f
+    };
     SpellIdentifier id = SpellIdentifier::MajorHeal;
     mSpellsMap[id] = SpellData{
         .type = SpellType::Heal,
@@ -77,7 +85,8 @@ void SpellHolder::createMajorHeal()
         .cost = 38,
         .cooldown = 18 * 1000,
         .castTime = 700,
-        .healValue = 0.350f
+        .duration = 0,
+        .healing = hs
     };
 
     mDefinitions[id] = SpellDefinition{
@@ -93,6 +102,10 @@ void SpellHolder::createMajorHeal()
 
 void SpellHolder::createHealthRegen()
 {
+    HealingSpell hs{
+        .healValue = 0.0f,
+        .bonusHpRegen = 11
+    };
     SpellIdentifier id{ SpellIdentifier::HealthRegen };
 
     mSpellsMap[id] = SpellData{
@@ -101,10 +114,8 @@ void SpellHolder::createHealthRegen()
         .cost = 21,
         .cooldown = 20 * 1000,
         .castTime = 500,
-        .healValue = 0.0f,
-        .duration = 9 * 1000,
-        .bonusHpRegen = 11,
-        .bonusManaRegen = 0
+        .duration = 9 * 1000, //9 seconds
+        .healing = hs
     };
 
     mDefinitions[id] = SpellDefinition{
@@ -120,18 +131,21 @@ void SpellHolder::createHealthRegen()
 
 void SpellHolder::createManaRegen()
 {
-    SpellIdentifier id{ SpellIdentifier::ManaRegen };
+    HealingSpell hs{
+        .healValue = 0.0f,
+        .bonusHpRegen = 0,
+        .bonusManaRegen = 7
+    };
 
+    SpellIdentifier id{ SpellIdentifier::ManaRegen };
     mSpellsMap[id] = {
         .type = SpellType::Heal,
         .spellId = id,
         .cost = 5,
         .cooldown = 16 * 1000,
         .castTime = 400,
-        .healValue = 0.0f,
-        .duration = 7 * 1000,
-        .bonusHpRegen = 0,
-        .bonusManaRegen = 7
+        .duration = 7 * 1000, //7 seconds
+        .healing = hs
     };
 
     mDefinitions[id] = SpellDefinition{

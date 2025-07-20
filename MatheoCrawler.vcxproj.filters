@@ -264,19 +264,10 @@
     <ClCompile Include="TextButton.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="BasicRangedBehavior.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PositioningAISystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PathFollowSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PositionToAttackTask.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OptionsState.cpp">
@@ -285,13 +276,34 @@
     <ClCompile Include="OptionSelector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IVisualEffect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GlowUpVisualEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RegenerationVisualEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicRangedBehavior.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
+    <ClCompile Include="PositionToAttackTask.cpp">
+      <Filter>AI\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="IVisualEffect.cpp">
+      <Filter>Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuState.cpp">
+      <Filter>Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="ISpellEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBurnSpellEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TickingSpelllEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpellEffectSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -572,19 +584,10 @@
     <ClInclude Include="TextButton.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="BasicRangedBehavior.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PositioningAISystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PathFollowSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PositionToAttackTask.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OptionsState.h">
@@ -593,13 +596,34 @@
     <ClInclude Include="OptionSelector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IVisualEffect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GlowUpVisualEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RegenerationVisualEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicRangedBehavior.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionToAttackTask.h">
+      <Filter>AI\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="IVisualEffect.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.h">
+      <Filter>Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="ISpellEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBurnSpellEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TickingSpelllEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellEffectSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

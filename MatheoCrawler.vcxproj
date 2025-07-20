@@ -192,6 +192,7 @@
     <ClCompile Include="EntitySpawnerSystem.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FileHandler.cpp" />
+    <ClCompile Include="FireBurnSpellEffect.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GlowUpVisualEffect.cpp" />
     <ClCompile Include="HealingSpellUpgradeStrategy.cpp" />
@@ -200,6 +201,7 @@
     <ClCompile Include="IMapGenerator.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="IShopCategory.cpp" />
+    <ClCompile Include="ISpellEffect.cpp" />
     <ClCompile Include="ISpellUpgradeStrategy.cpp" />
     <ClCompile Include="IState.cpp" />
     <ClCompile Include="ISystem.cpp" />
@@ -231,12 +233,14 @@
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="ShopData.cpp" />
     <ClCompile Include="SpellcraftShopCategory.cpp" />
+    <ClCompile Include="SpellEffectSystem.cpp" />
     <ClCompile Include="SpellHolder.cpp" />
     <ClCompile Include="SpellSystem.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="StatisticsShopCategory.cpp" />
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="TextButton.cpp" />
+    <ClCompile Include="TickingSpelllEffect.cpp" />
     <ClCompile Include="TileFadeSystem.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="UIComponent.cpp" />
@@ -284,6 +288,7 @@
     <ClInclude Include="EntityTypes.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FileHandler.h" />
+    <ClInclude Include="FireBurnSpellEffect.h" />
     <ClInclude Include="FontIdentifiers.h" />
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameEvents.h" />
@@ -295,6 +300,7 @@
     <ClInclude Include="IMapGenerator.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="IShopCategory.h" />
+    <ClInclude Include="ISpellEffect.h" />
     <ClInclude Include="ISpellUpgradeStrategy.h" />
     <ClInclude Include="IState.h" />
     <ClInclude Include="ISystem.h" />
@@ -329,6 +335,7 @@
     <ClInclude Include="ShopData.h" />
     <ClInclude Include="SpellcraftShopCategory.h" />
     <ClInclude Include="SpellData.h" />
+    <ClInclude Include="SpellEffectSystem.h" />
     <ClInclude Include="SpellHolder.h" />
     <ClInclude Include="SpellIdentifiers.h" />
     <ClInclude Include="SpellSystem.h" />
@@ -339,6 +346,7 @@
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="TextButton.h" />
     <ClInclude Include="TextureIdentifiers.h" />
+    <ClInclude Include="TickingSpelllEffect.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileFadeSystem.h" />
     <ClInclude Include="TileMap.h" />

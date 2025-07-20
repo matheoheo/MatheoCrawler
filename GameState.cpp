@@ -29,6 +29,7 @@
 #include "ProjectileSystem.h"
 #include "PositioningAISystem.h"
 #include "PathFollowSystem.h"
+#include "SpellEffectSystem.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
@@ -66,8 +67,8 @@ void GameState::update(const sf::Time& deltaTime)
 	{
 		if (randomClock.getElapsedTime().asMilliseconds() > 1000)
 		{
-			mGameContext.eventManager.notify<LoadNextLevelEvent>(LoadNextLevelEvent());
-			randomClock.restart();
+			auto& player = mEntityManager.getPlayer();
+			mGameContext.eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(player, player, SpellEffect::FireBurn));
 			return;
 		}
 	}
@@ -167,8 +168,11 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<EffectSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<ProjectileSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<PathFollowSystem>(mSystemContext, mTileMap));
+	mSystemManager.addSystem(std::make_unique<SpellEffectSystem>(mSystemContext));
+
 	mSystemManager.addSystem(std::make_unique<BarRenderSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntityRenderSystem>(mSystemContext));
+
 
 	mSystemManager.addSystem(std::make_unique<EntityDeathSystem>(mSystemContext));
 }

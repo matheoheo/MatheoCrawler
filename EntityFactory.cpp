@@ -64,11 +64,13 @@ void EntityFactory::addCommonComponents(Entity& entity, EntityType entType)
 	entity.addComponent<AnimationComponent>();
 	entity.addComponent<EntityTypeComponent>(entType);
 	entity.addComponent<HealthBarComponent>();
+	entity.addComponent<SpellEffectsComponent>();
 	entity.addComponent<TagComponent>(entityData.tag);
 	entity.addComponent<MovementComponent>(entityData.moveSpeed);
 	entity.addComponent<FieldOfViewComponent>(entityData.fovRange);
 	entity.addComponent<CombatStatsComponent>(getAdjustedCombatStats(entType));
 	entity.addComponent<AttackComponent>().cAttackDataMap = entityData.cAttackDataMap;
+
 }
 
 void EntityFactory::addSpriteComponent(Entity& entity, TextureIdentifier textureId, const sf::Vector2f& pos)

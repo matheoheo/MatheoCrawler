@@ -26,7 +26,7 @@ private:
     //if spell is already assigned, the function returns index from assignedSpellsComponent map
     //otherwise returns false
     std::variant<int, bool> isSpellAlreadyAssigned(SpellIdentifier id) const;
-    void assignSpell(sf::Keyboard::Key slotKey, SpellIdentifier spellId);
+    void assignSpell(sf::Keyboard::Key slotKey, SpellIdentifier spellId, std::optional<sf::Keyboard::Key> oldSlotKey = {});
     std::optional<sf::Keyboard::Key> getKeyBasedOnId(int id) const;
 private:
     std::unordered_map<sf::Keyboard::Key, int> mSpellKeyToInt;

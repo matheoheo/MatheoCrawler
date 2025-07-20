@@ -547,3 +547,27 @@ struct RemoveActionBindEvent : public IEvent
 		:slotKey(slotKey)
 	{}
 };
+
+struct HitByTickDamageEvent : public IEvent
+{
+	Entity& entity;
+	int damage;
+
+	HitByTickDamageEvent(Entity& entity, int damage)
+		:entity(entity),
+		damage(damage)
+	{}
+};
+
+struct AddSpellEffectEvent : public IEvent
+{
+	Entity& sourceEntity;
+	Entity& hitEntity;
+	SpellEffect spellEffect;
+
+	AddSpellEffectEvent(Entity& sourceEntity, Entity& hitEntity, SpellEffect spellEffect)
+		:sourceEntity(sourceEntity),
+		hitEntity(hitEntity),
+		spellEffect(spellEffect)
+	{}
+};

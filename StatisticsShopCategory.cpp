@@ -140,6 +140,7 @@ void StatisticsShopCategory::upgrade(ShopItem& item)
 		stats.cAttackDamage += i_increase;
 		break;
 	case StatType::AttackSpeed:
+		stats.cBaseAttackSpeed += increase;
 		stats.cAttackSpeed += increase;
 		break;
 	case StatType::Defence:
@@ -202,7 +203,7 @@ void StatisticsShopCategory::createStatUpgradeTexts(const ShopItem& item)
 		tmpCombStats.cAttackDamage += static_cast<int>(increase);
 		break;
 	case StatType::AttackSpeed:
-		tmpCombStats.cAttackSpeed += increase;
+		tmpCombStats.cBaseAttackSpeed += increase;
 		break;
 	case StatType::Defence:
 		tmpCombStats.cDefence += static_cast<int>(increase);

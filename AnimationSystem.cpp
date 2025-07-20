@@ -54,10 +54,7 @@ void AnimationSystem::applyCurrentFrame(const Entity& entity, AnimationComponent
 	sprite.setTextureRect(frame.frameRect);
 
 	if (animationComponent.cApplyOffset)
-	{
-		sf::Vector2f mod = { 53.f, 30.f };
 		sprite.setPosition(animationComponent.cStartPosition - frame.offset);
-	}
 }
 
 void AnimationSystem::updateFrame(Entity& entity, AnimationComponent& animationComponent) 
@@ -102,7 +99,6 @@ void AnimationSystem::moveBackToStartingPosition(const Entity& entity, Animation
 		entity.getComponent<SpriteComponent>().cSprite.setPosition(animationComponent.cStartPosition);
 }
 
-
 void AnimationSystem::notifyAnimationFinished(Entity& entity, AnimationComponent& animationComponent)
 {
 	auto animId = animationComponent.cCurrentId;
@@ -141,7 +137,7 @@ void AnimationSystem::registerToPlayGenericWalkEvent()
 			animComp.cCurrentId = key.id;
 			animComp.cFrames = &mAnimationHolder.get(key);
 			animComp.cStartPosition = data.entity.getComponent<SpriteComponent>().cSprite.getPosition();
-			animComp.cFrameDuration = ((Config::getCellSize().x - 3.5f)/ moveComp.cMoveSpeed / animComp.cFrames->size()) * 1000.f;
+			animComp.cFrameDuration = (Config::getCellSize().x / moveComp.cMoveSpeed / animComp.cFrames->size()) * 1000.f;
 			animComp.cApplyOffset = false;
 			applyCurrentFrame(data.entity, animComp);
 

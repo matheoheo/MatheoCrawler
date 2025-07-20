@@ -11,9 +11,8 @@
 #include "AttackData.h"
 #include "Config.h"
 #include "SpellData.h"
-
+#include "ISpellEffect.h"
 class Entity;
-
 
 struct IComponent
 {
@@ -28,12 +27,14 @@ struct TagComponent : public IComponent
 
 struct MovementComponent : public IComponent
 {
-	float cMoveSpeed;
+	float cBaseMoveSpeed;
+	float cMoveSpeed;  //this might be effected by some buffs or debuffs
 	sf::Vector2f cInitialPosition;
 	sf::Vector2f cNextPos;
 	sf::Vector2f cDirectionVector;
 	MovementComponent(float moveSpeed) 
-		: cMoveSpeed(moveSpeed) 
+		: cBaseMoveSpeed(moveSpeed),
+		cMoveSpeed(moveSpeed)
 	{}
 };
 
@@ -186,7 +187,9 @@ struct CombatStatsComponent : public IComponent
 	int cAttackDamage;
 	int cAttackRange; //in tiles
 	int cDefence;
-	float cAttackSpeed; //attacks per second
+	float cBaseAttackSpeed; //attacks per second
+	float cAttackSpeed; //this might be affected by buffs or debuffs
+	
 	int cMana;
 	int cMaxMana;
 	int cMagicDefence;
@@ -197,6 +200,7 @@ struct CombatStatsComponent : public IComponent
 		cAttackDamage(45),
 		cAttackRange(1),
 		cDefence(3),
+		cBaseAttackSpeed(1.0f),
 		cAttackSpeed(1.0f),
 		cMana(12),
 		cMaxMana(cMana),
@@ -208,6 +212,7 @@ struct CombatStatsComponent : public IComponent
 		cAttackDamage(other.cAttackDamage),
 		cAttackRange(other.cAttackRange),
 		cDefence(other.cDefence),
+		cBaseAttackSpeed(other.cBaseAttackSpeed),
 		cAttackSpeed(other.cAttackSpeed),
 		cMana(other.cMana),
 		cMaxMana(other.cMaxMana),
@@ -351,7 +356,6 @@ struct SpellProjectileComponent : public IComponent
 //UI
 struct AssignedSpellsComponent : public IComponent
 {
-	bool shifted;
 	std::map<int, SpellInstance*> cAssignedSpells; //in UI slots
 };
 
@@ -379,10 +383,15 @@ struct PositioningComponent : public IComponent
 struct RangedEnemyComponent : public IComponent
 {
 	//Ranged enemies cast projectiles as basic attacks.
-	//This variable determines a spell that is assigned for enemy entity.
+	//This variable determines a spell that is assigned for enemy entity that acts as a basic attack.
 	SpellIdentifier cSpellId;
 
 	RangedEnemyComponent(SpellIdentifier spellId)
 		:cSpellId(spellId)
 	{}
+};
+
+struct SpellEffectsComponent : public IComponent
+{
+	std::vector<std::unique_ptr<ISpellEffect>> cActiveEffects;
 };

@@ -27,3 +27,12 @@ enum class SpellType
 	Count
 };
 
+enum class SpellEffect
+{
+	None,
+	FireBurn,
+	MovementSpeedSlow,
+	AttackSpeedSlow,
+	LifeSteal
+};
+

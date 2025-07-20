@@ -17,6 +17,7 @@ void OnHitSystem::registerToEvents()
 {
     registerToHitByAttackEvent();
     registerToHitByProjectileEvent();
+    registerToHitByTickDamageEvent();
 }
 
 void OnHitSystem::registerToHitByAttackEvent()
@@ -41,6 +42,18 @@ void OnHitSystem::registerToHitByProjectileEvent()
             int dmg = calculateProjectileDamage(data.hitEntity, data.projectileDamage);
             bool isPlayerTarget = data.hitEntity.hasComponent<PlayerComponent>();
             processHit(data.hitEntity, dmg, data.playerCasted, isPlayerTarget);
+        });
+}
+
+void OnHitSystem::registerToHitByTickDamageEvent()
+{
+    mSystemContext.eventManager.registerEvent<HitByTickDamageEvent>([this](const HitByTickDamageEvent& data)
+        {
+            //projectile is treated as magic damage
+            //tick damage is gonna be treated like this also
+            int damage = calculateProjectileDamage(data.entity, data.damage);
+            bool isPlayerTarget = data.entity.hasComponent<PlayerComponent>(); //<entity from event is a target of course
+            processHit(data.entity, damage, !isPlayerTarget, isPlayerTarget);
         });
 }
 

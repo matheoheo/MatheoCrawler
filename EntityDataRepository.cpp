@@ -30,6 +30,7 @@ void EntityDataRepository::createPlayerEntityData()
 
 	data.combatStats.cAttackDamage = 23;
 	data.combatStats.cAttackRange = 1;
+	data.combatStats.cBaseAttackSpeed = 1.1f;
 	data.combatStats.cAttackSpeed = 1.1f;
 	data.combatStats.cDefence = 8;
 	data.combatStats.cHealth = 188;
@@ -51,7 +52,8 @@ void EntityDataRepository::createSkletorusEntityData()
 
 	data.combatStats.cAttackDamage = 6;
 	data.combatStats.cAttackRange = 1;
-	data.combatStats.cAttackSpeed = 1.1f;
+	data.combatStats.cBaseAttackSpeed = 1.1f;
+	data.combatStats.cAttackSpeed = data.combatStats.cAttackSpeed;
 	data.combatStats.cDefence = 2;
 	data.combatStats.cHealth = 33;
 	data.combatStats.cMaxHealth = data.combatStats.cHealth;
@@ -69,7 +71,8 @@ void EntityDataRepository::createBonvikEntityData()
 
 	data.combatStats.cAttackDamage = 11;
 	data.combatStats.cAttackRange = 1;
-	data.combatStats.cAttackSpeed = 0.9f;
+	data.combatStats.cBaseAttackSpeed = 0.9f;
+	data.combatStats.cAttackSpeed = data.combatStats.cBaseAttackSpeed;
 	data.combatStats.cDefence = 3;
 	data.combatStats.cHealth = 46;
 	data.combatStats.cMaxHealth = data.combatStats.cHealth;
@@ -87,7 +90,8 @@ void EntityDataRepository::createMorannaEntityData()
 
 	data.combatStats.cAttackDamage = 8;
 	data.combatStats.cAttackRange = 4;
-	data.combatStats.cAttackSpeed = 1.2f;
+	data.combatStats.cBaseAttackSpeed = 1.2f;
+	data.combatStats.cAttackSpeed = data.combatStats.cBaseAttackSpeed;
 	data.combatStats.cDefence = 1;
 	data.combatStats.cHealth = 33;
 	data.combatStats.cMaxHealth = data.combatStats.cHealth;

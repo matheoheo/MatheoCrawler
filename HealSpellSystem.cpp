@@ -21,7 +21,7 @@ void HealSpellSystem::registerToTriggerHealSpellEvent()
 {
 	mSystemContext.eventManager.registerEvent<TriggerHealSpellEvent>([this](const TriggerHealSpellEvent& data)
 		{
-			auto value = data.caster.getComponent<SpellbookComponent>().cLastSpell->data->healValue;
+			auto value = data.caster.getComponent<SpellbookComponent>().cLastSpell->data->healing->healValue;
 			heal(data.caster, value);
 		});
 }
