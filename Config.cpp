@@ -70,10 +70,13 @@ void Config::readConfigFile()
 
 void Config::setVariables()
 {
-	constexpr float xAxisMod = 0.27f;
-	constexpr float yAxisMod = 0.037f;
-	hpBarPlayerSize = sf::Vector2f{ fWindowSize.x * xAxisMod, fWindowSize.y * yAxisMod };
-	manaBarSize = sf::Vector2f{ fWindowSize.x * 0.20f, fWindowSize.y * 0.03f };
+	constexpr float xHPBarMod = 0.27f;
+	constexpr float yHPBarMod = 0.037f;
+	constexpr float xManaBarMod = 0.2f;
+	constexpr float yManaBarMod = 0.03f;
+
+	hpBarPlayerSize = sf::Vector2f{ fWindowSize.x * xHPBarMod, fWindowSize.y * yHPBarMod };
+	manaBarSize = sf::Vector2f{ fWindowSize.x * xManaBarMod, fWindowSize.y * yManaBarMod };
 
 	fWindowSize.x = static_cast<float>(windowSize.x);
 	fWindowSize.y = static_cast<float>(windowSize.y);

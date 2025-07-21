@@ -29,8 +29,8 @@ void PlayerStatusUI::render()
 {
 	auto& hpBarComp = player.getComponent<HealthBarComponent>();
 	auto& manaBarComp = player.getComponent<PlayerManaBarComponent>();
-	mGameContext.window.draw(mTwarfBorder);
 	mGameContext.window.draw(mTwarf);
+	mGameContext.window.draw(mTwarfBorder);
 	mGameContext.window.draw(hpBarComp.cBackgroundBar);
 	mGameContext.window.draw(hpBarComp.cForegroundBar);
 	mGameContext.window.draw(mHpText);
@@ -63,17 +63,17 @@ void PlayerStatusUI::registerToUpdatePlayerStatusEvent()
 
 void PlayerStatusUI::createTwarf()
 {
-	sf::Vector2f basePos{ 1.f, 1.f };
-	float mod = 0.05f;
-	float borderThickness = 2.f;
-	sf::Vector2f twarfSize{ Config::fWindowSize.x * mod, Config::fWindowSize.x * mod };
+	constexpr sf::Vector2f basePos{ 2.f, 2.f };
+	constexpr float mod = 0.05f;
+	constexpr float borderThickness = 2.f;
+	const sf::Vector2f twarfSize{ Config::fWindowSize.x * mod, Config::fWindowSize.x * mod };
 	Utilities::scaleSprite(mTwarf, twarfSize);
-	mTwarf.setPosition({ basePos.x + borderThickness, basePos.y + borderThickness });
+	mTwarf.setPosition(basePos);
 
 	mTwarfBorder.setFillColor(sf::Color::Transparent);
 	mTwarfBorder.setOutlineThickness(borderThickness);
 	mTwarfBorder.setOutlineColor(sf::Color::White);
-	mTwarfBorder.setSize({ twarfSize.x + borderThickness, twarfSize.y + borderThickness });
+	mTwarfBorder.setSize(twarfSize);
 	mTwarfBorder.setPosition(basePos);
 }
 

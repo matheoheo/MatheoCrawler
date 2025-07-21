@@ -63,6 +63,7 @@ void MovementSystem::finishMovement(Entity& entity)
 	mSystemContext.eventManager.notify<ReserveTileEvent>(ReserveTileEvent(nullptr, moveComp.cNextPos));
 	mSystemContext.eventManager.notify<TileOccupiedEvent>(TileOccupiedEvent(entity, moveComp.cNextPos));
 	mSystemContext.eventManager.notify<TileVacatedEvent>(TileVacatedEvent(entity, moveComp.cInitialPosition));
+
 }
 
 void MovementSystem::eraseFinishedEntities()
@@ -77,6 +78,9 @@ void MovementSystem::registerToMoveAllowedEvent()
 {
 	mSystemContext.eventManager.registerEvent<MoveAllowedEvent>([this](const MoveAllowedEvent& data)
 		{
+			if (isEntityAlreadyTracked(data.entity))
+				return;
+
 			auto& moveComp = data.entity.getComponent<MovementComponent>();
 			auto& stateComp = data.entity.getComponent<EntityStateComponent>();
 			auto& dirComp = data.entity.getComponent<DirectionComponent>();

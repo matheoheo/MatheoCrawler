@@ -6,8 +6,14 @@
 ISpellEffect::ISpellEffect(int duration)
     :mDuration(duration),
     mTimePassed(0),
-    mSpellEffect(SpellEffect::None)
+    mSpellEffect(SpellEffect::None),
+    mIsCompleted(false)
 {
+}
+
+bool ISpellEffect::isCompleted() const
+{
+    return mIsCompleted;
 }
 
 SpellEffect ISpellEffect::getSpellEffectId() const
@@ -23,4 +29,9 @@ void ISpellEffect::addTimePassed(const sf::Time& deltaTime)
 bool ISpellEffect::hasEffectFinished() const
 {
     return mTimePassed >= mDuration;
+}
+
+void ISpellEffect::complete()
+{
+    mIsCompleted = true;
 }

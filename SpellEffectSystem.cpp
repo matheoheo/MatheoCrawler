@@ -2,6 +2,7 @@
 #include "SpellEffectSystem.h"
 #include "ISpellEffect.h"
 #include "FireBurnSpellEffect.h"
+#include "MovementSlowSpellEffect.h"
 
 SpellEffectSystem::SpellEffectSystem(SystemContext& systemContext)
 	:ISystem(systemContext)
@@ -49,7 +50,6 @@ void SpellEffectSystem::registerToAddSpellEffectEvent()
 			actives.push_back(std::move(newEffect));
 			if (!isEntityAlreadyTracked(data.hitEntity))
 				mTrackedEntities.push_back(&data.hitEntity);
-			std::cout << "Pushed new!\n";
 		});
 }
 
@@ -58,7 +58,7 @@ void SpellEffectSystem::removeFinishedEffects(SpellEffectsComponent& spellEffect
 	auto& actives = spellEffectsComp.cActiveEffects;
 	std::erase_if(actives, [](const auto& effect)
 		{
-			return effect->hasEffectFinished();
+			return effect->isCompleted();
 		});
 }
 
@@ -66,5 +66,8 @@ void SpellEffectSystem::createEffectRegistry()
 {
 	mEffectRegistry[SpellEffect::FireBurn] = []() {
 		return std::make_unique<FireBurnSpellEffect>(3000, 19); //just for test for now
+	};
+	mEffectRegistry[SpellEffect::MovementSpeedSlow] = []() {
+		return std::make_unique<MovementSlowSpellEffect>(2000, 0.8f);
 	};
 }

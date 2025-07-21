@@ -30,6 +30,9 @@ private:
     void registerToFinalizeAnimationEvent();
     void registerToPlayAttackAnimationEvent();
     void registerToCastSpellAnimationEvent();
+    void registerToMoveSpeedChangedEvent();
+
+    float calculateMovementFrameDuration(float stepSize, const Entity& entity) const;
 private:
     const AnimationHolder& mAnimationHolder;
     std::vector<const Entity*> mFinishedEntities;

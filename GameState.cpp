@@ -68,7 +68,8 @@ void GameState::update(const sf::Time& deltaTime)
 		if (randomClock.getElapsedTime().asMilliseconds() > 1000)
 		{
 			auto& player = mEntityManager.getPlayer();
-			mGameContext.eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(player, player, SpellEffect::FireBurn));
+			mGameContext.eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(player, player, 
+				SpellEffect::MovementSpeedSlow));
 			return;
 		}
 	}
@@ -83,7 +84,6 @@ void GameState::update(const sf::Time& deltaTime)
 
 	if (mLoadNextLevel)
 	{
-		std::cout << "UMM?\n";
 		mLoadNextLevel = false;
 		loadNextLevel();
 		return;

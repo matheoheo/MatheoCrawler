@@ -15,6 +15,7 @@ void FireBurnSpellEffect::update(Entity& entity, EventManager& eventManager, con
     if (hasEffectFinished())
     {
         onEffectFinish();
+        complete();
         return;
     }
 

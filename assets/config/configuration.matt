@@ -1,7 +1,7 @@
 [windowInit]
-width:1360
-height:768
+width:1920
+height:1080
 antialiasing:0
-fullscreen:Off
+fullscreen:On
 vsync:Off
 [/windowInit]

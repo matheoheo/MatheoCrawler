@@ -211,6 +211,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="MessageLogUI.cpp" />
+    <ClCompile Include="MovementSlowSpellEffect.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="OnHitSystem.cpp" />
     <ClCompile Include="OptionSelector.cpp" />
@@ -310,6 +311,7 @@
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="MessageLogUI.h" />
     <ClInclude Include="MessageTypes.h" />
+    <ClInclude Include="MovementSlowSpellEffect.h" />
     <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="OnHitSystem.h" />
     <ClInclude Include="OptionSelector.h" />

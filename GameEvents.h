@@ -571,3 +571,12 @@ struct AddSpellEffectEvent : public IEvent
 		spellEffect(spellEffect)
 	{}
 };
+
+struct MoveSpeedChangedEvent : public IEvent
+{
+	Entity& entity;
+
+	MoveSpeedChangedEvent(Entity& entity)
+		:entity(entity)
+	{}
+};

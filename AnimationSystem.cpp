@@ -32,6 +32,7 @@ void AnimationSystem::registerToEvents()
 	registerToFinalizeAnimationEvent();
 	registerToPlayAttackAnimationEvent();
 	registerToCastSpellAnimationEvent();
+	registerToMoveSpeedChangedEvent();
 }
 
 void AnimationSystem::resetTimer(AnimationComponent& animationComponent) const
@@ -137,7 +138,7 @@ void AnimationSystem::registerToPlayGenericWalkEvent()
 			animComp.cCurrentId = key.id;
 			animComp.cFrames = &mAnimationHolder.get(key);
 			animComp.cStartPosition = data.entity.getComponent<SpriteComponent>().cSprite.getPosition();
-			animComp.cFrameDuration = (Config::getCellSize().x / moveComp.cMoveSpeed / animComp.cFrames->size()) * 1000.f;
+			animComp.cFrameDuration = calculateMovementFrameDuration(Config::getCellSize().x, data.entity);
 			animComp.cApplyOffset = false;
 			applyCurrentFrame(data.entity, animComp);
 
@@ -213,4 +214,41 @@ void AnimationSystem::registerToCastSpellAnimationEvent()
 
 			mTrackedEntities.push_back(&data.entity);
 		});
+}
+
+void AnimationSystem::registerToMoveSpeedChangedEvent()
+{
+	mSystemContext.eventManager.registerEvent<MoveSpeedChangedEvent>([this](const MoveSpeedChangedEvent& data)
+		{
+			//If movement speed was changed we must also adjust animation frame speed.
+			if (data.entity.getComponent<EntityStateComponent>().cCurrentState != EntityState::Moving)
+				return; //no need to adjust if entity is not moving.
+
+			//we must calculate how much of step has entity already taken
+			const float maxStepSize = Config::getCellSize().x;
+			const sf::Vector2f entityPos{ Utilities::getEntityPos(data.entity) };
+			const sf::Vector2f nextPos = data.entity.getComponent<MovementComponent>().cNextPos;
+			float currentStepSize = std::abs(nextPos.x - entityPos.x) + std::abs(nextPos.y - entityPos.y);
+
+			float duration = calculateMovementFrameDuration(currentStepSize, data.entity);
+			auto& animComp = data.entity.getComponent<AnimationComponent>();
+			animComp.cFrameDuration = duration;
+		});
+}
+
+float AnimationSystem::calculateMovementFrameDuration(float stepSize, const Entity& entity) const
+{
+	const auto& moveComp = entity.getComponent<MovementComponent>();
+	const auto& animComp = entity.getComponent<AnimationComponent>();
+	constexpr float toMillisecondsModifier = 1000.f;
+
+	auto framesCount = animComp.cFrames->size();
+	auto currFrame = animComp.cCurrentIndex;
+	float moveSpeed = moveComp.cMoveSpeed;
+	int reamainingFrames = (framesCount - currFrame);
+
+	if (reamainingFrames <= 0) //just in case 
+		reamainingFrames = 1;
+
+	return (stepSize / moveSpeed / reamainingFrames) * toMillisecondsModifier;
 }
