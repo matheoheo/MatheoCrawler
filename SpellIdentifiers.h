@@ -34,5 +34,6 @@ enum class SpellEffect
 	MovementSpeedSlow,
 	AttackSpeedSlow,
 	LifeSteal
+
 };
 

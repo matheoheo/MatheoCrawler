@@ -26,6 +26,19 @@ void IBehavior::updateTasks(Entity& entity, const sf::Time& deltaTime)
 	determineNextTask(entity);
 }
 
+
+bool IBehavior::setDirectionTowardTarget(Entity& self, Entity& target)
+{
+	auto dir = getDirectionToTarget(self, target);
+	if (!dir)
+	{
+		fallbackOnNoDirection(self, target);
+		return false;
+	}
+	Utilities::setEntityDirection(self, dir.value());
+	return true;
+}
+
 void IBehavior::updateTimers(Entity& entity, const sf::Time& deltaTime)
 {
 	auto& comp = entity.getComponent<AITimersComponent>();
@@ -106,7 +119,6 @@ bool IBehavior::isTargetInFOV(const Entity& entity, const Entity& target) const
 
 bool IBehavior::canReachEntity(const Entity& entity, const Entity& target) const
 {
-	std::cout << "IBEHAVIOR REACH\n";
 	return mBehaviorContext.tileMap.doesPathExist(entity, target);
 }
 
@@ -147,18 +159,6 @@ bool IBehavior::canCastLOS(const Entity& entity) const
 void IBehavior::resetLOSTimer(const Entity& entity) const
 {
 	entity.getComponent<AITimersComponent>().cTimeSinceLastLOSCheck = 0.f;
-}
-
-bool IBehavior::setDirectionTowardTarget(Entity& self, Entity& target)
-{
-	auto dir = getDirectionToTarget(self, target);
-	if (!dir)
-	{
-		fallbackOnNoDirection(self, target);
-		return false;
-	}
-	Utilities::setEntityDirection(self, dir.value());
-	return true;
 }
 
 std::optional<Direction> IBehavior::getDirectionToTarget(const Entity& self, const Entity& target) const

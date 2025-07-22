@@ -66,6 +66,7 @@ void Engine::render()
 void Engine::preloadAssets()
 {
 	mTextures.load(TextureIdentifier::MenuBackground,    "assets/menu/MenuBackground.png");
+
 	mTextures.load(TextureIdentifier::MattLogo,		     "assets/logo/mattGamesLogo.jpeg");
 	mTextures.load(TextureIdentifier::OptionsBackground, "assets/menu/OptionsBackground.jpeg");
 
@@ -84,13 +85,14 @@ void Engine::preloadAssets()
 	mTextures.load(TextureIdentifier::PureProjIcon,    "assets/ui/spellIcons/projectiles/pure.png");
 	mTextures.load(TextureIdentifier::FireballIcon,    "assets/ui/spellIcons/projectiles/fireball.png");
 	mTextures.load(TextureIdentifier::BloodballIcon,   "assets/ui/spellIcons/projectiles/bloodball.png");
-
+	
+	mTextures.load(TextureIdentifier::FireBurnIcon,      "assets/icons/fireBurnIcon.png");
+	mTextures.load(TextureIdentifier::MoveSpeedSlowIcon, "assets/icons/moveSlowIcon.png");
 
 	mTextures.load(TextureIdentifier::WaterBall0,      "assets/entities/projectiles/waterball/Water_Spell.png");
 	mTextures.load(TextureIdentifier::PureProjectile0, "assets/entities/projectiles/pure/Pure_Proj_Spell.png");
 	mTextures.load(TextureIdentifier::Fireball0,       "assets/entities/projectiles/fireball/Fireball_Spell.png");
 	mTextures.load(TextureIdentifier::Bloodball0,      "assets/entities/projectiles/bloodball/Blood_Spell.png");
-
 
 
 	mFonts.load(FontIdentifiers::Default, "assets/font/gameFont/dungeonFont.ttf");

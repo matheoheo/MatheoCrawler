@@ -7,6 +7,7 @@
 #include "PositionToAttackTask.h"
 #include "AttackTask.h"
 #include "Utilities.h"
+#include "TurnToTargetTask.h"
 
 BasicRangedBehavior::BasicRangedBehavior(BehaviorContext& behaviorContext)
 	:IBehavior(behaviorContext)
@@ -108,14 +109,11 @@ void BasicRangedBehavior::swapToTargetting(Entity& target)
 
 void BasicRangedBehavior::swapToAttacking(Entity& entity, Entity& target)
 {
-	if (!setDirectionTowardTarget(entity, target))
-		return;
-
 	auto randomAttack = getRandomAttack(entity);
 	pushTask(std::make_unique<WaitUntilIdleTask>());
+	pushTask(std::make_unique<TurnToTargetTask>(target, this));
 	pushTask(std::make_unique<AttackTask>(randomAttack));
 	pushDelayTask(getRandomDelay(250));
-
 }
 
 void BasicRangedBehavior::fallbackOnNoDirection(Entity& self, Entity& target)

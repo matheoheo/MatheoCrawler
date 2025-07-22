@@ -65,6 +65,7 @@ void EntityFactory::addCommonComponents(Entity& entity, EntityType entType)
 	entity.addComponent<EntityTypeComponent>(entType);
 	entity.addComponent<HealthBarComponent>();
 	entity.addComponent<SpellEffectsComponent>();
+	entity.addComponent<StatusIconsComponent>();
 	entity.addComponent<TagComponent>(entityData.tag);
 	entity.addComponent<MovementComponent>(entityData.moveSpeed);
 	entity.addComponent<FieldOfViewComponent>(entityData.fovRange);
@@ -78,6 +79,9 @@ void EntityFactory::addSpriteComponent(Entity& entity, TextureIdentifier texture
 	auto& spriteComp = entity.addComponent<SpriteComponent>(mTextures.get(textureId));
 	spriteComp.cSprite.setPosition(pos);
 	spriteComp.cSprite.setTextureRect(sf::IntRect({ 0, 0 }, { 64, 64 }));
+
+	//here we can also add PositioningComponent that holds logical position of the entity.
+	entity.addComponent<PositionComponent>(pos);
 }
 
 void EntityFactory::addAIComponents(Entity& entity)
@@ -154,11 +158,12 @@ void EntityFactory::spawnBonvikEntity(const sf::Vector2i& cellIndex)
 
 void EntityFactory::spawnMorannaEntity(const sf::Vector2i& cellIndex)
 {
+	constexpr int minRange = 2;
 	auto& entity = mEntityManager.createEntity();
 	addSpriteComponent(entity, TextureIdentifier::Moranna, cellIndexToPos(cellIndex));
 	addCommonComponents(entity, EntityType::Moranna);
 	addAIComponents(entity);
-	addPositioningComponent(entity, 2);
+	addPositioningComponent(entity, minRange);
 
 	entity.addComponent<RangedEnemyComponent>(SpellIdentifier::MorannaProjectile);
 	entity.addComponent<BehaviorComponent>(std::make_unique<BasicRangedBehavior>(mBehaviorContext));
@@ -226,8 +231,7 @@ void EntityFactory::spawnProjectile(const SpawnProjectileEvent& data, const sf::
 	moveComp.cDirectionVector = Utilities::dirToVector(casterDir);
 
 	int projDmg = calculateProjectileDamage(data, projData);
-	auto& projComp = entity.addComponent<SpellProjectileComponent>(projData, playerCasted, projDmg);
-
+	auto& projComp = entity.addComponent<SpellProjectileComponent>(projData, data.caster, playerCasted, projDmg);
 	mEventManager.notify<ProjectileSpawnedEvent>(ProjectileSpawnedEvent(entity));
 }
 

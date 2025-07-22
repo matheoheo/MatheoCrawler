@@ -177,7 +177,8 @@ void SpellHolder::createWaterBall()
         .range = 5,
         .speed = 400.f,
         .pierce = false,
-        .maxTargets = 1
+        .maxTargets = 1,
+        .effect = SpellEffect::MovementSpeedSlow
     };
 
     mSpellsMap.emplace(id, std::move(data));
@@ -243,7 +244,8 @@ void SpellHolder::createFireball()
         .range = 3,
         .speed = 500.f,
         .pierce = false,
-        .maxTargets = 1
+        .maxTargets = 1,
+        .effect = SpellEffect::FireBurn
     };
 
     mSpellsMap.emplace(id, std::move(data));

@@ -32,9 +32,11 @@ void MovementSystem::moveEntity(const Entity& entity, const sf::Time& deltaTime)
 {
 	auto& spriteComp = entity.getComponent<SpriteComponent>();
 	auto& moveComp = entity.getComponent<MovementComponent>();
+	auto& positionComp = entity.getComponent<PositionComponent>();
 
 	sf::Vector2f movementStep = moveComp.cDirectionVector *	moveComp.cMoveSpeed * deltaTime.asSeconds();
 	spriteComp.cSprite.move(movementStep);
+	positionComp.cLogicPosition = spriteComp.cSprite.getPosition();
 }
 
 bool MovementSystem::isNearTargetPosition(const Entity& entity) const
@@ -50,8 +52,10 @@ void MovementSystem::finishMovement(Entity& entity)
 	auto& sprite = entity.getComponent<SpriteComponent>().cSprite;
 	auto& moveComp = entity.getComponent<MovementComponent>();
 	auto& stateComp = entity.getComponent<EntityStateComponent>();
+	auto& positionComp = entity.getComponent<PositionComponent>();
 
 	sprite.setPosition(moveComp.cNextPos);
+	positionComp.cLogicPosition = moveComp.cNextPos;
 	stateComp.cCurrentState = EntityState::Idle;
 
 	if (entity.hasComponent<PlayerComponent>())

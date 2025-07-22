@@ -10,6 +10,8 @@ public:
 	IBehavior(BehaviorContext& behaviorContext);
 	virtual ~IBehavior() = default;
 	virtual void update(Entity& entity, const sf::Time& deltaTime) = 0;
+
+	bool setDirectionTowardTarget(Entity& self, Entity& target);
 protected:
 	virtual void determineNextTask(Entity& entity) = 0;
 	virtual void swapToTargetting(Entity& entity) = 0;
@@ -48,7 +50,6 @@ protected:
 	bool canAttack(const Entity& entity, const Entity& target) const;
 	bool canCastLOS(const Entity& entity) const;
 	void resetLOSTimer(const Entity& entity) const;
-	bool setDirectionTowardTarget(Entity& self, Entity& target);
 	std::optional<Direction> getDirectionToTarget(const Entity& self, const Entity& target) const;
 
 	void handleLogicIfPatrolling(Entity& entity, Entity& player);

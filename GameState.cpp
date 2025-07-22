@@ -30,6 +30,7 @@
 #include "PositioningAISystem.h"
 #include "PathFollowSystem.h"
 #include "SpellEffectSystem.h"
+#include "StatusIconDisplaySystem.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
@@ -65,11 +66,14 @@ void GameState::update(const sf::Time& deltaTime)
 	static sf::Clock randomClock;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Numpad5))
 	{
-		if (randomClock.getElapsedTime().asMilliseconds() > 1000)
+		if (randomClock.getElapsedTime().asMilliseconds() > 100)
 		{
 			auto& player = mEntityManager.getPlayer();
 			mGameContext.eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(player, player, 
 				SpellEffect::MovementSpeedSlow));
+			mGameContext.eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(player, player,
+				SpellEffect::FireBurn));
+
 			return;
 		}
 	}
@@ -109,7 +113,6 @@ void GameState::registerToLoadNextLevelEvent()
 	mGameContext.eventManager.registerEvent<LoadNextLevelEvent>([this](const LoadNextLevelEvent& data)
 		{
 			mLoadNextLevel = true;
-			std::cout << "LOAD NEXT LEVEL = TRUE\n\n";
 		});
 }
 
@@ -169,6 +172,7 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<ProjectileSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<PathFollowSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<SpellEffectSystem>(mSystemContext));
+	mSystemManager.addSystem(std::make_unique<StatusIconDisplaySystem>(mSystemContext, mGameContext.textures));
 
 	mSystemManager.addSystem(std::make_unique<BarRenderSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntityRenderSystem>(mSystemContext));

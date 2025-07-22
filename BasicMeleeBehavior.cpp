@@ -11,6 +11,7 @@
 #include "AttackTask.h"
 #include "Random.h"
 #include "AnimationIdentifiers.h"
+#include "TurnToTargetTask.h"
 
 BasicMeleeBehavior::BasicMeleeBehavior(BehaviorContext& behaviorContext)
 	:IBehavior(behaviorContext)
@@ -63,11 +64,9 @@ void BasicMeleeBehavior::swapToTargetting(Entity& entity)
 
 void BasicMeleeBehavior::swapToAttacking(Entity& entity, Entity& target)
 {
-	if(!setDirectionTowardTarget(entity, target))
-		return;
-	
 	auto attackType = getRandomAttack(entity);
 	pushTask(std::make_unique<WaitUntilIdleTask>());
+	pushTask(std::make_unique<TurnToTargetTask>(target, this));
 	pushTask(std::make_unique<AttackTask>(attackType));
 	pushDelayTask(getRandomDelay(250));
 }

@@ -25,6 +25,15 @@ struct TagComponent : public IComponent
 	TagComponent(const std::string& tag) : cTag(tag) {}
 };
 
+struct PositionComponent : public IComponent
+{
+	sf::Vector2f cLogicPosition;
+
+	PositionComponent(sf::Vector2f pos = { 0.f, 0.f })
+		:cLogicPosition(pos)
+	{}
+};
+
 struct MovementComponent : public IComponent
 {
 	float cBaseMoveSpeed;
@@ -338,14 +347,16 @@ struct SpellbookComponent : public IComponent
 struct SpellProjectileComponent : public IComponent
 {
 	const ProjectileSpell* cSpellData;
+	Entity* cSource;
 	float cDistanceTraveled;
 	bool cPlayerCasted;
 	float cMaxDistance;
 	std::vector<size_t> cHitTargets; //keep track of hit target ids so we do not rehit them.
 	int cFinalDmg;
 
-	SpellProjectileComponent(const ProjectileSpell& spellData, bool playerCasted, int cDmg)
+	SpellProjectileComponent(const ProjectileSpell& spellData, Entity& source, bool playerCasted, int cDmg)
 		:cSpellData(&spellData),
+		cSource(&source),
 		cDistanceTraveled(0.f),
 		cPlayerCasted(playerCasted),
 		cMaxDistance(Config::getCellSize().x * spellData.range),
@@ -394,4 +405,19 @@ struct RangedEnemyComponent : public IComponent
 struct SpellEffectsComponent : public IComponent
 {
 	std::vector<std::unique_ptr<ISpellEffect>> cActiveEffects;
+};
+
+struct StatusIconsComponent : public IComponent
+{
+	struct StatusIcon {
+		sf::Sprite sprite;
+		SpellEffect effectId;
+
+		StatusIcon(const sf::Texture& texture, SpellEffect effectId)
+			:sprite(texture),
+			effectId(effectId)
+		{}
+	};
+
+	std::vector<std::unique_ptr<StatusIcon>> cIcons;
 };

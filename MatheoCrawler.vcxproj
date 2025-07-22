@@ -239,11 +239,13 @@
     <ClCompile Include="SpellSystem.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="StatisticsShopCategory.cpp" />
+    <ClCompile Include="StatusIconDisplaySystem.cpp" />
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="TextButton.cpp" />
     <ClCompile Include="TickingSpelllEffect.cpp" />
     <ClCompile Include="TileFadeSystem.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="TurnToTargetTask.cpp" />
     <ClCompile Include="UIComponent.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Utilities.cpp" />
@@ -344,6 +346,7 @@
     <ClInclude Include="StateIdentifiers.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="StatisticsShopCategory.h" />
+    <ClInclude Include="StatusIconDisplaySystem.h" />
     <ClInclude Include="SystemContext.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="TextButton.h" />
@@ -353,6 +356,7 @@
     <ClInclude Include="TileFadeSystem.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileTypes.h" />
+    <ClInclude Include="TurnToTargetTask.h" />
     <ClInclude Include="UIComponent.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Utilities.h" />

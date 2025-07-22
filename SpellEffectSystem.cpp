@@ -65,9 +65,9 @@ void SpellEffectSystem::removeFinishedEffects(SpellEffectsComponent& spellEffect
 void SpellEffectSystem::createEffectRegistry()
 {
 	mEffectRegistry[SpellEffect::FireBurn] = []() {
-		return std::make_unique<FireBurnSpellEffect>(3000, 19); //just for test for now
+		return std::make_unique<FireBurnSpellEffect>(8000, 1); //just for test for now
 	};
 	mEffectRegistry[SpellEffect::MovementSpeedSlow] = []() {
-		return std::make_unique<MovementSlowSpellEffect>(2000, 0.8f);
+		return std::make_unique<MovementSlowSpellEffect>(6000, 0.8f);
 	};
 }

@@ -11,7 +11,7 @@ BarRenderSystem::BarRenderSystem(SystemContext& systemContext)
 
 void BarRenderSystem::update(const sf::Time& deltaTime)
 {
-	constexpr int maxVisibleTime = 1700; //milliseconds (1.7s)
+	constexpr int maxVisibleTime = 1500; //milliseconds (1.5s)
 	for (const auto& entity : mTrackedEntities)
 	{
 		auto& hpBarComp = entity->getComponent<HealthBarComponent>();
@@ -57,11 +57,9 @@ void BarRenderSystem::registerToUpdateHealthBarEvent()
 			hpBarComp.cIsVisible = true;
 			sf::Vector2f newBarSize;
 
-			if (data.entity.hasComponent<PlayerComponent>())
-				newBarSize = calculateNewBarSize(data.entity, Config::hpBarPlayerSize);
-			else if (data.entity.hasComponent<EnemyComponent>())
+			if (data.entity.hasComponent<EnemyComponent>())
 				newBarSize = calculateNewBarSize(data.entity, Config::hpBarDefaultSize);
-			else //boss case
+			else if(data.entity.hasComponent<BossComponent>())
 				newBarSize = calculateNewBarSize(data.entity, Config::hpBarBossSize);
 
 			hpBarComp.cForegroundBar.setSize(newBarSize);
@@ -81,10 +79,12 @@ sf::Vector2f BarRenderSystem::calculateNewBarSize(const Entity& entity, const sf
 void BarRenderSystem::updateBarPosition(const Entity& entity)
 {
 	auto& hpBarComp = entity.getComponent<HealthBarComponent>();
-	auto entCell = Utilities::getEntityCell(entity);
-	sf::Vector2f cellPos = { static_cast<float>(entCell.x) * Config::getCellSize().x, static_cast<float>(entCell.y) * Config::getCellSize().y };
+	auto& positionComp = entity.getComponent<PositionComponent>();
 	constexpr sf::Vector2f offset = { 7, 2 };
-	sf::Vector2f barPos = cellPos + offset;
+
+	//auto entCell = Utilities::getEntityCell(entity);
+	//sf::Vector2f cellPos = { static_cast<float>(entCell.x) * Config::getCellSize().x, static_cast<float>(entCell.y) * Config::getCellSize().y };
+	sf::Vector2f barPos = positionComp.cLogicPosition + offset;
 
 	hpBarComp.cBackgroundBar.setPosition(barPos);
 	hpBarComp.cForegroundBar.setPosition(barPos + sf::Vector2f{1.f, 1.f});

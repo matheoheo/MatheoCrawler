@@ -118,6 +118,10 @@ void ProjectileSystem::onHit(Entity& hitEntity, Entity::EntityID projId, SpellPr
 	int projDmg = projComp.cFinalDmg;
 	bool playerCasted = projComp.cPlayerCasted;
 	mSystemContext.eventManager.notify<HitByProjectileEvent>(HitByProjectileEvent(hitEntity, projDmg, wasPlayerHit, playerCasted));
+	if (projComp.cSource)
+	{
+		mSystemContext.eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(*projComp.cSource, hitEntity, projComp.cSpellData->effect));
+	}
 }
 
 bool ProjectileSystem::hasHitWall(const Entity& projectile) const

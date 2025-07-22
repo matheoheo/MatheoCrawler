@@ -60,6 +60,9 @@ void AnimationSystem::applyCurrentFrame(const Entity& entity, AnimationComponent
 
 void AnimationSystem::updateFrame(Entity& entity, AnimationComponent& animationComponent) 
 {
+	if (!animationComponent.cFrames)
+		return;
+
 	++animationComponent.cCurrentIndex;
 	if (animationComponent.cCurrentIndex >= animationComponent.cFrames->size())
 		return finalizeAnimation(entity, animationComponent);

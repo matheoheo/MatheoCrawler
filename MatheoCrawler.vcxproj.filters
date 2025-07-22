@@ -309,6 +309,12 @@
     <ClCompile Include="MovementSlowSpellEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StatusIconDisplaySystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnToTargetTask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -630,6 +636,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MovementSlowSpellEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusIconDisplaySystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnToTargetTask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
