@@ -66,7 +66,6 @@ void Engine::render()
 void Engine::preloadAssets()
 {
 	mTextures.load(TextureIdentifier::MenuBackground,    "assets/menu/MenuBackground.png");
-
 	mTextures.load(TextureIdentifier::MattLogo,		     "assets/logo/mattGamesLogo.jpeg");
 	mTextures.load(TextureIdentifier::OptionsBackground, "assets/menu/OptionsBackground.jpeg");
 
@@ -76,7 +75,9 @@ void Engine::preloadAssets()
 	mTextures.load(TextureIdentifier::Bonvik,		   "assets/entities/Bonvik/bonvik.png");
 	mTextures.load(TextureIdentifier::Suash,		   "assets/ui/suash/suashIcon.png");
 	mTextures.load(TextureIdentifier::Twarf,		   "assets/ui/twarf/twarfIcon.png");
-	mTextures.load(TextureIdentifier::Devoyer,		   "assets/ui/attIcons/devoyer.png");
+	mTextures.load(TextureIdentifier::Attack1Icon,		   "assets/ui/attIcons/devoyer.png");
+	mTextures.load(TextureIdentifier::Attack2Icon,	   "assets/ui/attIcons/att2Icon.png");
+	mTextures.load(TextureIdentifier::Attack3Icon,	   "assets/ui/attIcons/att3Icon.png");
 	mTextures.load(TextureIdentifier::QuickHealIcon,   "assets/ui/spellIcons/healing/QuickHeal.png");
 	mTextures.load(TextureIdentifier::MajorHealIcon,   "assets/ui/spellIcons/healing/MajorHeal.png");
 	mTextures.load(TextureIdentifier::HealthRegenIcon, "assets/ui/spellIcons/healing/HealthRegen.png");

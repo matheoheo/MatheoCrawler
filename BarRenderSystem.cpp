@@ -81,9 +81,6 @@ void BarRenderSystem::updateBarPosition(const Entity& entity)
 	auto& hpBarComp = entity.getComponent<HealthBarComponent>();
 	auto& positionComp = entity.getComponent<PositionComponent>();
 	constexpr sf::Vector2f offset = { 7, 2 };
-
-	//auto entCell = Utilities::getEntityCell(entity);
-	//sf::Vector2f cellPos = { static_cast<float>(entCell.x) * Config::getCellSize().x, static_cast<float>(entCell.y) * Config::getCellSize().y };
 	sf::Vector2f barPos = positionComp.cLogicPosition + offset;
 
 	hpBarComp.cBackgroundBar.setPosition(barPos);

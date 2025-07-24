@@ -134,24 +134,24 @@ EntityDataRepository::AttackDataMap EntityDataRepository::createPlayerAttackData
 	AttackData att1, att2, att3;
 	att1.damageMultiplier = 1.0f;
 	att1.speedMultiplier = 1.0f;
-	att1.hitOffsets[Direction::Up] = std::vector<sf::Vector2i>{ {-1, 0},  { 0, -1} };
-	att1.hitOffsets[Direction::Left] = std::vector<sf::Vector2i>{ {-1, 0},  { 0, -1} };
+	att1.hitOffsets[Direction::Up]     = std::vector<sf::Vector2i>{ {-1, 0},  { 0, -1} };
+	att1.hitOffsets[Direction::Left]   = std::vector<sf::Vector2i>{ {-1, 0},  { 0, -1} };
 	att1.hitOffsets[Direction::Bottom] = std::vector<sf::Vector2i>{ { 1, 0},  { 0,  1} };
-	att1.hitOffsets[Direction::Right] = std::vector<sf::Vector2i>{ { 1, 0},  { 0,  1} };
+	att1.hitOffsets[Direction::Right]  = std::vector<sf::Vector2i>{ { 1, 0},  { 0,  1} };
 
 	att2.damageMultiplier = 1.0f;
 	att2.speedMultiplier = 1.0f;
-	att2.hitOffsets[Direction::Up] = std::vector<sf::Vector2i>{ { 1, 0}, { 0, -1} };
-	att2.hitOffsets[Direction::Left] = std::vector<sf::Vector2i>{ {-1, 0}, { 0,  1} };
+	att2.hitOffsets[Direction::Up]     = std::vector<sf::Vector2i>{ { 1, 0}, { 0, -1} };
+	att2.hitOffsets[Direction::Left]   = std::vector<sf::Vector2i>{ {-1, 0}, { 0,  1} };
 	att2.hitOffsets[Direction::Bottom] = std::vector<sf::Vector2i>{ {-1, 0}, { 0,  1} };
-	att2.hitOffsets[Direction::Right] = std::vector<sf::Vector2i>{ { 1, 0}, { 0, -1} };
+	att2.hitOffsets[Direction::Right]  = std::vector<sf::Vector2i>{ { 1, 0}, { 0, -1} };
 
-	att3.damageMultiplier = 1.35f;
-	att3.speedMultiplier = 1.1f;
-	att3.hitOffsets[Direction::Up] = std::vector<sf::Vector2i>{ { 0, -1} };
-	att3.hitOffsets[Direction::Left] = std::vector<sf::Vector2i>{ {-1,  0} };
+	att3.damageMultiplier = 1.20f;
+	att3.speedMultiplier = 0.9f;
+	att3.hitOffsets[Direction::Up]     = std::vector<sf::Vector2i>{ { 0, -1} };
+	att3.hitOffsets[Direction::Left]   = std::vector<sf::Vector2i>{ {-1,  0} };
 	att3.hitOffsets[Direction::Bottom] = std::vector<sf::Vector2i>{ { 0,  1} };
-	att3.hitOffsets[Direction::Right] = std::vector<sf::Vector2i>{ { 1,  0} };
+	att3.hitOffsets[Direction::Right]  = std::vector<sf::Vector2i>{ { 1,  0} };
 
 	result[AnimationIdentifier::Attack1] = std::move(att1);
 	result[AnimationIdentifier::Attack2] = std::move(att2);

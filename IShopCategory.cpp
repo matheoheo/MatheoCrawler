@@ -67,6 +67,8 @@ void IShopCategory::upgradeStatisticLevel(const ShopItem& item)
 
 	if (upgMap.contains(item.itemName))
 		++upgMap.at(item.itemName);
+
+	std::cout << "Upgrade level: " << upgMap.at(item.itemName) << '\n';
 }
 
 void IShopCategory::notifyUIAfterBuy()
@@ -89,7 +91,7 @@ void IShopCategory::tryBuy(ShopItem& item)
 	onItemUnhover();
 	checkIfUpgradeLevelReached(item);
 	notifyUIAfterBuy();
-
+	determineItemsBorderColor();
 }
 
 void IShopCategory::createItemDescription(const std::string& descText)
@@ -130,6 +132,7 @@ void IShopCategory::generateItems(std::span<const ItemInitData> itemsData)
 	{
 		tryMakeStatisticUpgradeData(data.name);
 		mItems.emplace_back(ShopUtils::createItem(data, mGameContext.textures, mGameContext.fonts));
+		mItems.back().maxUpgradeLevel = data.maxUpgrade;
 	}
 }
 
@@ -400,6 +403,17 @@ void IShopCategory::createAssignablePopup()
 	setAssignableButtonsCallbacks();
 }
 
+bool IShopCategory::canAssign(const ShopItem& item)
+{
+	if (!item.isAssignable)
+		return false;
+	if (!item.minLevelToAssign)
+		return true;
+
+	auto upgradeLevel = getUpgradeLevel(item.itemName);
+	return upgradeLevel >= item.minLevelToAssign.value();
+}
+
 void IShopCategory::layoutAssignPopup(const ShopItem& item)
 {
 	constexpr float margin = 5.f;
@@ -442,7 +456,7 @@ void IShopCategory::handleAssignPopupClick(const sf::Event event)
 
 		for (const auto& item : mItems)
 		{
-			if (!item.isAssignable)
+			if (!canAssign(item))
 				continue;
 
 			auto bounds = item.itemVisual.getGlobalBounds();
@@ -507,7 +521,7 @@ void IShopCategory::determineItemsBorderColor()
 
 	for (auto& item : mItems)
 	{
-		bool isAss = item.isAssignable;
+		bool isAss = canAssign(item);
 		item.border.setOutlineColor(isAss ? assignable : notAssignable);
 	}
 }

@@ -183,6 +183,29 @@ void SpellcraftShopCategory::setUpgradeLevelsLimit()
 	}
 }
 
+void SpellcraftShopCategory::setMinLevelToAssign()
+{
+	//For most of spells, we do not want them to be assignable at start.
+	//User must upgrade them once first.
+	//This function, defines which one require this.
+	constexpr int minUpgradeLevel = 2;
+	constexpr size_t count = 6;
+	constexpr std::array<StatType, count> requireUpgrade =
+	{
+		StatType::MajorHealSpell, StatType::HealthRegenSpell, StatType::ManaRegenSpell,
+		StatType::PureProjSpell, StatType::BloodballSpell, StatType::FireballSpell
+	};
+
+	for (auto& item : mItems)
+	{
+		auto it = std::ranges::find(requireUpgrade, item.statType);
+		if (it == std::ranges::end(requireUpgrade))
+			continue;
+
+		item.minLevelToAssign = minUpgradeLevel;
+	}
+}
+
 void SpellcraftShopCategory::notifySpellBindEvent(const TextButton& button)
 {
 	if (!mLastPressedItem)
@@ -269,6 +292,7 @@ void SpellcraftShopCategory::onSpellCategoryPress(size_t id)
 	mSpellCategories.clear();
 	setDescriptionPos(mCategoryPos);
 	setUpgradeLevelsLimit();
+	setMinLevelToAssign();
 	makeItemsAssignable();
 	determineItemsBorderColor();
 }

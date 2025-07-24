@@ -32,7 +32,7 @@ void StatisticsShopCategory::render()
 
 void StatisticsShopCategory::onCreate(const sf::Vector2f& pos, const sf::Vector2f& categorySize)
 {
-	constexpr TextureIdentifier tmpId{ TextureIdentifier::Devoyer }; //placeholder
+	constexpr TextureIdentifier tmpId{ TextureIdentifier::Attack1Icon }; //placeholder
 	const std::array<ItemInitData, 5> itemsData =
 	{ {
 		{.iconId = tmpId, .name = "Health Points",    .type = StatType::Health},

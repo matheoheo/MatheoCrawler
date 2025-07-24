@@ -16,7 +16,7 @@ enum class TextureIdentifier
 	//icons
 	Suash, //gold icon
 	Twarf, //player icon
-	Devoyer, //attack1 icon
+	Attack1Icon, //attack1 icon
 	Attack2Icon,
 	Attack3Icon,
 	QuickHealIcon,

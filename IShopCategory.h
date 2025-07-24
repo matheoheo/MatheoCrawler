@@ -60,6 +60,7 @@ protected:
 	void makeItemsAssignable();
 	void initAssignables();
 	void createAssignablePopup();
+	bool canAssign(const ShopItem& item);
 	void layoutAssignPopup(const ShopItem& item);
 	void handleAssignPopupClick(const sf::Event event);
 	bool handleAssignButtonClick(const sf::Event event);

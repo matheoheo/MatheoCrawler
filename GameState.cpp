@@ -141,10 +141,9 @@ void GameState::positionPlayer()
 	//This function is getting called when loading to the next level of dungeon.
 
 	auto& player = mEntityManager.getPlayer();
-	//in case player is animating we finalize it
-	//mGameContext.eventManager.notify<FinalizeAnimationEvent>(FinalizeAnimationEvent(player));
 	auto validPos = mTileMap.getFirstWalkablePos();
 	player.getComponent<SpriteComponent>().cSprite.setPosition(validPos);
+	player.getComponent<SpellEffectsComponent>().cActiveEffects.clear();
 	mGameContext.eventManager.notify<TileOccupiedEvent>(TileOccupiedEvent(player, validPos));
 }
 

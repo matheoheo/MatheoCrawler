@@ -63,10 +63,17 @@ void PlayerStatusUI::registerToUpdatePlayerStatusEvent()
 
 void PlayerStatusUI::createTwarf()
 {
-	constexpr sf::Vector2f basePos{ 2.f, 2.f };
-	constexpr float mod = 0.05f;
+	//Twarf is player's icon that is visible in top left corner of screen.
+	//I need it to be the same height as height of health & mana bar.
 	constexpr float borderThickness = 2.f;
-	const sf::Vector2f twarfSize{ Config::fWindowSize.x * mod, Config::fWindowSize.x * mod };
+	constexpr sf::Vector2f basePos{ borderThickness, borderThickness };
+	constexpr float margin = 1.5f;
+
+	const float desiredHeight = Config::hpBarPlayerSize.y + Config::manaBarSize.y + borderThickness + margin;
+	const float ratio = desiredHeight / Config::fWindowSize.x;
+	const float size = Config::fWindowSize.x * ratio;
+
+	const sf::Vector2f twarfSize{ size, size };
 	Utilities::scaleSprite(mTwarf, twarfSize);
 	mTwarf.setPosition(basePos);
 

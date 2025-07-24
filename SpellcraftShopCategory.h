@@ -25,6 +25,7 @@ protected:
 	void createStatTypeToSpellIdMap();
 	void createSpellUpgrades();
 	void setUpgradeLevelsLimit();
+	void setMinLevelToAssign();
 	void notifySpellBindEvent(const TextButton& button);
 private:
 	struct SpellShopMapping {

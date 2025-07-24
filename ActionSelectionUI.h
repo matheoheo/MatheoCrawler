@@ -42,6 +42,7 @@ private:
     void registerToReBindSpellActionEvent();
     void registerToRemoveActionBindEvent();
     void createAttackSlots();
+    void setAttackSlotsIcons();
     void createSpellSlots();
 
     void createSlotsList(std::span<const SlotData> dataSpan, sf::Vector2f pos);

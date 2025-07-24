@@ -17,6 +17,11 @@ enum class StatType
 	Attack,
 	AttackSpeed,
 
+	//BladeArts
+	LeftAttack,
+	RightAttack,
+	ThrustAttack,
+
 	//Spells stat types
 	QuickHealSpell,
 	MajorHealSpell,
@@ -41,6 +46,7 @@ struct ShopItem
 	TextButton upgradeButton;
 	sf::FloatRect interactionBounds;
 	std::optional<int> maxUpgradeLevel; ///optional, because not every item/spell is gonna have a limit
+	std::optional<int> minLevelToAssign; //minimal level of item that is required before u can assign it.
 	bool isAssignable; //can this shop item be assigned to UI Action Slot
 	sf::RectangleShape border; //border for visual presentation
 

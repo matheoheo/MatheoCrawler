@@ -2,6 +2,7 @@
 #include "Shop.h"
 #include "StatisticsShopCategory.h"
 #include "SpellcraftShopCategory.h"
+#include "BladeArtsShopCategory.h"
 #include "Config.h"
 #include "Utilities.h"
 
@@ -121,17 +122,23 @@ void Shop::createCategories(const sf::Vector2f& pos)
 
 void Shop::createCategoriesCallbacks()
 {
+	constexpr size_t statisticsShopCategoryIndex = 0;
+	constexpr size_t bladeArtsShopCategoryIndex  = 1;
+	constexpr size_t spellcraftShopCategoryIndex = 2;
+
 	const std::array<TextButton::ButtonCallback, mCategoriesCount> callbacks =
 	{
 		[this]() {
 			mActiveCategory = std::make_unique<StatisticsShopCategory>(mGameContext, player);
-			onCategoryPress(0);
+			onCategoryPress(statisticsShopCategoryIndex);
 		},
 		[this]() {
+			mActiveCategory = std::make_unique<BladeArtsShopCategory>(mGameContext, player);
+			onCategoryPress(bladeArtsShopCategoryIndex);
 		},
 		[this]() {
 			mActiveCategory = std::make_unique<SpellcraftShopCategory>(mGameContext, player);
-			onCategoryPress(2);
+			onCategoryPress(spellcraftShopCategoryIndex);
 		}
 	};
 

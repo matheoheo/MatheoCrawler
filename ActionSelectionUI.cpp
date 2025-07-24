@@ -121,8 +121,29 @@ void ActionSelectionUI::createAttackSlots()
 		SlotData{"3", Key::Num3}
 	};
 	createSlotsList(slotDatas, pos);
-	
 	mIconSlots[0].border.setOutlineColor(mActiveBorderColor);
+	setAttackSlotsIcons();
+}
+
+void ActionSelectionUI::setAttackSlotsIcons()
+{
+	using PairType = std::pair<sf::Keyboard::Key, TextureIdentifier>;
+	constexpr size_t count = 3;
+	constexpr std::array<PairType, count> mapping =
+	{{
+		{sf::Keyboard::Key::Num1, TextureIdentifier::Attack1Icon},
+		{sf::Keyboard::Key::Num2, TextureIdentifier::Attack2Icon},
+		{sf::Keyboard::Key::Num3, TextureIdentifier::Attack3Icon}
+	}};
+
+	for (auto& slot : mIconSlots)
+	{
+		auto it = std::ranges::find(mapping, slot.activationKey, &PairType::first);
+		if (it == std::ranges::end(mapping))
+			continue;
+
+		setSlotIcon(slot, it->second);
+	}
 }
 
 void ActionSelectionUI::createSpellSlots()
