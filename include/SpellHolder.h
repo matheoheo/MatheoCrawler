@@ -29,6 +29,8 @@ private:
 	void createFireball();
 	void createBloodball();
 
+	void createFrostPillar();
+
 	void createMorannaProjectile();
 private:
 	std::unordered_map<SpellIdentifier, SpellData> mSpellsMap;

@@ -3,9 +3,12 @@
 #include "Utilities.h"
 #include "MessageTypes.h"
 #include "SpellHolder.h"
+#include "TileMap.h"
 
-SpellSystem::SpellSystem(SystemContext& systemContext)
-	:ISystem(systemContext)
+SpellSystem::SpellSystem(SystemContext& systemContext, const TileMap& tileMap, const sf::Vector2f& mousePos)
+	:ISystem(systemContext),
+	mTileMap(tileMap),
+	fMousePos(mousePos)
 {
 	registerToEvents();
 }
@@ -52,7 +55,11 @@ void SpellSystem::registerToCastSpellEvent()
 			auto& spellbookComp = data.caster.getComponent<SpellbookComponent>();
 			if (!canCastSpell(data, spellbookComp))
 				return;
-
+			if (isAOESpell(data.spellId))
+			{
+				if (!canCastAOESpell(data.caster))
+					return;
+			}
 			updateLastSpell(spellbookComp, data.spellId);
 		//	subtractMana(data.caster, spellbookComp);
 			auto& thisSpell = spellbookComp.cSpells[data.spellId];
@@ -67,7 +74,6 @@ void SpellSystem::registerToCastSpellEvent()
 
 			notifyAnimationSystem(data.caster, thisSpell.data->castTime, animType);
 			notifyEffectSystem(data, thisSpell);
-
 
 			if(!isEntityAlreadyTracked(data.caster))
 				mTrackedEntities.push_back(&data.caster);
@@ -97,10 +103,9 @@ void SpellSystem::notifyEffectSystem(const CastSpellEvent& data, const SpellInst
 {
 	auto spellid = data.spellId;
 	auto& evm = mSystemContext.eventManager;
-	if(spellid == SpellIdentifier::QuickHeal || spellid == SpellIdentifier::MajorHeal)
+	if(isHealingSpell(spellid))
 		evm.notify<StartGlowUpEffect>(StartGlowUpEffect(data.caster, sf::Color(100, 255, 100), spell.data->castTime));
-
-	else if (spellid == SpellIdentifier::ManaRegen || spellid == SpellIdentifier::HealthRegen)
+	else if (isRegenSpell(spellid))
 	{
 		auto color = (spellid == SpellIdentifier::HealthRegen) ? Config::hpBarColor : Config::manaBarColor;
 		evm.notify<StartRegenEffect>(StartRegenEffect(data.caster, color, spell.data->duration));
@@ -148,31 +153,26 @@ void SpellSystem::subtractMana(Entity& entity, SpellbookComponent& spellbookComp
 	mSystemContext.eventManager.notify<UpdatePlayerStatusEvent>(UpdatePlayerStatusEvent());
 }
 
+bool SpellSystem::canCastAOESpell(const Entity& entity) const
+{
+	//returns true, if there is line of sight between entitie's position and tile under mouse position
+	//returns false otherwise
+	const auto& positionComponent = entity.getComponent<PositionComponent>();
+	const auto& pos = positionComponent.cLogicPosition;
+	auto entityCell = Utilities::getCellIndex(pos);
+	auto targetCell = Utilities::getCellIndex(fMousePos);
+	
+	return mTileMap.isLineOfSightClear(entityCell, targetCell);
+}
+
 void SpellSystem::notifyCastFinished(Entity& entity, SpellIdentifier id)
 {
-	if (id == SpellIdentifier::HealthRegen || id == SpellIdentifier::ManaRegen)
-	{
-		//those 2 are also a healing spells, but they require different system
-		const SpellInstance* lastSpell = entity.getComponent<SpellbookComponent>().cLastSpell;
-		int regen = (id == SpellIdentifier::HealthRegen) ? 
-			lastSpell->data->healing->bonusHpRegen : 
-			lastSpell->data->healing->bonusManaRegen;
-		int duration = lastSpell->data->duration;
-
-		if (id == SpellIdentifier::HealthRegen)
-			mSystemContext.eventManager.notify<TriggerHpRegenSpellEvent>(TriggerHpRegenSpellEvent(entity, regen, duration));
-		else if (id == SpellIdentifier::ManaRegen)
-			mSystemContext.eventManager.notify<TriggerMpRegenSpellEvent>(TriggerMpRegenSpellEvent(entity, regen, duration));
-	}
-	else if (id == SpellIdentifier::QuickHeal || id == SpellIdentifier::MajorHeal)
-	{
+	if (isRegenSpell(id))
+		onRegenSpellCast(entity, id);
+	else if (isHealingSpell(id))
 		mSystemContext.eventManager.notify<TriggerHealSpellEvent>(TriggerHealSpellEvent(entity));
-	}
-	if (id == SpellIdentifier::WaterBall || id == SpellIdentifier::PureProjectile ||
-		id == SpellIdentifier::Fireball || id == SpellIdentifier::Bloodball)
-	{
+	else if (isProjectileSpell(id))
 		mSystemContext.eventManager.notify<SpawnProjectileEvent>(SpawnProjectileEvent(entity, id));
-	}
 }
 
 AnimationIdentifier SpellSystem::getAnimationBasedOnSpellType(const SpellData& data) const
@@ -183,6 +183,42 @@ AnimationIdentifier SpellSystem::getAnimationBasedOnSpellType(const SpellData& d
 		return AnimationIdentifier::GenericShoot;
 
 	return AnimationIdentifier::GenericSpellCast;
+}
+
+void SpellSystem::onRegenSpellCast(Entity& entity, SpellIdentifier id)
+{
+	//those 2 are also a healing spells, but they require different system
+	const SpellInstance* lastSpell = entity.getComponent<SpellbookComponent>().cLastSpell;
+	int regen = (id == SpellIdentifier::HealthRegen) ?
+		lastSpell->data->healing->bonusHpRegen :
+		lastSpell->data->healing->bonusManaRegen;
+	int duration = lastSpell->data->duration;
+
+	if (id == SpellIdentifier::HealthRegen)
+		mSystemContext.eventManager.notify<TriggerHpRegenSpellEvent>(TriggerHpRegenSpellEvent(entity, regen, duration));
+	else if (id == SpellIdentifier::ManaRegen)
+		mSystemContext.eventManager.notify<TriggerMpRegenSpellEvent>(TriggerMpRegenSpellEvent(entity, regen, duration));
+}
+
+bool SpellSystem::isHealingSpell(SpellIdentifier id) const
+{
+	return id == SpellIdentifier::QuickHeal || id == SpellIdentifier::MajorHeal;
+}
+
+bool SpellSystem::isRegenSpell(SpellIdentifier id) const
+{
+	return id == SpellIdentifier::HealthRegen || id == SpellIdentifier::ManaRegen;
+}
+
+bool SpellSystem::isProjectileSpell(SpellIdentifier id) const
+{
+	return id == SpellIdentifier::WaterBall || id == SpellIdentifier::PureProjectile ||
+		   id == SpellIdentifier::Fireball  || id == SpellIdentifier::Bloodball;
+}
+
+bool SpellSystem::isAOESpell(SpellIdentifier id) const
+{
+	return id == SpellIdentifier::FrostPillar;
 }
 
 void SpellSystem::addToFinished(Entity* entity)

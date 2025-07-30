@@ -1,5 +1,6 @@
 #pragma once
 #include "ITask.h"
+
 class WaitUntilIdleTask :
     public ITask
 {

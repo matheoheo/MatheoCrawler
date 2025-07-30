@@ -31,6 +31,7 @@
 #include "PathFollowSystem.h"
 #include "SpellEffectSystem.h"
 #include "StatusIconDisplaySystem.h"
+#include "AreaOfEffectSpellSystem.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
@@ -59,6 +60,7 @@ void GameState::processEvents(sf::Event event)
 
 void GameState::update(const sf::Time& deltaTime)
 {
+	mGameContext.window.setView(mGameView);
 	IState::updateMousePosition();
 	tryDebug();
 	mSystemManager.update(deltaTime);
@@ -66,14 +68,12 @@ void GameState::update(const sf::Time& deltaTime)
 	static sf::Clock randomClock;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Numpad5))
 	{
-		if (randomClock.getElapsedTime().asMilliseconds() > 100)
+		if (randomClock.getElapsedTime().asMilliseconds() > 600)
 		{
 			auto& player = mEntityManager.getPlayer();
-			mGameContext.eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(player, player, 
-				SpellEffect::MovementSpeedSlow));
-			mGameContext.eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(player, player,
-				SpellEffect::FireBurn));
-
+			auto pos = Utilities::getEntityPos(player);
+			mGameContext.eventManager.notify<CastAOESpellEvent>(CastAOESpellEvent(player, SpellIdentifier::FrostPillar, fMousePos));
+			randomClock.restart();
 			return;
 		}
 	}
@@ -165,12 +165,13 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<TileFadeSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntitySpawnerSystem>(mSystemContext, mGameContext.textures, mBehaviorContext));
 	mSystemManager.addSystem(std::make_unique<RegenerationSystem>(mSystemContext));
-	mSystemManager.addSystem(std::make_unique<SpellSystem>(mSystemContext));
+	mSystemManager.addSystem(std::make_unique<SpellSystem>(mSystemContext, mTileMap, fMousePos));
 	mSystemManager.addSystem(std::make_unique<HealSpellSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EffectSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<ProjectileSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<PathFollowSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<SpellEffectSystem>(mSystemContext));
+	mSystemManager.addSystem(std::make_unique<AreaOfEffectSpellSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<StatusIconDisplaySystem>(mSystemContext, mGameContext.textures));
 
 	mSystemManager.addSystem(std::make_unique<BarRenderSystem>(mSystemContext));

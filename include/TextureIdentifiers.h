@@ -30,6 +30,7 @@ enum class TextureIdentifier
 	FireBurnIcon,
 	MoveSpeedSlowIcon,
 	AttSpeedSlowIcon,
+	MoveFrozenIcon,
 
 	//Raw projectiles
 	//They have '0', because the plan was to add more of those.

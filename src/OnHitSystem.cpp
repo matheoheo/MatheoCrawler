@@ -18,6 +18,7 @@ void OnHitSystem::registerToEvents()
     registerToHitByAttackEvent();
     registerToHitByProjectileEvent();
     registerToHitByTickDamageEvent();
+    registerToHitByAOESpellEvent();
 }
 
 void OnHitSystem::registerToHitByAttackEvent()
@@ -54,6 +55,16 @@ void OnHitSystem::registerToHitByTickDamageEvent()
             int damage = calculateProjectileDamage(data.entity, data.damage);
             bool isPlayerTarget = data.entity.hasComponent<PlayerComponent>(); //<entity from event is a target of course
             processHit(data.entity, damage, !isPlayerTarget, isPlayerTarget);
+        });
+}
+
+void OnHitSystem::registerToHitByAOESpellEvent()
+{
+    mSystemContext.eventManager.registerEvent<HitByAOESpellEvent>([this](const HitByAOESpellEvent& data)
+        {
+            int dmg = calculateProjectileDamage(data.hitEntity, data.damage);
+            bool targetIsPlayer = data.hitEntity.hasComponent<PlayerComponent>();
+            processHit(data.hitEntity, dmg, !targetIsPlayer, targetIsPlayer); 
         });
 }
 

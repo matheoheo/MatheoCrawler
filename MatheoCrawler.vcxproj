@@ -18,6 +18,215 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\ActionSelectionUI.h" />
+    <ClInclude Include="include\AnimationFrame.h" />
+    <ClInclude Include="include\AnimationHolder.h" />
+    <ClInclude Include="include\AnimationIdentifiers.h" />
+    <ClInclude Include="include\AnimationSystem.h" />
+    <ClInclude Include="include\AreaOfEffectSpellSystem.h" />
+    <ClInclude Include="include\AssetManager.h" />
+    <ClInclude Include="include\AttackData.h" />
+    <ClInclude Include="include\AttackSystem.h" />
+    <ClInclude Include="include\AttackTask.h" />
+    <ClInclude Include="include\BarRenderSystem.h" />
+    <ClInclude Include="include\BasicMeleeBehavior.h" />
+    <ClInclude Include="include\BasicRangedBehavior.h" />
+    <ClInclude Include="include\BehaviorAIUpdateSystem.h" />
+    <ClInclude Include="include\BehaviorContext.h" />
+    <ClInclude Include="include\BladeArtsShopCategory.h" />
+    <ClInclude Include="include\CameraSystem.h" />
+    <ClInclude Include="include\ChaseAISystem.h" />
+    <ClInclude Include="include\ChaseTask.h" />
+    <ClInclude Include="include\CollisionSystem.h" />
+    <ClInclude Include="include\Components.h" />
+    <ClInclude Include="include\ConceptDefinitions.h" />
+    <ClInclude Include="include\Config.h" />
+    <ClInclude Include="include\DelayTask.h" />
+    <ClInclude Include="include\Directions.h" />
+    <ClInclude Include="include\DungeonGenerator.h" />
+    <ClInclude Include="include\EffectSystem.h" />
+    <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\Entity.h" />
+    <ClInclude Include="include\EntityAIState.h" />
+    <ClInclude Include="include\EntityDataRepository.h" />
+    <ClInclude Include="include\EntityDeathSystem.h" />
+    <ClInclude Include="include\EntityFactory.h" />
+    <ClInclude Include="include\EntityManager.h" />
+    <ClInclude Include="include\EntityRenderSystem.h" />
+    <ClInclude Include="include\EntitySpawnerSystem.h" />
+    <ClInclude Include="include\EntityStates.h" />
+    <ClInclude Include="include\EntityTypes.h" />
+    <ClInclude Include="include\EventManager.h" />
+    <ClInclude Include="include\FileHandler.h" />
+    <ClInclude Include="include\FireBurnSpellEffect.h" />
+    <ClInclude Include="include\FontIdentifiers.h" />
+    <ClInclude Include="include\FrostPillarSpell.h" />
+    <ClInclude Include="include\GameContext.h" />
+    <ClInclude Include="include\GameEvents.h" />
+    <ClInclude Include="include\GameState.h" />
+    <ClInclude Include="include\GlowUpVisualEffect.h" />
+    <ClInclude Include="include\HealingSpellUpgradeStrategy.h" />
+    <ClInclude Include="include\HealSpellSystem.h" />
+    <ClInclude Include="include\IAOESpell.h" />
+    <ClInclude Include="include\IBehavior.h" />
+    <ClInclude Include="include\IMapGenerator.h" />
+    <ClInclude Include="include\InputSystem.h" />
+    <ClInclude Include="include\IShopCategory.h" />
+    <ClInclude Include="include\ISpellEffect.h" />
+    <ClInclude Include="include\ISpellUpgradeStrategy.h" />
+    <ClInclude Include="include\IState.h" />
+    <ClInclude Include="include\ISystem.h" />
+    <ClInclude Include="include\ITask.h" />
+    <ClInclude Include="include\IVisualEffect.h" />
+    <ClInclude Include="include\LoadingState.h" />
+    <ClInclude Include="include\MenuState.h" />
+    <ClInclude Include="include\MessageLogUI.h" />
+    <ClInclude Include="include\MessageTypes.h" />
+    <ClInclude Include="include\MovementFrozenSpellEffect.h" />
+    <ClInclude Include="include\MovementSlowSpellEffect.h" />
+    <ClInclude Include="include\MovementSystem.h" />
+    <ClInclude Include="include\OnHitSystem.h" />
+    <ClInclude Include="include\OptionSelector.h" />
+    <ClInclude Include="include\OptionsState.h" />
+    <ClInclude Include="include\Parser.h" />
+    <ClInclude Include="include\Pathfinder.h" />
+    <ClInclude Include="include\PathFollowSystem.h" />
+    <ClInclude Include="include\PathRequestSystem.h" />
+    <ClInclude Include="include\PatrolAISystem.h" />
+    <ClInclude Include="include\PatrolTask.h" />
+    <ClInclude Include="include\pch.h" />
+    <ClInclude Include="include\PlayerResourcesUI.h" />
+    <ClInclude Include="include\PlayerStatusUI.h" />
+    <ClInclude Include="include\PositioningAISystem.h" />
+    <ClInclude Include="include\PositionToAttackTask.h" />
+    <ClInclude Include="include\ProjectileSpellUpgradeStrategy.h" />
+    <ClInclude Include="include\ProjectileSystem.h" />
+    <ClInclude Include="include\Random.h" />
+    <ClInclude Include="include\RegenerationSystem.h" />
+    <ClInclude Include="include\RegenerationVisualEffect.h" />
+    <ClInclude Include="include\RegenSpellUpgradeStrategy.h" />
+    <ClInclude Include="include\Shop.h" />
+    <ClInclude Include="include\ShopData.h" />
+    <ClInclude Include="include\SpellcraftShopCategory.h" />
+    <ClInclude Include="include\SpellData.h" />
+    <ClInclude Include="include\SpellEffectSystem.h" />
+    <ClInclude Include="include\SpellHolder.h" />
+    <ClInclude Include="include\SpellIdentifiers.h" />
+    <ClInclude Include="include\SpellSystem.h" />
+    <ClInclude Include="include\StateIdentifiers.h" />
+    <ClInclude Include="include\StateManager.h" />
+    <ClInclude Include="include\StatisticsShopCategory.h" />
+    <ClInclude Include="include\StatusIconDisplaySystem.h" />
+    <ClInclude Include="include\SystemContext.h" />
+    <ClInclude Include="include\SystemManager.h" />
+    <ClInclude Include="include\TextButton.h" />
+    <ClInclude Include="include\TextureIdentifiers.h" />
+    <ClInclude Include="include\TickingSpelllEffect.h" />
+    <ClInclude Include="include\Tile.h" />
+    <ClInclude Include="include\TileFadeSystem.h" />
+    <ClInclude Include="include\TileMap.h" />
+    <ClInclude Include="include\TileTypes.h" />
+    <ClInclude Include="include\TurnToTargetTask.h" />
+    <ClInclude Include="include\UIComponent.h" />
+    <ClInclude Include="include\UIManager.h" />
+    <ClInclude Include="include\Utilities.h" />
+    <ClInclude Include="include\VisibilitySystem.h" />
+    <ClInclude Include="include\WaitUntilIdleTask.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ActionSelectionUI.cpp" />
+    <ClCompile Include="src\AnimationHolder.cpp" />
+    <ClCompile Include="src\AnimationSystem.cpp" />
+    <ClCompile Include="src\AreaOfEffectSpellSystem.cpp" />
+    <ClCompile Include="src\AttackSystem.cpp" />
+    <ClCompile Include="src\AttackTask.cpp" />
+    <ClCompile Include="src\BarRenderSystem.cpp" />
+    <ClCompile Include="src\BasicMeleeBehavior.cpp" />
+    <ClCompile Include="src\BasicRangedBehavior.cpp" />
+    <ClCompile Include="src\BehaviorAIUpdateSystem.cpp" />
+    <ClCompile Include="src\BladeArtsShopCategory.cpp" />
+    <ClCompile Include="src\CameraSystem.cpp" />
+    <ClCompile Include="src\ChaseAISystem.cpp" />
+    <ClCompile Include="src\ChaseTask.cpp" />
+    <ClCompile Include="src\CollisionSystem.cpp" />
+    <ClCompile Include="src\Config.cpp" />
+    <ClCompile Include="src\DelayTask.cpp" />
+    <ClCompile Include="src\DungeonGenerator.cpp" />
+    <ClCompile Include="src\EffectSystem.cpp" />
+    <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\EntityDataRepository.cpp" />
+    <ClCompile Include="src\EntityDeathSystem.cpp" />
+    <ClCompile Include="src\EntityFactory.cpp" />
+    <ClCompile Include="src\EntityManager.cpp" />
+    <ClCompile Include="src\EntityRenderSystem.cpp" />
+    <ClCompile Include="src\EntitySpawnerSystem.cpp" />
+    <ClCompile Include="src\EventManager.cpp" />
+    <ClCompile Include="src\FileHandler.cpp" />
+    <ClCompile Include="src\FireBurnSpellEffect.cpp" />
+    <ClCompile Include="src\FrostPillarSpell.cpp" />
+    <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\GlowUpVisualEffect.cpp" />
+    <ClCompile Include="src\HealingSpellUpgradeStrategy.cpp" />
+    <ClCompile Include="src\HealSpellSystem.cpp" />
+    <ClCompile Include="src\IAOESpell.cpp" />
+    <ClCompile Include="src\IBehavior.cpp" />
+    <ClCompile Include="src\IMapGenerator.cpp" />
+    <ClCompile Include="src\InputSystem.cpp" />
+    <ClCompile Include="src\IShopCategory.cpp" />
+    <ClCompile Include="src\ISpellEffect.cpp" />
+    <ClCompile Include="src\ISpellUpgradeStrategy.cpp" />
+    <ClCompile Include="src\IState.cpp" />
+    <ClCompile Include="src\ISystem.cpp" />
+    <ClCompile Include="src\ITask.cpp" />
+    <ClCompile Include="src\IVisualEffect.cpp" />
+    <ClCompile Include="src\LoadingState.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MenuState.cpp" />
+    <ClCompile Include="src\MessageLogUI.cpp" />
+    <ClCompile Include="src\MovementFrozenSpellEffect.cpp" />
+    <ClCompile Include="src\MovementSlowSpellEffect.cpp" />
+    <ClCompile Include="src\MovementSystem.cpp" />
+    <ClCompile Include="src\OnHitSystem.cpp" />
+    <ClCompile Include="src\OptionSelector.cpp" />
+    <ClCompile Include="src\OptionsState.cpp" />
+    <ClCompile Include="src\Parser.cpp" />
+    <ClCompile Include="src\Pathfinder.cpp" />
+    <ClCompile Include="src\PathFollowSystem.cpp" />
+    <ClCompile Include="src\PathRequestSystem.cpp" />
+    <ClCompile Include="src\PatrolAISystem.cpp" />
+    <ClCompile Include="src\PatrolTask.cpp" />
+    <ClCompile Include="src\PlayerResourcesUI.cpp" />
+    <ClCompile Include="src\PlayerStatusUI.cpp" />
+    <ClCompile Include="src\PositioningAISystem.cpp" />
+    <ClCompile Include="src\PositionToAttackTask.cpp" />
+    <ClCompile Include="src\ProjectileSpellUpgradeStrategy.cpp" />
+    <ClCompile Include="src\ProjectileSystem.cpp" />
+    <ClCompile Include="src\RegenerationSystem.cpp" />
+    <ClCompile Include="src\RegenerationVisualEffect.cpp" />
+    <ClCompile Include="src\RegenSpellUpgradeStrategy.cpp" />
+    <ClCompile Include="src\Shop.cpp" />
+    <ClCompile Include="src\ShopData.cpp" />
+    <ClCompile Include="src\SpellcraftShopCategory.cpp" />
+    <ClCompile Include="src\SpellEffectSystem.cpp" />
+    <ClCompile Include="src\SpellHolder.cpp" />
+    <ClCompile Include="src\SpellSystem.cpp" />
+    <ClCompile Include="src\StateManager.cpp" />
+    <ClCompile Include="src\StatisticsShopCategory.cpp" />
+    <ClCompile Include="src\StatusIconDisplaySystem.cpp" />
+    <ClCompile Include="src\SystemManager.cpp" />
+    <ClCompile Include="src\TextButton.cpp" />
+    <ClCompile Include="src\TickingSpelllEffect.cpp" />
+    <ClCompile Include="src\TileFadeSystem.cpp" />
+    <ClCompile Include="src\TileMap.cpp" />
+    <ClCompile Include="src\TurnToTargetTask.cpp" />
+    <ClCompile Include="src\UIComponent.cpp" />
+    <ClCompile Include="src\UIManager.cpp" />
+    <ClCompile Include="src\Utilities.cpp" />
+    <ClCompile Include="src\VisibilitySystem.cpp" />
+    <ClCompile Include="src\WaitUntilIdleTask.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -93,7 +302,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\SFML-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\SFML-3.0.0\include;C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\MatheoCrawler\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4275</DisableSpecificWarnings>
@@ -114,7 +323,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\SFML-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\SFML-3.0.0\include;C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\MatheoCrawler\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,7 +341,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\SFML-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\SFML-3.0.0\include;C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\MatheoCrawler\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4275</DisableSpecificWarnings>
@@ -153,7 +362,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\SFML-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\SFML-3.0.0\include;C:\Users\Mateusz\Desktop\mati\SFML 3 PROJECTS\MatheoCrawler\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,207 +373,6 @@
       <AdditionalDependencies>sfml-window.lib;sfml-system.lib;sfml-graphics.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="ActionSelectionUI.cpp" />
-    <ClCompile Include="AnimationHolder.cpp" />
-    <ClCompile Include="AnimationSystem.cpp" />
-    <ClCompile Include="AttackSystem.cpp" />
-    <ClCompile Include="AttackTask.cpp" />
-    <ClCompile Include="BarRenderSystem.cpp" />
-    <ClCompile Include="BasicMeleeBehavior.cpp" />
-    <ClCompile Include="BasicRangedBehavior.cpp" />
-    <ClCompile Include="BehaviorAIUpdateSystem.cpp" />
-    <ClCompile Include="BladeArtsShopCategory.cpp" />
-    <ClCompile Include="CameraSystem.cpp" />
-    <ClCompile Include="ChaseAISystem.cpp" />
-    <ClCompile Include="ChaseTask.cpp" />
-    <ClCompile Include="CollisionSystem.cpp" />
-    <ClCompile Include="Config.cpp" />
-    <ClCompile Include="DelayTask.cpp" />
-    <ClCompile Include="DungeonGenerator.cpp" />
-    <ClCompile Include="EffectSystem.cpp" />
-    <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="EntityDataRepository.cpp" />
-    <ClCompile Include="EntityDeathSystem.cpp" />
-    <ClCompile Include="EntityFactory.cpp" />
-    <ClCompile Include="EntityManager.cpp" />
-    <ClCompile Include="EntityRenderSystem.cpp" />
-    <ClCompile Include="EntitySpawnerSystem.cpp" />
-    <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="FileHandler.cpp" />
-    <ClCompile Include="FireBurnSpellEffect.cpp" />
-    <ClCompile Include="GameState.cpp" />
-    <ClCompile Include="GlowUpVisualEffect.cpp" />
-    <ClCompile Include="HealingSpellUpgradeStrategy.cpp" />
-    <ClCompile Include="HealSpellSystem.cpp" />
-    <ClCompile Include="IBehavior.cpp" />
-    <ClCompile Include="IMapGenerator.cpp" />
-    <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="IShopCategory.cpp" />
-    <ClCompile Include="ISpellEffect.cpp" />
-    <ClCompile Include="ISpellUpgradeStrategy.cpp" />
-    <ClCompile Include="IState.cpp" />
-    <ClCompile Include="ISystem.cpp" />
-    <ClCompile Include="ITask.cpp" />
-    <ClCompile Include="IVisualEffect.cpp" />
-    <ClCompile Include="LoadingState.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MenuState.cpp" />
-    <ClCompile Include="MessageLogUI.cpp" />
-    <ClCompile Include="MovementSlowSpellEffect.cpp" />
-    <ClCompile Include="MovementSystem.cpp" />
-    <ClCompile Include="OnHitSystem.cpp" />
-    <ClCompile Include="OptionSelector.cpp" />
-    <ClCompile Include="OptionsState.cpp" />
-    <ClCompile Include="Parser.cpp" />
-    <ClCompile Include="Pathfinder.cpp" />
-    <ClCompile Include="PathFollowSystem.cpp" />
-    <ClCompile Include="PathRequestSystem.cpp" />
-    <ClCompile Include="PatrolAISystem.cpp" />
-    <ClCompile Include="PatrolTask.cpp" />
-    <ClCompile Include="PositioningAISystem.cpp" />
-    <ClCompile Include="PositionToAttackTask.cpp" />
-    <ClCompile Include="ProjectileSpellUpgradeStrategy.cpp" />
-    <ClCompile Include="ProjectileSystem.cpp" />
-    <ClCompile Include="RegenerationSystem.cpp" />
-    <ClCompile Include="PlayerResourcesUI.cpp" />
-    <ClCompile Include="PlayerStatusUI.cpp" />
-    <ClCompile Include="RegenerationVisualEffect.cpp" />
-    <ClCompile Include="RegenSpellUpgradeStrategy.cpp" />
-    <ClCompile Include="Shop.cpp" />
-    <ClCompile Include="ShopData.cpp" />
-    <ClCompile Include="SpellcraftShopCategory.cpp" />
-    <ClCompile Include="SpellEffectSystem.cpp" />
-    <ClCompile Include="SpellHolder.cpp" />
-    <ClCompile Include="SpellSystem.cpp" />
-    <ClCompile Include="StateManager.cpp" />
-    <ClCompile Include="StatisticsShopCategory.cpp" />
-    <ClCompile Include="StatusIconDisplaySystem.cpp" />
-    <ClCompile Include="SystemManager.cpp" />
-    <ClCompile Include="TextButton.cpp" />
-    <ClCompile Include="TickingSpelllEffect.cpp" />
-    <ClCompile Include="TileFadeSystem.cpp" />
-    <ClCompile Include="TileMap.cpp" />
-    <ClCompile Include="TurnToTargetTask.cpp" />
-    <ClCompile Include="UIComponent.cpp" />
-    <ClCompile Include="UIManager.cpp" />
-    <ClCompile Include="Utilities.cpp" />
-    <ClCompile Include="VisibilitySystem.cpp" />
-    <ClCompile Include="WaitUntilIdleTask.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ActionSelectionUI.h" />
-    <ClInclude Include="AnimationFrame.h" />
-    <ClInclude Include="AnimationHolder.h" />
-    <ClInclude Include="AnimationIdentifiers.h" />
-    <ClInclude Include="AnimationSystem.h" />
-    <ClInclude Include="AssetManager.h" />
-    <ClInclude Include="AttackData.h" />
-    <ClInclude Include="AttackSystem.h" />
-    <ClInclude Include="AttackTask.h" />
-    <ClInclude Include="BarRenderSystem.h" />
-    <ClInclude Include="BasicMeleeBehavior.h" />
-    <ClInclude Include="BasicRangedBehavior.h" />
-    <ClInclude Include="BehaviorAIUpdateSystem.h" />
-    <ClInclude Include="BehaviorContext.h" />
-    <ClInclude Include="BladeArtsShopCategory.h" />
-    <ClInclude Include="CameraSystem.h" />
-    <ClInclude Include="ChaseAISystem.h" />
-    <ClInclude Include="ChaseTask.h" />
-    <ClInclude Include="CollisionSystem.h" />
-    <ClInclude Include="Components.h" />
-    <ClInclude Include="ConceptDefinitions.h" />
-    <ClInclude Include="Config.h" />
-    <ClInclude Include="DelayTask.h" />
-    <ClInclude Include="Directions.h" />
-    <ClInclude Include="DungeonGenerator.h" />
-    <ClInclude Include="EffectSystem.h" />
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityAIState.h" />
-    <ClInclude Include="EntityDataRepository.h" />
-    <ClInclude Include="EntityDeathSystem.h" />
-    <ClInclude Include="EntityFactory.h" />
-    <ClInclude Include="EntityManager.h" />
-    <ClInclude Include="EntityRenderSystem.h" />
-    <ClInclude Include="EntitySpawnerSystem.h" />
-    <ClInclude Include="EntityStates.h" />
-    <ClInclude Include="EntityTypes.h" />
-    <ClInclude Include="EventManager.h" />
-    <ClInclude Include="FileHandler.h" />
-    <ClInclude Include="FireBurnSpellEffect.h" />
-    <ClInclude Include="FontIdentifiers.h" />
-    <ClInclude Include="GameContext.h" />
-    <ClInclude Include="GameEvents.h" />
-    <ClInclude Include="GameState.h" />
-    <ClInclude Include="GlowUpVisualEffect.h" />
-    <ClInclude Include="HealingSpellUpgradeStrategy.h" />
-    <ClInclude Include="HealSpellSystem.h" />
-    <ClInclude Include="IBehavior.h" />
-    <ClInclude Include="IMapGenerator.h" />
-    <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="IShopCategory.h" />
-    <ClInclude Include="ISpellEffect.h" />
-    <ClInclude Include="ISpellUpgradeStrategy.h" />
-    <ClInclude Include="IState.h" />
-    <ClInclude Include="ISystem.h" />
-    <ClInclude Include="ITask.h" />
-    <ClInclude Include="IVisualEffect.h" />
-    <ClInclude Include="LoadingState.h" />
-    <ClInclude Include="MenuState.h" />
-    <ClInclude Include="MessageLogUI.h" />
-    <ClInclude Include="MessageTypes.h" />
-    <ClInclude Include="MovementSlowSpellEffect.h" />
-    <ClInclude Include="MovementSystem.h" />
-    <ClInclude Include="OnHitSystem.h" />
-    <ClInclude Include="OptionSelector.h" />
-    <ClInclude Include="OptionsState.h" />
-    <ClInclude Include="Parser.h" />
-    <ClInclude Include="Pathfinder.h" />
-    <ClInclude Include="PathFollowSystem.h" />
-    <ClInclude Include="PathRequestSystem.h" />
-    <ClInclude Include="PatrolAISystem.h" />
-    <ClInclude Include="PatrolTask.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="PositioningAISystem.h" />
-    <ClInclude Include="PositionToAttackTask.h" />
-    <ClInclude Include="ProjectileSpellUpgradeStrategy.h" />
-    <ClInclude Include="ProjectileSystem.h" />
-    <ClInclude Include="RegenerationSystem.h" />
-    <ClInclude Include="PlayerResourcesUI.h" />
-    <ClInclude Include="PlayerStatusUI.h" />
-    <ClInclude Include="Random.h" />
-    <ClInclude Include="RegenerationVisualEffect.h" />
-    <ClInclude Include="RegenSpellUpgradeStrategy.h" />
-    <ClInclude Include="Shop.h" />
-    <ClInclude Include="ShopData.h" />
-    <ClInclude Include="SpellcraftShopCategory.h" />
-    <ClInclude Include="SpellData.h" />
-    <ClInclude Include="SpellEffectSystem.h" />
-    <ClInclude Include="SpellHolder.h" />
-    <ClInclude Include="SpellIdentifiers.h" />
-    <ClInclude Include="SpellSystem.h" />
-    <ClInclude Include="StateIdentifiers.h" />
-    <ClInclude Include="StateManager.h" />
-    <ClInclude Include="StatisticsShopCategory.h" />
-    <ClInclude Include="StatusIconDisplaySystem.h" />
-    <ClInclude Include="SystemContext.h" />
-    <ClInclude Include="SystemManager.h" />
-    <ClInclude Include="TextButton.h" />
-    <ClInclude Include="TextureIdentifiers.h" />
-    <ClInclude Include="TickingSpelllEffect.h" />
-    <ClInclude Include="Tile.h" />
-    <ClInclude Include="TileFadeSystem.h" />
-    <ClInclude Include="TileMap.h" />
-    <ClInclude Include="TileTypes.h" />
-    <ClInclude Include="TurnToTargetTask.h" />
-    <ClInclude Include="UIComponent.h" />
-    <ClInclude Include="UIManager.h" />
-    <ClInclude Include="Utilities.h" />
-    <ClInclude Include="VisibilitySystem.h" />
-    <ClInclude Include="WaitUntilIdleTask.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

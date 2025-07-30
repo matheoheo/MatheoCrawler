@@ -36,14 +36,17 @@ struct PositionComponent : public IComponent
 
 struct MovementComponent : public IComponent
 {
+	bool cMovementBlocked; //< debuff, movement might be frozen
 	float cBaseMoveSpeed;
 	float cMoveSpeed;  //this might be effected by some buffs or debuffs
 	sf::Vector2f cInitialPosition;
 	sf::Vector2f cNextPos;
 	sf::Vector2f cDirectionVector;
+
 	MovementComponent(float moveSpeed) 
 		: cBaseMoveSpeed(moveSpeed),
-		cMoveSpeed(moveSpeed)
+		cMoveSpeed(moveSpeed),
+		cMovementBlocked(false)
 	{}
 };
 

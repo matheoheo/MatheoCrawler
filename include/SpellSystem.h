@@ -1,10 +1,12 @@
 #pragma once
 #include "ISystem.h"
+class TileMap;
+
 class SpellSystem :
     public ISystem
 {
 public:
-    SpellSystem(SystemContext& systemContext);
+    SpellSystem(SystemContext& systemContext, const TileMap& tileMap, const sf::Vector2f& mousePos);
     // Inherited via ISystem
     virtual void update(const sf::Time& deltaTime) override;
 private:
@@ -17,13 +19,23 @@ private:
     bool canCastSpell(const CastSpellEvent& data, SpellbookComponent& spellbookComp) const;
     void updateLastSpell(SpellbookComponent& spellbookComp, SpellIdentifier id);
     void subtractMana(Entity& entity, SpellbookComponent& spellbookComp);
+    bool canCastAOESpell(const Entity& entity) const;
 
     void notifyCastFinished(Entity& entity, SpellIdentifier id);
     AnimationIdentifier getAnimationBasedOnSpellType(const SpellData& data) const;
 
+    void onRegenSpellCast(Entity& entity, SpellIdentifier id);
+
+    bool isHealingSpell(SpellIdentifier id) const;
+    bool isRegenSpell(SpellIdentifier id) const;
+    bool isProjectileSpell(SpellIdentifier id) const;
+    bool isAOESpell(SpellIdentifier id) const;
+
     void addToFinished(Entity* entity);
     void removeFinishedEntities();
 private:
+    const TileMap& mTileMap;
+    const sf::Vector2f& fMousePos;
     std::vector<Entity::EntityID> mFinishedEntities;
 };
 

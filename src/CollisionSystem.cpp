@@ -2,6 +2,7 @@
 #include "CollisionSystem.h"
 #include "Config.h"
 #include "TileMap.h"
+#include "Utilities.h"
 
 CollisionSystem::CollisionSystem(SystemContext& systemContext, const TileMap& tileMap)
 	:ISystem(systemContext),
@@ -14,7 +15,7 @@ void CollisionSystem::update(const sf::Time& deltaTime)
 {
 	for (const auto& entity : mTrackedEntities)
 	{
-		if (entity->getComponent<EntityStateComponent>().cCurrentState != EntityState::Idle)
+		if (!Utilities::isEntityIdling(*entity) || hasEntityMovementdBlocked(*entity))
 			continue;
 
 		auto nextPos = getNextTilePosition(*entity);
@@ -32,6 +33,11 @@ void CollisionSystem::registerToEvents()
 			dirComp.cNextDir = data.dir;
 			mTrackedEntities.push_back(&data.entity);
 		});
+}
+
+bool CollisionSystem::hasEntityMovementdBlocked(const Entity& entity) const
+{
+	return entity.getComponent<MovementComponent>().cMovementBlocked;
 }
 
 sf::Vector2f CollisionSystem::getNextTilePosition(const Entity& entity) const

@@ -22,6 +22,14 @@ struct ProjectileSpell
 	SpellEffect effect = SpellEffect::None; //eventual effect on hit
 };
 
+struct AreaOfEffectSpell
+{
+	int minDmg = 0;
+	int maxDmg = 1;
+	std::vector<sf::Vector2i> offsets;
+	SpellEffect effect{ SpellEffect::None };
+};
+
 struct SpellData
 {
 	SpellType type = SpellType::Heal;
@@ -33,6 +41,7 @@ struct SpellData
 
 	std::optional<HealingSpell> healing;
 	std::optional<ProjectileSpell> projectile;
+	std::optional<AreaOfEffectSpell> aoe;
 };
 
 struct SpellInstance

@@ -580,3 +580,27 @@ struct MoveSpeedChangedEvent : public IEvent
 		:entity(entity)
 	{}
 };
+
+struct CastAOESpellEvent : public IEvent
+{
+	Entity& source;
+	SpellIdentifier spellId;
+	const sf::Vector2f castPos;
+
+	CastAOESpellEvent(Entity& source, SpellIdentifier id, const sf::Vector2f& castPos)
+		:source(source),
+		spellId(id),
+		castPos(castPos)
+	{}
+};
+
+struct HitByAOESpellEvent : public IEvent
+{
+	Entity& hitEntity;
+	int damage;
+
+	HitByAOESpellEvent(Entity& hitEntity, int damage)
+		:hitEntity(hitEntity),
+		damage(damage)
+	{}
+};

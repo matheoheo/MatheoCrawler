@@ -192,6 +192,19 @@ std::vector<Entity*> TileMap::getEntitiesOnTile(int x, int y) const
 	return tile->occupyingEntities;
 }
 
+std::vector<Entity*> TileMap::getEntitiesOnTile(const Tile& tile) const
+{
+	return tile.occupyingEntities;
+}
+
+const Tile* TileMap::getTile(int x, int y) const
+{
+	if(!isInMapBounds(x, y))
+		return nullptr;
+	
+	return &mTiles[y][x];
+}
+
 void TileMap::createTiles(const IMapGenerator::GeneratedMap& map)
 {
 	const size_t mapHeight = map.size();

@@ -1,654 +1,630 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <ClInclude Include="include\WaitUntilIdleTask.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\VisibilitySystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utilities.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\UIManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\UIComponent.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TurnToTargetTask.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TileTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TileMap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TileFadeSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Tile.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TickingSpelllEffect.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TextureIdentifiers.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TextButton.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SystemManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SystemContext.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\StatusIconDisplaySystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\StatisticsShopCategory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\StateManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\StateIdentifiers.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SpellSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SpellIdentifiers.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SpellHolder.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SpellEffectSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SpellData.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SpellcraftShopCategory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ShopData.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Shop.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RegenSpellUpgradeStrategy.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RegenerationVisualEffect.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RegenerationSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Random.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ProjectileSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ProjectileSpellUpgradeStrategy.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PositionToAttackTask.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PositioningAISystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PlayerStatusUI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PlayerResourcesUI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pch.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PatrolTask.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PatrolAISystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathRequestSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathFollowSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Pathfinder.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Parser.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OptionsState.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OptionSelector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OnHitSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MovementSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MovementSlowSpellEffect.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MovementFrozenSpellEffect.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MessageTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MessageLogUI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MenuState.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LoadingState.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IVisualEffect.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ITask.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ISystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IState.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ISpellUpgradeStrategy.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ISpellEffect.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IShopCategory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InputSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IMapGenerator.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IBehavior.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IAOESpell.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HealSpellSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HealingSpellUpgradeStrategy.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GlowUpVisualEffect.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameState.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameEvents.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameContext.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FrostPillarSpell.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FontIdentifiers.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FireBurnSpellEffect.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FileHandler.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EventManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EntityTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EntityStates.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EntitySpawnerSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EntityRenderSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EntityManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EntityFactory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EntityDeathSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EntityDataRepository.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EntityAIState.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Entity.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Engine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EffectSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DungeonGenerator.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Directions.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DelayTask.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConceptDefinitions.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CollisionSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ChaseTask.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ChaseAISystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CameraSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BladeArtsShopCategory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BehaviorContext.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BehaviorAIUpdateSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BasicRangedBehavior.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BasicMeleeBehavior.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BarRenderSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AttackTask.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AttackSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AttackData.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AssetManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AreaOfEffectSpellSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AnimationSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AnimationIdentifiers.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AnimationHolder.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AnimationFrame.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ActionSelectionUI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{241c6199-dd8f-4152-bb81-a3e58f207fdf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Core">
-      <UniqueIdentifier>{b9689571-5332-46a4-83f6-a38bbb7a3bc8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entities">
-      <UniqueIdentifier>{19a66fdb-24b2-402c-a979-29fcb0d162e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="AI">
-      <UniqueIdentifier>{b59fe30e-dcaa-4764-9fdd-324ff37f1ad4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Systems">
-      <UniqueIdentifier>{d5aded07-83e2-4f08-9dff-615cc125d034}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Animation">
-      <UniqueIdentifier>{d2ac0b06-3c6d-470f-ba39-d5514458f257}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Interfaces">
-      <UniqueIdentifier>{e078abe5-ff68-4dae-b500-bd295882f3c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Logic">
-      <UniqueIdentifier>{b0bfbc68-0738-4544-83cf-6a71f3d4b67d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Map">
-      <UniqueIdentifier>{22c5b2e6-fad3-461e-aad0-07792d78d5e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utils">
-      <UniqueIdentifier>{3558bb1d-2499-43bc-bec1-be0bdc1a5dda}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="AI\Tasks">
-      <UniqueIdentifier>{e34ca9b5-477c-4310-bc6c-8ca42c3fae17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{d5cfe9b6-c28d-4eca-a498-32d3ad0d8b4f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Definitions">
-      <UniqueIdentifier>{ef724a64-c36a-4ffb-9ca1-c9964d3d31df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{b3cc7bf7-5a13-4ccd-a36f-0a393f28b6c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shop">
-      <UniqueIdentifier>{33e04794-772b-4f39-b2c4-9647ba229f32}</UniqueIdentifier>
+    <Filter Include="src">
+      <UniqueIdentifier>{254f4e88-bf76-4eec-89cf-75a6cfc02d27}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="src\ActionSelectionUI.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="src\AnimationHolder.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="SystemManager.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="src\AnimationSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Entities</Filter>
+    <ClCompile Include="src\AreaOfEffectSpellSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="EntityManager.cpp">
-      <Filter>Entities</Filter>
+    <ClCompile Include="src\AttackSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviorAIUpdateSystem.cpp">
-      <Filter>AI</Filter>
+    <ClCompile Include="src\AttackTask.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="ChaseAISystem.cpp">
-      <Filter>AI</Filter>
+    <ClCompile Include="src\BarRenderSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="PatrolAISystem.cpp">
-      <Filter>AI</Filter>
+    <ClCompile Include="src\BasicMeleeBehavior.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="VisibilitySystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\BasicRangedBehavior.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="TileFadeSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\BehaviorAIUpdateSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="PathRequestSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\BladeArtsShopCategory.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="MovementSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\CameraSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="InputSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\ChaseAISystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="EntityRenderSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\ChaseTask.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\CollisionSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="CameraSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\Config.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\DelayTask.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationHolder.cpp">
-      <Filter>Animation</Filter>
+    <ClCompile Include="src\DungeonGenerator.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="ITask.cpp">
-      <Filter>Interfaces</Filter>
+    <ClCompile Include="src\EffectSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="ISystem.cpp">
-      <Filter>Interfaces</Filter>
+    <ClCompile Include="src\Engine.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="IState.cpp">
-      <Filter>Interfaces</Filter>
+    <ClCompile Include="src\Entity.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>Game Logic</Filter>
+    <ClCompile Include="src\EntityDataRepository.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>Game Logic</Filter>
+    <ClCompile Include="src\EntityDeathSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Pathfinder.cpp">
-      <Filter>Game Logic</Filter>
+    <ClCompile Include="src\EntityFactory.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="DungeonGenerator.cpp">
-      <Filter>Map</Filter>
+    <ClCompile Include="src\EntityManager.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="IMapGenerator.cpp">
-      <Filter>Map</Filter>
+    <ClCompile Include="src\EntityRenderSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="TileMap.cpp">
-      <Filter>Map</Filter>
+    <ClCompile Include="src\EntitySpawnerSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="FileHandler.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="src\EventManager.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Parser.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="src\FileHandler.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities.cpp">
-      <Filter>Utils</Filter>
+    <ClCompile Include="src\FireBurnSpellEffect.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="ChaseTask.cpp">
-      <Filter>AI\Tasks</Filter>
+    <ClCompile Include="src\FrostPillarSpell.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="DelayTask.cpp">
-      <Filter>AI\Tasks</Filter>
+    <ClCompile Include="src\GameState.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="PatrolTask.cpp">
-      <Filter>AI\Tasks</Filter>
+    <ClCompile Include="src\GlowUpVisualEffect.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="WaitUntilIdleTask.cpp">
-      <Filter>AI\Tasks</Filter>
+    <ClCompile Include="src\HealingSpellUpgradeStrategy.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="IBehavior.cpp">
-      <Filter>Interfaces</Filter>
+    <ClCompile Include="src\HealSpellSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="BasicMeleeBehavior.cpp">
-      <Filter>AI</Filter>
+    <ClCompile Include="src\IAOESpell.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="AttackSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\IBehavior.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="AttackTask.cpp">
-      <Filter>AI\Tasks</Filter>
+    <ClCompile Include="src\IMapGenerator.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="OnHitSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\InputSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="EntitySpawnerSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\IShopCategory.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="EntityDeathSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\ISpellEffect.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="BarRenderSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\ISpellUpgradeStrategy.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="UIComponent.cpp">
-      <Filter>UI</Filter>
+    <ClCompile Include="src\IState.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>UI</Filter>
+    <ClCompile Include="src\ISystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Config.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="src\ITask.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerResourcesUI.cpp">
-      <Filter>UI</Filter>
+    <ClCompile Include="src\IVisualEffect.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerStatusUI.cpp">
-      <Filter>UI</Filter>
+    <ClCompile Include="src\LoadingState.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="MessageLogUI.cpp">
-      <Filter>UI</Filter>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="ActionSelectionUI.cpp">
-      <Filter>UI</Filter>
+    <ClCompile Include="src\MenuState.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="SpellHolder.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\MessageLogUI.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="RegenerationSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\MovementFrozenSpellEffect.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="ProjectileSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\MovementSlowSpellEffect.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="EffectSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\MovementSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="HealSpellSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\OnHitSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="SpellSystem.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="src\OptionSelector.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingState.cpp">
-      <Filter>Game Logic</Filter>
+    <ClCompile Include="src\OptionsState.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Shop.cpp">
-      <Filter>Shop</Filter>
+    <ClCompile Include="src\Parser.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="IShopCategory.cpp">
-      <Filter>Shop</Filter>
+    <ClCompile Include="src\Pathfinder.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="SpellcraftShopCategory.cpp">
-      <Filter>Shop</Filter>
+    <ClCompile Include="src\PathFollowSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="StatisticsShopCategory.cpp">
-      <Filter>Shop</Filter>
+    <ClCompile Include="src\PathRequestSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="EntityFactory.cpp">
-      <Filter>Entities</Filter>
+    <ClCompile Include="src\PatrolAISystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="EntityDataRepository.cpp">
-      <Filter>Entities</Filter>
+    <ClCompile Include="src\PatrolTask.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="ShopData.cpp">
-      <Filter>Shop</Filter>
+    <ClCompile Include="src\PlayerResourcesUI.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="HealingSpellUpgradeStrategy.cpp">
-      <Filter>Shop</Filter>
+    <ClCompile Include="src\PlayerStatusUI.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="ISpellUpgradeStrategy.cpp">
-      <Filter>Shop</Filter>
+    <ClCompile Include="src\PositioningAISystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="ProjectileSpellUpgradeStrategy.cpp">
-      <Filter>Shop</Filter>
+    <ClCompile Include="src\PositionToAttackTask.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="RegenSpellUpgradeStrategy.cpp">
-      <Filter>Shop</Filter>
+    <ClCompile Include="src\ProjectileSpellUpgradeStrategy.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="StateManager.cpp">
-      <Filter>Game Logic</Filter>
+    <ClCompile Include="src\ProjectileSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="TextButton.cpp">
-      <Filter>UI</Filter>
+    <ClCompile Include="src\RegenerationSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="PositioningAISystem.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\RegenerationVisualEffect.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="PathFollowSystem.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\RegenSpellUpgradeStrategy.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="OptionsState.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Shop.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="OptionSelector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GlowUpVisualEffect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RegenerationVisualEffect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BasicRangedBehavior.cpp">
-      <Filter>AI</Filter>
-    </ClCompile>
-    <ClCompile Include="PositionToAttackTask.cpp">
-      <Filter>AI\Tasks</Filter>
-    </ClCompile>
-    <ClCompile Include="IVisualEffect.cpp">
-      <Filter>Interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuState.cpp">
-      <Filter>Game Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="ISpellEffect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FireBurnSpellEffect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TickingSpelllEffect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SpellEffectSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MovementSlowSpellEffect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StatusIconDisplaySystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TurnToTargetTask.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BladeArtsShopCategory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Engine.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Config.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="GameContext.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="SystemManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="SystemContext.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviorAIUpdateSystem.h">
-      <Filter>AI</Filter>
-    </ClInclude>
-    <ClInclude Include="ChaseAISystem.h">
-      <Filter>AI</Filter>
-    </ClInclude>
-    <ClInclude Include="PatrolAISystem.h">
-      <Filter>AI</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityAIState.h">
-      <Filter>AI</Filter>
-    </ClInclude>
-    <ClInclude Include="VisibilitySystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="TileFadeSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="PathRequestSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="InputSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="MovementSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityRenderSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationFrame.h">
-      <Filter>Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationHolder.h">
-      <Filter>Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationIdentifiers.h">
-      <Filter>Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="IState.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ISystem.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ITask.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureIdentifiers.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="FontIdentifiers.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="AssetManager.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Game Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>Game Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="IMapGenerator.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="DungeonGenerator.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Pathfinder.h">
-      <Filter>Game Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="FileHandler.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Parser.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Random.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="ConceptDefinitions.h">
-      <Filter>Definitions</Filter>
-    </ClInclude>
-    <ClInclude Include="Directions.h">
-      <Filter>Definitions</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityTypes.h">
-      <Filter>Definitions</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityStates.h">
-      <Filter>Definitions</Filter>
-    </ClInclude>
-    <ClInclude Include="Components.h">
-      <Filter>Definitions</Filter>
-    </ClInclude>
-    <ClInclude Include="TileTypes.h">
-      <Filter>Definitions</Filter>
-    </ClInclude>
-    <ClInclude Include="ChaseTask.h">
-      <Filter>AI\Tasks</Filter>
-    </ClInclude>
-    <ClInclude Include="DelayTask.h">
-      <Filter>AI\Tasks</Filter>
-    </ClInclude>
-    <ClInclude Include="PatrolTask.h">
-      <Filter>AI\Tasks</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitUntilIdleTask.h">
-      <Filter>AI\Tasks</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviorContext.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="IBehavior.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicMeleeBehavior.h">
-      <Filter>AI</Filter>
-    </ClInclude>
-    <ClInclude Include="AttackData.h">
-      <Filter>Definitions</Filter>
-    </ClInclude>
-    <ClInclude Include="AttackSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="AttackTask.h">
-      <Filter>AI\Tasks</Filter>
-    </ClInclude>
-    <ClInclude Include="OnHitSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEvents.h">
-      <Filter>Definitions</Filter>
-    </ClInclude>
-    <ClInclude Include="EntitySpawnerSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityDeathSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="BarRenderSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="UIManager.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UIComponent.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStatusUI.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerResourcesUI.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageLogUI.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageTypes.h">
-      <Filter>Definitions</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionSelectionUI.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="StateIdentifiers.h">
-      <Filter>Definitions</Filter>
-    </ClInclude>
-    <ClInclude Include="SpellHolder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="HealSpellSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjectileSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="RegenerationSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="SpellSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadingState.h">
-      <Filter>Game Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityFactory.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityDataRepository.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="IShopCategory.h">
-      <Filter>Shop</Filter>
-    </ClInclude>
-    <ClInclude Include="Shop.h">
-      <Filter>Shop</Filter>
-    </ClInclude>
-    <ClInclude Include="SpellcraftShopCategory.h">
-      <Filter>Shop</Filter>
-    </ClInclude>
-    <ClInclude Include="StatisticsShopCategory.h">
-      <Filter>Shop</Filter>
-    </ClInclude>
-    <ClInclude Include="ShopData.h">
-      <Filter>Shop</Filter>
-    </ClInclude>
-    <ClInclude Include="HealingSpellUpgradeStrategy.h">
-      <Filter>Shop</Filter>
-    </ClInclude>
-    <ClInclude Include="ISpellUpgradeStrategy.h">
-      <Filter>Shop</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjectileSpellUpgradeStrategy.h">
-      <Filter>Shop</Filter>
-    </ClInclude>
-    <ClInclude Include="RegenSpellUpgradeStrategy.h">
-      <Filter>Shop</Filter>
-    </ClInclude>
-    <ClInclude Include="SpellData.h">
-      <Filter>Definitions</Filter>
-    </ClInclude>
-    <ClInclude Include="SpellIdentifiers.h">
-      <Filter>Definitions</Filter>
-    </ClInclude>
-    <ClInclude Include="StateManager.h">
-      <Filter>Game Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="TextButton.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="PositioningAISystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PathFollowSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OptionsState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OptionSelector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GlowUpVisualEffect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RegenerationVisualEffect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicRangedBehavior.h">
-      <Filter>AI</Filter>
-    </ClInclude>
-    <ClInclude Include="PositionToAttackTask.h">
-      <Filter>AI\Tasks</Filter>
-    </ClInclude>
-    <ClInclude Include="IVisualEffect.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuState.h">
-      <Filter>Game Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="ISpellEffect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FireBurnSpellEffect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TickingSpelllEffect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SpellEffectSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MovementSlowSpellEffect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StatusIconDisplaySystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TurnToTargetTask.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BladeArtsShopCategory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="src\ShopData.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SpellcraftShopCategory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SpellEffectSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SpellHolder.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SpellSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StateManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StatisticsShopCategory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StatusIconDisplaySystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SystemManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextButton.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TickingSpelllEffect.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TileFadeSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TileMap.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TurnToTargetTask.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIComponent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utilities.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VisibilitySystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WaitUntilIdleTask.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

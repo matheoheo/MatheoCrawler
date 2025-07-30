@@ -36,8 +36,11 @@ public:
 
 	std::vector<Entity*>& getVisibleEntities();
 	const std::vector<Entity*>& getVisibleEntities() const;
-
 	std::vector<Entity*> getEntitiesOnTile(int x, int y) const;
+	std::vector<Entity*> getEntitiesOnTile(const Tile& tile) const;
+
+
+	const Tile* getTile(int x, int y) const;
 private:
 	void createTiles(const IMapGenerator::GeneratedMap& map);
 	void renderVisibleTiles(sf::RenderWindow& window) const;

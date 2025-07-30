@@ -3,6 +3,7 @@
 #include "ISpellEffect.h"
 #include "FireBurnSpellEffect.h"
 #include "MovementSlowSpellEffect.h"
+#include "MovementFrozenSpellEffect.h"
 
 SpellEffectSystem::SpellEffectSystem(SystemContext& systemContext)
 	:ISystem(systemContext)
@@ -68,6 +69,10 @@ void SpellEffectSystem::createEffectRegistry()
 		return std::make_unique<FireBurnSpellEffect>(8000, 1); //just for test for now
 	};
 	mEffectRegistry[SpellEffect::MovementSpeedSlow] = []() {
-		return std::make_unique<MovementSlowSpellEffect>(6000, 0.8f);
+		return std::make_unique<MovementSlowSpellEffect>(6000, 0.4f);
+	};
+
+	mEffectRegistry[SpellEffect::MovementFrozen] = []() {
+		return std::make_unique<MovementFrozenSpellEffect>(3000);
 	};
 }

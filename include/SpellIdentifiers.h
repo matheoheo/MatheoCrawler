@@ -14,6 +14,9 @@ enum class SpellIdentifier
 	Fireball,
 	Bloodball,
 	
+	//AOE
+	FrostPillar,
+
 	//Spells that are treated as basic attacks for ranged entities
 	MorannaProjectile
 };
@@ -22,7 +25,7 @@ enum class SpellType
 {
 	Heal,
 	Projectile,
-	AreaEffect,
+	AreaOfEffect,
 
 	Count
 };
@@ -33,7 +36,7 @@ enum class SpellEffect
 	FireBurn,
 	MovementSpeedSlow,
 	AttackSpeedSlow,
-	LifeSteal
-
+	LifeSteal,
+	MovementFrozen
 };
 

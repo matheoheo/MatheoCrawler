@@ -11,6 +11,7 @@ public:
     virtual void update(const sf::Time& deltaTime) override;
 private:
     void registerToEvents();
+    bool hasEntityMovementdBlocked(const Entity& entity) const;
     sf::Vector2f getNextTilePosition(const Entity& entity) const;
 private:
     const TileMap& mTileMap;

@@ -138,11 +138,12 @@ void StatusIconDisplaySystem::addIconToEntity(Entity& entity, SpellEffect effect
 std::optional<TextureIdentifier> StatusIconDisplaySystem::getTextureIdForEffect(SpellEffect effectId)
 {
 	using MapPair = std::pair<SpellEffect, TextureIdentifier>;
-	constexpr std::size_t effectsCount = 2;
+	constexpr std::size_t effectsCount = 3;
 	constexpr std::array<MapPair, effectsCount> mapping =
 	{ {
 		{SpellEffect::FireBurn,          TextureIdentifier::FireBurnIcon},
-		{SpellEffect::MovementSpeedSlow, TextureIdentifier::MoveSpeedSlowIcon}
+		{SpellEffect::MovementSpeedSlow, TextureIdentifier::MoveSpeedSlowIcon},
+		{SpellEffect::MovementFrozen,    TextureIdentifier::MoveFrozenIcon}
 	} };
 
 	auto it = std::ranges::find(mapping, effectId, &MapPair::first);

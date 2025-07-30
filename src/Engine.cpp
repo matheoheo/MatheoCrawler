@@ -75,7 +75,7 @@ void Engine::preloadAssets()
 	mTextures.load(TextureIdentifier::Bonvik,		   "assets/entities/Bonvik/bonvik.png");
 	mTextures.load(TextureIdentifier::Suash,		   "assets/ui/suash/suashIcon.png");
 	mTextures.load(TextureIdentifier::Twarf,		   "assets/ui/twarf/twarfIcon.png");
-	mTextures.load(TextureIdentifier::Attack1Icon,		   "assets/ui/attIcons/devoyer.png");
+	mTextures.load(TextureIdentifier::Attack1Icon,	   "assets/ui/attIcons/devoyer.png");
 	mTextures.load(TextureIdentifier::Attack2Icon,	   "assets/ui/attIcons/att2Icon.png");
 	mTextures.load(TextureIdentifier::Attack3Icon,	   "assets/ui/attIcons/att3Icon.png");
 	mTextures.load(TextureIdentifier::QuickHealIcon,   "assets/ui/spellIcons/healing/QuickHeal.png");
@@ -89,6 +89,8 @@ void Engine::preloadAssets()
 	
 	mTextures.load(TextureIdentifier::FireBurnIcon,      "assets/icons/fireBurnIcon.png");
 	mTextures.load(TextureIdentifier::MoveSpeedSlowIcon, "assets/icons/moveSlowIcon.png");
+	mTextures.load(TextureIdentifier::MoveFrozenIcon,    "assets/icons/moveFrozenIcon.png");
+
 
 	mTextures.load(TextureIdentifier::WaterBall0,      "assets/entities/projectiles/waterball/Water_Spell.png");
 	mTextures.load(TextureIdentifier::PureProjectile0, "assets/entities/projectiles/pure/Pure_Proj_Spell.png");

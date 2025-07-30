@@ -42,6 +42,8 @@ void SpellHolder::initalizeSpells()
     createFireball();
     createBloodball();
 
+    createFrostPillar();
+
     createMorannaProjectile();
 }
 
@@ -291,6 +293,34 @@ void SpellHolder::createBloodball()
          .longDescription = "A sphere charget with energy of spilled blood, designed to hit hard and leave its mark.",
          .textureId = TextureIdentifier::BloodballIcon //placeholder
      }
+    };
+}
+
+void SpellHolder::createFrostPillar()
+{
+    SpellIdentifier id{ SpellIdentifier::FrostPillar };
+    SpellData data;
+    data.type = SpellType::AreaOfEffect;
+    data.spellId = id;
+    data.castTime = 850;
+    data.cooldown = 25;
+    data.cost = 22;
+    data.aoe = AreaOfEffectSpell{
+        .minDmg = 25,
+        .maxDmg = 33,
+        .offsets = std::vector<sf::Vector2i>{ {0, 0}, {-1,0}, {1, 0}, {0, -1}, {0, 1} },
+        .effect = SpellEffect::MovementFrozen
+    };
+    mSpellsMap.emplace(id, std::move(data));
+
+    mDefinitions[id] = SpellDefinition{
+        .data = &mSpellsMap.at(id),
+        .spellInfo {
+            .name = "Frost Pillar",
+            .shortDescription = "Temp_frost_pillar_desc",
+            .longDescription = "Temp_frost_pillar_desc",
+            .textureId = TextureIdentifier::Attack1Icon //temporary placeholders
+        }
     };
 }
 
