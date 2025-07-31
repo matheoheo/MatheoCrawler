@@ -2,13 +2,14 @@
 #include "SpellData.h"
 class TileMap;
 class EventManager;
+class Entity;
 struct Tile;
 
 //Interface Area Of Effect Spell
 class IAOESpell
 {
 public:
-	IAOESpell(const TileMap& tileMap, const sf::Vector2f& castPos);
+	IAOESpell(const Entity& caster, const TileMap& tileMap, const sf::Vector2f& castPos);
 
 	virtual ~IAOESpell() = default;
 	virtual void update(const sf::Time& deltaTime, EventManager& eventManager) = 0;
@@ -21,8 +22,11 @@ protected:
 	void complete();
 	float getProgressRatio() const;
 
-	std::vector<const Tile*> getAffectedTiles(const std::vector<sf::Vector2i>& offsets) const;
+	std::vector<const Tile*> getAffectedTiles(const std::vector<sf::Vector2i>& offsets, const sf::Vector2f& aroundPos) const;
+	std::vector<Entity*> getAffectedEntities(const std::vector<sf::Vector2i>& offsets, const sf::Vector2f& aroundPos) const;
+	const sf::Vector2f& getCasterPos() const;
 protected:
+	const Entity& mCaster;
 	const TileMap& mTileMap;
 	const sf::Vector2f mCastPos;
 	int mCastTime; //Time after spell's effect takes impact.

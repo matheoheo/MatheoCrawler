@@ -7,8 +7,8 @@
 #include "Random.h"
 #include "EventManager.h"
 
-FrostPillarSpell::FrostPillarSpell(const TileMap& tileMap, const sf::Vector2f& castPos)
-	:IAOESpell(tileMap, castPos),
+FrostPillarSpell::FrostPillarSpell(const Entity& caster, const TileMap& tileMap, const sf::Vector2f& castPos)
+	:IAOESpell(caster, tileMap, castPos),
 	mUpdateEffect(true)
 {
 	mCastTime = 2500; //After 2.5 second the effect takes place.
@@ -35,7 +35,7 @@ void FrostPillarSpell::render(sf::RenderWindow& window)
 void FrostPillarSpell::initEffects()
 {
 	const auto& offsets = SpellHolder::getInstance().get(SpellIdentifier::FrostPillar).aoe->offsets;
-	auto affectedTiles = getAffectedTiles(offsets);
+	auto affectedTiles = getAffectedTiles(offsets, mCastPos);
 	for (const Tile* tile : affectedTiles)
 		mFrozenEffects.push_back(createEffect(tile->tileVisual.getPosition()));
 
@@ -81,22 +81,15 @@ void FrostPillarSpell::updateEffect(FrozenTileEffect& effect, const sf::Time& de
 
 void FrostPillarSpell::onCastFinish(EventManager& eventManager)
 {
-	std::vector<Entity*> hitEntities;
 	const auto& spell = SpellHolder::getInstance().get(SpellIdentifier::FrostPillar);
 	const auto& offsets = spell.aoe->offsets;
-	auto affectedTiles = getAffectedTiles(offsets);
-	for (const Tile* tile : affectedTiles)
-	{
-		auto effectedEnts = mTileMap.getEntitiesOnTile(*tile);
-		for (Entity* ent : effectedEnts)
-			hitEntities.push_back(ent);
-	}
+	auto hitEntities = getAffectedEntities(offsets, mCastPos);
 
 	for (Entity* ent : hitEntities)
 	{
 		int dmg = Random::get(spell.aoe->minDmg, spell.aoe->maxDmg);
 		eventManager.notify<HitByAOESpellEvent>(HitByAOESpellEvent(*ent, dmg));
-		eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(*ent, *ent, SpellEffect::MovementFrozen));
+		eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(*ent, SpellEffect::MovementFrozen));
 	}
 	complete();
 }

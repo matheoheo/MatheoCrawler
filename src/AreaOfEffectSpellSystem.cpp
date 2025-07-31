@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "AreaOfEffectSpellSystem.h"
 #include "FrostPillarSpell.h"
+#include "BladeDanceSpell.h"
 
 AreaOfEffectSpellSystem::AreaOfEffectSpellSystem(SystemContext& systemContext, const TileMap& tileMap)
 	:ISystem(systemContext),
@@ -34,6 +35,7 @@ void AreaOfEffectSpellSystem::registerToCastAOESpellEvent()
 {
 	mSystemContext.eventManager.registerEvent<CastAOESpellEvent>([this](const CastAOESpellEvent& data)
 		{
-			mActiveSpells.emplace_back(std::make_unique<FrostPillarSpell>(mTileMap, data.castPos));
+			//mActiveSpells.emplace_back(std::make_unique<FrostPillarSpell>(data.source, mTileMap, data.castPos));
+			mActiveSpells.emplace_back(std::make_unique<BladeDanceSpell>(data.source, mTileMap, data.castPos));
 		});
 }

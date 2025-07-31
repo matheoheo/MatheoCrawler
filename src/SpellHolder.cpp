@@ -43,6 +43,7 @@ void SpellHolder::initalizeSpells()
     createBloodball();
 
     createFrostPillar();
+    createBladeDance();
 
     createMorannaProjectile();
 }
@@ -320,6 +321,34 @@ void SpellHolder::createFrostPillar()
             .shortDescription = "Temp_frost_pillar_desc",
             .longDescription = "Temp_frost_pillar_desc",
             .textureId = TextureIdentifier::Attack1Icon //temporary placeholders
+        }
+    };
+}
+
+void SpellHolder::createBladeDance()
+{
+    SpellIdentifier id{ SpellIdentifier::BladeDance };
+    SpellData data;
+    data.type = SpellType::AreaOfEffect;
+    data.spellId = id;
+    data.castTime = 650;
+    data.cooldown = 32;
+    data.cost = 24;
+    data.aoe = AreaOfEffectSpell{
+        .minDmg = 6,
+        .maxDmg = 9,
+        .offsets = std::vector<sf::Vector2i>{ {-1,0}, {1, 0}, {0, -1}, {0, 1} },
+        .effect = SpellEffect::None
+    };
+    mSpellsMap.emplace(id, std::move(data));
+
+    mDefinitions[id] = SpellDefinition{
+        .data = &mSpellsMap.at(id),
+        .spellInfo {
+            .name = "Blade Dance",
+            .shortDescription = "Temp_bladeDance_desc",
+            .longDescription = "Temp_bladeDance_desc",
+            .textureId = TextureIdentifier::Attack1Icon //temporary placeholder
         }
     };
 }

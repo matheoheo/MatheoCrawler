@@ -30,6 +30,7 @@ private:
 	void createBloodball();
 
 	void createFrostPillar();
+	void createBladeDance();
 
 	void createMorannaProjectile();
 private:

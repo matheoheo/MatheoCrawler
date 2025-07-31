@@ -561,13 +561,11 @@ struct HitByTickDamageEvent : public IEvent
 
 struct AddSpellEffectEvent : public IEvent
 {
-	Entity& sourceEntity;
 	Entity& hitEntity;
 	SpellEffect spellEffect;
 
-	AddSpellEffectEvent(Entity& sourceEntity, Entity& hitEntity, SpellEffect spellEffect)
-		:sourceEntity(sourceEntity),
-		hitEntity(hitEntity),
+	AddSpellEffectEvent(Entity& hitEntity, SpellEffect spellEffect)
+		:hitEntity(hitEntity),
 		spellEffect(spellEffect)
 	{}
 };

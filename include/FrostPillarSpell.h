@@ -5,7 +5,7 @@ class FrostPillarSpell :
     public IAOESpell
 {
 public:
-    FrostPillarSpell(const TileMap& tileMap, const sf::Vector2f& castPos);
+    FrostPillarSpell(const Entity& caster, const TileMap& tileMap, const sf::Vector2f& castPos);
     // Inherited via IAOESpell
     virtual void update(const sf::Time& deltaTime, EventManager& eventManager) override;
     virtual void render(sf::RenderWindow& window) override;

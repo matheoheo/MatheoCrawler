@@ -35,6 +35,7 @@
     <ClInclude Include="include\BehaviorAIUpdateSystem.h" />
     <ClInclude Include="include\BehaviorContext.h" />
     <ClInclude Include="include\BladeArtsShopCategory.h" />
+    <ClInclude Include="include\BladeDanceSpell.h" />
     <ClInclude Include="include\CameraSystem.h" />
     <ClInclude Include="include\ChaseAISystem.h" />
     <ClInclude Include="include\ChaseTask.h" />
@@ -146,6 +147,7 @@
     <ClCompile Include="src\BasicRangedBehavior.cpp" />
     <ClCompile Include="src\BehaviorAIUpdateSystem.cpp" />
     <ClCompile Include="src\BladeArtsShopCategory.cpp" />
+    <ClCompile Include="src\BladeDanceSpell.cpp" />
     <ClCompile Include="src\CameraSystem.cpp" />
     <ClCompile Include="src\ChaseAISystem.cpp" />
     <ClCompile Include="src\ChaseTask.cpp" />
