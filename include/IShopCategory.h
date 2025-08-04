@@ -21,6 +21,7 @@ protected:
 	virtual std::string getItemDescriptionStr(const ShopItem& item) const = 0;
 	virtual void createStatUpgradeTexts(const ShopItem& item) = 0;
 	virtual void createAssignableOptions();
+	virtual void assignToSpellbook(const ShopItem& item);
 
 	int getUpgradeLevel(const std::string& upgradeName) const;
 	bool canBuy(const ShopItem& item) const;

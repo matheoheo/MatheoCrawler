@@ -7,6 +7,7 @@
 #include "HealingSpellUpgradeStrategy.h"
 #include "RegenSpellUpgradeStrategy.h"
 #include "ProjectileSpellUpgradeStrategy.h"
+#include "AOEUpgradeStrategy.h"
 
 SpellcraftShopCategory::SpellcraftShopCategory(GameContext& gameContext, Entity& player)
 	:IShopCategory(gameContext, player)
@@ -126,6 +127,24 @@ void SpellcraftShopCategory::setAssignableButtonsCallbacks()
 	}
 }
 
+void SpellcraftShopCategory::assignToSpellbook(const ShopItem& item)
+{
+	if (!mStatTypeToSpellIdMap.contains(item.statType))
+		return;
+
+	auto& spells = player.getComponent<SpellbookComponent>().cSpells;
+	auto spellId = mStatTypeToSpellIdMap.at(item.statType);
+	if (spells.contains(spellId))
+		return; //means this spell is already in spellbook
+
+	spells.emplace(spellId, SpellInstance{
+		.data = &SpellHolder::getInstance().get(spellId),
+		.cooldownRemaining = 0,
+		.durationRemaining = 0
+		});
+
+}
+
 void SpellcraftShopCategory::createStatTypeToSpellIdMap()
 {
 	mStatTypeToSpellIdMap =
@@ -147,24 +166,27 @@ void SpellcraftShopCategory::createStatTypeToSpellIdMap()
 
 void SpellcraftShopCategory::createSpellUpgrades()
 {
-	mSpellUpgrades[StatType::QuickHealSpell] = std::make_unique<HealingSpellUpgradeStrategy>
-		(SpellIdentifier::QuickHeal, getStatIncrease(StatType::QuickHealSpell));
-	mSpellUpgrades[StatType::MajorHealSpell] = std::make_unique<HealingSpellUpgradeStrategy>
-		(SpellIdentifier::MajorHeal, getStatIncrease(StatType::MajorHealSpell));
-	
-	mSpellUpgrades[StatType::HealthRegenSpell] = std::make_unique<RegenSpellUpgradeStrategy>
-		(SpellIdentifier::HealthRegen, getStatIncrease(StatType::HealthRegenSpell));
-	mSpellUpgrades[StatType::ManaRegenSpell] = std::make_unique<RegenSpellUpgradeStrategy>
-		(SpellIdentifier::ManaRegen, getStatIncrease(StatType::ManaRegenSpell));
+	using Stat = StatType;
+	using ID = SpellIdentifier;
+	using HealStrat = HealingSpellUpgradeStrategy;
+	using RegStrat  = RegenSpellUpgradeStrategy;
+	using ProjStrat = ProjectileSpellUpgradeStrategy;
+	using AOEStrat = AOEUpgradeStrategy;
 
-	mSpellUpgrades[StatType::WaterballSpell] = std::make_unique<ProjectileSpellUpgradeStrategy>
-		(SpellIdentifier::WaterBall, getStatIncrease(StatType::WaterballSpell));
-	mSpellUpgrades[StatType::PureProjSpell] = std::make_unique<ProjectileSpellUpgradeStrategy>
-		(SpellIdentifier::PureProjectile, getStatIncrease(StatType::PureProjSpell));
-	mSpellUpgrades[StatType::FireballSpell] = std::make_unique<ProjectileSpellUpgradeStrategy>
-		(SpellIdentifier::Fireball, getStatIncrease(StatType::FireballSpell));
-	mSpellUpgrades[StatType::BloodballSpell] = std::make_unique<ProjectileSpellUpgradeStrategy>
-		(SpellIdentifier::Bloodball, getStatIncrease(StatType::BloodballSpell));
+	mSpellUpgrades[Stat::QuickHealSpell] = std::make_unique<HealStrat>(ID::QuickHeal, getStatIncrease(Stat::QuickHealSpell));
+	mSpellUpgrades[Stat::MajorHealSpell] = std::make_unique<HealStrat>(ID::MajorHeal, getStatIncrease(Stat::MajorHealSpell));
+	
+	mSpellUpgrades[Stat::HealthRegenSpell] = std::make_unique<RegStrat>(ID::HealthRegen, getStatIncrease(Stat::HealthRegenSpell));
+	mSpellUpgrades[Stat::ManaRegenSpell]   = std::make_unique<RegStrat>(ID::ManaRegen, getStatIncrease(Stat::ManaRegenSpell));
+
+	mSpellUpgrades[Stat::WaterballSpell] = std::make_unique<ProjStrat>(ID::WaterBall, getStatIncrease(Stat::WaterballSpell));
+	mSpellUpgrades[Stat::PureProjSpell]  = std::make_unique<ProjStrat>(ID::PureProjectile, getStatIncrease(Stat::PureProjSpell));
+	mSpellUpgrades[Stat::FireballSpell]  = std::make_unique<ProjStrat>(ID::Fireball, getStatIncrease(Stat::FireballSpell));
+	mSpellUpgrades[Stat::BloodballSpell] = std::make_unique<ProjStrat>(ID::Bloodball, getStatIncrease(Stat::BloodballSpell));
+
+	mSpellUpgrades[Stat::FrostPillarSpell] = std::make_unique<AOEStrat>(ID::FrostPillar, getStatIncrease(Stat::FrostPillarSpell));
+	mSpellUpgrades[Stat::BladeDanceSpell] = std::make_unique<AOEStrat>(ID::BladeDance, getStatIncrease(Stat::BladeDanceSpell));
+
 }
 
 void SpellcraftShopCategory::setUpgradeLevelsLimit()

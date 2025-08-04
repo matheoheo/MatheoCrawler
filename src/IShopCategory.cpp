@@ -43,6 +43,10 @@ void IShopCategory::createAssignableOptions()
 	//to override, but not by all systems.
 }
 
+void IShopCategory::assignToSpellbook(const ShopItem& item)
+{
+}
+
 int IShopCategory::getUpgradeLevel(const std::string& upgradeName) const
 {
 	auto& statsComp = player.getComponent<StatisticsUpgradeComponent>();
@@ -92,6 +96,7 @@ void IShopCategory::tryBuy(ShopItem& item)
 	checkIfUpgradeLevelReached(item);
 	notifyUIAfterBuy();
 	determineItemsBorderColor();
+	assignToSpellbook(item); //virtual function, only SpellcraftShopCategory overrides it.
 }
 
 void IShopCategory::createItemDescription(const std::string& descText)
@@ -360,12 +365,10 @@ void IShopCategory::checkIfUpgradeLevelReached(ShopItem& item)
 {
 	if (isUpgradeLevelReached(item))
 	{
-		//item.cost = 9999999;
 		item.itemCostText.setString("MAXED");
 		item.itemCostText.setFillColor({ 255, 100, 100 });
 		item.itemCostText.setStyle(sf::Text::Bold);
 		Utilities::setTextOriginOnCenter(item.itemCostText);
-
 	}
 }
 

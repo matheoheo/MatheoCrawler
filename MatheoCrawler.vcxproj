@@ -24,6 +24,7 @@
     <ClInclude Include="include\AnimationHolder.h" />
     <ClInclude Include="include\AnimationIdentifiers.h" />
     <ClInclude Include="include\AnimationSystem.h" />
+    <ClInclude Include="include\AOEUpgradeStrategy.h" />
     <ClInclude Include="include\AreaOfEffectSpellSystem.h" />
     <ClInclude Include="include\AssetManager.h" />
     <ClInclude Include="include\AttackData.h" />
@@ -139,6 +140,7 @@
     <ClCompile Include="src\ActionSelectionUI.cpp" />
     <ClCompile Include="src\AnimationHolder.cpp" />
     <ClCompile Include="src\AnimationSystem.cpp" />
+    <ClCompile Include="src\AOEUpgradeStrategy.cpp" />
     <ClCompile Include="src\AreaOfEffectSpellSystem.cpp" />
     <ClCompile Include="src\AttackSystem.cpp" />
     <ClCompile Include="src\AttackTask.cpp" />

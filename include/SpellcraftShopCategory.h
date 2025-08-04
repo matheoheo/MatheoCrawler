@@ -21,6 +21,8 @@ protected:
 	virtual void createStatUpgradeTexts(const ShopItem& item);
 	virtual void createAssignableOptions();
 	virtual void setAssignableButtonsCallbacks();
+	virtual void assignToSpellbook(const ShopItem& item);
+
 
 	void createStatTypeToSpellIdMap();
 	void createSpellUpgrades();

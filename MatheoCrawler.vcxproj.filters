@@ -346,6 +346,9 @@
     <ClInclude Include="include\BladeDanceSpell.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\AOEUpgradeStrategy.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -630,6 +633,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\BladeDanceSpell.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AOEUpgradeStrategy.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

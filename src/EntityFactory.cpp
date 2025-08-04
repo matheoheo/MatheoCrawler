@@ -113,20 +113,11 @@ void EntityFactory::spawnPlayerEntity(const sf::Vector2i& cellIndex)
 	entity.addComponent<PlayerManaBarComponent>();
 	entity.addComponent<RegenerationComponent>();
 	entity.addComponent<StatisticsUpgradeComponent>();
+	entity.addComponent<SpellbookComponent>();
 	auto& assigned = entity.addComponent<AssignedSpellsComponent>();
-	auto& spells = entity.addComponent<SpellbookComponent>();
-
-	for (int i = 0; i <= static_cast<int>(SpellIdentifier::BladeDance); ++i)
-	{
-		auto id = static_cast<SpellIdentifier>(i);
-		spells.cSpells.emplace(id, 
-			SpellInstance{.data = &SpellHolder::getInstance().get(id)});
-	}
 
 	for (int i = 0; i < 5; ++i)
-	{
 		assigned.cAssignedSpells.emplace(i, nullptr);
-	}
 	
 	notifyTileOccupied(entity);
 
