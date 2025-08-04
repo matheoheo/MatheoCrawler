@@ -57,7 +57,7 @@ void SpellSystem::registerToCastSpellEvent()
 				return;
 			if (isAOESpell(data.spellId))
 			{
-				if (!canCastAOESpell(data.caster))
+				if (doesSpellDependOnMousePos(data.spellId) && !canCastAtMousePos(data.caster))
 					return;
 			}
 			updateLastSpell(spellbookComp, data.spellId);
@@ -65,10 +65,8 @@ void SpellSystem::registerToCastSpellEvent()
 			auto& thisSpell = spellbookComp.cSpells[data.spellId];
 			thisSpell.cooldownRemaining = thisSpell.data->cooldown;
 			if (data.usedKey)
-			{
-				//notify UISystem to start cooldown counter.
 				notifyUISystem(data.usedKey.value(), thisSpell.cooldownRemaining);
-			}
+
 			auto animType = getAnimationBasedOnSpellType(*thisSpell.data);
 			data.caster.getComponent<EntityStateComponent>().cCurrentState = EntityState::CastingSpell;
 
@@ -91,7 +89,6 @@ void SpellSystem::registerToCastAnimationFinished()
 void SpellSystem::notifyUISystem(sf::Keyboard::Key key, int& cooldown)
 {
 	mSystemContext.eventManager.notify<StartSpellCooldownUIEvent>(StartSpellCooldownUIEvent(key, cooldown));
-		
 }
 
 void SpellSystem::notifyAnimationSystem(Entity& entity, int castTime, AnimationIdentifier animId)
@@ -149,11 +146,10 @@ void SpellSystem::subtractMana(Entity& entity, SpellbookComponent& spellbookComp
 
 	auto lastSpellCost = spellbookComp.cLastSpell->data->cost;
 	entity.getComponent<CombatStatsComponent>().cMana -= lastSpellCost;
-	//notify ui system
-	mSystemContext.eventManager.notify<UpdatePlayerStatusEvent>(UpdatePlayerStatusEvent());
+	mSystemContext.eventManager.notify<UpdatePlayerStatusEvent>(UpdatePlayerStatusEvent()); //notifies ui system
 }
 
-bool SpellSystem::canCastAOESpell(const Entity& entity) const
+bool SpellSystem::canCastAtMousePos(const Entity& entity) const
 {
 	//returns true, if there is line of sight between entitie's position and tile under mouse position
 	//returns false otherwise
@@ -161,8 +157,8 @@ bool SpellSystem::canCastAOESpell(const Entity& entity) const
 	const auto& pos = positionComponent.cLogicPosition;
 	auto entityCell = Utilities::getCellIndex(pos);
 	auto targetCell = Utilities::getCellIndex(fMousePos);
-	
-	return mTileMap.isLineOfSightClear(entityCell, targetCell);
+
+	return mTileMap.getTile(targetCell.x, targetCell.y)->isWalkableRaw() && mTileMap.isLineOfSightClear(entityCell, targetCell);
 }
 
 void SpellSystem::notifyCastFinished(Entity& entity, SpellIdentifier id)
@@ -173,6 +169,8 @@ void SpellSystem::notifyCastFinished(Entity& entity, SpellIdentifier id)
 		mSystemContext.eventManager.notify<TriggerHealSpellEvent>(TriggerHealSpellEvent(entity));
 	else if (isProjectileSpell(id))
 		mSystemContext.eventManager.notify<SpawnProjectileEvent>(SpawnProjectileEvent(entity, id));
+	else if (isAOESpell(id))
+		mSystemContext.eventManager.notify<CastAOESpellEvent>(CastAOESpellEvent(entity, id, fMousePos));
 }
 
 AnimationIdentifier SpellSystem::getAnimationBasedOnSpellType(const SpellData& data) const
@@ -181,6 +179,8 @@ AnimationIdentifier SpellSystem::getAnimationBasedOnSpellType(const SpellData& d
 		return AnimationIdentifier::GenericSpellCast;
 	else if (data.type == SpellType::Projectile)
 		return AnimationIdentifier::GenericShoot;
+	else if (data.type == SpellType::AreaOfEffect)
+		return AnimationIdentifier::GenericSlashUnarmed;
 
 	return AnimationIdentifier::GenericSpellCast;
 }
@@ -217,6 +217,11 @@ bool SpellSystem::isProjectileSpell(SpellIdentifier id) const
 }
 
 bool SpellSystem::isAOESpell(SpellIdentifier id) const
+{
+	return id == SpellIdentifier::FrostPillar || id == SpellIdentifier::BladeDance;
+}
+
+bool SpellSystem::doesSpellDependOnMousePos(SpellIdentifier id) const
 {
 	return id == SpellIdentifier::FrostPillar;
 }

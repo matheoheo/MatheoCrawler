@@ -32,12 +32,19 @@ private:
 		SpellIdentifier spellId;
 		StatType statType;
 	};
+	struct SpellcraftConfig
+	{
+		static constexpr size_t restorationId = 0;
+		static constexpr size_t projectilesId = 1;
+		static constexpr size_t aoeId = 2;
+	};
 
 	//creates buttons to differentiate between different classes of spells - Healing/Attacking, etc.
 	void createSpellsCategories();
 	void onSpellCategoryPress(size_t id);
 	std::vector<ItemInitData> getRestorationItemsInitData() const;
 	std::vector<ItemInitData> getProjectilesItemsInitData() const;
+	std::vector<ItemInitData> getAreaOfEffectItemsInitData() const;
 	std::vector<ItemInitData> createItemInitData(std::span<const SpellShopMapping> spellsData) const;
 
 	int calculateSpellCost(const ShopItem& item) const;

@@ -138,7 +138,10 @@ void SpellcraftShopCategory::createStatTypeToSpellIdMap()
 		{StatType::WaterballSpell,   SpellIdentifier::WaterBall},
 		{StatType::PureProjSpell,    SpellIdentifier::PureProjectile},
 		{StatType::FireballSpell,    SpellIdentifier::Fireball},
-		{StatType::BloodballSpell,   SpellIdentifier::Bloodball}
+		{StatType::BloodballSpell,   SpellIdentifier::Bloodball},
+
+		{StatType::FrostPillarSpell, SpellIdentifier::FrostPillar},
+		{StatType::BladeDanceSpell,  SpellIdentifier::BladeDance}
 	};
 }
 
@@ -189,11 +192,12 @@ void SpellcraftShopCategory::setMinLevelToAssign()
 	//User must upgrade them once first.
 	//This function, defines which one require this.
 	constexpr int minUpgradeLevel = 2;
-	constexpr size_t count = 6;
+	constexpr size_t count = 8;
 	constexpr std::array<StatType, count> requireUpgrade =
 	{
 		StatType::MajorHealSpell, StatType::HealthRegenSpell, StatType::ManaRegenSpell,
-		StatType::PureProjSpell, StatType::BloodballSpell, StatType::FireballSpell
+		StatType::PureProjSpell, StatType::BloodballSpell, StatType::FireballSpell,
+		StatType::FrostPillarSpell, StatType::BladeDanceSpell
 	};
 
 	for (auto& item : mItems)
@@ -247,12 +251,14 @@ void SpellcraftShopCategory::createSpellsCategories()
 	const std::array<Init, mSpellTypesCount> data =
 	{
 		Init{.label = "Restoration", .callback = [this]() {
-			onSpellCategoryPress(0);
+			onSpellCategoryPress(SpellcraftConfig::restorationId);
 		}},
 		Init{.label = "Projectiles", .callback = [this]() {
-			onSpellCategoryPress(1);
+			onSpellCategoryPress(SpellcraftConfig::projectilesId);
 		}},
-		Init{.label = "Effectives" , .callback = []() {}} //to initalize later
+		Init{.label = "Area Of Effect" , .callback = [this]() {
+			onSpellCategoryPress(SpellcraftConfig::aoeId);
+		}} //to initalize later
 	};
 	for (const auto& btnData : data)
 	{
@@ -262,7 +268,7 @@ void SpellcraftShopCategory::createSpellsCategories()
 	}
 
 	sf::Vector2f pos{ mCategoryPos };
-	float btnWidth = mSpellCategories[0].getSize().x;
+	float btnWidth = mSpellCategories[2].getSize().x; //we take last button size, because it is the longeset.
 	float space = (mCategorySize.x - (btnWidth * mSpellTypesCount)) / (mSpellTypesCount + 1);
 	pos.x += space;
 
@@ -279,11 +285,14 @@ void SpellcraftShopCategory::onSpellCategoryPress(size_t id)
 	mItems.clear();
 	switch (id)
 	{
-	case 0:
+	case SpellcraftConfig::restorationId:
 		createItems(getRestorationItemsInitData());
 		break;
-	case 1:
+	case SpellcraftConfig::projectilesId:
 		createItems(getProjectilesItemsInitData());
+		break;
+	case SpellcraftConfig::aoeId:
+		createItems(getAreaOfEffectItemsInitData());
 		break;
 	default:
 		break;
@@ -312,7 +321,7 @@ std::vector<ItemInitData> SpellcraftShopCategory::getRestorationItemsInitData() 
 
 std::vector<ItemInitData> SpellcraftShopCategory::getProjectilesItemsInitData() const
 {
-	constexpr std::array<SpellShopMapping, 4> restData =
+	constexpr std::array<SpellShopMapping, 4> projData =
 	{ {
 		{SpellIdentifier::WaterBall,      StatType::WaterballSpell},
 		{SpellIdentifier::PureProjectile, StatType::PureProjSpell},
@@ -320,7 +329,18 @@ std::vector<ItemInitData> SpellcraftShopCategory::getProjectilesItemsInitData() 
 		{SpellIdentifier::Bloodball,      StatType::BloodballSpell}
 	} };
 
-	return createItemInitData(restData);
+	return createItemInitData(projData);
+}
+
+std::vector<ItemInitData> SpellcraftShopCategory::getAreaOfEffectItemsInitData() const
+{
+	constexpr std::array<SpellShopMapping, 2> aoeData =
+	{{
+		{SpellIdentifier::FrostPillar, StatType::FrostPillarSpell},
+		{SpellIdentifier::BladeDance,  StatType::BladeDanceSpell}
+	} };
+
+	return createItemInitData(aoeData);
 }
 
 std::vector<ItemInitData> SpellcraftShopCategory::createItemInitData(std::span<const SpellShopMapping> spellsData) const
@@ -361,17 +381,23 @@ int SpellcraftShopCategory::getBasicItemCost(StatType type) const
 	case StatType::WaterballSpell:
 		return 1500;
 	case StatType::PureProjSpell:
-		return 2500;
+		return 2200;
 	case StatType::FireballSpell:
-		return 4500;
+		return 3400;
 	case StatType::BloodballSpell:
-		return 3000;
+		return 2800;
+
+	case StatType::FrostPillarSpell:
+		return 4000;
+	case StatType::BladeDanceSpell:
+		return 5000;
 	}
 	return 0;
 }
 
 float SpellcraftShopCategory::getStatIncrease(StatType type) const
 {
+	//Those values are just how much the spell's heal/regen/damage value increases per upgrade
 	switch (type)
 	{
 	case StatType::QuickHealSpell:
@@ -391,6 +417,11 @@ float SpellcraftShopCategory::getStatIncrease(StatType type) const
 		return 7;
 	case StatType::BloodballSpell:
 		return 6;
+
+	case StatType::FrostPillarSpell:
+		return 6;
+	case StatType::BladeDanceSpell:
+		return 3;
 	}
 	return 0;
 }

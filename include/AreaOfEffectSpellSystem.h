@@ -15,7 +15,11 @@ private:
     void registerToEvents();
     void registerToCastAOESpellEvent();
 private:
+    using AOESpellCreator = std::function<std::unique_ptr<IAOESpell>(const CastAOESpellEvent&)>;
+    void createSpellsRegistry();
+private:
     const TileMap& mTileMap;
     std::vector<std::unique_ptr<IAOESpell>> mActiveSpells;
+    std::unordered_map<SpellIdentifier, AOESpellCreator> mSpellsRegistry;
 };
 

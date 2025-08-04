@@ -70,28 +70,24 @@ void ActionSelectionUI::registerToReBindSpellActionEvent()
 {
 	mGameContext.eventManager.registerEvent<ReBindSpellActionEvent>([this](const ReBindSpellActionEvent& data)
 		{
-			UIIconSlot* slot = getSlotBasedOnActivationKey(data.newSlotKey);
-			if (slot)
+			//Since we have only 5 spell slots, we can just rebind them all when any is changed, the easiest way.
+			//AssignedSpells are in map, means they are ordered (from 0 to 4).
+			//So to get to the proper icon slot, based on assignedSpell index, we can just add spell's index in map to first slot index
+			constexpr int firstSlotIndex = 3;
+
+			const auto& assignedSpells = player.getComponent<AssignedSpellsComponent>().cAssignedSpells;
+			for (const auto& [spellSlotId, spellSlotPtr] : assignedSpells)
 			{
-				auto textId = getTextureIDBasedOnSpell(data.spellId);
-				setSlotIcon(*slot, textId);
-				if (data.oldSlotKey) //this means, that spell was already assigned to some slot
+				auto& uiSlot = mIconSlots[spellSlotId + firstSlotIndex];
+				if (!spellSlotPtr) //if there is no spell assigned to this id, we remove icon, cooldown and just continue
 				{
-					//if there was a cooldown on old spot we must swap it too
-					UIIconSlot* oldSlot = getSlotBasedOnActivationKey(data.oldSlotKey.value());
-					if (oldSlot && oldSlot->uiCooldown && oldSlot->uiCooldown->cooldown)
-					{
-						int* oldCd = oldSlot->uiCooldown->cooldown;
-						int* newCd = nullptr;
-						//we must check also if current slot has cooldown
-						if (slot->uiCooldown && slot->uiCooldown->cooldown)
-							newCd = slot->uiCooldown->cooldown;
-						setSlotCooldown(*slot, oldCd); //new slot gets old cd(which mean cd from his previous spot)
-						setSlotCooldown(*oldSlot, newCd);
-					}
+					uiSlot.icon = {};
+					uiSlot.uiCooldown = {};
+					continue;
 				}
-				else
-					slot->uiCooldown = {}; //otherwise just remove the cooldown.
+				auto textureId = getTextureIDBasedOnSpell(spellSlotPtr->data->spellId);
+				setSlotIcon(uiSlot, textureId);
+				createCooldown(uiSlot, &spellSlotPtr->cooldownRemaining);
 			}
 		});
 }
@@ -229,12 +225,18 @@ TextureIdentifier ActionSelectionUI::getTextureIDBasedOnSpell(SpellIdentifier sp
 
 void ActionSelectionUI::createCooldown(UIIconSlot& slot, int* cooldown)
 {
+	constexpr int minCooldownToCreate = 200;
 	if (!cooldown)
 		return;
 	//if this slot already has ongoing cooldown we just adjust cooldown varaible
 	if (slot.uiCooldown)
 	{
 		slot.uiCooldown.value().cooldown = cooldown;
+		return;
+	}
+	if (*cooldown < minCooldownToCreate)
+	{
+		slot.uiCooldown = {};
 		return;
 	}
 
@@ -264,12 +266,13 @@ void ActionSelectionUI::updateCooldownText(UICooldown& cd)
 
 void ActionSelectionUI::removeFinishedCooldowns()
 {
+	constexpr int cdTimeToRemove = 200;
 	for (auto& slot : mIconSlots)
 	{
 		if (slot.uiCooldown)
 		{
 			const auto& cd = slot.uiCooldown.value();
-			if (*cd.cooldown <= 250)
+			if (*cd.cooldown <= cdTimeToRemove)
 				slot.uiCooldown = {};
 		}
 	}

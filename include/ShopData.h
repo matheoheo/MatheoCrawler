@@ -30,7 +30,10 @@ enum class StatType
 	WaterballSpell,
 	PureProjSpell,
 	FireballSpell,
-	BloodballSpell
+	BloodballSpell,
+
+	FrostPillarSpell,
+	BladeDanceSpell
 };
 
 

@@ -116,7 +116,7 @@ void EntityFactory::spawnPlayerEntity(const sf::Vector2i& cellIndex)
 	auto& assigned = entity.addComponent<AssignedSpellsComponent>();
 	auto& spells = entity.addComponent<SpellbookComponent>();
 
-	for (int i = 0; i <= static_cast<int>(SpellIdentifier::Bloodball); ++i)
+	for (int i = 0; i <= static_cast<int>(SpellIdentifier::BladeDance); ++i)
 	{
 		auto id = static_cast<SpellIdentifier>(i);
 		spells.cSpells.emplace(id, 

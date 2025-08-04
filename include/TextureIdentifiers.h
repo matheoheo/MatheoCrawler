@@ -16,17 +16,27 @@ enum class TextureIdentifier
 	//icons
 	Suash, //gold icon
 	Twarf, //player icon
-	Attack1Icon, //attack1 icon
+	Attack1Icon,
 	Attack2Icon,
 	Attack3Icon,
+
+	//Healing Spells
 	QuickHealIcon,
 	MajorHealIcon,
 	HealthRegenIcon,
 	ManaRegenIcon,
+	
+	//Projectile Spells
 	WaterballIcon,
 	PureProjIcon,
 	FireballIcon,
 	BloodballIcon,
+
+	//Aoe spells
+	FrostPillarIcon,
+	BladeDanceIcon,
+
+	//Effects icons
 	FireBurnIcon,
 	MoveSpeedSlowIcon,
 	AttSpeedSlowIcon,

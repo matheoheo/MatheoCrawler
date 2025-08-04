@@ -19,7 +19,7 @@ private:
     bool canCastSpell(const CastSpellEvent& data, SpellbookComponent& spellbookComp) const;
     void updateLastSpell(SpellbookComponent& spellbookComp, SpellIdentifier id);
     void subtractMana(Entity& entity, SpellbookComponent& spellbookComp);
-    bool canCastAOESpell(const Entity& entity) const;
+    bool canCastAtMousePos(const Entity& entity) const;
 
     void notifyCastFinished(Entity& entity, SpellIdentifier id);
     AnimationIdentifier getAnimationBasedOnSpellType(const SpellData& data) const;
@@ -30,6 +30,7 @@ private:
     bool isRegenSpell(SpellIdentifier id) const;
     bool isProjectileSpell(SpellIdentifier id) const;
     bool isAOESpell(SpellIdentifier id) const;
+    bool doesSpellDependOnMousePos(SpellIdentifier id) const;
 
     void addToFinished(Entity* entity);
     void removeFinishedEntities();

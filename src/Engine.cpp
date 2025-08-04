@@ -87,6 +87,10 @@ void Engine::preloadAssets()
 	mTextures.load(TextureIdentifier::FireballIcon,    "assets/ui/spellIcons/projectiles/fireball.png");
 	mTextures.load(TextureIdentifier::BloodballIcon,   "assets/ui/spellIcons/projectiles/bloodball.png");
 	
+	mTextures.load(TextureIdentifier::FrostPillarIcon, "assets/ui/spellIcons/aoe/frostPillar.png");
+	mTextures.load(TextureIdentifier::BladeDanceIcon,  "assets/ui/spellIcons/aoe/bladeDance.png");
+
+
 	mTextures.load(TextureIdentifier::FireBurnIcon,      "assets/icons/fireBurnIcon.png");
 	mTextures.load(TextureIdentifier::MoveSpeedSlowIcon, "assets/icons/moveSlowIcon.png");
 	mTextures.load(TextureIdentifier::MoveFrozenIcon,    "assets/icons/moveFrozenIcon.png");

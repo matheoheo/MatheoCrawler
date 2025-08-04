@@ -8,6 +8,7 @@ AreaOfEffectSpellSystem::AreaOfEffectSpellSystem(SystemContext& systemContext, c
 	mTileMap(tileMap)
 {
 	registerToEvents();
+	createSpellsRegistry();
 }
 
 void AreaOfEffectSpellSystem::update(const sf::Time& deltaTime)
@@ -35,7 +36,19 @@ void AreaOfEffectSpellSystem::registerToCastAOESpellEvent()
 {
 	mSystemContext.eventManager.registerEvent<CastAOESpellEvent>([this](const CastAOESpellEvent& data)
 		{
-			//mActiveSpells.emplace_back(std::make_unique<FrostPillarSpell>(data.source, mTileMap, data.castPos));
-			mActiveSpells.emplace_back(std::make_unique<BladeDanceSpell>(data.source, mTileMap, data.castPos));
+			if (!mSpellsRegistry.contains(data.spellId))
+				return;
+			auto nextSpellPtr = mSpellsRegistry.at(data.spellId)(data);
+			mActiveSpells.push_back(std::move(nextSpellPtr));
 		});
+}
+
+void AreaOfEffectSpellSystem::createSpellsRegistry()
+{
+	mSpellsRegistry[SpellIdentifier::FrostPillar] = [this](const CastAOESpellEvent& data) {
+		return std::make_unique<FrostPillarSpell>(data.source, mTileMap, data.castPos);
+	};
+	mSpellsRegistry[SpellIdentifier::BladeDance] = [this](const CastAOESpellEvent& data) {
+		return std::make_unique<BladeDanceSpell>(data.source, mTileMap, data.castPos);
+	};
 }

@@ -303,12 +303,12 @@ void SpellHolder::createFrostPillar()
     SpellData data;
     data.type = SpellType::AreaOfEffect;
     data.spellId = id;
-    data.castTime = 850;
-    data.cooldown = 25;
+    data.castTime = 450;
+    data.cooldown = 16 * 1000;
     data.cost = 22;
     data.aoe = AreaOfEffectSpell{
-        .minDmg = 25,
-        .maxDmg = 33,
+        .minDmg = 21,
+        .maxDmg = 30,
         .offsets = std::vector<sf::Vector2i>{ {0, 0}, {-1,0}, {1, 0}, {0, -1}, {0, 1} },
         .effect = SpellEffect::MovementFrozen
     };
@@ -318,9 +318,9 @@ void SpellHolder::createFrostPillar()
         .data = &mSpellsMap.at(id),
         .spellInfo {
             .name = "Frost Pillar",
-            .shortDescription = "Temp_frost_pillar_desc",
-            .longDescription = "Temp_frost_pillar_desc",
-            .textureId = TextureIdentifier::Attack1Icon //temporary placeholders
+            .shortDescription = "Frozing ice.",
+            .longDescription = "Forms pillars of frost which deals damage after 2.5 seconds, and frozing movement of every entity hit.",
+            .textureId = TextureIdentifier::FrostPillarIcon //temporary placeholders
         }
     };
 }
@@ -332,11 +332,11 @@ void SpellHolder::createBladeDance()
     data.type = SpellType::AreaOfEffect;
     data.spellId = id;
     data.castTime = 650;
-    data.cooldown = 32;
+    data.cooldown = 21 * 1000;
     data.cost = 24;
     data.aoe = AreaOfEffectSpell{
-        .minDmg = 6,
-        .maxDmg = 9,
+        .minDmg = 4,
+        .maxDmg = 7,
         .offsets = std::vector<sf::Vector2i>{ {-1,0}, {1, 0}, {0, -1}, {0, 1} },
         .effect = SpellEffect::None
     };
@@ -346,9 +346,9 @@ void SpellHolder::createBladeDance()
         .data = &mSpellsMap.at(id),
         .spellInfo {
             .name = "Blade Dance",
-            .shortDescription = "Temp_bladeDance_desc",
-            .longDescription = "Temp_bladeDance_desc",
-            .textureId = TextureIdentifier::Attack1Icon //temporary placeholder
+            .shortDescription = "Four Blades.",
+            .longDescription = "Creates an blade aura all over player, which spins around and deals damage every half of second.",
+            .textureId = TextureIdentifier::BladeDanceIcon //temporary placeholder
         }
     };
 }

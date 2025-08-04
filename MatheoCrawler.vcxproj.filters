@@ -343,7 +343,9 @@
     <ClInclude Include="include\ActionSelectionUI.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\BladeDanceSpell.h" />
+    <ClInclude Include="include\BladeDanceSpell.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -627,6 +629,8 @@
     <ClCompile Include="src\WaitUntilIdleTask.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\BladeDanceSpell.cpp" />
+    <ClCompile Include="src\BladeDanceSpell.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

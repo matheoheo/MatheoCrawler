@@ -209,8 +209,9 @@ bool Utilities::isHealingSpell(SpellIdentifier spellid)
 
 bool Utilities::isSpellCastAnimation(AnimationIdentifier animId)
 {
-	return animId == AnimationIdentifier::GenericSpellCast ||
-		   animId == AnimationIdentifier::GenericShoot;
+	return animId == AnimationIdentifier::GenericSpellCast || //for healing spells
+		   animId == AnimationIdentifier::GenericShoot || //for projectile spells
+		   animId == AnimationIdentifier::GenericSlashUnarmed; //for aoe spells.
 }
 
 bool Utilities::isAnAttackAnimation(AnimationIdentifier animId)
