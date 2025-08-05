@@ -28,7 +28,7 @@ protected:
 protected:
 	const Entity& mCaster;
 	const TileMap& mTileMap;
-	const sf::Vector2f mCastPos;
+	sf::Vector2f mCastPos;
 	int mCastTime; //Time after spell's effect takes impact.
 	int mTimePassed;
 	bool mIsComplete;

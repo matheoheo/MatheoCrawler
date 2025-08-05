@@ -596,9 +596,11 @@ struct HitByAOESpellEvent : public IEvent
 {
 	Entity& hitEntity;
 	int damage;
+	bool isCasterPlayer;
 
-	HitByAOESpellEvent(Entity& hitEntity, int damage)
+	HitByAOESpellEvent(Entity& hitEntity, int damage, bool isCasterPlayer)
 		:hitEntity(hitEntity),
-		damage(damage)
+		damage(damage),
+		isCasterPlayer(isCasterPlayer)
 	{}
 };

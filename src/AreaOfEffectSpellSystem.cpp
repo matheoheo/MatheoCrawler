@@ -2,6 +2,7 @@
 #include "AreaOfEffectSpellSystem.h"
 #include "FrostPillarSpell.h"
 #include "BladeDanceSpell.h"
+#include "ToxicCloudSpell.h"
 
 AreaOfEffectSpellSystem::AreaOfEffectSpellSystem(SystemContext& systemContext, const TileMap& tileMap)
 	:ISystem(systemContext),
@@ -50,5 +51,8 @@ void AreaOfEffectSpellSystem::createSpellsRegistry()
 	};
 	mSpellsRegistry[SpellIdentifier::BladeDance] = [this](const CastAOESpellEvent& data) {
 		return std::make_unique<BladeDanceSpell>(data.source, mTileMap, data.castPos);
+	};
+	mSpellsRegistry[SpellIdentifier::ToxicCloud] = [this](const CastAOESpellEvent& data) {
+		return std::make_unique<ToxicCloudSpell>(data.source, mTileMap, data.castPos);
 	};
 }

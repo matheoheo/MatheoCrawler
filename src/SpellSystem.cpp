@@ -218,7 +218,8 @@ bool SpellSystem::isProjectileSpell(SpellIdentifier id) const
 
 bool SpellSystem::isAOESpell(SpellIdentifier id) const
 {
-	return id == SpellIdentifier::FrostPillar || id == SpellIdentifier::BladeDance;
+	return id == SpellIdentifier::FrostPillar || id == SpellIdentifier::BladeDance ||
+		id == SpellIdentifier::ToxicCloud;
 }
 
 bool SpellSystem::doesSpellDependOnMousePos(SpellIdentifier id) const

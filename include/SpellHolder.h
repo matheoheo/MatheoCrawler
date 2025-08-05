@@ -31,6 +31,7 @@ private:
 
 	void createFrostPillar();
 	void createBladeDance();
+	void createToxicCloud();
 
 	void createMorannaProjectile();
 private:

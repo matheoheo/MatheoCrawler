@@ -349,6 +349,9 @@
     <ClInclude Include="include\AOEUpgradeStrategy.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\ToxicCloudSpell.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -636,6 +639,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\AOEUpgradeStrategy.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ToxicCloudSpell.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

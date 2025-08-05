@@ -20,6 +20,13 @@ enum class TextureIdentifier
 	Attack2Icon,
 	Attack3Icon,
 
+	//Attributes (shop) icons
+	HpIcon,
+	AttDmgIcon,
+	AttSpeedIcon,
+	PhysDefIcon,
+	MagDefIcon,
+
 	//Healing Spells
 	QuickHealIcon,
 	MajorHealIcon,
@@ -35,6 +42,7 @@ enum class TextureIdentifier
 	//Aoe spells
 	FrostPillarIcon,
 	BladeDanceIcon,
+	ToxicCloudIcon,
 
 	//Effects icons
 	FireBurnIcon,

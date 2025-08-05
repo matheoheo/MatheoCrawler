@@ -17,6 +17,7 @@ enum class SpellIdentifier
 	//AOE
 	FrostPillar,
 	BladeDance,
+	ToxicCloud,
 
 	//Spells that are treated as basic attacks for ranged entities
 	MorannaProjectile

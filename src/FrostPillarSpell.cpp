@@ -75,7 +75,7 @@ void FrostPillarSpell::updateEffect(FrozenTileEffect& effect, const sf::Time& de
 	constexpr float pi = std::numbers::pi_v<float>;
 	constexpr std::uint8_t maxAlpha = FrostColors::aura.a;
 	const float wave = std::sin(progress * pi * pulsesCount);
-	const sf::Color nextColor{ getColorMod(FrostColors::aura, wave * maxAlpha) };
+	const sf::Color nextColor{ getColorMod(FrostColors::aura, static_cast<std::uint8_t>(wave * maxAlpha)) };
 	effect.frozenShape.setOutlineColor(nextColor);
 }
 
@@ -84,11 +84,11 @@ void FrostPillarSpell::onCastFinish(EventManager& eventManager)
 	const auto& spell = SpellHolder::getInstance().get(SpellIdentifier::FrostPillar);
 	const auto& offsets = spell.aoe->offsets;
 	auto hitEntities = getAffectedEntities(offsets, mCastPos);
-
+	bool isCasterPlayer = mCaster.hasComponent<PlayerComponent>();
 	for (Entity* ent : hitEntities)
 	{
 		int dmg = Random::get(spell.aoe->minDmg, spell.aoe->maxDmg);
-		eventManager.notify<HitByAOESpellEvent>(HitByAOESpellEvent(*ent, dmg));
+		eventManager.notify<HitByAOESpellEvent>(HitByAOESpellEvent(*ent, dmg, isCasterPlayer));
 		eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(*ent, SpellEffect::MovementFrozen));
 	}
 	complete();

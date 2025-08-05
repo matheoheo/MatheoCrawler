@@ -78,6 +78,12 @@ void Engine::preloadAssets()
 	mTextures.load(TextureIdentifier::Attack1Icon,	   "assets/ui/attIcons/devoyer.png");
 	mTextures.load(TextureIdentifier::Attack2Icon,	   "assets/ui/attIcons/att2Icon.png");
 	mTextures.load(TextureIdentifier::Attack3Icon,	   "assets/ui/attIcons/att3Icon.png");
+
+	mTextures.load(TextureIdentifier::HpIcon,       "assets/ui/attributes/hpIcon.png");
+	mTextures.load(TextureIdentifier::AttDmgIcon,   "assets/ui/attributes/attDmgIcon.png");
+	mTextures.load(TextureIdentifier::AttSpeedIcon, "assets/ui/attributes/attSpeedIcon.png");
+
+
 	mTextures.load(TextureIdentifier::QuickHealIcon,   "assets/ui/spellIcons/healing/QuickHeal.png");
 	mTextures.load(TextureIdentifier::MajorHealIcon,   "assets/ui/spellIcons/healing/MajorHeal.png");
 	mTextures.load(TextureIdentifier::HealthRegenIcon, "assets/ui/spellIcons/healing/HealthRegen.png");
@@ -89,7 +95,7 @@ void Engine::preloadAssets()
 	
 	mTextures.load(TextureIdentifier::FrostPillarIcon, "assets/ui/spellIcons/aoe/frostPillar.png");
 	mTextures.load(TextureIdentifier::BladeDanceIcon,  "assets/ui/spellIcons/aoe/bladeDance.png");
-
+	mTextures.load(TextureIdentifier::ToxicCloudIcon,  "assets/ui/spellIcons/aoe/toxicCloud.png");
 
 	mTextures.load(TextureIdentifier::FireBurnIcon,      "assets/icons/fireBurnIcon.png");
 	mTextures.load(TextureIdentifier::MoveSpeedSlowIcon, "assets/icons/moveSlowIcon.png");

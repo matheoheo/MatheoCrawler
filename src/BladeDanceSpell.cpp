@@ -57,7 +57,7 @@ void BladeDanceSpell::makeDamage(EventManager& eventManager)
 			continue;
 
 		int dmg = Random::get(spell.aoe->minDmg, spell.aoe->maxDmg);
-		eventManager.notify<HitByAOESpellEvent>(HitByAOESpellEvent(*ent, dmg));
+		eventManager.notify<HitByAOESpellEvent>(HitByAOESpellEvent(*ent, dmg, isCasterPlayer));
 	}
 }
 

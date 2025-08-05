@@ -44,6 +44,7 @@ void SpellHolder::initalizeSpells()
 
     createFrostPillar();
     createBladeDance();
+    createToxicCloud();
 
     createMorannaProjectile();
 }
@@ -349,6 +350,34 @@ void SpellHolder::createBladeDance()
             .shortDescription = "Four Blades.",
             .longDescription = "Creates an blade aura all over player, which spins around and deals damage every half of second.",
             .textureId = TextureIdentifier::BladeDanceIcon //temporary placeholder
+        }
+    };
+}
+
+void SpellHolder::createToxicCloud()
+{
+    SpellIdentifier id{ SpellIdentifier::ToxicCloud };
+    SpellData data;
+    data.type = SpellType::AreaOfEffect;
+    data.spellId = id;
+    data.castTime = 450;
+    data.cooldown = 16 * 1000;
+    data.cost = 31;
+    data.aoe = AreaOfEffectSpell{
+        .minDmg = 8,
+        .maxDmg = 11,
+        .offsets = std::vector<sf::Vector2i>{ {-1,0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1} },
+        .effect = SpellEffect::None
+    };
+    mSpellsMap.emplace(id, std::move(data));
+
+    mDefinitions[id] = SpellDefinition{
+        .data = &mSpellsMap.at(id),
+        .spellInfo {
+            .name = "Toxic Cloud",
+            .shortDescription = "Spreads a toxic fog that harms enemies.",
+            .longDescription = "Conjures a toxic mist that damages enemies over time. Effective for area denial and softening large groups.",
+            .textureId = TextureIdentifier::ToxicCloudIcon //temporary placeholder
         }
     };
 }

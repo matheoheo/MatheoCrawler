@@ -129,6 +129,7 @@
     <ClInclude Include="include\TileFadeSystem.h" />
     <ClInclude Include="include\TileMap.h" />
     <ClInclude Include="include\TileTypes.h" />
+    <ClInclude Include="include\ToxicCloudSpell.h" />
     <ClInclude Include="include\TurnToTargetTask.h" />
     <ClInclude Include="include\UIComponent.h" />
     <ClInclude Include="include\UIManager.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="src\TickingSpelllEffect.cpp" />
     <ClCompile Include="src\TileFadeSystem.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
+    <ClCompile Include="src\ToxicCloudSpell.cpp" />
     <ClCompile Include="src\TurnToTargetTask.cpp" />
     <ClCompile Include="src\UIComponent.cpp" />
     <ClCompile Include="src\UIManager.cpp" />

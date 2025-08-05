@@ -160,7 +160,8 @@ void SpellcraftShopCategory::createStatTypeToSpellIdMap()
 		{StatType::BloodballSpell,   SpellIdentifier::Bloodball},
 
 		{StatType::FrostPillarSpell, SpellIdentifier::FrostPillar},
-		{StatType::BladeDanceSpell,  SpellIdentifier::BladeDance}
+		{StatType::BladeDanceSpell,  SpellIdentifier::BladeDance},
+		{StatType::ToxicCloudSpell,  SpellIdentifier::ToxicCloud}
 	};
 }
 
@@ -186,6 +187,7 @@ void SpellcraftShopCategory::createSpellUpgrades()
 
 	mSpellUpgrades[Stat::FrostPillarSpell] = std::make_unique<AOEStrat>(ID::FrostPillar, getStatIncrease(Stat::FrostPillarSpell));
 	mSpellUpgrades[Stat::BladeDanceSpell] = std::make_unique<AOEStrat>(ID::BladeDance, getStatIncrease(Stat::BladeDanceSpell));
+	mSpellUpgrades[Stat::ToxicCloudSpell] = std::make_unique<AOEStrat>(ID::ToxicCloud, getStatIncrease(Stat::ToxicCloudSpell));
 
 }
 
@@ -214,12 +216,12 @@ void SpellcraftShopCategory::setMinLevelToAssign()
 	//User must upgrade them once first.
 	//This function, defines which one require this.
 	constexpr int minUpgradeLevel = 2;
-	constexpr size_t count = 8;
+	constexpr size_t count = 9;
 	constexpr std::array<StatType, count> requireUpgrade =
 	{
 		StatType::MajorHealSpell, StatType::HealthRegenSpell, StatType::ManaRegenSpell,
 		StatType::PureProjSpell, StatType::BloodballSpell, StatType::FireballSpell,
-		StatType::FrostPillarSpell, StatType::BladeDanceSpell
+		StatType::FrostPillarSpell, StatType::BladeDanceSpell, StatType::ToxicCloudSpell
 	};
 
 	for (auto& item : mItems)
@@ -356,10 +358,11 @@ std::vector<ItemInitData> SpellcraftShopCategory::getProjectilesItemsInitData() 
 
 std::vector<ItemInitData> SpellcraftShopCategory::getAreaOfEffectItemsInitData() const
 {
-	constexpr std::array<SpellShopMapping, 2> aoeData =
+	constexpr std::array<SpellShopMapping, 3> aoeData =
 	{{
 		{SpellIdentifier::FrostPillar, StatType::FrostPillarSpell},
-		{SpellIdentifier::BladeDance,  StatType::BladeDanceSpell}
+		{SpellIdentifier::BladeDance,  StatType::BladeDanceSpell},
+		{SpellIdentifier::ToxicCloud,  StatType::ToxicCloudSpell}
 	} };
 
 	return createItemInitData(aoeData);
@@ -413,6 +416,8 @@ int SpellcraftShopCategory::getBasicItemCost(StatType type) const
 		return 4000;
 	case StatType::BladeDanceSpell:
 		return 5000;
+	case StatType::ToxicCloudSpell:
+		return 5500;
 	}
 	return 0;
 }
@@ -444,6 +449,8 @@ float SpellcraftShopCategory::getStatIncrease(StatType type) const
 		return 6;
 	case StatType::BladeDanceSpell:
 		return 3;
+	case StatType::ToxicCloudSpell:
+		return 5;
 	}
 	return 0;
 }

@@ -185,18 +185,17 @@ CombatStatsComponent EntityFactory::getAdjustedCombatStats(EntityType entType) c
 	CombatStatsComponent adjustedStats(defaultStats);
 
 	float multiplier = getStatMultiplier();
-	adjustedStats.cAttackDamage *= multiplier;
-	adjustedStats.cDefence *= multiplier;
-	adjustedStats.cMaxHealth *= multiplier;
+	adjustedStats.cAttackDamage = static_cast<int>(adjustedStats.cAttackDamage * multiplier);
+	adjustedStats.cDefence = static_cast<int>(adjustedStats.cDefence * multiplier);
+	adjustedStats.cMaxHealth = static_cast<int>(adjustedStats.cMaxHealth * multiplier);
 	adjustedStats.cHealth = adjustedStats.cMaxHealth;
-
 
 	return adjustedStats;
 }
 
 float EntityFactory::getStatMultiplier() const
 {
-	return std::pow(1.20f, Config::difficulityLevel - 1);
+	return static_cast<float>(std::pow(1.20f, Config::difficulityLevel - 1));
 }
 
 void EntityFactory::spawnProjectile(const SpawnProjectileEvent& data, const sf::Vector2i& cellIndex, Direction casterDir)

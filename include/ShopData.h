@@ -33,7 +33,8 @@ enum class StatType
 	BloodballSpell,
 
 	FrostPillarSpell,
-	BladeDanceSpell
+	BladeDanceSpell,
+	ToxicCloudSpell
 };
 
 
