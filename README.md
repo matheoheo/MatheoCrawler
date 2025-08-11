@@ -40,6 +40,7 @@ User can change following settings from the Options menu:
   - Fullscreen mode
   - Virtual Synchronization
   - Anti-aliasing level.
+
 The controls are fixed and can not be changed.
 
 # Goal
