@@ -32,6 +32,7 @@
 #include "SpellEffectSystem.h"
 #include "StatusIconDisplaySystem.h"
 #include "AreaOfEffectSpellSystem.h"
+#include "LevelAdvanceSystem.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
@@ -173,10 +174,10 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<SpellEffectSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<AreaOfEffectSpellSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<StatusIconDisplaySystem>(mSystemContext, mGameContext.textures));
+	mSystemManager.addSystem(std::make_unique<LevelAdvanceSystem>(mSystemContext, mTileMap, mGameContext.fonts.get(FontIdentifiers::UIFont)));
 
 	mSystemManager.addSystem(std::make_unique<BarRenderSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<EntityRenderSystem>(mSystemContext));
-
 
 	mSystemManager.addSystem(std::make_unique<EntityDeathSystem>(mSystemContext));
 }
@@ -207,7 +208,7 @@ void GameState::logOnEnterMessage()
 {
 	auto lvl = Config::difficulityLevel;
 	if(lvl == 1)
-		mGameContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::Custom, 0, "Welcome to MattRawler!"));
+		mGameContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::Custom, 0, "Welcome to MattCrawler!"));
 	std::string msg = "You descend to floor " + std::to_string(lvl);
 	mGameContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::Custom, 0, msg));
 }
@@ -221,6 +222,7 @@ void GameState::doFirstEnter()
 	tasks.push_back([this]() { initalizePathfinder(); });
 	tasks.push_back([this]() { spawnPlayer(); });
 	tasks.push_back([this]() { spawnEntities(); });
+	tasks.push_back([this]() { notifySetLevelAdvancedCellEvent(); });
 	tasks.push_back([this]() { initalizeUI(); });
 	tasks.push_back([this]() { logOnEnterMessage(); });
 
@@ -250,6 +252,7 @@ void GameState::loadNextLevel()
 	tasks.push_back([this]() { initalizePathfinder(); });
 	tasks.push_back([this]() { positionPlayer(); });
 	tasks.push_back([this]() { spawnEntities(); });
+	tasks.push_back([this]() { notifySetLevelAdvancedCellEvent(); });
 	tasks.push_back([this]() { logOnEnterMessage(); });
 	tasks.push_back([this]() { mLevelLoaded = false; });
 
@@ -261,6 +264,11 @@ void GameState::notifyMoveFinished()
 	//We simulate the movement, so the visibility gets updated.
 	auto& spriteComp = mEntityManager.getPlayer().getComponent<SpriteComponent>();
 	mGameContext.eventManager.notify<PlayerMoveFinishedEvent>(PlayerMoveFinishedEvent(spriteComp.cSprite.getPosition()));
+}
+
+void GameState::notifySetLevelAdvancedCellEvent()
+{
+	mGameContext.eventManager.notify<SetLevelAdvanceCellEvent>(SetLevelAdvanceCellEvent(mGenerator.getNextLevelCell()));
 }
 
 void GameState::tryDebug()

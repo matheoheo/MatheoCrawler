@@ -42,8 +42,8 @@ private:
     void populateSpawnPoints(GeneratedMap& map);
     std::vector<sf::Vector2i> getWalkableTilesPosInRoom(GeneratedMap& map, const Room& room) const;
     int getMonsterCountInRoom(int walkableTilesCount);
-
     void sortRooms();
+    void setNextLevelCelll(GeneratedMap& map);
 private:
     //this section is for generating obstacles inside rooms:
     using ObstacleGenerator = std::function<void(GeneratedMap&, const Room&)>;

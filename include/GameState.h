@@ -40,6 +40,7 @@ private:
     void removeEntities();
     void loadNextLevel();
     void notifyMoveFinished();
+    void notifySetLevelAdvancedCellEvent();
 
     void tryDebug();
 private:

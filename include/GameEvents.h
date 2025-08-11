@@ -604,3 +604,12 @@ struct HitByAOESpellEvent : public IEvent
 		isCasterPlayer(isCasterPlayer)
 	{}
 };
+
+struct SetLevelAdvanceCellEvent : public IEvent
+{
+	const sf::Vector2i cell;
+
+	SetLevelAdvanceCellEvent(const sf::Vector2i& cell)
+		:cell(cell)
+	{}
+};

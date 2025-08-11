@@ -81,6 +81,7 @@
     <ClInclude Include="include\ISystem.h" />
     <ClInclude Include="include\ITask.h" />
     <ClInclude Include="include\IVisualEffect.h" />
+    <ClInclude Include="include\LevelAdvanceSystem.h" />
     <ClInclude Include="include\LoadingState.h" />
     <ClInclude Include="include\MenuState.h" />
     <ClInclude Include="include\MessageLogUI.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="src\ISystem.cpp" />
     <ClCompile Include="src\ITask.cpp" />
     <ClCompile Include="src\IVisualEffect.cpp" />
+    <ClCompile Include="src\LevelAdvanceSystem.cpp" />
     <ClCompile Include="src\LoadingState.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MenuState.cpp" />

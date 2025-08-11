@@ -13,8 +13,10 @@ public:
 		const sf::Vector2i& minRoomSize, const sf::Vector2i& maxRoomSize) = 0;
 
 	const SpawnPoints& getSpawnPoints() const;
+	const sf::Vector2i& getNextLevelCell() const;
 protected:
 	SpawnPoints mSpawnPoints;
+	sf::Vector2i mNextLevelCell;
 private:
 };
 

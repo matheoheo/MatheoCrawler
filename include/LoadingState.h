@@ -21,7 +21,6 @@ private:
     void runTasks();
 private:
     sf::Sprite mLoadingSprite;
-    sf::Sprite mGameLogo;
     sf::Text mLoadingText;
     std::vector<std::string> mLoadingStrings;
     size_t mStringIndex;
@@ -29,5 +28,6 @@ private:
     std::jthread mLoadingThread;
     std::atomic<bool> mLoadingFinished;
     LoaderTaskVec mTasks;
+    sf::View defaultView;
 };
 

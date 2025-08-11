@@ -22,6 +22,7 @@ IMapGenerator::GeneratedMap DungeonGenerator::generate(const sf::Vector2i& size,
     createRoomConnections(map);
     addWalls(map);
     populateSpawnPoints(map);
+    setNextLevelCelll(map);
     return map;
 }
 
@@ -391,6 +392,35 @@ void DungeonGenerator::sortRooms()
                 return lhs.area.position.y < rhs.area.position.y;
             return lhs.area.position.x < rhs.area.position.x;
         });
+}
+
+void DungeonGenerator::setNextLevelCelll(GeneratedMap& map)
+{
+    //In this function, we set which tile will have a functionality of upgrading to next level of game.
+
+    //Rooms are sorted - we take lastRoom as our place to have next level advance cell.
+    const auto& lastRoom = mRooms.front();
+    auto isFloor = [](TileType tileType) -> bool
+    {
+        return tileType == TileType::Floor;
+    };
+
+    const auto& roomPos = lastRoom.area.position;
+    const auto& roomSize = lastRoom.area.size;
+
+    //We take corner of the room. If it is a floor (means it is walkable) we set it as our next level and return from function. We got our point.
+    auto corner = map[roomPos.y][roomPos.x];
+    if (isFloor(corner))
+    {
+        mNextLevelCell = roomPos;
+        return;
+    }
+
+    do //Otherwise, we just get random positions inside room till we find one that is a floor.
+    {
+        mNextLevelCell.x = Random::get(roomPos.x, roomPos.x + roomSize.x - 1);
+        mNextLevelCell.y = Random::get(roomPos.y, roomPos.y + roomSize.y - 1);
+    } while (!isFloor(map[mNextLevelCell.y][mNextLevelCell.x]));
 }
 
 void DungeonGenerator::generateObstacles(GeneratedMap& map)

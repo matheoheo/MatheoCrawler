@@ -6,13 +6,14 @@
 LoadingState::LoadingState(GameContext& gameContext, LoaderTaskVec taskQueue)
 	:IState(gameContext),
 	mLoadingSprite(gameContext.textures.get(TextureIdentifier::MattLogo)),
-	mGameLogo(gameContext.textures.get(TextureIdentifier::MattLogo)),
 	mLoadingText(gameContext.fonts.get(FontIdentifiers::Default)),
 	mStringIndex(0),
 	mElaspedFramesCount(0),
 	mLoadingFinished(false),
 	mTasks(std::move(taskQueue))
 {
+	defaultView = sf::View(Config::fWindowSize * 0.5f, Config::fWindowSize);
+	mGameContext.window.setView(defaultView);
 	createLoadingScreen();
 }
 
@@ -50,15 +51,9 @@ void LoadingState::createLoadingScreen()
 {
 	const sf::Vector2f logoSize{ Config::fWindowSize.x * 0.2f, Config::fWindowSize.y * 0.2f };
 	Utilities::scaleSprite(mLoadingSprite, Config::fWindowSize);
-	Utilities::scaleSprite(mGameLogo, logoSize);
 
 	constexpr float margin = 5.f;
 	//change color of gameLogo so it is half transparent
-	auto logoColor = mGameLogo.getColor();
-	logoColor.a = 128;
-	mGameLogo.setColor(logoColor);
-	mGameLogo.setPosition({ Config::fWindowSize.x - logoSize.x - margin, Config::fWindowSize.y - logoSize.y - margin });
-
 	mLoadingStrings =
 	{
 		"Loading in progress",
@@ -93,18 +88,13 @@ void LoadingState::updateLoadingScreen()
 void LoadingState::renderLoadingScreen()
 {
 	mGameContext.window.draw(mLoadingSprite);
-	mGameContext.window.draw(mGameLogo);
 	mGameContext.window.draw(mLoadingText);
 }
 
 void LoadingState::runTasks()
 {
 	for (const auto& task : mTasks)
-	{
 		task();
-		//std::this_thread::sleep_for(std::chrono::milliseconds(1250));
-
-	}
 
 	std::cout << "All tasks loaded\n";
 	std::this_thread::sleep_for(std::chrono::milliseconds(250));
