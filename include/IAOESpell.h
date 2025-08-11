@@ -25,6 +25,9 @@ protected:
 	std::vector<const Tile*> getAffectedTiles(const std::vector<sf::Vector2i>& offsets, const sf::Vector2f& aroundPos) const;
 	std::vector<Entity*> getAffectedEntities(const std::vector<sf::Vector2i>& offsets, const sf::Vector2f& aroundPos) const;
 	const sf::Vector2f& getCasterPos() const;
+
+	void hitEntities(std::vector<Entity*> entities, SpellIdentifier id, EventManager& eventManager,
+		SpellEffect effect = SpellEffect::None);
 protected:
 	const Entity& mCaster;
 	const TileMap& mTileMap;

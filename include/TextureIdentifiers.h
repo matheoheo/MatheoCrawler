@@ -43,6 +43,7 @@ enum class TextureIdentifier
 	FrostPillarIcon,
 	BladeDanceIcon,
 	ToxicCloudIcon,
+	ThunderstormIcon,
 
 	//Effects icons
 	FireBurnIcon,

@@ -32,14 +32,13 @@ void StatisticsShopCategory::render()
 
 void StatisticsShopCategory::onCreate(const sf::Vector2f& pos, const sf::Vector2f& categorySize)
 {
-	constexpr TextureIdentifier tmpId{ TextureIdentifier::Attack1Icon }; //placeholder
 	const std::array<ItemInitData, 5> itemsData =
 	{ {
-		{.iconId = TextureIdentifier::HpIcon,       .name = "Health Points", .type = StatType::Health},
-		{.iconId = TextureIdentifier::AttDmgIcon,   .name = "Attack Damage", .type = StatType::Attack},
-		{.iconId = TextureIdentifier::AttSpeedIcon, .name = "Attack Speed",	 .type = StatType::AttackSpeed},
-		{.iconId = tmpId, .name = "Physical Defence", .type = StatType::Defence},
-		{.iconId = tmpId, .name = "Magic Defence",	  .type = StatType::MagicDefence}
+		{.iconId = TextureIdentifier::HpIcon,       .name = "Health Points",	.type = StatType::Health},
+		{.iconId = TextureIdentifier::AttDmgIcon,   .name = "Attack Damage",	.type = StatType::Attack},
+		{.iconId = TextureIdentifier::AttSpeedIcon, .name = "Attack Speed",	    .type = StatType::AttackSpeed},
+		{.iconId = TextureIdentifier::PhysDefIcon,  .name = "Physical Defence", .type = StatType::Defence},
+		{.iconId = TextureIdentifier::MagDefIcon,   .name = "Magic Defence",	.type = StatType::MagicDefence}
 	} };
 
 	createItems(itemsData);

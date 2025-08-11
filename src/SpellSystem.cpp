@@ -219,12 +219,13 @@ bool SpellSystem::isProjectileSpell(SpellIdentifier id) const
 bool SpellSystem::isAOESpell(SpellIdentifier id) const
 {
 	return id == SpellIdentifier::FrostPillar || id == SpellIdentifier::BladeDance ||
-		id == SpellIdentifier::ToxicCloud;
+		id == SpellIdentifier::ToxicCloud || id == SpellIdentifier::Thunderstorm;
 }
 
 bool SpellSystem::doesSpellDependOnMousePos(SpellIdentifier id) const
 {
-	return id == SpellIdentifier::FrostPillar;
+	return id == SpellIdentifier::FrostPillar ||
+		   id == SpellIdentifier::Thunderstorm;
 }
 
 void SpellSystem::addToFinished(Entity* entity)

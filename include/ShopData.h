@@ -34,7 +34,8 @@ enum class StatType
 
 	FrostPillarSpell,
 	BladeDanceSpell,
-	ToxicCloudSpell
+	ToxicCloudSpell,
+	ThunderstormSpell
 };
 
 

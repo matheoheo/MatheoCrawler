@@ -352,6 +352,9 @@
     <ClInclude Include="include\ToxicCloudSpell.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\ThunderstormSpell.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -642,6 +645,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\ToxicCloudSpell.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ThunderstormSpell.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

@@ -45,6 +45,7 @@ void SpellHolder::initalizeSpells()
     createFrostPillar();
     createBladeDance();
     createToxicCloud();
+    createThunderstorm();
 
     createMorannaProjectile();
 }
@@ -378,6 +379,34 @@ void SpellHolder::createToxicCloud()
             .shortDescription = "Spreads a toxic fog that harms enemies.",
             .longDescription = "Conjures a toxic mist that damages enemies over time. Effective for area denial and softening large groups.",
             .textureId = TextureIdentifier::ToxicCloudIcon //temporary placeholder
+        }
+    };
+}
+
+void SpellHolder::createThunderstorm()
+{
+    SpellIdentifier id{ SpellIdentifier::Thunderstorm };
+    SpellData data;
+    data.type = SpellType::AreaOfEffect;
+    data.spellId = id;
+    data.castTime = 600;
+    data.cooldown = 11 * 1000;
+    data.cost = 36;
+    data.aoe = AreaOfEffectSpell{
+        .minDmg = 29,
+        .maxDmg = 34,
+        .offsets = std::vector<sf::Vector2i>{ {-1,0}, {1, 0}, {0, -1}, {0, 1}, {0, 0} },
+        .effect = SpellEffect::None
+    };
+    mSpellsMap.emplace(id, std::move(data));
+
+    mDefinitions[id] = SpellDefinition{
+        .data = &mSpellsMap.at(id),
+        .spellInfo {
+            .name = "Thunderstorm",
+            .shortDescription = "Storm of lightning strikes.",
+            .longDescription = "Summon clouds that unleash a rapid barrage of lightning upon your foes.",
+            .textureId = TextureIdentifier::ThunderstormIcon
         }
     };
 }

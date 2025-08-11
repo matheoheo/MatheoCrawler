@@ -3,6 +3,7 @@
 #include "FrostPillarSpell.h"
 #include "BladeDanceSpell.h"
 #include "ToxicCloudSpell.h"
+#include "ThunderstormSpell.h"
 
 AreaOfEffectSpellSystem::AreaOfEffectSpellSystem(SystemContext& systemContext, const TileMap& tileMap)
 	:ISystem(systemContext),
@@ -54,5 +55,8 @@ void AreaOfEffectSpellSystem::createSpellsRegistry()
 	};
 	mSpellsRegistry[SpellIdentifier::ToxicCloud] = [this](const CastAOESpellEvent& data) {
 		return std::make_unique<ToxicCloudSpell>(data.source, mTileMap, data.castPos);
+	};
+	mSpellsRegistry[SpellIdentifier::Thunderstorm] = [this](const CastAOESpellEvent& data) {
+		return std::make_unique<ThunderstormSpell>(data.source, mTileMap, data.castPos);
 	};
 }

@@ -149,19 +149,20 @@ void SpellcraftShopCategory::createStatTypeToSpellIdMap()
 {
 	mStatTypeToSpellIdMap =
 	{
-		{StatType::QuickHealSpell,   SpellIdentifier::QuickHeal},
-		{StatType::MajorHealSpell,   SpellIdentifier::MajorHeal},
-		{StatType::HealthRegenSpell, SpellIdentifier::HealthRegen},
-		{StatType::ManaRegenSpell,   SpellIdentifier::ManaRegen},
+		{StatType::QuickHealSpell,    SpellIdentifier::QuickHeal},
+		{StatType::MajorHealSpell,    SpellIdentifier::MajorHeal},
+		{StatType::HealthRegenSpell,  SpellIdentifier::HealthRegen},
+		{StatType::ManaRegenSpell,    SpellIdentifier::ManaRegen},
 
-		{StatType::WaterballSpell,   SpellIdentifier::WaterBall},
-		{StatType::PureProjSpell,    SpellIdentifier::PureProjectile},
-		{StatType::FireballSpell,    SpellIdentifier::Fireball},
-		{StatType::BloodballSpell,   SpellIdentifier::Bloodball},
+		{StatType::WaterballSpell,    SpellIdentifier::WaterBall},
+		{StatType::PureProjSpell,     SpellIdentifier::PureProjectile},
+		{StatType::FireballSpell,     SpellIdentifier::Fireball},
+		{StatType::BloodballSpell,    SpellIdentifier::Bloodball},
 
-		{StatType::FrostPillarSpell, SpellIdentifier::FrostPillar},
-		{StatType::BladeDanceSpell,  SpellIdentifier::BladeDance},
-		{StatType::ToxicCloudSpell,  SpellIdentifier::ToxicCloud}
+		{StatType::FrostPillarSpell,  SpellIdentifier::FrostPillar},
+		{StatType::BladeDanceSpell,   SpellIdentifier::BladeDance},
+		{StatType::ToxicCloudSpell,   SpellIdentifier::ToxicCloud},
+		{StatType::ThunderstormSpell, SpellIdentifier::Thunderstorm}
 	};
 }
 
@@ -188,7 +189,7 @@ void SpellcraftShopCategory::createSpellUpgrades()
 	mSpellUpgrades[Stat::FrostPillarSpell] = std::make_unique<AOEStrat>(ID::FrostPillar, getStatIncrease(Stat::FrostPillarSpell));
 	mSpellUpgrades[Stat::BladeDanceSpell] = std::make_unique<AOEStrat>(ID::BladeDance, getStatIncrease(Stat::BladeDanceSpell));
 	mSpellUpgrades[Stat::ToxicCloudSpell] = std::make_unique<AOEStrat>(ID::ToxicCloud, getStatIncrease(Stat::ToxicCloudSpell));
-
+	mSpellUpgrades[Stat::ThunderstormSpell] = std::make_unique<AOEStrat>(ID::Thunderstorm, getStatIncrease(Stat::ThunderstormSpell));
 }
 
 void SpellcraftShopCategory::setUpgradeLevelsLimit()
@@ -216,12 +217,13 @@ void SpellcraftShopCategory::setMinLevelToAssign()
 	//User must upgrade them once first.
 	//This function, defines which one require this.
 	constexpr int minUpgradeLevel = 2;
-	constexpr size_t count = 9;
+	constexpr size_t count = 10;
 	constexpr std::array<StatType, count> requireUpgrade =
 	{
 		StatType::MajorHealSpell, StatType::HealthRegenSpell, StatType::ManaRegenSpell,
 		StatType::PureProjSpell, StatType::BloodballSpell, StatType::FireballSpell,
-		StatType::FrostPillarSpell, StatType::BladeDanceSpell, StatType::ToxicCloudSpell
+		StatType::FrostPillarSpell, StatType::BladeDanceSpell, StatType::ToxicCloudSpell,
+		StatType::ThunderstormSpell
 	};
 
 	for (auto& item : mItems)
@@ -358,11 +360,12 @@ std::vector<ItemInitData> SpellcraftShopCategory::getProjectilesItemsInitData() 
 
 std::vector<ItemInitData> SpellcraftShopCategory::getAreaOfEffectItemsInitData() const
 {
-	constexpr std::array<SpellShopMapping, 3> aoeData =
+	constexpr std::array<SpellShopMapping, 4> aoeData =
 	{{
-		{SpellIdentifier::FrostPillar, StatType::FrostPillarSpell},
-		{SpellIdentifier::BladeDance,  StatType::BladeDanceSpell},
-		{SpellIdentifier::ToxicCloud,  StatType::ToxicCloudSpell}
+		{SpellIdentifier::FrostPillar,  StatType::FrostPillarSpell},
+		{SpellIdentifier::BladeDance,   StatType::BladeDanceSpell},
+		{SpellIdentifier::ToxicCloud,   StatType::ToxicCloudSpell},
+		{SpellIdentifier::Thunderstorm, StatType::ThunderstormSpell}
 	} };
 
 	return createItemInitData(aoeData);
@@ -418,6 +421,8 @@ int SpellcraftShopCategory::getBasicItemCost(StatType type) const
 		return 5000;
 	case StatType::ToxicCloudSpell:
 		return 5500;
+	case StatType::ThunderstormSpell:
+		return 6000;
 	}
 	return 0;
 }
@@ -451,6 +456,8 @@ float SpellcraftShopCategory::getStatIncrease(StatType type) const
 		return 3;
 	case StatType::ToxicCloudSpell:
 		return 5;
+	case StatType::ThunderstormSpell:
+		return 6;
 	}
 	return 0;
 }

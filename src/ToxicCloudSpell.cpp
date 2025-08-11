@@ -134,7 +134,7 @@ float ToxicCloudSpell::getRandomParticleSpeed() const
 
 sf::Color ToxicCloudSpell::getRandomBaseCircleColor() const
 {
-	constexpr std::array<sf::Color, 4> availableColors =
+	static constexpr std::array<sf::Color, 4> availableColors =
 	{
 		Colors::darkGreen, Colors::mossGreen, Colors::toxicGreen, Colors::limeFog
 	};
@@ -144,7 +144,7 @@ sf::Color ToxicCloudSpell::getRandomBaseCircleColor() const
 
 sf::Color ToxicCloudSpell::getRandomParticleColor() const
 {
-	constexpr std::array<sf::Color, 3> availableColors =
+	static constexpr std::array<sf::Color, 3> availableColors =
 	{
 		Colors::lightLime, Colors::paleMist, Colors::acidGlow
 	};
@@ -187,16 +187,10 @@ void ToxicCloudSpell::updateDamageTick(const sf::Time& deltaTime, EventManager& 
 	if (mTimeSinceLastDamage < Timing::damageTickTime)
 		return;
 
-	bool isCasterPlayer = mCaster.hasComponent<PlayerComponent>();
 	const auto& spell = SpellHolder::getInstance().get(SpellIdentifier::ToxicCloud);
 	const auto& offsets = spell.aoe->offsets;
 	auto affectedEntities = getAffectedEntities(offsets, mCastPos);
-
-	for (Entity* ent : affectedEntities)
-	{
-		int dmg = Random::get(spell.aoe->minDmg, spell.aoe->maxDmg);
-		eventManager.notify<HitByAOESpellEvent>(HitByAOESpellEvent(*ent, dmg, isCasterPlayer));
-	}
-
+	IAOESpell::hitEntities(affectedEntities, SpellIdentifier::ToxicCloud, eventManager);
+	
 	mTimeSinceLastDamage = 0;
 }

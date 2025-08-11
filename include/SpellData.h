@@ -56,7 +56,7 @@ struct SpellInfo
 	std::string name;
 	std::string shortDescription;
 	std::string longDescription;
-	TextureIdentifier textureId;
+	TextureIdentifier textureId = TextureIdentifier::Attack1Icon; //as placeholder
 	std::vector<std::pair<std::string, std::string>> attributes;
 };
 

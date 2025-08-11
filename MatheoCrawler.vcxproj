@@ -124,6 +124,7 @@
     <ClInclude Include="include\SystemManager.h" />
     <ClInclude Include="include\TextButton.h" />
     <ClInclude Include="include\TextureIdentifiers.h" />
+    <ClInclude Include="include\ThunderstormSpell.h" />
     <ClInclude Include="include\TickingSpelllEffect.h" />
     <ClInclude Include="include\Tile.h" />
     <ClInclude Include="include\TileFadeSystem.h" />
@@ -222,6 +223,7 @@
     <ClCompile Include="src\StatusIconDisplaySystem.cpp" />
     <ClCompile Include="src\SystemManager.cpp" />
     <ClCompile Include="src\TextButton.cpp" />
+    <ClCompile Include="src\ThunderstormSpell.cpp" />
     <ClCompile Include="src\TickingSpelllEffect.cpp" />
     <ClCompile Include="src\TileFadeSystem.cpp" />
     <ClCompile Include="src\TileMap.cpp" />

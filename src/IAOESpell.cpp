@@ -3,6 +3,8 @@
 #include "Utilities.h"
 #include "TileMap.h"
 #include "Entity.h"
+#include "SpellHolder.h"
+#include "Random.h"
 
 IAOESpell::IAOESpell(const Entity& caster, const TileMap& tileMap, const sf::Vector2f& castPos)
     :mCaster(caster),
@@ -76,4 +78,24 @@ std::vector<Entity*> IAOESpell::getAffectedEntities(const std::vector<sf::Vector
 const sf::Vector2f& IAOESpell::getCasterPos() const
 {
     return mCaster.getComponent<PositionComponent>().cLogicPosition;
+}
+
+void IAOESpell::hitEntities(std::vector<Entity*> entities, SpellIdentifier id, EventManager& eventManager, SpellEffect effect)
+{
+    const auto& spell = SpellHolder::getInstance().get(id);
+    bool isPlayerCaster = mCaster.hasComponent<PlayerComponent>();
+    for (Entity* ent : entities)
+    {
+        bool isPlayerHit = ent->hasComponent<PlayerComponent>();
+        //if spell was casted by player and player would be hit - we skip,
+        //as well if spell wasn't casted by player and it's not player that got hit
+        //we do not allow friendly fire.
+        if ((isPlayerCaster && isPlayerHit) || (!isPlayerCaster && !isPlayerHit))
+            continue;
+
+        int dmg = Random::get(spell.aoe->minDmg, spell.aoe->maxDmg);
+        eventManager.notify<HitByAOESpellEvent>(HitByAOESpellEvent(*ent, dmg, isPlayerCaster));
+        if (effect != SpellEffect::None)
+            eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(*ent, effect));
+    }
 }

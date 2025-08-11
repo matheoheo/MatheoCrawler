@@ -45,20 +45,8 @@ void BladeDanceSpell::makeDamage(EventManager& eventManager)
 	const auto& pos = mCaster.getComponent<PositionComponent>().cLogicPosition;
 	const auto& spell = SpellHolder::getInstance().get(SpellIdentifier::BladeDance);
 	const auto& offsets = spell.aoe->offsets;
-	bool isCasterPlayer = mCaster.hasComponent<PlayerComponent>();
-
 	auto hitEntities = getAffectedEntities(offsets, pos);
-
-	for (Entity* ent : hitEntities)
-	{
-		bool isEntPlayer = ent->hasComponent<PlayerComponent>();
-		//no friendly damage between monsters.
-		if (!isCasterPlayer && !isEntPlayer)
-			continue;
-
-		int dmg = Random::get(spell.aoe->minDmg, spell.aoe->maxDmg);
-		eventManager.notify<HitByAOESpellEvent>(HitByAOESpellEvent(*ent, dmg, isCasterPlayer));
-	}
+	IAOESpell::hitEntities(hitEntities, SpellIdentifier::BladeDance, eventManager);
 }
 
 BladeDanceSpell::BladeRect BladeDanceSpell::createBladeRect(sf::Angle angle, bool isFriendly) const

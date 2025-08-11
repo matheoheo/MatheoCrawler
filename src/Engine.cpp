@@ -82,6 +82,9 @@ void Engine::preloadAssets()
 	mTextures.load(TextureIdentifier::HpIcon,       "assets/ui/attributes/hpIcon.png");
 	mTextures.load(TextureIdentifier::AttDmgIcon,   "assets/ui/attributes/attDmgIcon.png");
 	mTextures.load(TextureIdentifier::AttSpeedIcon, "assets/ui/attributes/attSpeedIcon.png");
+	mTextures.load(TextureIdentifier::PhysDefIcon,  "assets/ui/attributes/physDefIcon.png");
+	mTextures.load(TextureIdentifier::MagDefIcon,   "assets/ui/attributes/magDefIcon.png");
+
 
 
 	mTextures.load(TextureIdentifier::QuickHealIcon,   "assets/ui/spellIcons/healing/QuickHeal.png");
@@ -93,9 +96,10 @@ void Engine::preloadAssets()
 	mTextures.load(TextureIdentifier::FireballIcon,    "assets/ui/spellIcons/projectiles/fireball.png");
 	mTextures.load(TextureIdentifier::BloodballIcon,   "assets/ui/spellIcons/projectiles/bloodball.png");
 	
-	mTextures.load(TextureIdentifier::FrostPillarIcon, "assets/ui/spellIcons/aoe/frostPillar.png");
-	mTextures.load(TextureIdentifier::BladeDanceIcon,  "assets/ui/spellIcons/aoe/bladeDance.png");
-	mTextures.load(TextureIdentifier::ToxicCloudIcon,  "assets/ui/spellIcons/aoe/toxicCloud.png");
+	mTextures.load(TextureIdentifier::FrostPillarIcon,  "assets/ui/spellIcons/aoe/frostPillar.png");
+	mTextures.load(TextureIdentifier::BladeDanceIcon,   "assets/ui/spellIcons/aoe/bladeDance.png");
+	mTextures.load(TextureIdentifier::ToxicCloudIcon,   "assets/ui/spellIcons/aoe/toxicCloud.png");
+	mTextures.load(TextureIdentifier::ThunderstormIcon, "assets/ui/spellIcons/aoe/thunderstorm.png");
 
 	mTextures.load(TextureIdentifier::FireBurnIcon,      "assets/icons/fireBurnIcon.png");
 	mTextures.load(TextureIdentifier::MoveSpeedSlowIcon, "assets/icons/moveSlowIcon.png");

@@ -40,7 +40,6 @@ void BladeArtsShopCategory::onCreate(const sf::Vector2f& pos, const sf::Vector2f
 
 	createItems(itemsData);
 	setDescriptionPos(pos);
-	makeItemsAssignable();
 	determineItemsBorderColor();
 }
 

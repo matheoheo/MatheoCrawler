@@ -18,6 +18,7 @@ enum class SpellIdentifier
 	FrostPillar,
 	BladeDance,
 	ToxicCloud,
+	Thunderstorm,
 
 	//Spells that are treated as basic attacks for ranged entities
 	MorannaProjectile

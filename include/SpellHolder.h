@@ -29,9 +29,11 @@ private:
 	void createFireball();
 	void createBloodball();
 
+	//aoe spells
 	void createFrostPillar();
 	void createBladeDance();
 	void createToxicCloud();
+	void createThunderstorm();
 
 	void createMorannaProjectile();
 private:

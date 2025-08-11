@@ -72,7 +72,7 @@ void GameState::update(const sf::Time& deltaTime)
 		{
 			auto& player = mEntityManager.getPlayer();
 			auto pos = Utilities::getEntityPos(player);
-			mGameContext.eventManager.notify<CastAOESpellEvent>(CastAOESpellEvent(player, SpellIdentifier::ToxicCloud, fMousePos));
+			mGameContext.eventManager.notify<CastAOESpellEvent>(CastAOESpellEvent(player, SpellIdentifier::Thunderstorm, fMousePos));
 			randomClock.restart();
 			return;
 		}
