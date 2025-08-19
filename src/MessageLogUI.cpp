@@ -49,6 +49,7 @@ void MessageLogUI::createMessageColors()
 	mMessageColors[MessageType::GoldEarned]        = sf::Color{ 255, 215, 0}; //gold color
 	mMessageColors[MessageType::PlayerDealtDamage] = sf::Color{ 255, 140, 0 }; // dark orange
 	mMessageColors[MessageType::PlayerGotHit]      = sf::Color{ 220, 20,  60 }; //redish
+	mMessageColors[MessageType::CanAdvance]        = sf::Color{ 185, 150, 0 }; //yellowish
 	mMessageColors[MessageType::Custom]            = sf::Color{ 173, 216, 230 }; //light blue
 }
 
@@ -118,6 +119,8 @@ void MessageLogUI::determineNewMessageString(const LogMessageEvent& data)
 	case MessageType::PlayerGotHit:
 		fullStr = "Ouch! -" + valueStr + " HP.";
 		break;
+	case MessageType::CanAdvance:
+		fullStr = "Press E to advance to next level!";
 	default:
 		break;
 	}

@@ -41,6 +41,7 @@ public:
 
 
 	const Tile* getTile(int x, int y) const;
+	const Tile* getTile(const sf::Vector2f& pos) const;
 private:
 	void createTiles(const IMapGenerator::GeneratedMap& map);
 	void renderVisibleTiles(sf::RenderWindow& window) const;

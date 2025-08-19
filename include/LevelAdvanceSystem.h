@@ -14,7 +14,8 @@ public:
 private:
 	void registerToEvents();
 	void registerToSetLevelAdvanceCellEvent();
-	
+	void registerToPlayerMovedEvent();
+
 	const Tile* getAdvanceTile() const;
 	bool isAdvanceTileVisible() const;
 	bool isPlayerOnAdvanceCell() const;
@@ -23,8 +24,10 @@ private:
 	void notifyAdvanceEvent();
 	void createAdvanceText();
 	void positionTextOnCellBottom();
-
 	void updateAdvanceText(const sf::Time& deltaTime);
+
+	void sendAdvanceMessage();
+
 private:
 	const TileMap& mTileMap;
 	sf::Vector2i mLevelAdvanceCell;

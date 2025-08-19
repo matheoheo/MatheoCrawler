@@ -3,6 +3,7 @@
 #include "TileMap.h"
 #include "Utilities.h"
 #include "Config.h"
+#include "MessageTypes.h"
 
 LevelAdvanceSystem::LevelAdvanceSystem(SystemContext& systemContext, const TileMap& tileMap, const sf::Font& font)
 	:ISystem(systemContext),
@@ -34,6 +35,7 @@ void LevelAdvanceSystem::render(sf::RenderWindow& window)
 void LevelAdvanceSystem::registerToEvents()
 {
 	registerToSetLevelAdvanceCellEvent();
+	registerToPlayerMovedEvent();
 }
 
 void LevelAdvanceSystem::registerToSetLevelAdvanceCellEvent()
@@ -42,6 +44,20 @@ void LevelAdvanceSystem::registerToSetLevelAdvanceCellEvent()
 		{
 			mLevelAdvanceCell = data.cell;
 			createAdvanceText();
+		});
+}
+
+void LevelAdvanceSystem::registerToPlayerMovedEvent()
+{
+	mSystemContext.eventManager.registerEvent<PlayerMoveFinishedEvent>([this](const PlayerMoveFinishedEvent& data)
+		{
+			auto playerTile = mTileMap.getTile(data.newPlayerPos);
+			auto advanceTile = getAdvanceTile();
+			if (!playerTile || !advanceTile)
+				return;
+
+			if (playerTile == advanceTile)
+				sendAdvanceMessage();
 		});
 }
 
@@ -134,4 +150,9 @@ void LevelAdvanceSystem::updateAdvanceText(const sf::Time& deltaTime)
 		positionTextOnCellBottom();
 		mAdvanceTimer = 0;
 	}
+}
+
+void LevelAdvanceSystem::sendAdvanceMessage()
+{
+	mSystemContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::CanAdvance));
 }

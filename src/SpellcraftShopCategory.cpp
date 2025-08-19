@@ -12,7 +12,6 @@
 SpellcraftShopCategory::SpellcraftShopCategory(GameContext& gameContext, Entity& player)
 	:IShopCategory(gameContext, player)
 {
-	player.getComponent<PlayerResourcesComponent>().cGold = 1200000;
 	mItemsPerRow = 4;
 	mSpellCategories.reserve(mSpellTypesCount);
 	mItems.reserve(mItemsPerRow);

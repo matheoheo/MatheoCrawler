@@ -63,21 +63,7 @@ void GameState::update(const sf::Time& deltaTime)
 {
 	mGameContext.window.setView(mGameView);
 	IState::updateMousePosition();
-	tryDebug();
 	mSystemManager.update(deltaTime);
-
-	static sf::Clock randomClock;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Numpad5))
-	{
-		if (randomClock.getElapsedTime().asMilliseconds() > 600)
-		{
-			auto& player = mEntityManager.getPlayer();
-			auto pos = Utilities::getEntityPos(player);
-			mGameContext.eventManager.notify<CastAOESpellEvent>(CastAOESpellEvent(player, SpellIdentifier::Thunderstorm, fMousePos));
-			randomClock.restart();
-			return;
-		}
-	}
 	
 	if (!mLevelLoaded)
 	{
@@ -225,7 +211,7 @@ void GameState::doFirstEnter()
 	tasks.push_back([this]() { notifySetLevelAdvancedCellEvent(); });
 	tasks.push_back([this]() { initalizeUI(); });
 	tasks.push_back([this]() { logOnEnterMessage(); });
-
+	tasks.push_back([this]() {mEntityManager.getPlayer().getComponent<PlayerResourcesComponent>().cGold = 93219; });
 	mGameContext.eventManager.notify<EnterLoadingStateEvent>(EnterLoadingStateEvent(std::move(tasks)));
 }
 
@@ -271,27 +257,3 @@ void GameState::notifySetLevelAdvancedCellEvent()
 	mGameContext.eventManager.notify<SetLevelAdvanceCellEvent>(SetLevelAdvanceCellEvent(mGenerator.getNextLevelCell()));
 }
 
-void GameState::tryDebug()
-{
-	static size_t ctr = 0;
-	auto mousePos = sf::Mouse::getPosition(mGameContext.window);
-	auto fMousePos = mGameContext.window.mapPixelToCoords(mousePos, mGameView);
-
-	auto cell = Utilities::getCellIndex(fMousePos);
-	auto ents = mTileMap.getEntitiesOnTile(cell.x, cell.y);
-
-	for (const Entity* ent : ents)
-	{
-		if (ent->hasComponent<EntityAIStateComponent>())
-		{
-			auto state = ent->getComponent<EntityAIStateComponent>().cState;
-			std::cout << ctr++ << ". AI State of this Entity is: " << static_cast<int>(state) << '\n';
-			std::cout << "ITS ID: " << ent->getEntityId() << '\n';
-		}
-		if (ent->hasComponent<EntityStateComponent>())
-		{
-			auto state = ent->getComponent<EntityStateComponent>().cCurrentState;
-			std::cout << ctr << ". ENTITY State of this is: " << static_cast<int>(state) << '\n';
-		}
-	}
-}

@@ -205,6 +205,12 @@ const Tile* TileMap::getTile(int x, int y) const
 	return &mTiles[y][x];
 }
 
+const Tile* TileMap::getTile(const sf::Vector2f& pos) const
+{
+	auto cell = Utilities::getCellIndex(pos);
+	return getTile(cell.x, cell.y);
+}
+
 void TileMap::createTiles(const IMapGenerator::GeneratedMap& map)
 {
 	const size_t mapHeight = map.size();

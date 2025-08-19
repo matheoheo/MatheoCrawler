@@ -41,8 +41,6 @@ private:
     void loadNextLevel();
     void notifyMoveFinished();
     void notifySetLevelAdvancedCellEvent();
-
-    void tryDebug();
 private:
     sf::View mGameView;
     TileMap mTileMap;
