@@ -2,8 +2,27 @@
 Matheo Crawler, is a 2D dungeon game, written used C++20 and SFML 3.0;
 The project, is developed as part of portfolio, but might serve as a source of entertainment or inspiration for others.
 It was designed and programmed solely by one person.
+<table>
+  <tr>
+    <td align="center">YouTube</td>
+    <td align="center">GIF1</td>
+    <td align="center">GIF2</td>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://www.youtube.com/watch?v=kf6KJM5h47o">
+        <img src="https://img.youtube.com/vi/kf6KJM5h47o/0.jpg" alt="Gameplay" height="200">
+      </a>
+    </td>
+    <td>
+      <img src="assets/gifs/gifone.gif" alt="GIF1" height="200">
+    </td>
+    <td>
+      <img src="assets/gifs/giftwo.gif" alt="GIF2" height="200">
+    </td>
+  </tr>
+</table>
 
-[![Gameplay](https://img.youtube.com/vi/kf6KJM5h47o/0.jpg)](https://www.youtube.com/watch?v=kf6KJM5h47o)
 
 # Features
 I have developed a few different algorithms and techniques to better my skills and enrich the gameplay, such as:
