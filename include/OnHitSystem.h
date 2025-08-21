@@ -1,5 +1,6 @@
 #pragma once
 #include "ISystem.h"
+#include "GameStatisticTypes.h"
 
 class OnHitSystem :
     public ISystem
@@ -25,6 +26,7 @@ private:
     void notifyPlayerAttacked(int dmg);
     void notifyPlayerHit(int dmg);
     void notifyHealthBarSystem(Entity& entity);
+    void notifyStatisticSystem(StatisticType, int value);
 private:
 
 };

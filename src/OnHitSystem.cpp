@@ -110,10 +110,16 @@ void OnHitSystem::processHit(Entity& target, int damage, bool attackerIsPlayer, 
     {
         notifyPlayerAttacked(actualDmg);
         notifyHealthBarSystem(target);
+        notifyStatisticSystem(StatisticType::TotalDamageDealt, actualDmg);
+        notifyStatisticSystem(StatisticType::HitsDealt, 1);
     }
 
     if (targetIsPlayer)
+    {
         notifyPlayerHit(actualDmg);
+        notifyStatisticSystem(StatisticType::TotalDamageTaken, actualDmg);
+        notifyStatisticSystem(StatisticType::HitsTaken, 1);
+    }
 
     if (hasDied)
     {
@@ -124,6 +130,7 @@ void OnHitSystem::processHit(Entity& target, int damage, bool attackerIsPlayer, 
         else
         {
             notifyEntityDied(target);
+            notifyStatisticSystem(StatisticType::EnemiesDefeated, 1); //1 = 1 enemy died
         }
     }
 }
@@ -157,4 +164,9 @@ void OnHitSystem::notifyPlayerHit(int dmg)
 void OnHitSystem::notifyHealthBarSystem(Entity& entity)
 {
     mSystemContext.eventManager.notify<HealthBarUpdateEvent>(HealthBarUpdateEvent(entity));
+}
+
+void OnHitSystem::notifyStatisticSystem(StatisticType type, int value)
+{
+    mSystemContext.eventManager.notify<RecordStatisticEvent>(RecordStatisticEvent(type, value));
 }

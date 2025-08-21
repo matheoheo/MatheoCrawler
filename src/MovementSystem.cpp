@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "MovementSystem.h"
 #include "Utilities.h"
+#include "GameStatisticTypes.h"
 
 MovementSystem::MovementSystem(SystemContext& systemContext)
 	:ISystem(systemContext),
@@ -59,7 +60,10 @@ void MovementSystem::finishMovement(Entity& entity)
 	stateComp.cCurrentState = EntityState::Idle;
 
 	if (entity.hasComponent<PlayerComponent>())
+	{
 		mSystemContext.eventManager.notify<PlayerMoveFinishedEvent>(PlayerMoveFinishedEvent(moveComp.cNextPos));
+		mSystemContext.eventManager.notify<RecordStatisticEvent>(RecordStatisticEvent(StatisticType::StepsTaken, 1)); //1 = 1 step taken
+	}
 	else
 		mSystemContext.eventManager.notify<EntityMoveFinishedEvent>(EntityMoveFinishedEvent(entity, moveComp.cNextPos));
 

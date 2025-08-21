@@ -358,6 +358,18 @@
     <ClInclude Include="include\LevelAdvanceSystem.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\PauseMenuUI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameOverUI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameStatisticsSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameStatisticTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -654,6 +666,15 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\LevelAdvanceSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PauseMenuUI.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameOverUI.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameStatisticsSystem.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

@@ -18,3 +18,8 @@ void EventManager::unregister(const EventHandle& eventHandle)
 		}), std::end(vec));
 
 }
+
+void EventManager::clearAllEvents()
+{
+	mCallbacks.clear();
+}

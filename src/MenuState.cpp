@@ -8,6 +8,11 @@ MenuState::MenuState(GameContext& gameContext)
 	:IState(gameContext),
 	mBackground(gameContext.textures.get(TextureIdentifier::MenuBackground))
 {
+	mMenuView.setSize(Config::fWindowSize);
+	mMenuView.setCenter(Config::fWindowSize * 0.5f);
+	gameContext.window.setView(mMenuView);
+
+	gameContext.eventManager.notify<ClearNonGlobalEvents>(ClearNonGlobalEvents());
 }
 
 void MenuState::onEnter()

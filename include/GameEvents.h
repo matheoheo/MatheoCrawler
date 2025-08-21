@@ -3,6 +3,7 @@
 #include "AnimationHolder.h"
 #include "SpellIdentifiers.h"
 #include "IMapGenerator.h"
+#include "GameStatisticTypes.h"
 
 class Entity;
 struct Tile;
@@ -11,6 +12,7 @@ enum class EntityType;
 enum class Direction;
 enum class MessageType;
 enum class StateIdentifier;
+
 
 struct IEvent
 {
@@ -612,4 +614,47 @@ struct SetLevelAdvanceCellEvent : public IEvent
 	SetLevelAdvanceCellEvent(const sf::Vector2i& cell)
 		:cell(cell)
 	{}
+};
+
+struct ProceedToMainMenuEvent : public IEvent
+{
+	//no data needed
+};
+
+struct RecordStatisticEvent : public IEvent
+{
+	StatisticType type;
+	int value;
+
+	RecordStatisticEvent(StatisticType type, int val)
+		:type(type),
+		value(val)
+	{}
+};
+
+struct PlayerDiedEvent : public IEvent
+{
+
+};
+
+struct PlayerRunEndedEvent : public IEvent
+{
+	//const GameStatisticsSystem::StatisticMap& statsMap;
+	const StatisticMap& statsMap;
+	PlayerRunEndedEvent(const StatisticMap& statsMap)
+		:statsMap(statsMap)
+	{}
+};
+
+struct ClearNonGlobalEvents : public IEvent
+{
+	//Well, most of the events are regsitered in GameState
+	//Only 3(as of now) are global - those in StateManager.
+	//I need an option, to remove events that systems in GameState registered, because, by default, they are not removed.
+	//This options is required, because, if user went from Menu -> GameState -> Back to Menu
+	//Then all those events are duplicated - which causes access violations.
+	//I should have been unregistering in destructors, but failed to do so while projecting my code.
+	//That's why, after further inspection of events, i decided that since only 3 events are outside of GameState,
+	//This way of doing would be much easier fix for now -
+	//This particular event unregisters all events and registers StateManager events once again.
 };

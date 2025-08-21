@@ -33,17 +33,20 @@
 #include "StatusIconDisplaySystem.h"
 #include "AreaOfEffectSpellSystem.h"
 #include "LevelAdvanceSystem.h"
+#include "StateIdentifiers.h"
+#include "GameStatisticsSystem.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
-	mGameView({Config::fWindowSize.x * 0.5f, Config::fWindowSize.y * 0.5f}, Config::fWindowSize),
+	mGameView({ Config::fWindowSize.x * 0.5f, Config::fWindowSize.y * 0.5f }, Config::fWindowSize),
 	mTileMap(gameContext.eventManager, mGameView, mPathfinder),
 	mSystemContext(gameContext.eventManager, mEntityManager),
 	mPathfinder(mTileMap),
 	mBehaviorContext(gameContext.eventManager, mEntityManager, mTileMap),
 	mUIManager(gameContext),
 	mLoadNextLevel(false),
-	mLevelLoaded(false)
+	mLevelLoaded(false),
+	mProceedToMenu(false)
 {
 	registerToEvents();
 }
@@ -64,19 +67,25 @@ void GameState::update(const sf::Time& deltaTime)
 	mGameContext.window.setView(mGameView);
 	IState::updateMousePosition();
 	mSystemManager.update(deltaTime);
-	
+	mUIManager.update(deltaTime);
+
 	if (!mLevelLoaded)
 	{
 		notifyMoveFinished();
 		mLevelLoaded = true;
 	}
 
-	mUIManager.update(deltaTime);
-
 	if (mLoadNextLevel)
 	{
 		mLoadNextLevel = false;
 		loadNextLevel();
+		return;
+	}
+
+	if (mProceedToMenu)
+	{
+		mProceedToMenu = false;
+		mGameContext.eventManager.notify<SwitchStateEvent>(SwitchStateEvent(StateIdentifier::MenuState, true));
 		return;
 	}
 }
@@ -93,6 +102,7 @@ void GameState::render()
 void GameState::registerToEvents()
 {
 	registerToLoadNextLevelEvent();
+	registerToProceedToMainMenuEvent();
 }
 
 void GameState::registerToLoadNextLevelEvent()
@@ -100,6 +110,14 @@ void GameState::registerToLoadNextLevelEvent()
 	mGameContext.eventManager.registerEvent<LoadNextLevelEvent>([this](const LoadNextLevelEvent& data)
 		{
 			mLoadNextLevel = true;
+		});
+}
+
+void GameState::registerToProceedToMainMenuEvent()
+{
+	mGameContext.eventManager.registerEvent<ProceedToMainMenuEvent>([this](const ProceedToMainMenuEvent& data)
+		{
+			mProceedToMenu = true;
 		});
 }
 
@@ -160,6 +178,7 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<SpellEffectSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<AreaOfEffectSpellSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<StatusIconDisplaySystem>(mSystemContext, mGameContext.textures));
+	mSystemManager.addSystem(std::make_unique<GameStatisticsSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<LevelAdvanceSystem>(mSystemContext, mTileMap, mGameContext.fonts.get(FontIdentifiers::UIFont)));
 
 	mSystemManager.addSystem(std::make_unique<BarRenderSystem>(mSystemContext));

@@ -14,12 +14,12 @@ public:
 	};
 	EventManager();
 	template <GameEventType Event>
-	EventHandle registerEvent(std::function<void(const Event&)> callback);
+	EventHandle registerEvent(std::function<void(const Event&)> callback); //after thousands lines of code, this should be [[nodiscard]]
 
 	template <GameEventType Event>
 	void notify(const Event& ev);
-
 	void unregister(const EventHandle& eventHandle);
+	void clearAllEvents();
 private:
 	std::unordered_map<std::type_index, std::vector<std::pair<size_t, std::function<void(const IEvent&)>>>> mCallbacks;
 	size_t mEventId;

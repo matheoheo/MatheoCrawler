@@ -15,6 +15,8 @@ private:
 	void registerToSwitchStateEvent();
 	void registerToPopStateEvent();
 	void registerToEnterLoadingStateEvent();
+	void registerToClearNonGlobalEvents();
+
 	bool isTopStackValid() const;
 
 	void pushState(StatePtr state);
@@ -23,5 +25,6 @@ private:
 private:
 	GameContext& mGameContext;
 	std::stack<StatePtr> mStateStack;
+	bool mReRegisterEvents;
 };
 

@@ -5,6 +5,7 @@ class EntityManager
 {
 public:
 	EntityManager();
+	
 	Entity& createEntity();
 	Entity* getEntity(size_t id);
 	void removeEntity(size_t id);

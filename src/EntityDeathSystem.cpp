@@ -18,20 +18,6 @@ void EntityDeathSystem::update(const sf::Time& deltaTime)
 		mFinishedEntities.push_back(entity->getEntityId());
 	}
 	removeFinishedEntities();
-	//temporary
-
-	static sf::Clock c;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U))
-	{
-		if (c.getElapsedTime().asMilliseconds() > 1000.f)
-		{
-			for (auto& e : mSystemContext.entityManager.getEntitiesWithComponents<EnemyComponent>())
-			{
-				mSystemContext.eventManager.notify<EntityDiedEvent>(EntityDiedEvent(*e));
-			}
-			c.restart();
-		}
-	}
 }
 
 void EntityDeathSystem::registerToEvents()
@@ -94,6 +80,7 @@ void EntityDeathSystem::addGoldToPlayer(Entity& deadEntity)
 	player.getComponent<PlayerResourcesComponent>().cGold += gold;
 
 	mSystemContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::GoldEarned, gold));
+	mSystemContext.eventManager.notify<RecordStatisticEvent>(RecordStatisticEvent(StatisticType::GoldCollected, gold));
 }
 
 void EntityDeathSystem::notifyUISystem()

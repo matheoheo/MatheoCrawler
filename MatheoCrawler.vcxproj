@@ -66,7 +66,10 @@
     <ClInclude Include="include\FrostPillarSpell.h" />
     <ClInclude Include="include\GameContext.h" />
     <ClInclude Include="include\GameEvents.h" />
+    <ClInclude Include="include\GameOverUI.h" />
     <ClInclude Include="include\GameState.h" />
+    <ClInclude Include="include\GameStatisticsSystem.h" />
+    <ClInclude Include="include\GameStatisticTypes.h" />
     <ClInclude Include="include\GlowUpVisualEffect.h" />
     <ClInclude Include="include\HealingSpellUpgradeStrategy.h" />
     <ClInclude Include="include\HealSpellSystem.h" />
@@ -98,6 +101,7 @@
     <ClInclude Include="include\PathRequestSystem.h" />
     <ClInclude Include="include\PatrolAISystem.h" />
     <ClInclude Include="include\PatrolTask.h" />
+    <ClInclude Include="include\PauseMenuUI.h" />
     <ClInclude Include="include\pch.h" />
     <ClInclude Include="include\PlayerResourcesUI.h" />
     <ClInclude Include="include\PlayerStatusUI.h" />
@@ -173,7 +177,9 @@
     <ClCompile Include="src\FileHandler.cpp" />
     <ClCompile Include="src\FireBurnSpellEffect.cpp" />
     <ClCompile Include="src\FrostPillarSpell.cpp" />
+    <ClCompile Include="src\GameOverUI.cpp" />
     <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\GameStatisticsSystem.cpp" />
     <ClCompile Include="src\GlowUpVisualEffect.cpp" />
     <ClCompile Include="src\HealingSpellUpgradeStrategy.cpp" />
     <ClCompile Include="src\HealSpellSystem.cpp" />
@@ -205,6 +211,7 @@
     <ClCompile Include="src\PathRequestSystem.cpp" />
     <ClCompile Include="src\PatrolAISystem.cpp" />
     <ClCompile Include="src\PatrolTask.cpp" />
+    <ClCompile Include="src\PauseMenuUI.cpp" />
     <ClCompile Include="src\PlayerResourcesUI.cpp" />
     <ClCompile Include="src\PlayerStatusUI.cpp" />
     <ClCompile Include="src\PositioningAISystem.cpp" />

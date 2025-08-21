@@ -25,6 +25,7 @@ public:
 private:
     void registerToEvents();
     void registerToLoadNextLevelEvent();
+    void registerToProceedToMainMenuEvent();
 
     void createMap();
     void renderMap();
@@ -54,5 +55,6 @@ private:
     UIManager mUIManager;
     bool mLevelLoaded;
     bool mLoadNextLevel;
+    bool mProceedToMenu;
 };
 

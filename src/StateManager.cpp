@@ -7,7 +7,8 @@
 #include "OptionsState.h"
 
 StateManager::StateManager(GameContext& gameContext)
-    :mGameContext(gameContext)
+    :mGameContext(gameContext),
+    mReRegisterEvents(false)
 {
     registerToEvents();
 }
@@ -22,6 +23,13 @@ void StateManager::update(const sf::Time& deltaTime)
 {
     if (isTopStackValid())
         mStateStack.top()->update(deltaTime);
+
+    if (mReRegisterEvents)
+    {
+        //See ClearNonGlobalEvents in GameEvents.h to see why this is here.
+        mReRegisterEvents = false;
+        registerToEvents();
+    }
 }
 
 void StateManager::render()
@@ -35,6 +43,7 @@ void StateManager::registerToEvents()
     registerToSwitchStateEvent();
     registerToPopStateEvent();
     registerToEnterLoadingStateEvent();
+    registerToClearNonGlobalEvents();
 }
 
 void StateManager::registerToSwitchStateEvent()
@@ -60,6 +69,15 @@ void StateManager::registerToEnterLoadingStateEvent()
     mGameContext.eventManager.registerEvent<EnterLoadingStateEvent>([this](const EnterLoadingStateEvent& data)
         {
             pushState(std::make_unique<LoadingState>(mGameContext, std::move(data.tasksVec)));
+        });
+}
+
+void StateManager::registerToClearNonGlobalEvents()
+{
+    mGameContext.eventManager.registerEvent<ClearNonGlobalEvents>([this](const ClearNonGlobalEvents& data)
+        {
+            mReRegisterEvents = true;
+            mGameContext.eventManager.clearAllEvents();
         });
 }
 

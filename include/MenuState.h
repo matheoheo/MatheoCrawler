@@ -23,5 +23,6 @@ private:
 private:
     std::vector<TextButton> mButtons;
     sf::Sprite mBackground;
+    sf::View mMenuView;
 };
 

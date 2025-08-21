@@ -5,6 +5,8 @@
 #include "PlayerResourcesUI.h"
 #include "MessageLogUI.h"
 #include "ActionSelectionUI.h"
+#include "PauseMenuUI.h"
+#include "GameOverUI.h"
 
 UIManager::UIManager(GameContext& gameContext)
 	:mGameContext(gameContext),
@@ -62,6 +64,8 @@ void UIManager::createUI()
 	mUIComponents.emplace_back(std::make_unique<PlayerResourcesUI>(mGameContext, *player));
 	mUIComponents.emplace_back(std::make_unique<MessageLogUI>(mGameContext, *player));
 	mUIComponents.emplace_back(std::make_unique<ActionSelectionUI>(mGameContext, *player));
+	mUIComponents.emplace_back(std::make_unique<PauseMenuUI>(mGameContext, *player));
+	mUIComponents.emplace_back(std::make_unique<GameOverUI>(mGameContext, *player));
 }
 
 void UIManager::registerToEvents()
