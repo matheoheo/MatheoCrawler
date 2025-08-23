@@ -4,12 +4,13 @@
 #include "EventManager.h"
 
 class Pathfinder;
+class CaveGenerator;
 
 class TileMap
 {
 public:
 	TileMap(EventManager& eventManager, const sf::View& gameView, Pathfinder& pathfinder);
-	void buildFromGenerator(DungeonGenerator& gen, const sf::Vector2i& size, int maxDepth,
+	void buildFromGenerator(CaveGenerator& gen, const sf::Vector2i& size, int maxDepth,
 		const sf::Vector2i& minRoomSize, const sf::Vector2i& maxRoomSize);
 
 	void render(sf::RenderWindow& window) const;

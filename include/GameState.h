@@ -10,6 +10,7 @@
 #include "BehaviorContext.h"
 #include "UIManager.h"
 #include "SpellHolder.h"
+#include "CaveGenerator.h"
 
 class GameState :
     public IState
@@ -45,7 +46,7 @@ private:
 private:
     sf::View mGameView;
     TileMap mTileMap;
-    DungeonGenerator mGenerator;
+    CaveGenerator mGenerator;
     EntityManager mEntityManager;
     SystemContext mSystemContext;
     SystemManager mSystemManager;

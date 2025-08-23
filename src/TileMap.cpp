@@ -3,6 +3,7 @@
 #include "Config.h"
 #include "Utilities.h"
 #include "Pathfinder.h"
+#include "CaveGenerator.h"
 
 TileMap::TileMap(EventManager& eventManager, const sf::View& gameView, Pathfinder& pathfinder)
 	:mGameView(gameView),
@@ -10,7 +11,7 @@ TileMap::TileMap(EventManager& eventManager, const sf::View& gameView, Pathfinde
 {
 	registerToEvents(eventManager);
 }
-void TileMap::buildFromGenerator(DungeonGenerator& gen, const sf::Vector2i& size, int maxDepth, const sf::Vector2i& minRoomSize, const sf::Vector2i& maxRoomSize)
+void TileMap::buildFromGenerator(CaveGenerator& gen, const sf::Vector2i& size, int maxDepth, const sf::Vector2i& minRoomSize, const sf::Vector2i& maxRoomSize)
 {
 	auto map = std::move(gen.generate(size, maxDepth, minRoomSize, maxRoomSize));
 	createTiles(map);
@@ -18,7 +19,7 @@ void TileMap::buildFromGenerator(DungeonGenerator& gen, const sf::Vector2i& size
 
 void TileMap::render(sf::RenderWindow& window) const
 {
-	/*for (const auto& row : mTiles)
+	for (const auto& row : mTiles)
 	{
 		for (const auto& tile : row)
 		{
@@ -26,8 +27,8 @@ void TileMap::render(sf::RenderWindow& window) const
 				continue;
 			window.draw(tile.tileVisual);
 		}
-	}*/
-	renderVisibleTiles(window);
+	}
+	//renderVisibleTiles(window);
 }
 
 bool TileMap::isTileWalkable(const Tile* tile) const

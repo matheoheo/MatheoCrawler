@@ -15,6 +15,8 @@ public:
 	const SpawnPoints& getSpawnPoints() const;
 	const sf::Vector2i& getNextLevelCell() const;
 protected:
+	void carveTunnel(GeneratedMap& map, const sf::Vector2i& pointA, const sf::Vector2i& pointB);
+protected:
 	SpawnPoints mSpawnPoints;
 	sf::Vector2i mNextLevelCell;
 private:

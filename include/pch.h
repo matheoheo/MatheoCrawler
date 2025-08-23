@@ -22,6 +22,7 @@
 #include <limits>
 #include <queue>
 #include <numeric>
+#include <stack>
 // C++20 specific
 #include <span>
 #include <bitset>

@@ -6,10 +6,7 @@
 
 IMapGenerator::GeneratedMap DungeonGenerator::generate(const sf::Vector2i& size, int maxDepth, const sf::Vector2i& minRoomSize, const sf::Vector2i& maxRoomSize)
 {
-    mLeafNodes.clear();
-    mRooms.clear();
     mSpawnPoints.clear();
-
     IMapGenerator::GeneratedMap map;
     BSPNode rootNode({});
     initalize(map, rootNode, size);
@@ -242,26 +239,7 @@ void DungeonGenerator::createCorridorBetween(GeneratedMap& map, const Room& room
 {
     auto pointA = getRoomCenter(roomA);
     auto pointB = getRoomCenter(roomB);
-
-    bool orderOfConnection = Random::get(0, 1);
-    sf::Vector2i lastPos(pointA);
-
-    if (orderOfConnection)
-    {
-        for (int x = std::min(pointA.x, pointB.x); x <= std::max(pointA.x, pointB.x); ++x)
-            map[pointA.y][x] = TileType::Floor;
-
-        for (int y = std::min(pointA.y, pointB.y); y <= std::max(pointA.y, pointB.y); ++y)
-            map[y][pointB.x] = TileType::Floor;
-    }
-    else
-    {
-        for (int y = std::min(pointA.y, pointB.y); y <= std::max(pointA.y, pointB.y); ++y)
-            map[y][pointA.x] = TileType::Floor;
-
-        for (int x = std::min(pointA.x, pointB.x); x <= std::max(pointA.x, pointB.x); ++x)
-            map[pointB.y][x] = TileType::Floor;
-    }
+    carveTunnel(map, pointA, pointB);
 }
 
 void DungeonGenerator::addWalls(GeneratedMap& map)
