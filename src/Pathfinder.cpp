@@ -61,12 +61,12 @@ Pathfinder::PathfinderResult Pathfinder::getPath(const sf::Vector2i& cellA, cons
 		result.push_back(node->cellIndex);
 
 	std::reverse(std::begin(result), std::end(result));
-
 	return result;
 }
 
 std::vector<Pathfinder::PathNode*> Pathfinder::getPathNodes(PathNode* start, PathNode* finish, bool ignoreLastCell)
 {
+
 	if (start == finish || !mTiles)
 		return {};
 
@@ -74,11 +74,6 @@ std::vector<Pathfinder::PathNode*> Pathfinder::getPathNodes(PathNode* start, Pat
 	mLastlyUsedNodes.insert(start);
 	mLastlyUsedNodes.insert(finish);
 
-	/*for (auto& a : mNodes)
-	{
-		for (auto& b : a)
-			resetNode(b);
-	}*/
 	auto nodesComparator = [](const PathNode* lhs, const PathNode* rhs)
 	{
 		return lhs->getFullCost() > rhs->getFullCost();
@@ -86,20 +81,27 @@ std::vector<Pathfinder::PathNode*> Pathfinder::getPathNodes(PathNode* start, Pat
 
 	std::priority_queue<PathNode*, std::vector<PathNode*>, decltype(nodesComparator)> queue(nodesComparator);
 	
-	const int moveCost = 1;
+	const int moveCost = 10;
 	start->localCost = 0;
 	start->guessCost = calculateGuessCost(start, finish);
 	queue.push(start);
+
+	int steps = 0;
 
 	while (!queue.empty())
 	{
 		PathNode* current = queue.top();
 		queue.pop();
 		mLastlyUsedNodes.insert(current);
+		++steps;
+
+		if (steps >= MaxSteps)
+			return {};
 
 		if (current == finish)
 		{
 			return reconstructPath(finish);
+			
 		}
 		current->visited = true;
 		auto neighbors = getNeighbors(current, finish, ignoreLastCell);
@@ -172,7 +174,6 @@ bool Pathfinder::isIndexValid(const sf::Vector2i& index) const
 bool Pathfinder::isNodeWalkable(const sf::Vector2i& index) const
 {
 	return (*mTiles)[index.y][index.x].isWalkable();
-	//return (*mTiles)[index.y][index.x].tileType != TileType::Wall;
 }
 
 bool Pathfinder::isNodeWalkable(const PathNode* node) const
@@ -187,13 +188,13 @@ bool Pathfinder::isNodeWalkableRaw(const PathNode* node) const
 
 int Pathfinder::calculateGuessCost(const PathNode* from, const PathNode* to) const
 {
-	return Utilities::getDistanceBetweenCells(from->cellIndex, to->cellIndex) * 10;
+	return Utilities::getDistanceBetweenCells(from->cellIndex, to->cellIndex);
 }
 
 void Pathfinder::resetNode(PathNode& node)
 {
 	node.parent = nullptr;
-	node.localCost = 1500;
+	node.localCost = std::numeric_limits<int>::max();
 	node.guessCost = 0;
 	node.visited = false;
 }

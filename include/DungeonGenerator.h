@@ -37,13 +37,14 @@ private:
     void createRoomConnections(GeneratedMap& map);
     void createCorridorBetween(GeneratedMap& map, const Room& roomA, const Room& roomB);
     void addWalls(GeneratedMap& map);
-    void printMap(GeneratedMap& map);
     int getRoomArea(const Room& room) const;
     void populateSpawnPoints(GeneratedMap& map);
     std::vector<sf::Vector2i> getWalkableTilesPosInRoom(GeneratedMap& map, const Room& room) const;
     int getMonsterCountInRoom(int walkableTilesCount);
     void sortRooms();
-    void setNextLevelCelll(GeneratedMap& map);
+protected:
+    virtual void setSpawnCell(const GeneratedMap& map) override;
+    virtual void setNextLevelCell(const GeneratedMap& map) override;
 private:
     //this section is for generating obstacles inside rooms:
     using ObstacleGenerator = std::function<void(GeneratedMap&, const Room&)>;

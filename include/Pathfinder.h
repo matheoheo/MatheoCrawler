@@ -46,5 +46,7 @@ private:
 	std::vector<std::vector<PathNode>> mNodes;
 	std::unordered_set<PathNode*> mLastlyUsedNodes;
 	const std::vector<std::vector<Tile>>* mTiles;
+
+	static constexpr int MaxSteps = 80;
 };
 

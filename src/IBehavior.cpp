@@ -26,7 +26,6 @@ void IBehavior::updateTasks(Entity& entity, const sf::Time& deltaTime)
 	determineNextTask(entity);
 }
 
-
 bool IBehavior::setDirectionTowardTarget(Entity& self, Entity& target)
 {
 	auto dir = getDirectionToTarget(self, target);

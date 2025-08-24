@@ -19,7 +19,7 @@ void TileMap::buildFromGenerator(CaveGenerator& gen, const sf::Vector2i& size, i
 
 void TileMap::render(sf::RenderWindow& window) const
 {
-	for (const auto& row : mTiles)
+	/*for (const auto& row : mTiles)
 	{
 		for (const auto& tile : row)
 		{
@@ -27,8 +27,8 @@ void TileMap::render(sf::RenderWindow& window) const
 				continue;
 			window.draw(tile.tileVisual);
 		}
-	}
-	//renderVisibleTiles(window);
+	}*/
+	renderVisibleTiles(window);
 }
 
 bool TileMap::isTileWalkable(const Tile* tile) const
@@ -99,7 +99,6 @@ bool TileMap::isLineOfSightClear(const sf::Vector2i& fromCell, const sf::Vector2
 			current.y += dirY;
 		}
 	}
-
 	return true;
 }
 

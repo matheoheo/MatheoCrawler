@@ -133,10 +133,8 @@ void GameState::renderMap()
 
 void GameState::spawnPlayer()
 {
-	auto playerPos = mTileMap.getFirstWalkablePos();
-	auto playerCell = Utilities::getCellIndex(playerPos);
+	auto playerCell = mGenerator.getSpawnCell();
 	mGameContext.eventManager.notify<SpawnEntityEvent>(SpawnEntityEvent(playerCell, EntityType::Player));
-
 	//add player to regeneration system
 	mGameContext.eventManager.notify<TriggerHpRegenSpellEvent>(TriggerHpRegenSpellEvent(mEntityManager.getPlayer(), 0, 0));
 }
@@ -146,7 +144,10 @@ void GameState::positionPlayer()
 	//This function is getting called when loading to the next level of dungeon.
 
 	auto& player = mEntityManager.getPlayer();
-	auto validPos = mTileMap.getFirstWalkablePos();
+	sf::Vector2f validPos = { 
+		mGenerator.getSpawnCell().x * Config::getCellSize().x,
+		mGenerator.getSpawnCell().y * Config::getCellSize().y 
+	};
 	player.getComponent<SpriteComponent>().cSprite.setPosition(validPos);
 	player.getComponent<SpellEffectsComponent>().cActiveEffects.clear();
 	mGameContext.eventManager.notify<TileOccupiedEvent>(TileOccupiedEvent(player, validPos));

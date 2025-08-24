@@ -36,8 +36,8 @@ void Engine::start()
 		auto end = steady_clock::now();
 		auto duration = duration_cast<milliseconds>(end - start);
 		auto t = duration.count();
-		if(t >= 15)
-			std::cout << "Function took " << duration.count() << " ms\n";
+		//if(t >= 15)
+			//std::cout << "Function took " << duration.count() << " ms\n";
 	}
 }
 
@@ -53,7 +53,13 @@ void Engine::processEvents()
 
 void Engine::update(const sf::Time& deltaTime)
 {
+	auto start = std::chrono::high_resolution_clock::now();
 	mStateManager.update(deltaTime);
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> elapsed = end - start;
+	if(elapsed.count() > 20.0)
+		std::cout << "Update update time: " << elapsed.count() << " ms\n";
+
 }
 
 void Engine::render()

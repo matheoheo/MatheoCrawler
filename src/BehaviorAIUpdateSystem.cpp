@@ -11,17 +11,21 @@ BehaviorAIUpdateSystem::BehaviorAIUpdateSystem(SystemContext& systemContext, con
 void BehaviorAIUpdateSystem::update(const sf::Time& deltaTime)
 {
 	auto& entities = mTileMap.getVisibleEntities();
-
 	for (const auto& entity : entities)
 	{
 		if (entity->hasComponent<PlayerComponent>())
 			continue;
+		auto start = std::chrono::high_resolution_clock::now();
 
 		auto& behaviorComp = entity->getComponent<BehaviorComponent>();
 		if (behaviorComp.cBehavior)
-		{
 			behaviorComp.cBehavior->update(*entity, deltaTime);
-		}
+	
+		auto end = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed = end - start;
+		//if(elapsed.count() > 1.0)
+			//std::cout << "Update  time per entity: " << elapsed.count() << " ms\n";
+
 	}
 }
 

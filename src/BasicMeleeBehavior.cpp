@@ -99,6 +99,7 @@ void BasicMeleeBehavior::handleLogicIfChasing(Entity& entity, Entity& player)
 
 	if (!isReachable  || !pathExists)
 	{
+		pushDelayTask(50);
 		++chaseComp.cUnreachableRetryCount;
 		constexpr int maxRetriesAttempts = 5;
 		//if entity can't reach target, but is still within limit, then we add some delay.
