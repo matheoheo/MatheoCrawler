@@ -42,7 +42,7 @@ void CaveGenerator::setMapBordersAsWall(GeneratedMap& map)
 void CaveGenerator::populateWallsRandomly(GeneratedMap& map)
 {
 	constexpr TileType wallTile = TileType::Wall;
-	constexpr int minFillPercentage = 40;
+	constexpr int minFillPercentage = 45;
 	constexpr int maxFillPercentage = 50;
 	const int fillPercentage = Random::get(minFillPercentage, maxFillPercentage);
 	const size_t innerHeight = map.size() - 2; //subtracting 2, because we wanna skip borders
@@ -52,6 +52,7 @@ void CaveGenerator::populateWallsRandomly(GeneratedMap& map)
 	std::vector<TileType*> tmpMap;
 	tmpMap.reserve(totalCells);
 	
+	std::cout << "Fill %" << fillPercentage << '\n';
 	//Borders of the map are already set as walls, so we skip them.
 	for (size_t y = 1; y < map.size() - 1; ++y)
 	{
@@ -92,9 +93,10 @@ void CaveGenerator::performCARound(GeneratedMap& map)
 
 void CaveGenerator::generateCA(GeneratedMap& map)
 {
-	constexpr int minRounds = 4;
-	constexpr int maxRounds = 7;
+	constexpr int minRounds = 3;
+	constexpr int maxRounds = 5;
 	const int caRounds = Random::get(minRounds, maxRounds);
+	std::cout << "CA Rounds: " << caRounds << '\n';
 	for (int i = 0; i < caRounds; ++i)
 		performCARound(map);
 }

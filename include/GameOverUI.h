@@ -36,6 +36,7 @@ private:
 	void createLinesColumn(const StatisticMap& stats, std::span<const StatisticType> data, float posX, float posY, float linesMargin, float labelValueMargin);
 
 	float getMaxWidthOfLabel(const StatisticMap& stats, std::span<const StatisticType> data) const;
+	std::string formatTime(int timeInMs) const;
 private:
 	const sf::Font& mFont;
 	const unsigned int mLineCharSize;

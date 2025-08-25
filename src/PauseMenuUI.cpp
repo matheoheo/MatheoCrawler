@@ -21,6 +21,8 @@ void PauseMenuUI::processEvents(const sf::Event event)
 		if (data->code == mPauseKey)
 			mIsActive = !mIsActive;
 	}
+	if (!mIsActive)
+		return;
 	for (auto& btn : mButtons)
 	{
 		if (btn.isPressed(event))

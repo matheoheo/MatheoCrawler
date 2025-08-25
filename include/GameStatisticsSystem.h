@@ -17,7 +17,7 @@ private:
 	void initStatistics();
 	void add(StatisticType type, int value);
 private:
-	
+	void calculateAvgDamage();
 private:
 	StatisticMap mStats;
 	bool mPlayerAlive;

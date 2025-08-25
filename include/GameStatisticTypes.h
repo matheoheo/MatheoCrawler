@@ -9,12 +9,15 @@ enum class StatisticType
 	StepsTaken,
 	HitsDealt,
 	HitsTaken,
-	TimeSurvived
+	TimeSurvived,
+	AvgDamageDealt,
+	AvgDamageTaken
 };
 
 
 struct Statistic {
 	std::string label;
 	int value = 0;
+	std::optional<StatisticType> type = std::nullopt;
 };
 using StatisticMap = std::unordered_map<StatisticType, Statistic>;

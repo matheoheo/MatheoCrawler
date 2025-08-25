@@ -19,6 +19,7 @@ void GameStatisticsSystem::update(const sf::Time& deltaTime)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U))
 		{
+			calculateAvgDamage();
 			mSystemContext.eventManager.notify<PlayerRunEndedEvent>(PlayerRunEndedEvent(mStats));
 			c.restart();
 		}
@@ -44,6 +45,7 @@ void GameStatisticsSystem::registerToPlayerDiedEvent()
 	mSystemContext.eventManager.registerEvent<PlayerDiedEvent>([this](const PlayerDiedEvent& data)
 		{
 			mPlayerAlive = false;
+			calculateAvgDamage();
 			mSystemContext.eventManager.notify<PlayerRunEndedEvent>(PlayerRunEndedEvent(mStats));
 		});
 }
@@ -57,7 +59,10 @@ void GameStatisticsSystem::initStatistics()
 	mStats[StatisticType::StepsTaken]       = { "Steps Taken", 0 };
 	mStats[StatisticType::HitsTaken]        = { "Hits Taken", 0 };
 	mStats[StatisticType::HitsDealt]        = { "Hits Dealt", 0 };
-	mStats[StatisticType::TimeSurvived]		= { "Time Survived", 0 };
+	mStats[StatisticType::TimeSurvived]		= { "Time Survived", 0, StatisticType::TimeSurvived };
+	mStats[StatisticType::AvgDamageDealt]   = { "Avg damage dealt per hit", 0 };
+	mStats[StatisticType::AvgDamageTaken]   = { "Avg damage taken per hit", 0};
+
 }
 
 void GameStatisticsSystem::add(StatisticType type, int value)
@@ -67,3 +72,17 @@ void GameStatisticsSystem::add(StatisticType type, int value)
 
 	mStats.at(type).value += value;
 }
+
+void GameStatisticsSystem::calculateAvgDamage()
+{
+	int dmgDealt = mStats.at(StatisticType::TotalDamageDealt).value;
+	int dmgTaken = mStats.at(StatisticType::TotalDamageTaken).value;
+	int hitsDealt = mStats.at(StatisticType::HitsDealt).value;
+	int hitsTaken = mStats.at(StatisticType::HitsTaken).value;
+
+	if (hitsDealt != 0)
+		mStats.at(StatisticType::AvgDamageDealt).value = dmgDealt / hitsDealt;
+	if(hitsTaken != 0)
+		mStats.at(StatisticType::AvgDamageTaken).value = dmgTaken / hitsTaken;
+}
+

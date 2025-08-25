@@ -117,22 +117,27 @@ void GameOverUI::createOneLine(const Statistic& statistic, const sf::Vector2f& l
 	constexpr sf::Color valueColor{ 80, 245, 230 };
 	
 	mLines.emplace_back(mFont, mLineCharSize);
-	
+	std::string valStr = std::to_string(statistic.value);
+
+	if (statistic.type && *statistic.type == StatisticType::TimeSurvived)
+		valStr = formatTime(statistic.value);
+
 	auto& line = mLines.back();
 	line.label.setString(statistic.label);
 	line.label.setFillColor(labelColor);
 	line.label.setPosition(labelPos);
-	line.value.setString(std::to_string(statistic.value));
+	line.value.setString(valStr);
 	line.value.setFillColor(valueColor);
 	line.value.setPosition(valuePos);
 }
 
 void GameOverUI::createLeftLinesColumn(const StatisticMap& stats, float posY, float linesMargin, float labelValueMargin)
 {
-	constexpr size_t count = 4;
+	constexpr size_t count = 5;
 	constexpr std::array<StatisticType, count> leftCol =
 	{
-		StatisticType::GoldCollected, StatisticType::EnemiesDefeated, StatisticType::TotalDamageDealt, StatisticType::HitsDealt
+		StatisticType::GoldCollected, StatisticType::EnemiesDefeated, 
+		StatisticType::TotalDamageDealt, StatisticType::HitsDealt, StatisticType::AvgDamageDealt
 	};
 
 	const float labelXPos = Config::fWindowSize.x * 0.25f;
@@ -141,10 +146,11 @@ void GameOverUI::createLeftLinesColumn(const StatisticMap& stats, float posY, fl
 
 void GameOverUI::createRightLinesColumn(const StatisticMap& stats, float posY, float linesMargin, float labelValueMargin)
 {
-	constexpr size_t count = 4;
+	constexpr size_t count = 5;
 	constexpr std::array<StatisticType, count> rightCol =
 	{
-		StatisticType::StepsTaken, StatisticType::TimeSurvived, StatisticType::TotalDamageTaken, StatisticType::HitsTaken
+		StatisticType::StepsTaken, StatisticType::TimeSurvived, 
+		StatisticType::TotalDamageTaken, StatisticType::HitsTaken, StatisticType::AvgDamageTaken
 	};
 
 	const float labelXPos = Config::fWindowSize.x * 0.50f;
@@ -185,4 +191,18 @@ float GameOverUI::getMaxWidthOfLabel(const StatisticMap& stats, std::span<const 
 	}
 
 	return width;
+}
+
+std::string GameOverUI::formatTime(int timeInMs) const
+{
+	int seconds = timeInMs / 1000;
+	int minutes = seconds / 60;
+	seconds %= 60;
+	int hours = minutes / 60;
+	minutes %= 60;
+
+	if (hours == 0)
+		return std::format("{:02}m{:02}s", minutes, seconds);
+
+	return std::format("{}h{:02}m{:02}s", hours, minutes, seconds);
 }
