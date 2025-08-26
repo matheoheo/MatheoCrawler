@@ -15,6 +15,34 @@ IBehavior::IBehavior(BehaviorContext& behaviorContext)
 {
 }
 
+void IBehavior::handleNoneStateLogic(Entity& entity, Entity& player)
+{
+	swapToPatrol();
+}
+
+void IBehavior::handlePatrollingLogic(Entity& entity, Entity& player)
+{
+	//if last light of sight was casted less than half second ago, we do not want to repeat it right now
+	//let it time out a bit
+	if (canCastLOS(entity))
+	{
+		if (!isEntityReachable(player))
+		{
+			//if entity is patrolling, but the target (player) is not reachable (has only non walkable tiles around him)
+			//we add delay to prevent every frame rethinking.
+			pushDelayTask(getRandomDelay(150));
+			return;
+		}
+		if (canTargetEntity(entity, player) && canReachEntity(entity, player))
+		{
+			swapToTargetting(player);
+		}
+	}
+	else
+		pushDelayTask(getRandomDelay(200));
+}
+
+
 void IBehavior::updateTasks(Entity& entity, const sf::Time& deltaTime)
 {
 	if (isTaskQueued())
@@ -179,27 +207,6 @@ std::optional<Direction> IBehavior::getDirectionToTarget(const Entity& self, con
 	return {};
 }
 
-void IBehavior::handleLogicIfPatrolling(Entity& entity, Entity& player)
-{
-	//if last light of sight was casted less than half second ago, we do not want to repeat it right now
-	//let it time out a bit
-	if (canCastLOS(entity))
-	{
-		if (!isEntityReachable(player))
-		{
-			//if entity is patrolling, but the target (player) is not reachable (has only non walkable tiles around him)
-			//we add delay to prevent every frame rethinking.
-			pushDelayTask(getRandomDelay(150));
-			return;
-		}
-		if (canTargetEntity(entity, player) && canReachEntity(entity, player))
-		{
-			swapToTargetting(player);
-		}
-	}
-	else
-		pushDelayTask(getRandomDelay(200));
-}
 
 AnimationIdentifier IBehavior::getRandomAttack(const Entity& entity)
 {
@@ -213,4 +220,29 @@ AnimationIdentifier IBehavior::getRandomAttack(const Entity& entity)
 
 	int randomAttack = Random::get(0, size - 1);
 	return avAttVec[randomAttack];
+}
+
+void IBehavior::setupCommonBehaviors()
+{
+	mBehaviors[EntityAIState::None] = [this](Entity& self, Entity& target)
+	{
+		handleNoneStateLogic(self, target);
+	};
+	mBehaviors[EntityAIState::Patrolling] = [this](Entity& self, Entity& target)
+	{
+		handlePatrollingLogic(self, target);
+	};
+	mBehaviors[EntityAIState::Attacking] = [this](Entity& self, Entity& target)
+	{
+		handleAttackingLogic(self, target);
+	};
+}
+
+void IBehavior::updateCurrentBehavior(Entity& self, Entity& target, EntityAIState currState)
+{
+	auto it = mBehaviors.find(currState);
+	if (it == std::end(mBehaviors))
+		return;
+
+	it->second(self, target);
 }

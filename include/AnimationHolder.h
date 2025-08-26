@@ -65,6 +65,7 @@ private:
 	void loadSkletorusSpecificAnimations();
 	void loadBonvikSpecificAnimations();
 	void loadMorannaSpecificAnimations();
+	void loadRaySpecificAnimations();
 	AnimationFrame makeFrame(const FrameData& data) const;
 
 	int parseInt(const FrameData& data, const std::string& key, int defaultReturn = 0) const;

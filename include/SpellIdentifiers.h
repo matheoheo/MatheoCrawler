@@ -26,6 +26,7 @@ enum class SpellIdentifier
 
 enum class SpellType
 {
+	Regen,
 	Heal,
 	Projectile,
 	AreaOfEffect,

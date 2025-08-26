@@ -26,10 +26,14 @@ private:
     void createSkletorusEntityData();
     void createBonvikEntityData();
     void createMorannaEntityData();
+    void createRayEntityData();
 
     AttackDataMap createSimpleMeleeAttackDataMap() const;
     AttackDataMap createDualStrikeMeleeAttackDataMap() const;
     AttackDataMap createPlayerAttackDataMap() const;
+    AttackDataMap createRayAttackDataMap() const;
+
+    std::unordered_map<Direction, AttackData::HitOffsetsVec> getDefaultHitoffsets() const;
 private:
     std::unordered_map<EntityType, BaseEntityData> mEntityData;
 

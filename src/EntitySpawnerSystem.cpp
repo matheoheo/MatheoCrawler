@@ -72,12 +72,13 @@ EntityType EntitySpawnerSystem::getRandomWeightedSpawn(std::span<const WeightedS
 
 void EntitySpawnerSystem::spawnEntities(const IMapGenerator::SpawnPoints& spawnPoints)
 {
-	constexpr size_t entityCount = 3;
+	constexpr size_t entityCount = 4;
 	constexpr std::array<WeightedSpawn, entityCount> weightedSpawns =
 	{ {
 		{EntityType::Skletorus, 50},
 		{EntityType::Bonvik, 25},
-		{EntityType::Moranna, 10}
+		{EntityType::Moranna, 10},
+		{EntityType::Ray, 100}
 	} };
 
 	for (const auto& point : spawnPoints)

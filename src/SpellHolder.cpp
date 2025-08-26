@@ -114,7 +114,7 @@ void SpellHolder::createHealthRegen()
     SpellIdentifier id{ SpellIdentifier::HealthRegen };
 
     mSpellsMap[id] = SpellData{
-        .type = SpellType::Heal,
+        .type = SpellType::Regen,
         .spellId = id,
         .cost = 21,
         .cooldown = 20 * 1000,
@@ -144,7 +144,7 @@ void SpellHolder::createManaRegen()
 
     SpellIdentifier id{ SpellIdentifier::ManaRegen };
     mSpellsMap[id] = {
-        .type = SpellType::Heal,
+        .type = SpellType::Regen,
         .spellId = id,
         .cost = 5,
         .cooldown = 16 * 1000,

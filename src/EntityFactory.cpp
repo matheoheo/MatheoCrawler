@@ -34,6 +34,9 @@ void EntityFactory::spawnEntity(const sf::Vector2i& cellIndex, EntityType entTyp
 	case EntityType::Moranna:
 		spawnMorannaEntity(cellIndex);
 		break;
+	case EntityType::Ray:
+		spawnRayEntity(cellIndex);
+		break;
 	default:
 		break;
 	}
@@ -158,6 +161,21 @@ void EntityFactory::spawnMorannaEntity(const sf::Vector2i& cellIndex)
 
 	entity.addComponent<RangedEnemyComponent>(SpellIdentifier::MorannaProjectile);
 	entity.addComponent<BehaviorComponent>(std::make_unique<BasicRangedBehavior>(mBehaviorContext));
+	notifyTileOccupied(entity);
+}
+
+void EntityFactory::spawnRayEntity(const sf::Vector2i& cellIndex)
+{
+
+	auto& entity = mEntityManager.createEntity();
+	addSpriteComponent(entity, TextureIdentifier::Ray, cellIndexToPos(cellIndex));
+	addCommonComponents(entity, EntityType::Ray);
+	addAIComponents(entity);
+	entity.addComponent<BehaviorComponent>(std::make_unique<BasicMeleeBehavior>(mBehaviorContext));
+	auto& avAttacksComp = entity.getComponent<AvailableAttacksComponent>();
+	avAttacksComp.mAttacks.emplace_back(AnimationIdentifier::Attack2);
+	avAttacksComp.mAttacks.emplace_back(AnimationIdentifier::Attack3);
+
 	notifyTileOccupied(entity);
 }
 

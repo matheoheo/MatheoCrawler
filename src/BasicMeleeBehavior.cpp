@@ -16,7 +16,7 @@
 BasicMeleeBehavior::BasicMeleeBehavior(BehaviorContext& behaviorContext)
 	:IBehavior(behaviorContext)
 {
-
+	setupBehaviorsMap();
 }
 
 void BasicMeleeBehavior::update(Entity& entity, const sf::Time& deltaTime)
@@ -30,28 +30,7 @@ void BasicMeleeBehavior::determineNextTask(Entity& entity)
 	auto& aiStateComp = entity.getComponent<EntityAIStateComponent>();
 	auto& player = mBehaviorContext.entityManager.getPlayer();
 	auto state = aiStateComp.cState;
-
-	if (state != EntityAIState::Attacking && canAttack(entity, player))
-	{
-		swapToAttacking(entity, player);
-		return;
-	}
-	if (state == EntityAIState::None)
-	{
-		swapToPatrol();
-	}
-	else if (state == EntityAIState::Patrolling)
-	{
-		handleLogicIfPatrolling(entity, player);
-	}
-	else if (state == EntityAIState::Chasing)
-	{
-		handleLogicIfChasing(entity, player);
-	}
-	else if (state == EntityAIState::Attacking)
-	{
-		handleLogicIfAttacking(entity, player);
-	}
+	updateCurrentBehavior(entity, player, state);
 	pushDelayTask(getRandomDelay(90));
 }
 
@@ -76,7 +55,7 @@ void BasicMeleeBehavior::fallbackOnNoDirection(Entity& self, Entity& target)
 
 }
 
-void BasicMeleeBehavior::handleLogicIfChasing(Entity& entity, Entity& player)
+void BasicMeleeBehavior::handleTargettingLogic(Entity& entity, Entity& player)
 {
 	if (canAttack(entity, player))
 	{
@@ -125,7 +104,7 @@ void BasicMeleeBehavior::handleLogicIfChasing(Entity& entity, Entity& player)
 	}
 }
 
-void BasicMeleeBehavior::handleLogicIfAttacking(Entity& entity, Entity& player)
+void BasicMeleeBehavior::handleAttackingLogic(Entity& entity, Entity& player)
 {
 	if (canAttack(entity, player))
 	{
@@ -138,5 +117,14 @@ void BasicMeleeBehavior::handleLogicIfAttacking(Entity& entity, Entity& player)
 	{
 		swapToTargetting(player);
 	}
+}
+
+void BasicMeleeBehavior::setupBehaviorsMap()
+{
+	setupCommonBehaviors();
+	mBehaviors[EntityAIState::Chasing] = [this](Entity& self, Entity& target)
+	{
+		handleTargettingLogic(self, target);
+	};
 }
 

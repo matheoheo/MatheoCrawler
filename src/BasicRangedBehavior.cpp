@@ -12,6 +12,7 @@
 BasicRangedBehavior::BasicRangedBehavior(BehaviorContext& behaviorContext)
 	:IBehavior(behaviorContext)
 {
+	setupBehaviorMap();
 }
 
 void BasicRangedBehavior::update(Entity& entity, const sf::Time& deltaTime)
@@ -45,59 +46,7 @@ void BasicRangedBehavior::determineNextTask(Entity& entity)
 			swapToPatrol();
 	}
 
-	if (state == EntityAIState::None)
-	{
-		if (canAttack(entity, target))
-		{
-			swapToAttacking(entity, target);
-			return;
-		}
-		swapToPatrol();
-	}
-	else if (state == EntityAIState::Patrolling)
-	{
-		handleLogicIfPatrolling(entity, target);
-	}
-	else if (state == EntityAIState::RepositionToAttack)
-	{
-		if (canAttack(entity, target))
-		{
-			swapToAttacking(entity, target);
-		}
-		else
-		{
-			bool cellValid = isTargetCellValid(entity, target);
-			auto& pathComp = entity.getComponent<PathComponent>();
-			bool isIdling = Utilities::isEntityIdling(entity);
-
-			if (!cellValid || (isIdling && pathComp.cPathCells.empty()))
-			{
-				//retry?
-				swapToTargetting(target);
-				return;
-			}
-
-			if (pathComp.cPathAborted)
-			{
-				pathComp.cPathAborted = false;
-				swapToPatrol();
-				return;
-			}
-			
-		}
-	}
-	else if (state == EntityAIState::Attacking)
-	{
-		if (!canAttack(entity, target))
-		{
-			swapToTargetting(target);
-		}
-		else
-		{
-			if (entity.getComponent<EntityStateComponent>().cCurrentState == EntityState::Idle)
-				swapToAttacking(entity, target);
-		}
-	}
+	updateCurrentBehavior(entity, target, state);
 }
 
 void BasicRangedBehavior::swapToTargetting(Entity& target)
@@ -119,6 +68,46 @@ void BasicRangedBehavior::swapToAttacking(Entity& entity, Entity& target)
 void BasicRangedBehavior::fallbackOnNoDirection(Entity& self, Entity& target)
 {
 	swapToTargetting(target);
+}
+
+void BasicRangedBehavior::handleTargettingLogic(Entity& entity, Entity& target)
+{
+	if (canAttack(entity, target))
+	{
+		swapToAttacking(entity, target);
+	}
+	else
+	{
+		bool cellValid = isTargetCellValid(entity, target);
+		auto& pathComp = entity.getComponent<PathComponent>();
+		bool isIdling = Utilities::isEntityIdling(entity);
+
+		if (!cellValid || (isIdling && pathComp.cPathCells.empty()))
+		{
+			//retry?
+			swapToTargetting(target);
+			return;
+		}
+
+		if (pathComp.cPathAborted)
+		{
+			pathComp.cPathAborted = false;
+			swapToPatrol();
+			return;
+		}
+
+	}
+}
+
+void BasicRangedBehavior::handleAttackingLogic(Entity& entity, Entity& target)
+{
+	if (!canAttack(entity, target))
+		swapToTargetting(target);
+	else
+	{
+		if (entity.getComponent<EntityStateComponent>().cCurrentState == EntityState::Idle)
+			swapToAttacking(entity, target);
+	}
 }
 
 bool BasicRangedBehavior::canReachEntity(const Entity& entity, const Entity& target) const
@@ -174,5 +163,14 @@ bool BasicRangedBehavior::isTargetCellValid(Entity& self, Entity& target) const
 		return dy <= range;
 
 	return dx <= range;
+}
+
+void BasicRangedBehavior::setupBehaviorMap()
+{
+	setupCommonBehaviors();
+	mBehaviors[EntityAIState::RepositionToAttack] = [this](Entity& self, Entity& target)
+	{
+		handleTargettingLogic(self, target);
+	};
 }
 

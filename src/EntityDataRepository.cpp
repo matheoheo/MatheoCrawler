@@ -19,6 +19,7 @@ void EntityDataRepository::createEntityData()
     createSkletorusEntityData();
     createBonvikEntityData();
 	createMorannaEntityData();
+	createRayEntityData();
 }
 
 void EntityDataRepository::createPlayerEntityData()
@@ -100,18 +101,35 @@ void EntityDataRepository::createMorannaEntityData()
 	mEntityData.emplace(EntityType::Moranna, std::move(data));
 }
 
+void EntityDataRepository::createRayEntityData()
+{
+	BaseEntityData data;
+	data.tag = "Ray";
+	data.moveSpeed = 95.f;
+	data.fovRange = 8;
+
+	data.combatStats.cAttackDamage = 21;
+	data.combatStats.cAttackRange = 1;
+	data.combatStats.cBaseAttackSpeed = 0.90f;
+	data.combatStats.cAttackSpeed = data.combatStats.cBaseAttackSpeed;
+	data.combatStats.cDefence = 8;
+	data.combatStats.cMagicDefence = 10;
+	data.combatStats.cHealth = 245;
+	data.combatStats.cMaxHealth = data.combatStats.cHealth;
+
+	data.cAttackDataMap = createRayAttackDataMap();
+
+	mEntityData.emplace(EntityType::Ray, std::move(data));
+}
+
 EntityDataRepository::AttackDataMap EntityDataRepository::createSimpleMeleeAttackDataMap() const
 {
 	AttackDataMap result;
 	AttackData att;
 	att.damageMultiplier = 1.0f;
 	att.speedMultiplier = 1.0f;
-
-	att.hitOffsets[Direction::Up] = std::vector<sf::Vector2i>{ { 0, -1} };
-	att.hitOffsets[Direction::Left] = std::vector<sf::Vector2i>{ {-1,  0} };
-	att.hitOffsets[Direction::Bottom] = std::vector<sf::Vector2i>{ { 0,  1} };
-	att.hitOffsets[Direction::Right] = std::vector<sf::Vector2i>{ { 1,  0} };
-
+	att.hitOffsets = getDefaultHitoffsets();
+	
 	result[AnimationIdentifier::Attack1] = std::move(att);
 	return result;
 }
@@ -122,7 +140,7 @@ EntityDataRepository::AttackDataMap EntityDataRepository::createDualStrikeMeleeA
 	AttackData att2;
 	att2.damageMultiplier = 1.1f;
 	att2.speedMultiplier = 0.8f;
-	att2.hitOffsets = result[AnimationIdentifier::Attack1].hitOffsets;
+	att2.hitOffsets = getDefaultHitoffsets();
 
 	result[AnimationIdentifier::Attack2] = std::move(att2);
 	return result;
@@ -158,4 +176,40 @@ EntityDataRepository::AttackDataMap EntityDataRepository::createPlayerAttackData
 	result[AnimationIdentifier::Attack3] = std::move(att3);
 
 	return result;
+}
+
+EntityDataRepository::AttackDataMap EntityDataRepository::createRayAttackDataMap() const
+{
+	AttackDataMap dataMap;
+	AttackData att1, att2, att3;
+
+	att1.damageMultiplier = 1.0f;
+	att1.speedMultiplier = 1.0f;
+	att1.hitOffsets = getDefaultHitoffsets();
+
+	att2.damageMultiplier = 1.1f;
+	att2.speedMultiplier = 1.1f;
+	att2.hitOffsets = getDefaultHitoffsets();
+
+	att3.damageMultiplier = 1.2f;
+	att3.speedMultiplier = 1.2f;
+	att3.hitOffsets = getDefaultHitoffsets();
+
+	dataMap[AnimationIdentifier::Attack1] = att1;
+	dataMap[AnimationIdentifier::Attack2] = att2;
+	dataMap[AnimationIdentifier::Attack3] = att3;
+
+	return dataMap;
+}
+
+std::unordered_map<Direction, AttackData::HitOffsetsVec> EntityDataRepository::getDefaultHitoffsets() const
+{
+	return std::unordered_map<Direction, AttackData::HitOffsetsVec>
+	{
+		{Direction::Up,     std::vector<sf::Vector2i>{ { 0, -1}} },
+		{Direction::Left,   std::vector<sf::Vector2i>{ {-1,  0}} },
+		{Direction::Bottom, std::vector<sf::Vector2i>{ { 0,  1}} },
+		{Direction::Right,  std::vector<sf::Vector2i>{ { 1,  0}} },
+
+	};
 }

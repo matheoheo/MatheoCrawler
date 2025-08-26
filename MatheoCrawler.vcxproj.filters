@@ -373,6 +373,9 @@
     <ClInclude Include="include\CaveGenerator.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\RayBehavior.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -681,6 +684,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\CaveGenerator.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RayBehavior.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

@@ -79,6 +79,7 @@ void Engine::preloadAssets()
 	mTextures.load(TextureIdentifier::Moranna,         "assets/entities/Moranna/moranna.png");
 	mTextures.load(TextureIdentifier::Skletorus,	   "assets/entities/skeleton_axe/skeleton.png");
 	mTextures.load(TextureIdentifier::Bonvik,		   "assets/entities/Bonvik/bonvik.png");
+	mTextures.load(TextureIdentifier::Ray,             "assets/entities/ray/ray.png");
 	mTextures.load(TextureIdentifier::Suash,		   "assets/ui/suash/suashIcon.png");
 	mTextures.load(TextureIdentifier::Twarf,		   "assets/ui/twarf/twarfIcon.png");
 	mTextures.load(TextureIdentifier::Attack1Icon,	   "assets/ui/attIcons/devoyer.png");

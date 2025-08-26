@@ -12,6 +12,7 @@ enum class TextureIdentifier
 	Skletorus,
 	Bonvik,
 	Moranna,
+	Ray,
 
 	//icons
 	Suash, //gold icon

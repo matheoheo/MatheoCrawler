@@ -3,6 +3,7 @@
 class Entity;
 class TileMap;
 struct Tile;
+struct SpellbookComponent;
 enum class Direction;
 enum class SpellIdentifier;
 enum class AnimationIdentifier;
@@ -59,5 +60,10 @@ namespace Utilities
 
 	bool strToBool(std::string_view str);
 	std::string boolToStr(bool status);
+
+	//Returns wether cooldown on spell has passed
+	//It doesn't check entities mana
+	bool hasSpellCdPassed(const SpellbookComponent& spellbookComp, SpellIdentifier id);
+	bool hasSpellCdPassed(const Entity& entity, SpellIdentifier id);
 };
 

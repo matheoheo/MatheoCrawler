@@ -14,9 +14,10 @@ protected:
     virtual void swapToTargetting(Entity& entity) override;
     virtual void swapToAttacking(Entity& entity, Entity& target) override;
     virtual void fallbackOnNoDirection(Entity& self, Entity& target) override;
+    
+    virtual void handleTargettingLogic(Entity& self, Entity& target) override;
+    virtual void handleAttackingLogic(Entity& self, Entity& target) override;
 private:
-    void handleLogicIfChasing(Entity& entity, Entity& player);
-    void handleLogicIfAttacking(Entity& entity, Entity& player);
-private:
+    void setupBehaviorsMap();
 };
 

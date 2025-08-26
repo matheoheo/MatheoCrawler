@@ -299,3 +299,23 @@ std::string Utilities::boolToStr(bool status)
 	
 	return "Off";
 }
+
+bool Utilities::hasSpellCdPassed(const SpellbookComponent& spellbookComp, SpellIdentifier id)
+{
+	auto& spells = spellbookComp.cSpells;
+
+	auto it = spells.find(id);
+	if (it == std::end(spells) || !it->second.data) //cant find proper spell
+		return false;
+
+	if (it->second.cooldownRemaining > 0) //still not available to cast
+		return false;
+
+	return true;
+}
+
+bool Utilities::hasSpellCdPassed(const Entity& entity, SpellIdentifier id)
+{
+	const auto& spellbookComp = entity.getComponent<SpellbookComponent>();
+	return hasSpellCdPassed(spellbookComp, id);
+}

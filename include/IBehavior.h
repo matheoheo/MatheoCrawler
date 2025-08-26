@@ -3,6 +3,7 @@
 #include "ITask.h"
 enum class Direction;
 enum class AnimationIdentifier;
+enum class EntityAIState;
 
 class IBehavior
 {
@@ -17,6 +18,11 @@ protected:
 	virtual void swapToTargetting(Entity& entity) = 0;
 	virtual void swapToAttacking(Entity& entity, Entity& target) = 0;
 	virtual void fallbackOnNoDirection(Entity& self, Entity& target) = 0;
+	virtual void handleTargettingLogic(Entity& self, Entity& target) = 0;
+	virtual void handleAttackingLogic(Entity& self, Entity& target) = 0;
+
+	void handleNoneStateLogic(Entity& entity, Entity& player);
+	void handlePatrollingLogic(Entity& entity, Entity& player);
 
 	void updateTasks(Entity& entity, const sf::Time& deltaTime);
 	void updateTimers(Entity& entity, const sf::Time& deltaTime);
@@ -51,11 +57,15 @@ protected:
 	bool canCastLOS(const Entity& entity) const;
 	void resetLOSTimer(const Entity& entity) const;
 	std::optional<Direction> getDirectionToTarget(const Entity& self, const Entity& target) const;
-
-	void handleLogicIfPatrolling(Entity& entity, Entity& player);
 	AnimationIdentifier getRandomAttack(const Entity& entity);
+
+	void setupCommonBehaviors();
+	void updateCurrentBehavior(Entity& self, Entity& target, EntityAIState currState);
 protected:
 	BehaviorContext& mBehaviorContext;
 	std::deque<std::unique_ptr<ITask>> mTasks;
+protected:
+	using BehaviorFunc = std::function<void(Entity&, Entity&)>;
+	std::unordered_map<EntityAIState, BehaviorFunc> mBehaviors;
 };
 

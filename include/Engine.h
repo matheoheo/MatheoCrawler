@@ -14,6 +14,8 @@ private:
 	void processEvents();
 	void update(const sf::Time& deltaTime);
 	void render();
+
+
 private:
 	sf::RenderWindow mWindow;
 	AssetManager<TextureIdentifier, sf::Texture> mTextures;

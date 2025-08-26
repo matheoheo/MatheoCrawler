@@ -12,6 +12,7 @@ void AnimationHolder::loadAnimations()
     loadSkletorusSpecificAnimations();
     loadBonvikSpecificAnimations();
     loadMorannaSpecificAnimations();
+    loadRaySpecificAnimations();
 }
 
 const AnimationHolder::AnimationFrames& AnimationHolder::get(const GenericAnimationKey& key) const
@@ -136,6 +137,30 @@ void AnimationHolder::loadMorannaSpecificAnimations()
     } };
 
     loadAnimationsFromFile<EntityAnimationKey>(mEntityAnimations, "assets/entities/Moranna/animations.txt",
+        [&idToEntityKey](int animId) {return idToEntityKey[animId]; });
+}
+
+void AnimationHolder::loadRaySpecificAnimations()
+{
+    constexpr std::array<EntityAnimationKey, 12> idToEntityKey =
+    { {
+        {AnimationIdentifier::Attack1, Direction::Up,     EntityType::Ray},
+        {AnimationIdentifier::Attack1, Direction::Left,   EntityType::Ray},
+        {AnimationIdentifier::Attack1, Direction::Bottom, EntityType::Ray},
+        {AnimationIdentifier::Attack1, Direction::Right,  EntityType::Ray},
+
+        {AnimationIdentifier::Attack2, Direction::Up,     EntityType::Ray},
+        {AnimationIdentifier::Attack2, Direction::Left,   EntityType::Ray},
+        {AnimationIdentifier::Attack2, Direction::Bottom, EntityType::Ray},
+        {AnimationIdentifier::Attack2, Direction::Right,  EntityType::Ray},
+
+        {AnimationIdentifier::Attack3, Direction::Up,     EntityType::Ray},
+        {AnimationIdentifier::Attack3, Direction::Left,   EntityType::Ray},
+        {AnimationIdentifier::Attack3, Direction::Bottom, EntityType::Ray},
+        {AnimationIdentifier::Attack3, Direction::Right,  EntityType::Ray},
+    } };
+
+    loadAnimationsFromFile<EntityAnimationKey>(mEntityAnimations, "assets/entities/ray/animations.txt",
         [&idToEntityKey](int animId) {return idToEntityKey[animId]; });
 }
 

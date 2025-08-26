@@ -6,6 +6,7 @@ enum class EntityType
 	Skletorus,
 	Bonvik,
 	Moranna,
+	Ray,
 
 	Projectile
 };

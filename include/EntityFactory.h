@@ -24,6 +24,7 @@ private:
     void spawnSkletorusEntity(const sf::Vector2i& cellIndex);
     void spawnBonvikEntity(const sf::Vector2i& cellIndex);
     void spawnMorannaEntity(const sf::Vector2i& cellIndex);
+    void spawnRayEntity(const sf::Vector2i& cellIndex);
 
     sf::Vector2f cellIndexToPos(const sf::Vector2i& cellIndex) const;
     int getRandomPatrolDelay(int min, int max) const;

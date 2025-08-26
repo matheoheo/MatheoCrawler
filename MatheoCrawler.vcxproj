@@ -111,6 +111,7 @@
     <ClInclude Include="include\ProjectileSpellUpgradeStrategy.h" />
     <ClInclude Include="include\ProjectileSystem.h" />
     <ClInclude Include="include\Random.h" />
+    <ClInclude Include="include\RayBehavior.h" />
     <ClInclude Include="include\RegenerationSystem.h" />
     <ClInclude Include="include\RegenerationVisualEffect.h" />
     <ClInclude Include="include\RegenSpellUpgradeStrategy.h" />
@@ -220,6 +221,7 @@
     <ClCompile Include="src\PositionToAttackTask.cpp" />
     <ClCompile Include="src\ProjectileSpellUpgradeStrategy.cpp" />
     <ClCompile Include="src\ProjectileSystem.cpp" />
+    <ClCompile Include="src\RayBehavior.cpp" />
     <ClCompile Include="src\RegenerationSystem.cpp" />
     <ClCompile Include="src\RegenerationVisualEffect.cpp" />
     <ClCompile Include="src\RegenSpellUpgradeStrategy.cpp" />
