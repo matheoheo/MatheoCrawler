@@ -82,14 +82,8 @@ void OptionsState::createButtons()
 	} };
 	const std::array<sf::Vector2f, buttonsCount> buttonsPos =
 	{
-		sf::Vector2f{
-			Config::fWindowSize.x * mLeftMarginPercent, //so we get left position
-			Config::fWindowSize.y * (1.0f - mLeftMarginPercent) //so we got bottom position
-		},
-		sf::Vector2f{
-			Config::fWindowSize.x * mRightMarginPercent, //right position
-			Config::fWindowSize.y * (1.0f - mLeftMarginPercent) //bottom pos
-		}
+		Utilities::getPrimaryButtonPos(),
+		Utilities::getSecondaryButtonsPos()
 	};
 
 	mButtons.reserve(buttonsCount);
@@ -109,8 +103,10 @@ void OptionsState::createBackground()
 
 void OptionsState::createHeaderText()
 {
+	mHeaderText = Utilities::createStateHeaderText(mGameContext.fonts.get(FontIdentifiers::Default), "Crawler's Options");
+	return;
+
 	mHeaderText.setFillColor({ 255, 255, 100 });
-	mHeaderText.setString("Crawler's Options");
 	mHeaderText.setCharacterSize(mCharSize * 2);
 	auto textSize = mHeaderText.getGlobalBounds().size;
 	mHeaderText.setOrigin(textSize * 0.5f);
@@ -183,7 +179,7 @@ void OptionsState::createOptions()
 		mOptions.emplace(
 			std::piecewise_construct,
 			std::forward_as_tuple(key),
-			std::forward_as_tuple(font, val +":")
+			std::forward_as_tuple(font, val + ":")
 		);
 	}
 	createResolutionOptionValues();

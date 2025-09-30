@@ -6,6 +6,7 @@ enum class TextureIdentifier
 	MattLogo,
 	MenuBackground,
 	OptionsBackground,
+	CreditsBackground,
 
 	//entities
 	Player,

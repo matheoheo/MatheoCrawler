@@ -8,6 +8,7 @@
 #include "SpellHolder.h"
 #include "SpellIdentifiers.h"
 #include "BasicRangedBehavior.h"
+#include "RayBehavior.h"
 
 EntityFactory::EntityFactory(EntityManager& entityManager, AssetManager<TextureIdentifier, sf::Texture>& textures,
 	BehaviorContext& behaviorContext, EventManager& eventManager)
@@ -49,12 +50,12 @@ void EntityFactory::spawnProjectileEvent(const SpawnProjectileEvent& data)
 
 	switch (data.projId)
 	{
-	case SpellIdentifier::WaterBall:      return spawnWaterBall(data, casterCellIndex, casterDir); 
-	case SpellIdentifier::PureProjectile: return spawnPureProjectiles(data, casterCellIndex, casterDir);
-	case SpellIdentifier::Fireball:       return spawnFireballProjectiles(data, casterCellIndex);
-	case SpellIdentifier::Bloodball:      return spawnBloodballProjectiles(data, casterCellIndex, casterDir);
+	case SpellIdentifier::WaterBall:         return spawnWaterBall(data, casterCellIndex, casterDir); 
+	case SpellIdentifier::PureProjectile:    return spawnPureProjectiles(data, casterCellIndex, casterDir);
+	case SpellIdentifier::Fireball:          return spawnFireballProjectiles(data, casterCellIndex);
+	case SpellIdentifier::Bloodball:         return spawnBloodballProjectiles(data, casterCellIndex, casterDir);
 	case SpellIdentifier::MorannaProjectile: return spawnWaterBall(data, casterCellIndex, casterDir); //placeholder
-	default:							  break;
+	default:							     break;
 	}
 }
 
@@ -171,10 +172,16 @@ void EntityFactory::spawnRayEntity(const sf::Vector2i& cellIndex)
 	addSpriteComponent(entity, TextureIdentifier::Ray, cellIndexToPos(cellIndex));
 	addCommonComponents(entity, EntityType::Ray);
 	addAIComponents(entity);
-	entity.addComponent<BehaviorComponent>(std::make_unique<BasicMeleeBehavior>(mBehaviorContext));
+	entity.addComponent<BehaviorComponent>(std::make_unique<RayBehavior>(mBehaviorContext));
+	entity.addComponent<BeamSpellComponent>();
 	auto& avAttacksComp = entity.getComponent<AvailableAttacksComponent>();
 	avAttacksComp.mAttacks.emplace_back(AnimationIdentifier::Attack2);
 	avAttacksComp.mAttacks.emplace_back(AnimationIdentifier::Attack3);
+	auto& spellbook = entity.addComponent<SpellbookComponent>();
+	spellbook.cSpells[SpellIdentifier::BossHeal] = SpellInstance{ &SpellHolder::getInstance().get(SpellIdentifier::BossHeal) };
+	spellbook.cSpells[SpellIdentifier::LightBeam] = SpellInstance{ &SpellHolder::getInstance().get(SpellIdentifier::LightBeam) };
+	spellbook.cSpells[SpellIdentifier::WaterBall] = SpellInstance{ &SpellHolder::getInstance().get(SpellIdentifier::WaterBall) };
+	spellbook.cSpells[SpellIdentifier::PureProjectile] = SpellInstance{ &SpellHolder::getInstance().get(SpellIdentifier::PureProjectile) };
 
 	notifyTileOccupied(entity);
 }
@@ -226,14 +233,16 @@ void EntityFactory::spawnProjectile(const SpawnProjectileEvent& data, const sf::
 
 	auto& projData = spellData.projectile.value();
 	sf::Vector2f spawnPos{ cellIndex.x * Config::getCellSize().x, cellIndex.y * Config::getCellSize().y };
-	bool playerCasted = data.caster.hasComponent<PlayerComponent>();
 	sf::Vector2f offset{ Config::getCellSize().x / 2.f, Config::getCellSize().y / 2.f };
+	bool playerCasted = data.caster.hasComponent<PlayerComponent>();
 
 	auto& entity = mEntityManager.createEntity();
 	auto& spriteComp = entity.addComponent<SpriteComponent>(getProjectileTexture(data.projId));
 	spriteComp.cSprite.setOrigin(projectileSize * 0.5f);
 	spriteComp.cSprite.setPosition(spawnPos + offset);
 	spriteComp.cSprite.setRotation(sf::degrees(getProjectileRotation(casterDir)));
+	if (data.projColor)
+		spriteComp.cSprite.setColor(*data.projColor);
 
 	auto& moveComp = entity.addComponent<MovementComponent>(projData.speed);
 	moveComp.cDirectionVector = Utilities::dirToVector(casterDir);
@@ -331,6 +340,10 @@ const sf::Texture& EntityFactory::getProjectileTexture(SpellIdentifier id)
 
 int EntityFactory::calculateProjectileDamage(const SpawnProjectileEvent& data, const ProjectileSpell& spellData) const
 {
+	//If the damage was sent in the event we just return that, no need for any calculations.
+	if (data.projDamage)
+		return *data.projDamage;
+
 	int damage = Random::get(spellData.minDmg, spellData.maxDmg);
 	bool isRangedEnemy = data.caster.hasComponent<RangedEnemyComponent>();
 

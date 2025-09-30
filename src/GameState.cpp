@@ -35,6 +35,7 @@
 #include "LevelAdvanceSystem.h"
 #include "StateIdentifiers.h"
 #include "GameStatisticsSystem.h"
+#include "BeamSystem.h"
 
 GameState::GameState(GameContext& gameContext)
 	:IState(gameContext),
@@ -68,6 +69,26 @@ void GameState::update(const sf::Time& deltaTime)
 	IState::updateMousePosition();
 	mSystemManager.update(deltaTime);
 	mUIManager.update(deltaTime);
+
+
+	static sf::Clock c;
+	if (c.getElapsedTime().asMilliseconds() > 500)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
+		{
+			BeamData data;
+			data.casterPos = Utilities::getEntityPos(mEntityManager.getPlayer());
+			std::cout << "Pos: " << data.casterPos.x << " " << data.casterPos.y << "\n";
+			data.chargeTime = 1500;
+			data.length = 4;
+			data.dir = mEntityManager.getPlayer().getComponent<DirectionComponent>().cCurrentDir;
+			data.innerColor = { 255, 245, 180, 255 };
+			data.outerColor = { 255, 200, 50, 180 };
+			mSystemContext.eventManager.notify<CastBeamEvent>(CastBeamEvent(data));
+			
+			c.restart();
+		}
+	}
 
 	if (!mLevelLoaded)
 	{
@@ -178,6 +199,7 @@ void GameState::createSystems()
 	mSystemManager.addSystem(std::make_unique<PathFollowSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<SpellEffectSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<AreaOfEffectSpellSystem>(mSystemContext, mTileMap));
+	mSystemManager.addSystem(std::make_unique<BeamSystem>(mSystemContext, mTileMap));
 	mSystemManager.addSystem(std::make_unique<StatusIconDisplaySystem>(mSystemContext, mGameContext.textures));
 	mSystemManager.addSystem(std::make_unique<GameStatisticsSystem>(mSystemContext));
 	mSystemManager.addSystem(std::make_unique<LevelAdvanceSystem>(mSystemContext, mTileMap, mGameContext.fonts.get(FontIdentifiers::UIFont)));

@@ -4,6 +4,7 @@
 #include "SpellIdentifiers.h"
 #include "IMapGenerator.h"
 #include "GameStatisticTypes.h"
+#include "BeamData.h"
 
 class Entity;
 struct Tile;
@@ -349,15 +350,16 @@ struct UpdatePlayerStatusEvent : public IEvent
 struct CastSpellEvent : public IEvent
 {
 	Entity& caster;
-	Entity* target;
 	SpellIdentifier spellId;
 	std::optional<sf::Keyboard::Key> usedKey;
+	std::optional<std::function<void()>> onCastFinish;
 
-	CastSpellEvent(Entity& caster, Entity* target, SpellIdentifier id, std::optional<sf::Keyboard::Key> key = {})
+	CastSpellEvent(Entity& caster, SpellIdentifier id, std::optional<sf::Keyboard::Key> key = {}, 
+		std::optional<std::function<void()>> onCastFinish = {})
 		:caster(caster),
-		target(target),
 		spellId(id),
-		usedKey(key)
+		usedKey(key),
+		onCastFinish(onCastFinish)
 	{}
 };
 
@@ -387,9 +389,10 @@ struct StartSpellCooldownUIEvent : public IEvent
 struct TriggerHealSpellEvent : public IEvent
 {
 	const Entity& caster;
-
-	TriggerHealSpellEvent(const Entity& caster)
-		:caster(caster)
+	std::optional<float> healPercent;
+	TriggerHealSpellEvent(const Entity& caster, std::optional<float> healPercent = {})
+		:caster(caster),
+		healPercent(healPercent)
 	{}
 };
 
@@ -449,10 +452,15 @@ struct SpawnProjectileEvent : public IEvent
 {
 	Entity& caster;
 	SpellIdentifier projId;
+	std::optional<sf::Color> projColor; //allows to manipulate color of sprite
+	std::optional<int> projDamage;
 
-	SpawnProjectileEvent(Entity& caster, SpellIdentifier id)
+
+	SpawnProjectileEvent(Entity& caster, SpellIdentifier id, std::optional<sf::Color> color = {}, std::optional<int> projDmg = {})
 		:caster(caster),
-		projId(id)
+		projId(id),
+		projColor(color),
+		projDamage(projDmg)
 	{}
 };
 
@@ -657,4 +665,13 @@ struct ClearNonGlobalEvents : public IEvent
 	//That's why, after further inspection of events, i decided that since only 3 events are outside of GameState,
 	//This way of doing would be much easier fix for now -
 	//This particular event unregisters all events and registers StateManager events once again.
+};
+
+struct CastBeamEvent : public IEvent
+{
+	BeamData beamData;
+	CastBeamEvent(const BeamData& data)
+		:beamData(data)
+	{
+	}
 };

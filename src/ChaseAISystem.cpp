@@ -18,17 +18,6 @@ void ChaseAISystem::update(const sf::Time& deltaTime)
 		auto& chaseComp = ent->getComponent<ChaseAIComponent>();
 		auto& pathComp = ent->getComponent<PathComponent>();
 		pathComp.cTimeSinceLastRecalculation += deltaTime.asMilliseconds();
-		/*
-		auto nextStep = getPathStep(pathComp);
-		if (!nextStep)
-		{
-			askForPathRecalculation(*ent);
-			continue;
-		}
-		//doStep(*ent, pathComp, nextStep.value());
-
-		if (isPathRecalculationDue(pathComp))
-			askForPathRecalculation(*ent);*/
 	}
 }
 

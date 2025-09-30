@@ -319,3 +319,66 @@ bool Utilities::hasSpellCdPassed(const Entity& entity, SpellIdentifier id)
 	const auto& spellbookComp = entity.getComponent<SpellbookComponent>();
 	return hasSpellCdPassed(spellbookComp, id);
 }
+
+bool Utilities::areAxisAligned(const Entity& a, const Entity& b)
+{
+	const auto cellA = getEntityCell(a);
+	const auto cellB = getEntityCell(b);
+
+	return cellA.x - cellB.x == 0 || cellA.y - cellB.y == 0;
+}
+
+float Utilities::getHpPercent(const Entity& ent)
+{
+	const auto& statsComp = ent.getComponent<CombatStatsComponent>();
+	int currHp = statsComp.cHealth;
+	int maxHp = statsComp.cMaxHealth;
+	int percentage = static_cast<int>((static_cast<float>(currHp) / static_cast<float>(maxHp)) * 100);
+
+	return percentage;
+}
+
+sf::Text Utilities::createStateHeaderText(const sf::Font& font, const std::string& str)
+{
+	sf::Text result(font, str, Config::getCharacterSize() * 2);
+	result.setFillColor({ 255, 255, 100 });
+	auto textSize = result.getGlobalBounds().size;
+	result.setOrigin(textSize * 0.5f);
+	constexpr float marginRatio = 0.05f;
+	const sf::Vector2f pos{
+		Config::fWindowSize.x * 0.5f,
+		Config::fWindowSize.y * marginRatio
+	};
+	result.setPosition(pos);
+	result.setOutlineThickness(3.f);
+	result.setOutlineColor({ 10, 20, 50 });
+	result.setStyle(sf::Text::Style::Bold);
+
+	return result;
+}
+
+float Utilities::getBottomPos()
+{
+	constexpr float margin = 0.925f;
+	return Config::fWindowSize.y * margin;
+}
+
+sf::Vector2f Utilities::getPrimaryButtonPos()
+{
+	constexpr float margin = 0.075f;
+	return
+	{
+		Config::fWindowSize.x * margin,
+		getBottomPos()
+	};
+}
+
+sf::Vector2f Utilities::getSecondaryButtonsPos()
+{
+	constexpr float margin = 0.85f;
+	return
+	{
+		Config::fWindowSize.x * margin,
+		getBottomPos()
+	};
+}

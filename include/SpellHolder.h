@@ -36,6 +36,8 @@ private:
 	void createThunderstorm();
 
 	void createMorannaProjectile();
+	void createLightBeam();
+	void createBossHeal();
 private:
 	std::unordered_map<SpellIdentifier, SpellData> mSpellsMap;
 	std::unordered_map<SpellIdentifier, SpellDefinition> mDefinitions;

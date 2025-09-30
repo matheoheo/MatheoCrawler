@@ -52,7 +52,9 @@ void MenuState::createButtons()
 		{"Options", [this]() {
 			proceedToState(StateIdentifier::OptionsState, false);
 		}},
-		{"Credits", []() {}},
+		{"Credits", [this]() {
+			proceedToState(StateIdentifier::CreditsState, false);
+		}},
 		{"About",   []() {}},
 		{"Exit",    [this]() {
 			mGameContext.window.close();

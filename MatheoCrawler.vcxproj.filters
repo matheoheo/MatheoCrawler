@@ -376,6 +376,21 @@
     <ClInclude Include="include\RayBehavior.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\BeamSpell.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BeamSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BeamData.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CastSpellTask.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CreditsState.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -687,6 +702,18 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\RayBehavior.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BeamSpell.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BeamSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CastSpellTask.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CreditsState.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

@@ -21,7 +21,11 @@ enum class SpellIdentifier
 	Thunderstorm,
 
 	//Spells that are treated as basic attacks for ranged entities
-	MorannaProjectile
+	MorannaProjectile,
+
+	//Bosses Spells
+	LightBeam,
+	BossHeal
 };
 
 enum class SpellType
@@ -30,7 +34,7 @@ enum class SpellType
 	Heal,
 	Projectile,
 	AreaOfEffect,
-
+	Beam,
 	Count
 };
 

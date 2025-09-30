@@ -12,6 +12,7 @@
 #include "Config.h"
 #include "SpellData.h"
 #include "ISpellEffect.h"
+#include "BeamData.h"
 class Entity;
 
 struct IComponent
@@ -423,4 +424,13 @@ struct StatusIconsComponent : public IComponent
 	};
 
 	std::vector<std::unique_ptr<StatusIcon>> cIcons;
+};
+
+struct BeamSpellComponent : public IComponent
+{
+	//This component is used to store BeamSpell's data configuration
+	//Because of current architecture of casting spells, if this data were to be send by event
+	//it would have to be chained and stored while in SpellSystem -> AnimationSystem -> SpellSystem
+	//so, the configuration data is stored in vector.
+	std::vector<BeamData> cActiveBeams;
 };

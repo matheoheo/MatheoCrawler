@@ -74,6 +74,8 @@ void Engine::preloadAssets()
 	mTextures.load(TextureIdentifier::MenuBackground,    "assets/menu/MenuBackground.png");
 	mTextures.load(TextureIdentifier::MattLogo,		     "assets/logo/mattGamesLogo.jpeg");
 	mTextures.load(TextureIdentifier::OptionsBackground, "assets/menu/OptionsBackground.jpeg");
+	mTextures.load(TextureIdentifier::CreditsBackground, "assets/menu/creditsBackground.png");
+
 
 	mTextures.load(TextureIdentifier::Player,		   "assets/entities/player/player.png");
 	mTextures.load(TextureIdentifier::Moranna,         "assets/entities/Moranna/moranna.png");

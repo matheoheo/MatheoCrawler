@@ -43,6 +43,7 @@ void SpellSystem::registerToEvents()
 {
 	registerToCastSpellEvent();
 	registerToCastAnimationFinished();
+	removePendingSpellOnEntityDeath();
 }
 
 void SpellSystem::registerToCastSpellEvent()
@@ -51,30 +52,7 @@ void SpellSystem::registerToCastSpellEvent()
 		{
 			if (!Utilities::isEntityIdling(data.caster))
 				return;
-
-			auto& spellbookComp = data.caster.getComponent<SpellbookComponent>();
-			if (!canCastSpell(data, spellbookComp))
-				return;
-			if (isAOESpell(data.spellId))
-			{
-				if (doesSpellDependOnMousePos(data.spellId) && !canCastAtMousePos(data.caster))
-					return;
-			}
-			updateLastSpell(spellbookComp, data.spellId);
-		//	subtractMana(data.caster, spellbookComp);
-			auto& thisSpell = spellbookComp.cSpells[data.spellId];
-			thisSpell.cooldownRemaining = thisSpell.data->cooldown;
-			if (data.usedKey)
-				notifyUISystem(data.usedKey.value(), thisSpell.cooldownRemaining);
-
-			auto animType = getAnimationBasedOnSpellType(*thisSpell.data);
-			data.caster.getComponent<EntityStateComponent>().cCurrentState = EntityState::CastingSpell;
-
-			notifyAnimationSystem(data.caster, thisSpell.data->castTime, animType);
-			notifyEffectSystem(data, thisSpell);
-
-			if(!isEntityAlreadyTracked(data.caster))
-				mTrackedEntities.push_back(&data.caster);
+			onCastSpellEvent(data);
 		});
 }
 
@@ -163,26 +141,40 @@ bool SpellSystem::canCastAtMousePos(const Entity& entity) const
 
 void SpellSystem::notifyCastFinished(Entity& entity, SpellIdentifier id)
 {
-	if (isRegenSpell(id))
-		onRegenSpellCast(entity, id);
-	else if (isHealingSpell(id))
-		mSystemContext.eventManager.notify<TriggerHealSpellEvent>(TriggerHealSpellEvent(entity));
-	else if (isProjectileSpell(id))
-		mSystemContext.eventManager.notify<SpawnProjectileEvent>(SpawnProjectileEvent(entity, id));
-	else if (isAOESpell(id))
-		mSystemContext.eventManager.notify<CastAOESpellEvent>(CastAOESpellEvent(entity, id, fMousePos));
+	if (entity.hasComponent<PlayerComponent>())
+		handlePlayerSpellFinished(entity, id);
+	else
+	{
+		auto entId = entity.getEntityId();
+		auto it = std::ranges::find_if(mPendingSpells, [&](const PendingSpell& spell) {
+			return spell.casterId == entId && spell.spellId == id;
+			});
+
+		if (it != std::ranges::end(mPendingSpells))
+		{
+			it->onCastFinish();
+			mPendingSpells.erase(it);
+		}
+	}
+
 }
 
 AnimationIdentifier SpellSystem::getAnimationBasedOnSpellType(const SpellData& data) const
 {
-	if (data.type == SpellType::Heal)
-		return AnimationIdentifier::GenericSpellCast;
-	else if (data.type == SpellType::Projectile)
-		return AnimationIdentifier::GenericShoot;
-	else if (data.type == SpellType::AreaOfEffect)
-		return AnimationIdentifier::GenericSlashUnarmed;
+	using Pair = std::pair<SpellType, AnimationIdentifier>;
+	constexpr std::array<Pair, 4> mapping =
+	{ {
+		{SpellType::Heal,         AnimationIdentifier::GenericSpellCast},
+		{SpellType::Projectile,   AnimationIdentifier::GenericShoot},
+		{SpellType::AreaOfEffect, AnimationIdentifier::GenericSlashUnarmed},
+		{SpellType::Beam,         AnimationIdentifier::GenericSpellCast}
+	} };
 
-	return AnimationIdentifier::GenericSpellCast;
+	auto it = std::ranges::find(mapping, data.type, &Pair::first);
+	if (it != std::ranges::end(mapping))
+		return it->second;
+
+	return AnimationIdentifier::GenericSpellCast; //default
 }
 
 void SpellSystem::onRegenSpellCast(Entity& entity, SpellIdentifier id)
@@ -202,7 +194,7 @@ void SpellSystem::onRegenSpellCast(Entity& entity, SpellIdentifier id)
 
 bool SpellSystem::isHealingSpell(SpellIdentifier id) const
 {
-	return id == SpellIdentifier::QuickHeal || id == SpellIdentifier::MajorHeal;
+	return id == SpellIdentifier::QuickHeal || id == SpellIdentifier::MajorHeal ||	id == SpellIdentifier::BossHeal;
 }
 
 bool SpellSystem::isRegenSpell(SpellIdentifier id) const
@@ -228,6 +220,59 @@ bool SpellSystem::doesSpellDependOnMousePos(SpellIdentifier id) const
 		   id == SpellIdentifier::Thunderstorm;
 }
 
+void SpellSystem::handlePlayerSpellFinished(Entity& entity, SpellIdentifier id)
+{
+
+	if (isRegenSpell(id))
+		onRegenSpellCast(entity, id);
+	else if (isHealingSpell(id))
+		mSystemContext.eventManager.notify<TriggerHealSpellEvent>(TriggerHealSpellEvent(entity));
+	else if (isProjectileSpell(id))
+		mSystemContext.eventManager.notify<SpawnProjectileEvent>(SpawnProjectileEvent(entity, id));
+	else if (isAOESpell(id))
+		mSystemContext.eventManager.notify<CastAOESpellEvent>(CastAOESpellEvent(entity, id, fMousePos));
+}
+
+void SpellSystem::onCastSpellEvent(const CastSpellEvent& data)
+{
+	auto& spellbookComp = data.caster.getComponent<SpellbookComponent>();
+	bool isPlayer = data.caster.hasComponent<PlayerComponent>();
+	if (isPlayer)
+	{
+		if (!canCastSpell(data, spellbookComp))
+			return;
+		if (isAOESpell(data.spellId))
+		{
+			if (doesSpellDependOnMousePos(data.spellId) && !canCastAtMousePos(data.caster))
+				return;
+		}
+	}
+	updateLastSpell(spellbookComp, data.spellId);
+	//	if(isPlayer) subtractMana(data.caster, spellbookComp);
+	auto& thisSpell = spellbookComp.cSpells[data.spellId];
+	thisSpell.cooldownRemaining = thisSpell.data->cooldown;
+	if (isPlayer && data.usedKey)
+		notifyUISystem(data.usedKey.value(), thisSpell.cooldownRemaining);
+
+	auto animType = getAnimationBasedOnSpellType(*thisSpell.data);
+	data.caster.getComponent<EntityStateComponent>().cCurrentState = EntityState::CastingSpell;
+
+	notifyAnimationSystem(data.caster, thisSpell.data->castTime, animType);
+	notifyEffectSystem(data, thisSpell);
+
+	if (!isPlayer && data.onCastFinish)
+	{
+		mPendingSpells.emplace_back(PendingSpell{
+			.casterId = data.caster.getEntityId(),
+			.spellId = data.spellId,
+			.onCastFinish = *data.onCastFinish
+			});
+	}
+
+	if (!isEntityAlreadyTracked(data.caster))
+		mTrackedEntities.push_back(&data.caster);
+}
+
 void SpellSystem::addToFinished(Entity* entity)
 {
 	mFinishedEntities.emplace_back(entity->getEntityId());
@@ -241,4 +286,15 @@ void SpellSystem::removeFinishedEntities()
 		});
 
 	mFinishedEntities.clear();
+}
+
+void SpellSystem::removePendingSpellOnEntityDeath()
+{
+	mSystemContext.eventManager.registerEvent<RemoveEntityFromSystemEvent>([this](const RemoveEntityFromSystemEvent& data)
+		{
+			std::erase_if(mPendingSpells, [&](const PendingSpell& spell)
+				{
+					return spell.casterId == data.entity.getEntityId();
+				});
+		});
 }

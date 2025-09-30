@@ -139,7 +139,7 @@ void InputSystem::handleCastingSpell(sf::Keyboard::Key pressedKey)
 				return;
 
 			auto spellId = it2->second->data->spellId;
-			mSystemContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(player, nullptr, spellId, pressedKey));
+			mSystemContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(player, spellId, pressedKey));
 		}
 	}
 }

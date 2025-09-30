@@ -65,5 +65,14 @@ namespace Utilities
 	//It doesn't check entities mana
 	bool hasSpellCdPassed(const SpellbookComponent& spellbookComp, SpellIdentifier id);
 	bool hasSpellCdPassed(const Entity& entity, SpellIdentifier id);
+	bool areAxisAligned(const Entity& a, const Entity& b);
+	float getHpPercent(const Entity& ent);
+
+	//Returns sf::Text object that is adapted to be a State's header text.
+	sf::Text createStateHeaderText(const sf::Font& font, const std::string& str);
+
+	float getBottomPos();
+	sf::Vector2f getPrimaryButtonPos();
+	sf::Vector2f getSecondaryButtonsPos();
 };
 

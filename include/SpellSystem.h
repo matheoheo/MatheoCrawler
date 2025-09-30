@@ -32,8 +32,19 @@ private:
     bool isAOESpell(SpellIdentifier id) const;
     bool doesSpellDependOnMousePos(SpellIdentifier id) const;
 
+    void handlePlayerSpellFinished(Entity& entity, SpellIdentifier id);
+    void onCastSpellEvent(const CastSpellEvent& data);
     void addToFinished(Entity* entity);
     void removeFinishedEntities();
+private:
+    struct PendingSpell
+    {
+        Entity::EntityID casterId = 0;
+        SpellIdentifier spellId = SpellIdentifier::BladeDance;
+        std::function<void()> onCastFinish;
+    };
+    std::vector<PendingSpell> mPendingSpells;
+    void removePendingSpellOnEntityDeath();
 private:
     const TileMap& mTileMap;
     const sf::Vector2f& fMousePos;

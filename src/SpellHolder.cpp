@@ -48,6 +48,8 @@ void SpellHolder::initalizeSpells()
     createThunderstorm();
 
     createMorannaProjectile();
+    createLightBeam();
+    createBossHeal();
 }
 
 void SpellHolder::createQuickHeal()
@@ -432,4 +434,35 @@ void SpellHolder::createMorannaProjectile()
     };
 
     mSpellsMap.emplace(id, std::move(data));
+}
+
+void SpellHolder::createLightBeam()
+{
+    SpellIdentifier id{ SpellIdentifier::LightBeam };
+    SpellData data;
+    data.type = SpellType::Beam;
+    data.spellId = id;
+    data.castTime = 500;
+    data.cooldown = 18 * 1000;
+    data.cost = 0;
+
+    mSpellsMap.emplace(id, std::move(data));
+}
+
+void SpellHolder::createBossHeal()
+{
+    HealingSpell hs{
+        .healValue = 0.15f
+    };
+
+    SpellIdentifier id = SpellIdentifier::BossHeal;
+    mSpellsMap[id] = SpellData{
+        .type = SpellType::Heal,
+        .spellId = id,
+        .cost = 0,
+        .cooldown = 30 * 1000,
+        .castTime = 600,
+        .duration = 0,
+        .healing = hs
+    };
 }

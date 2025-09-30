@@ -5,6 +5,7 @@
 #include "LoadingState.h"
 #include "MenuState.h"
 #include "OptionsState.h"
+#include "CreditsState.h"
 
 StateManager::StateManager(GameContext& gameContext)
     :mGameContext(gameContext),
@@ -111,6 +112,9 @@ void StateManager::switchState(StateIdentifier stateId)
         break;
     case StateIdentifier::OptionsState:
         pushState(std::make_unique<OptionsState>(mGameContext));
+        break;
+    case StateIdentifier::CreditsState:
+        pushState(std::make_unique<CreditsState>(mGameContext));
         break;
     default:
         break;
