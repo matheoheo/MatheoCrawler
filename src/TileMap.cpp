@@ -11,9 +11,9 @@ TileMap::TileMap(EventManager& eventManager, const sf::View& gameView, Pathfinde
 {
 	registerToEvents(eventManager);
 }
-void TileMap::buildFromGenerator(CaveGenerator& gen, const sf::Vector2i& size, int maxDepth, const sf::Vector2i& minRoomSize, const sf::Vector2i& maxRoomSize)
+void TileMap::buildFromGenerator(std::unique_ptr<IMapGenerator>& gen, const sf::Vector2i& size, int maxDepth, const sf::Vector2i& minRoomSize, const sf::Vector2i& maxRoomSize)
 {
-	auto map = std::move(gen.generate(size, maxDepth, minRoomSize, maxRoomSize));
+	auto map = std::move(gen->generate(size, maxDepth, minRoomSize, maxRoomSize));
 	createTiles(map);
 }
 

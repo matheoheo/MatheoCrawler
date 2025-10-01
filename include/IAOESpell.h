@@ -16,6 +16,7 @@ public:
 	virtual void render(sf::RenderWindow& window) = 0;
 
 	bool isCompleted() const;
+	void setCustomDamage(int damage);
 protected:
 	void addTimePassed(const sf::Time& deltaTime);
 	bool hasCastFinished() const;
@@ -35,5 +36,6 @@ protected:
 	int mCastTime; //Time after spell's effect takes impact.
 	int mTimePassed;
 	bool mIsComplete;
+	std::optional<int> mDamage;
 };
 

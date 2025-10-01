@@ -11,6 +11,7 @@ public:
     // Inherited via ISystem
     virtual void update(const sf::Time& deltaTime) override;
     virtual void render(sf::RenderWindow& window) override;
+
 private:
     void registerToEvents();
     void registerToCastAOESpellEvent();

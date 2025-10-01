@@ -43,10 +43,11 @@ private:
     void loadNextLevel();
     void notifyMoveFinished();
     void notifySetLevelAdvancedCellEvent();
+    void determineNextGenerator();
 private:
     sf::View mGameView;
     TileMap mTileMap;
-    CaveGenerator mGenerator;
+    std::unique_ptr<IMapGenerator> mGenerator;
     EntityManager mEntityManager;
     SystemContext mSystemContext;
     SystemManager mSystemManager;

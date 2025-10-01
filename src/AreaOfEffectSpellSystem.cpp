@@ -29,6 +29,7 @@ void AreaOfEffectSpellSystem::render(sf::RenderWindow& window)
 		spell->render(window);
 }
 
+
 void AreaOfEffectSpellSystem::registerToEvents()
 {
 	registerToCastAOESpellEvent();
@@ -41,6 +42,8 @@ void AreaOfEffectSpellSystem::registerToCastAOESpellEvent()
 			if (!mSpellsRegistry.contains(data.spellId))
 				return;
 			auto nextSpellPtr = mSpellsRegistry.at(data.spellId)(data);
+			if (data.customDmg)
+				nextSpellPtr->setCustomDamage(*data.customDmg);
 			mActiveSpells.push_back(std::move(nextSpellPtr));
 		});
 }

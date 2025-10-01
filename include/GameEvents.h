@@ -594,11 +594,13 @@ struct CastAOESpellEvent : public IEvent
 	Entity& source;
 	SpellIdentifier spellId;
 	const sf::Vector2f castPos;
+	std::optional<int> customDmg;
 
-	CastAOESpellEvent(Entity& source, SpellIdentifier id, const sf::Vector2f& castPos)
+	CastAOESpellEvent(Entity& source, SpellIdentifier id, const sf::Vector2f& castPos, std::optional<int> customDmg = {})
 		:source(source),
 		spellId(id),
-		castPos(castPos)
+		castPos(castPos),
+		customDmg(customDmg)
 	{}
 };
 

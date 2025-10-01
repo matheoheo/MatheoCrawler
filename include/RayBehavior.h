@@ -52,10 +52,12 @@ private:
 private:
 	SpellRule createWaterBallRule();
 	SpellRule createBeamRule();
+	SpellRule createPureProjectileRule();
+	SpellRule createBladeDanceRule();
 private:
 	bool canCastSpell(const Entity& entity, SpellIdentifier id);
-	bool canCastProjectile(const Entity& self, const Entity& target, int range) const;
-	void castProjectile(Entity& self, SpellIdentifier id);
+	bool canCastProjectile(const Entity& self, const Entity& target, int range, int axisTolerance = 0) const;
+	void castProjectile(Entity& self, Entity& target, float dmgPercent, SpellIdentifier id);
 	bool canCastBeam(const Entity& self, const Entity& target) const;
 	void castBeam(Entity& self, Entity& target);
 	int getDistance(const Entity& self, const Entity& target) const;
@@ -63,6 +65,8 @@ private:
 	void setupBehaviors();
 
 	bool isInMeleeRange(const Entity& self, const Entity& target) const;
+private:
+	int getTargetsHealth(const Entity& target, float percent = 1.0f) const;
 private:
 	std::vector<PhaseConfig> mPhases;
 	const SpellRule* mCurrentSpell;

@@ -71,25 +71,6 @@ void GameState::update(const sf::Time& deltaTime)
 	mUIManager.update(deltaTime);
 
 
-	static sf::Clock c;
-	if (c.getElapsedTime().asMilliseconds() > 500)
-	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
-		{
-			BeamData data;
-			data.casterPos = Utilities::getEntityPos(mEntityManager.getPlayer());
-			std::cout << "Pos: " << data.casterPos.x << " " << data.casterPos.y << "\n";
-			data.chargeTime = 1500;
-			data.length = 4;
-			data.dir = mEntityManager.getPlayer().getComponent<DirectionComponent>().cCurrentDir;
-			data.innerColor = { 255, 245, 180, 255 };
-			data.outerColor = { 255, 200, 50, 180 };
-			mSystemContext.eventManager.notify<CastBeamEvent>(CastBeamEvent(data));
-			
-			c.restart();
-		}
-	}
-
 	if (!mLevelLoaded)
 	{
 		notifyMoveFinished();
@@ -154,7 +135,7 @@ void GameState::renderMap()
 
 void GameState::spawnPlayer()
 {
-	auto playerCell = mGenerator.getSpawnCell();
+	auto playerCell = mGenerator->getSpawnCell();
 	mGameContext.eventManager.notify<SpawnEntityEvent>(SpawnEntityEvent(playerCell, EntityType::Player));
 	//add player to regeneration system
 	mGameContext.eventManager.notify<TriggerHpRegenSpellEvent>(TriggerHpRegenSpellEvent(mEntityManager.getPlayer(), 0, 0));
@@ -166,8 +147,8 @@ void GameState::positionPlayer()
 
 	auto& player = mEntityManager.getPlayer();
 	sf::Vector2f validPos = { 
-		mGenerator.getSpawnCell().x * Config::getCellSize().x,
-		mGenerator.getSpawnCell().y * Config::getCellSize().y 
+		mGenerator->getSpawnCell().x * Config::getCellSize().x,
+		mGenerator->getSpawnCell().y * Config::getCellSize().y 
 	};
 	player.getComponent<SpriteComponent>().cSprite.setPosition(validPos);
 	player.getComponent<SpellEffectsComponent>().cActiveEffects.clear();
@@ -222,7 +203,7 @@ void GameState::initalizePathfinder()
 
 void GameState::spawnEntities()
 {
-	const auto& spawnPoints = mGenerator.getSpawnPoints();
+	const auto& spawnPoints = mGenerator->getSpawnPoints();
 	mGameContext.eventManager.notify<GenerateEntitiesEvent>(GenerateEntitiesEvent(spawnPoints));
 }
 
@@ -245,6 +226,7 @@ void GameState::doFirstEnter()
 {
 	std::vector<std::function<void()>> tasks;
 	tasks.push_back([this]() { loadAnimations(); });
+	tasks.push_back([this]() { determineNextGenerator(); });
 	tasks.push_back([this]() { createMap(); });
 	tasks.push_back([this]() { createSystems(); });
 	tasks.push_back([this]() { initalizePathfinder(); });
@@ -275,6 +257,7 @@ void GameState::loadNextLevel()
 	mGameContext.eventManager.notify<BeforeLoadNextLevelEvent>(BeforeLoadNextLevelEvent());
 	++Config::difficulityLevel;
 	std::vector<std::function<void()>> tasks;
+	tasks.push_back([this]() { determineNextGenerator(); });
 	tasks.push_back([this]() { removeEntities(); }); 
 	tasks.push_back([this]() { createMap(); });
 	tasks.push_back([this]() { initalizePathfinder(); });
@@ -296,6 +279,16 @@ void GameState::notifyMoveFinished()
 
 void GameState::notifySetLevelAdvancedCellEvent()
 {
-	mGameContext.eventManager.notify<SetLevelAdvanceCellEvent>(SetLevelAdvanceCellEvent(mGenerator.getNextLevelCell()));
+	mGameContext.eventManager.notify<SetLevelAdvanceCellEvent>(SetLevelAdvanceCellEvent(mGenerator->getNextLevelCell()));
+}
+
+void GameState::determineNextGenerator()
+{
+	//We can generate map by 2 algorithms, DungeonGenerator and CaveGenerator.
+	//We change it every time player reaches next level
+	if (Config::difficulityLevel % 2 == 0)
+		mGenerator = std::make_unique<CaveGenerator>();
+	else
+		mGenerator = std::make_unique<DungeonGenerator>();
 }
 

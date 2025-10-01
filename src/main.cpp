@@ -11,5 +11,7 @@ int main()
 	Engine engine(settings);
 	engine.preloadAssets();
 	engine.start();
+
+	return 0;
 }
 

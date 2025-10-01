@@ -21,6 +21,11 @@ bool IAOESpell::isCompleted() const
     return mIsComplete;
 }
 
+void IAOESpell::setCustomDamage(int damage)
+{
+    mDamage = damage;
+}
+
 void IAOESpell::addTimePassed(const sf::Time& deltaTime)
 {
     mTimePassed += deltaTime.asMilliseconds();
@@ -94,6 +99,9 @@ void IAOESpell::hitEntities(std::vector<Entity*> entities, SpellIdentifier id, E
             continue;
 
         int dmg = Random::get(spell.aoe->minDmg, spell.aoe->maxDmg);
+        //if the damage was overriden then we use provided damage.
+        if (mDamage)
+            dmg = *mDamage;
         eventManager.notify<HitByAOESpellEvent>(HitByAOESpellEvent(*ent, dmg, isPlayerCaster));
         if (effect != SpellEffect::None)
             eventManager.notify<AddSpellEffectEvent>(AddSpellEffectEvent(*ent, effect));

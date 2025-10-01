@@ -182,6 +182,8 @@ void EntityFactory::spawnRayEntity(const sf::Vector2i& cellIndex)
 	spellbook.cSpells[SpellIdentifier::LightBeam] = SpellInstance{ &SpellHolder::getInstance().get(SpellIdentifier::LightBeam) };
 	spellbook.cSpells[SpellIdentifier::WaterBall] = SpellInstance{ &SpellHolder::getInstance().get(SpellIdentifier::WaterBall) };
 	spellbook.cSpells[SpellIdentifier::PureProjectile] = SpellInstance{ &SpellHolder::getInstance().get(SpellIdentifier::PureProjectile) };
+	spellbook.cSpells[SpellIdentifier::BladeDance] = SpellInstance{ &SpellHolder::getInstance().get(SpellIdentifier::BladeDance) };
+
 
 	notifyTileOccupied(entity);
 }

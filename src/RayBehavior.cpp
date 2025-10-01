@@ -184,13 +184,18 @@ void RayBehavior::setupPhases()
 void RayBehavior::setupFirstPhase()
 {
 	auto& phase = mPhases.emplace_back();
-
+	phase.spellRules.reserve(4);
 	phase.minHpPercent = 80;
 	phase.maxHpPercent = 100;
 	phase.unlockedAttacks.emplace_back(AnimationIdentifier::Attack1);
 	phase.unlockedSpells.emplace_back(SpellIdentifier::WaterBall);
-	phase.spellRules.push_back(createWaterBallRule());
-	phase.spellRules.push_back(createBeamRule());
+	phase.unlockedSpells.emplace_back(SpellIdentifier::PureProjectile);
+	phase.unlockedSpells.emplace_back(SpellIdentifier::BladeDance);
+
+	//phase.spellRules.push_back(createWaterBallRule());
+	//phase.spellRules.push_back(createBeamRule());
+	//phase.spellRules.push_back(createPureProjectileRule());
+	phase.spellRules.push_back(createBladeDanceRule());
 }
 
 void RayBehavior::setupSecondPhase()
@@ -216,6 +221,7 @@ void RayBehavior::sortSpellRules(PhaseConfig& phase)
 
 SpellRule RayBehavior::createWaterBallRule()
 {
+	constexpr float waterballDmgPercent = 0.12f;
 	SpellRule waterBallRule;
 	waterBallRule.name = "Waterball";
 	waterBallRule.spellId = SpellIdentifier::WaterBall;
@@ -226,7 +232,7 @@ SpellRule RayBehavior::createWaterBallRule()
 	};
 	waterBallRule.execute = [this](Entity& self, Entity& target)
 	{
-		castProjectile(self, SpellIdentifier::WaterBall);
+		castProjectile(self, target, waterballDmgPercent, SpellIdentifier::WaterBall);
 	};
 
 	return waterBallRule;
@@ -250,14 +256,58 @@ SpellRule RayBehavior::createBeamRule()
 	return rule;
 }
 
+SpellRule RayBehavior::createPureProjectileRule()
+{
+	constexpr float projDmgPercent = 0.25f;
+	constexpr int axisTolerance = 1;
+	SpellRule rule;
+	rule.name = "Pure Projectile";
+	rule.spellId = SpellIdentifier::PureProjectile;
+	rule.priority = 8;
+	rule.condition = [this](const Entity& self, const Entity& target) -> bool
+	{
+		return canCastProjectile(self, target, SpellHolder::getInstance().get(SpellIdentifier::PureProjectile).projectile->range, axisTolerance);
+	};
+	rule.execute = [this](Entity& self, Entity& target)
+	{
+		castProjectile(self, target, projDmgPercent, SpellIdentifier::PureProjectile);
+	};
+
+	return rule;
+}
+
+SpellRule RayBehavior::createBladeDanceRule()
+{
+	SpellRule rule;
+	rule.name = "Blade Dance";
+	rule.spellId = SpellIdentifier::BladeDance;
+	rule.priority = 20;
+	rule.condition = [this](const Entity& self, const Entity& target) -> bool
+	{
+		constexpr int requiredMinDist = 2;
+		return getDistance(self, target) <= requiredMinDist;
+	};
+	rule.execute = [this](Entity& self, Entity& target)
+	{
+		constexpr float perTickDmgPercent = 0.07f;
+		int dmgPerTick = getTargetsHealth(target, perTickDmgPercent);
+		mBehaviorContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(self, SpellIdentifier::BladeDance, {}, [this, &self, dmgPerTick]()
+			{
+				mBehaviorContext.eventManager.notify<CastAOESpellEvent>(CastAOESpellEvent(self, SpellIdentifier::BladeDance,
+					Utilities::getEntityPos(self), dmgPerTick));
+			}));
+	};
+	return rule;
+}
+
 bool RayBehavior::canCastSpell(const Entity& entity, SpellIdentifier id)
 {
 	return Utilities::hasSpellCdPassed(entity, id);
 }
 
-bool RayBehavior::canCastProjectile(const Entity& self, const Entity& target, int range) const
+bool RayBehavior::canCastProjectile(const Entity& self, const Entity& target, int range, int axisTolerance) const
 {
-	bool areAligned = Utilities::areAxisAligned(self, target);
+	bool areAligned = Utilities::areAxisAligned(self, target, axisTolerance);
 	if (!areAligned || getDistance(self, target) > range)
 		return false;
 
@@ -265,11 +315,12 @@ bool RayBehavior::canCastProjectile(const Entity& self, const Entity& target, in
 	return areAligned && isLineOfSightClear;
 }
 
-void RayBehavior::castProjectile(Entity& self, SpellIdentifier id)
+void RayBehavior::castProjectile(Entity& self, Entity& target, float dmgPercent, SpellIdentifier id)
 {
-	mBehaviorContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(self, id, {}, [this, &self, id]()
+	int dmg = getTargetsHealth(target, dmgPercent);
+	mBehaviorContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(self, id, {}, [this, &self, id, dmg]()
 		{
-			mBehaviorContext.eventManager.notify<SpawnProjectileEvent>(SpawnProjectileEvent(self, id, RayBehaviorConfig::rayColor, 1));
+			mBehaviorContext.eventManager.notify<SpawnProjectileEvent>(SpawnProjectileEvent(self, id, RayBehaviorConfig::rayColor, dmg));
 		}));
 }
 
@@ -304,8 +355,7 @@ bool RayBehavior::canCastBeam(const Entity& self, const Entity& target) const
 
 void RayBehavior::castBeam(Entity& self, Entity& target)
 {
-	auto targetHp = target.getComponent<CombatStatsComponent>().cMaxHealth;
-	int damage = targetHp * 0.2f; //20% of target's hp
+	int damage = getTargetsHealth(target, 0.2f); //20% of target's hp
 	BeamData data
 	{
 		.damage = damage,
@@ -357,4 +407,11 @@ void RayBehavior::setupBehaviors()
 bool RayBehavior::isInMeleeRange(const Entity& self, const Entity& target) const
 {
 	return getDistance(self, target) == 1;
+}
+
+int RayBehavior::getTargetsHealth(const Entity& target, float percent) const
+{
+	auto targetHp = target.getComponent<CombatStatsComponent>().cMaxHealth;
+	int hp = static_cast<int>(targetHp * percent);
+	return hp;
 }
