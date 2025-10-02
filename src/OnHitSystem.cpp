@@ -87,7 +87,7 @@ int OnHitSystem::calculateDamage(const Entity& attacker, const Entity& target) c
         thisDmg = 1;
 
     if (attackComp.cLastAttackData)
-        thisDmg *= attackComp.cLastAttackData->damageMultiplier;
+        thisDmg = static_cast<int>(thisDmg * attackComp.cLastAttackData->damageMultiplier);
     return thisDmg;
 }
 

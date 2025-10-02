@@ -52,11 +52,10 @@ void CaveGenerator::populateWallsRandomly(GeneratedMap& map)
 	std::vector<TileType*> tmpMap;
 	tmpMap.reserve(totalCells);
 	
-	std::cout << "Fill %" << fillPercentage << '\n';
 	//Borders of the map are already set as walls, so we skip them.
 	for (size_t y = 1; y < map.size() - 1; ++y)
 	{
-		for (auto x = 1; x < map[y].size() - 1; ++ x)
+		for (size_t x = 1; x < map[y].size() - 1; ++ x)
 			tmpMap.push_back(&map[y][x]);
 	}
 	std::ranges::shuffle(tmpMap, Random::mt);

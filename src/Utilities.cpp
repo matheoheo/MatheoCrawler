@@ -328,7 +328,7 @@ bool Utilities::areAxisAligned(const Entity& a, const Entity& b, int tolerance)
 	return std::abs(cellA.x - cellB.x) <= 0 || std::abs(cellA.y - cellB.y) <= 0;
 }
 
-float Utilities::getHpPercent(const Entity& ent)
+int Utilities::getHpPercent(const Entity& ent)
 {
 	const auto& statsComp = ent.getComponent<CombatStatsComponent>();
 	int currHp = statsComp.cHealth;

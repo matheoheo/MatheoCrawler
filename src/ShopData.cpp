@@ -41,7 +41,8 @@ ShopItem ShopUtils::createItem(const ItemInitData& data, const TexturesHolder& t
 	item.itemNameText.setString(item.itemName);
 	item.itemNameText.setFillColor(sf::Color{ 230, 230, 230 });
 
-	Utilities::scaleSprite(item.currencySprite, sf::Vector2f(charSize, charSize));
+	float fCharSize = static_cast<float>(charSize);
+	Utilities::scaleSprite(item.currencySprite, sf::Vector2f(fCharSize, fCharSize));
 	item.itemCostText.setCharacterSize(charSize);
 	item.itemCostText.setString("57893"); //placeholder
 	item.itemCostText.setFillColor(sf::Color{ 255, 223, 50 });

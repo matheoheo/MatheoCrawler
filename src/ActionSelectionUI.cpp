@@ -46,7 +46,7 @@ void ActionSelectionUI::registerToSelectAttackEvent()
 {
 	mGameContext.eventManager.registerEvent<SelectAttackEvent>([this](const SelectAttackEvent& data)
 		{
-			if (data.attackId < 0 || data.attackId >= mIconSlots.size())
+			if (data.attackId < 0 || data.attackId >= static_cast<int>(mIconSlots.size()))
 				return;
 			for (auto& icon : mIconSlots)
 				icon.border.setOutlineColor(mInactiveBorderColor);

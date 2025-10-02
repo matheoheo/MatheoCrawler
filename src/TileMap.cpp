@@ -150,7 +150,7 @@ std::vector<Tile*>& TileMap::getTilesInCameraBounds()
 
 bool TileMap::isInMapBounds(int x, int y) const
 {
-	return y >= 0 && x >= 0 && y < mTiles.size() && x < mTiles[y].size();
+	return y >= 0 && x >= 0 && y < static_cast<int>(mTiles.size()) && x < static_cast<int>(mTiles[y].size());
 }
 
 bool TileMap::isInMapBounds(const sf::Vector2f& pos) const

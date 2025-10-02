@@ -296,7 +296,7 @@ void DungeonGenerator::populateSpawnPoints(GeneratedMap& map)
 
         std::ranges::shuffle(walkTilesPos, Random::mt);
 
-        for (int i = 0; i < monstersAmount && i < walkTilesPos.size(); ++i)
+        for (int i = 0; i < monstersAmount && i < static_cast<int>(walkTilesPos.size()); ++i)
         {
             auto pos = walkTilesPos[i];
             mSpawnPoints.emplace_back(pos.x, pos.y);

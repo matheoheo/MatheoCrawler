@@ -122,9 +122,9 @@ float ToxicCloudSpell::getRandomParticleRadius() const
 	return static_cast<float>(Random::get(Visuals::particleRadiusMin, Visuals::particleRadiusMax));
 }
 
-float ToxicCloudSpell::getRandomParticleLifetime() const
+int ToxicCloudSpell::getRandomParticleLifetime() const
 {
-	return static_cast<float>(Random::get(Timing::particleLifetimeMin, Timing::particleLifetimeMax));
+	return Random::get(Timing::particleLifetimeMin, Timing::particleLifetimeMax);
 }
 
 float ToxicCloudSpell::getRandomParticleSpeed() const

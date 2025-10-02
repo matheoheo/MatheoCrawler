@@ -111,7 +111,7 @@ void ProjectileSystem::onHit(Entity& hitEntity, Entity::EntityID projId, SpellPr
 	else
 	{
 		addEntityTargetHit(hitEntity, projComp);
-		auto hitTargetsSize = projComp.cHitTargets.size();
+		int hitTargetsSize = static_cast<int>(projComp.cHitTargets.size());
 		if (hitTargetsSize >= projComp.cSpellData->maxTargets)
 			markAsFinished(projId);
 	}

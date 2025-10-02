@@ -168,7 +168,7 @@ std::vector<Pathfinder::PathNode*> Pathfinder::getNeighbors(const PathNode* node
 
 bool Pathfinder::isIndexValid(const sf::Vector2i& index) const
 {
-	return (index.x >= 0 && index.y >= 0 && index.y < mNodes.size() && index.x < mNodes[index.y].size());
+	return (index.x >= 0 && index.y >= 0 && index.y < static_cast<int>(mNodes.size()) && index.x < static_cast<int>(mNodes[index.y].size()));
 }
 
 bool Pathfinder::isNodeWalkable(const sf::Vector2i& index) const

@@ -6,7 +6,7 @@
 struct SpellRule
 {
 	std::string name;
-	SpellIdentifier spellId;
+	SpellIdentifier spellId = SpellIdentifier::BossHeal;
 	std::function<bool(const Entity&, const Entity&)> condition;
 	std::function<void(Entity&, Entity&)> execute;
 	int priority = 0;

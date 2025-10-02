@@ -86,19 +86,19 @@ float StatisticsShopCategory::getIncreasePerLvl(StatType type) const
 	switch (type)
 	{
 	case StatType::Attack:
-		return attackFactor * Config::difficulityLevel;
+		return static_cast<float>(attackFactor * Config::difficulityLevel);
 		break;
 	case StatType::AttackSpeed:
 		return 0.05f;
 		break;
 	case StatType::Defence:
-		return defenceFactor * Config::difficulityLevel;
+		return static_cast<float>(defenceFactor * Config::difficulityLevel);
 		break;
 	case StatType::Health:
-		return healthFactor * Config::difficulityLevel;
+		return static_cast<float>(healthFactor * Config::difficulityLevel);
 		break;
 	case StatType::MagicDefence:
-		return magicDefFactor * Config::difficulityLevel;
+		return static_cast<float>(magicDefFactor * Config::difficulityLevel);
 		break;
 	}
 	return 0.0f;

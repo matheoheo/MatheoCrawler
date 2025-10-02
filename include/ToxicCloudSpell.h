@@ -65,7 +65,7 @@ private:
 
 	float getRandomBaseCircleRadius() const;
 	float getRandomParticleRadius() const;
-	float getRandomParticleLifetime() const;
+	int getRandomParticleLifetime() const;
 	float getRandomParticleSpeed() const;
 	sf::Color getRandomBaseCircleColor() const;
 	sf::Color getRandomParticleColor() const;

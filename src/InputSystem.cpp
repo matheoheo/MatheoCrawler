@@ -208,7 +208,7 @@ void InputSystem::assignSpell(sf::Keyboard::Key slotKey, SpellIdentifier spellId
 		auto& availableSpells = player.getComponent<SpellbookComponent>().cSpells;
 
 		int correspondingId = mSpellKeyToInt.at(slotKey);
-		if (correspondingId >= assignedSpells.size())
+		if (correspondingId >= static_cast<int>(assignedSpells.size()))
 			return; //this should never happen
 
 		//must find corresponding spell instance
