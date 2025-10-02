@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AboutState.h" />
     <ClInclude Include="include\ActionSelectionUI.h" />
     <ClInclude Include="include\AnimationFrame.h" />
     <ClInclude Include="include\AnimationHolder.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="include\WaitUntilIdleTask.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AboutState.cpp" />
     <ClCompile Include="src\ActionSelectionUI.cpp" />
     <ClCompile Include="src\AnimationHolder.cpp" />
     <ClCompile Include="src\AnimationSystem.cpp" />

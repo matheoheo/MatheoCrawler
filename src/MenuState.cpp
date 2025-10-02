@@ -55,7 +55,9 @@ void MenuState::createButtons()
 		{"Credits", [this]() {
 			proceedToState(StateIdentifier::CreditsState, false);
 		}},
-		{"About",   []() {}},
+		{"About",   [this]() {
+			proceedToState(StateIdentifier::AboutState, false);
+		}},
 		{"Exit",    [this]() {
 			mGameContext.window.close();
 		}}
@@ -75,9 +77,7 @@ void MenuState::createButtons()
 void MenuState::updateButtons()
 {
 	for (auto& button : mButtons)
-	{
 		button.update(fMousePos);
-	}
 }
 
 void MenuState::handleButtonClick(const sf::Event event)
@@ -108,5 +108,4 @@ void MenuState::createBackgroundSprite()
 void MenuState::proceedToState(StateIdentifier id, bool popPrevious)
 {
 	mGameContext.eventManager.notify<SwitchStateEvent>(SwitchStateEvent(id, popPrevious));
-
 }
