@@ -70,7 +70,7 @@ void StateManager::registerToEnterLoadingStateEvent()
 {
     mGameContext.eventManager.registerEvent<EnterLoadingStateEvent>([this](const EnterLoadingStateEvent& data)
         {
-            pushState(std::make_unique<LoadingState>(mGameContext, std::move(data.tasksVec)));
+            pushState(std::make_unique<LoadingState>(mGameContext, data.tasksVec));
         });
 }
 

@@ -394,6 +394,12 @@
     <ClInclude Include="include\AboutState.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\GameOverviewSection.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IAboutSection.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -720,6 +726,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\AboutState.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameOverviewSection.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IAboutSection.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

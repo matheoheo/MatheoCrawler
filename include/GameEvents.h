@@ -337,7 +337,7 @@ struct EnterLoadingStateEvent : public IEvent
 {
 	std::vector<std::function<void()>> tasksVec;
 
-	EnterLoadingStateEvent(std::vector<std::function<void()>>&& tasksVec)
+	EnterLoadingStateEvent(const std::vector<std::function<void()>>& tasksVec)
 		:tasksVec(tasksVec)
 	{}
 };

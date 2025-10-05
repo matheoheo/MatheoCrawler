@@ -7,6 +7,7 @@ enum class TextureIdentifier
 	MenuBackground,
 	OptionsBackground,
 	CreditsBackground,
+	AboutBackground,
 
 	//entities
 	Player,

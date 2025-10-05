@@ -82,7 +82,6 @@ void CreditsState::createNextPageButton()
 	mNextPageButton.setCallback([this]()
 		{
 			mCurrentPageIndex = (mCurrentPageIndex + 1) % mPages.size();
-			std::cout << "Page index: " << mCurrentPageIndex << '\n';
 		});
 
 	mNextPageButton.setPosition(Utilities::getPrimaryButtonPos());
@@ -131,7 +130,7 @@ AI Assistance:
 - Certain assets, color choices, and design decisions were assisted by AI tools, including ChatGPT, Gemini (Google), and Microsoft Designer.
 
 Fonts:
-- [Dungeon Font]   - Source: [https://www.dafont.com/dungeon-sn.font] - (license unknown)
+- [Dungeon Font]  - Source: [https://www.dafont.com/dungeon-sn.font] - (license unknown)
 - [Unitblock Font] - Source: [https://www.fontspace.com/unitblock-font-f104834] - (Public Domain)
 
 Links:

@@ -7,6 +7,7 @@ struct IComponent;
 struct AnimationFrame;
 struct GenericAnimationKey;
 struct EntityAnimationKey;
+class IAboutSection;
 //This file contains definitions of different concepts with explaination about each.
 
 //Makes sure that provided template parametr is an enum.
@@ -33,3 +34,6 @@ concept Streamable = requires(T t, std::ostream out)
 {
 	{out << t} -> std::same_as<std::ostream&>;
 };
+
+template <typename T>
+concept SectionConcept = std::derived_from<T, IAboutSection>;

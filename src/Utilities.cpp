@@ -325,7 +325,7 @@ bool Utilities::areAxisAligned(const Entity& a, const Entity& b, int tolerance)
 	const auto cellA = getEntityCell(a);
 	const auto cellB = getEntityCell(b);
 
-	return std::abs(cellA.x - cellB.x) <= 0 || std::abs(cellA.y - cellB.y) <= 0;
+	return std::abs(cellA.x - cellB.x) <= tolerance || std::abs(cellA.y - cellB.y) <= tolerance;
 }
 
 int Utilities::getHpPercent(const Entity& ent)

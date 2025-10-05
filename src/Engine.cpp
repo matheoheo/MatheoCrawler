@@ -1,3 +1,4 @@
+
 #include "pch.h"
 #include "Engine.h"
 #include "Config.h"
@@ -24,8 +25,6 @@ void Engine::start()
 	{
 		timeSinceLastUpdate += fpsClock.restart();
 
-		auto start = steady_clock::now();
-
 		while (timeSinceLastUpdate > timePerFrame)
 		{
 			timeSinceLastUpdate -= timePerFrame;
@@ -33,11 +32,6 @@ void Engine::start()
 			update(timePerFrame);
 		}
 		render();
-		auto end = steady_clock::now();
-		auto duration = duration_cast<milliseconds>(end - start);
-		auto t = duration.count();
-		//if(t >= 15)
-			//std::cout << "Function took " << duration.count() << " ms\n";
 	}
 }
 
@@ -57,8 +51,6 @@ void Engine::update(const sf::Time& deltaTime)
 	mStateManager.update(deltaTime);
 	auto end = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double, std::milli> elapsed = end - start;
-	if(elapsed.count() > 20.0)
-		std::cout << "Update update time: " << elapsed.count() << " ms\n";
 
 }
 
@@ -75,6 +67,7 @@ void Engine::preloadAssets()
 	mTextures.load(TextureIdentifier::MattLogo,		     "assets/logo/mattGamesLogo.jpeg");
 	mTextures.load(TextureIdentifier::OptionsBackground, "assets/menu/OptionsBackground.jpeg");
 	mTextures.load(TextureIdentifier::CreditsBackground, "assets/menu/creditsBackground.png");
+	mTextures.load(TextureIdentifier::AboutBackground,   "assets/menu/aboutBackground.png");
 
 
 	mTextures.load(TextureIdentifier::Player,		   "assets/entities/player/player.png");

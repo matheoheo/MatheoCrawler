@@ -37,7 +37,6 @@ private:
 		{
 			int minHpPercent = 0;
 			int maxHpPercent = 100;
-			std::vector<SpellIdentifier> unlockedSpells;
 			std::vector<AnimationIdentifier> unlockedAttacks;
 			std::vector<SpellRule> spellRules;
 		};
@@ -48,12 +47,14 @@ private:
 	void setupPhases();
 	void setupFirstPhase();
 	void setupSecondPhase();
+	void setupThirdPhase();
 	void sortSpellRules(PhaseConfig& phase);
 private:
 	SpellRule createWaterBallRule();
 	SpellRule createBeamRule();
 	SpellRule createPureProjectileRule();
 	SpellRule createBladeDanceRule();
+	SpellRule createBossHealRule();
 private:
 	bool canCastSpell(const Entity& entity, SpellIdentifier id);
 	bool canCastProjectile(const Entity& self, const Entity& target, int range, int axisTolerance = 0) const;
@@ -63,8 +64,8 @@ private:
 	int getDistance(const Entity& self, const Entity& target) const;
 	AnimationIdentifier getAttack(const Entity& entity);
 	void setupBehaviors();
-
 	bool isInMeleeRange(const Entity& self, const Entity& target) const;
+
 private:
 	int getTargetsHealth(const Entity& target, float percent = 1.0f) const;
 private:

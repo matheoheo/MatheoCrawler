@@ -1,5 +1,6 @@
 #pragma once
 #include "UIComponent.h"
+#include "TextButton.h"
 
 class GameOverUI : public UIComponent
 {
@@ -37,6 +38,8 @@ private:
 
 	float getMaxWidthOfLabel(const StatisticMap& stats, std::span<const StatisticType> data) const;
 	std::string formatTime(int timeInMs) const;
+
+	void createProceedToMenuButton();
 private:
 	const sf::Font& mFont;
 	const unsigned int mLineCharSize;
@@ -46,4 +49,5 @@ private:
 	bool mGameOverActive;
 	int mTimeSinceActive;
 	const int mFadeTime;
+	TextButton mProceedButton;
 };

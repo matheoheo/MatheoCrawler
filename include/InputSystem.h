@@ -13,6 +13,7 @@ public:
 private:
     void registerToEvents();
     void registerToBindSpellEvent();
+    void registerToPlayerRunEndedEvent();
     void handleMovement();
     void handleAttackSelecting(sf::Keyboard::Key pressedKey);
     void handleAttacking();
@@ -30,5 +31,6 @@ private:
     std::optional<sf::Keyboard::Key> getKeyBasedOnId(int id) const;
 private:
     std::unordered_map<sf::Keyboard::Key, int> mSpellKeyToInt;
+    bool mEnabled;
 };
 

@@ -236,7 +236,7 @@ void GameState::doFirstEnter()
 	tasks.push_back([this]() { initalizeUI(); });
 	tasks.push_back([this]() { logOnEnterMessage(); });
 	tasks.push_back([this]() {mEntityManager.getPlayer().getComponent<PlayerResourcesComponent>().cGold = 93219; });
-	mGameContext.eventManager.notify<EnterLoadingStateEvent>(EnterLoadingStateEvent(std::move(tasks)));
+	mGameContext.eventManager.notify<EnterLoadingStateEvent>(EnterLoadingStateEvent(tasks));
 }
 
 void GameState::removeEntities()
@@ -265,9 +265,10 @@ void GameState::loadNextLevel()
 	tasks.push_back([this]() { spawnEntities(); });
 	tasks.push_back([this]() { notifySetLevelAdvancedCellEvent(); });
 	tasks.push_back([this]() { logOnEnterMessage(); });
+	tasks.push_back([this]() { healPlayerToFull(); });
 	tasks.push_back([this]() { mLevelLoaded = false; });
 
-	mGameContext.eventManager.notify<EnterLoadingStateEvent>(EnterLoadingStateEvent(std::move(tasks)));
+	mGameContext.eventManager.notify<EnterLoadingStateEvent>(EnterLoadingStateEvent(tasks));
 }
 
 void GameState::notifyMoveFinished()
@@ -290,5 +291,14 @@ void GameState::determineNextGenerator()
 		mGenerator = std::make_unique<CaveGenerator>();
 	else
 		mGenerator = std::make_unique<DungeonGenerator>();
+}
+
+void GameState::healPlayerToFull()
+{
+	auto& player = mEntityManager.getPlayer();
+	auto& statsComp = player.getComponent<CombatStatsComponent>();
+	statsComp.cHealth = statsComp.cMaxHealth;
+
+	mGameContext.eventManager.notify<UpdatePlayerStatusEvent>(UpdatePlayerStatusEvent());
 }
 

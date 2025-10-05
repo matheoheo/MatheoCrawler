@@ -125,7 +125,8 @@ void OnHitSystem::processHit(Entity& target, int damage, bool attackerIsPlayer, 
     {
         if (targetIsPlayer)
         {
-            //notify player died
+            mSystemContext.eventManager.notify<PlayerDiedEvent>(PlayerDiedEvent());
+            mSystemContext.eventManager.notify<CloseShopEvent>(CloseShopEvent());
         }
         else
         {

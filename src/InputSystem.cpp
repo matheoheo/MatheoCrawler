@@ -4,7 +4,8 @@
 #include "AnimationHolder.h"
 
 InputSystem::InputSystem(SystemContext& systemContext)
-	:ISystem(systemContext)
+	:ISystem(systemContext),
+	mEnabled(true)
 {
 	registerToEvents();
 	createSpellKeyToIntMap();
@@ -12,6 +13,9 @@ InputSystem::InputSystem(SystemContext& systemContext)
 
 void InputSystem::processEvents(const sf::Event event)
 {
+	if (!mEnabled)
+		return;
+
 	if (auto data = event.getIf<sf::Event::KeyPressed>())
 	{
 		handleAttackSelecting(data->code);
@@ -21,6 +25,9 @@ void InputSystem::processEvents(const sf::Event event)
 
 void InputSystem::update(const sf::Time& deltaTime)
 {
+	if (!mEnabled)
+		return;
+
 	handleMovement();
 	handleAttacking();
 }
@@ -28,6 +35,7 @@ void InputSystem::update(const sf::Time& deltaTime)
 void InputSystem::registerToEvents()
 {
 	registerToBindSpellEvent();
+	registerToPlayerRunEndedEvent();
 }
 
 void InputSystem::registerToBindSpellEvent()
@@ -71,6 +79,14 @@ void InputSystem::registerToBindSpellEvent()
 					assignSpell(assignedSlotKey.value(), spellIdOfDesiredSlot);
 				}
 			}
+		});
+}
+
+void InputSystem::registerToPlayerRunEndedEvent()
+{
+	mSystemContext.eventManager.registerEvent<PlayerRunEndedEvent>([this](const PlayerRunEndedEvent& ev)
+		{
+			mEnabled = false; //disables input system
 		});
 }
 

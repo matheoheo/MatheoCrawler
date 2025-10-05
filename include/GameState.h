@@ -44,6 +44,9 @@ private:
     void notifyMoveFinished();
     void notifySetLevelAdvancedCellEvent();
     void determineNextGenerator();
+
+    //player is getting healed to full after advancing to next level.
+    void healPlayerToFull();
 private:
     sf::View mGameView;
     TileMap mTileMap;

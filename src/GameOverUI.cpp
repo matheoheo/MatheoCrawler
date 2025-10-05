@@ -10,7 +10,8 @@ GameOverUI::GameOverUI(GameContext& gameContext, Entity& player)
 	mYouDiedText(mFont),
 	mGameOverActive(false),
 	mTimeSinceActive(0),
-	mFadeTime(2000)
+	mFadeTime(2000),
+	mProceedButton(mFont, "Proceed to Main Menu", mLineCharSize)
 {
 	createBackground();
 	createYouDiedText();
@@ -19,14 +20,26 @@ GameOverUI::GameOverUI(GameContext& gameContext, Entity& player)
 
 void GameOverUI::processEvents(const sf::Event event)
 {
+	if (!hasFadeTimePassed())
+		return;
+
+	if (mProceedButton.isPressed(event))
+	{
+		mProceedButton.invoke();
+		return;
+	}
 }
 
 void GameOverUI::update(const sf::Vector2f& mousePosition, const sf::Time& deltaTime)
 {
-	if (mGameOverActive && !hasFadeTimePassed())
+	if (mGameOverActive)
 	{
-		mTimeSinceActive += deltaTime.asMilliseconds();
-		fadeInBackground();
+		if(!hasFadeTimePassed())
+		{
+			mTimeSinceActive += deltaTime.asMilliseconds();
+			fadeInBackground();
+		}
+		mProceedButton.update(mousePosition);
 	}
 }
 
@@ -44,6 +57,8 @@ void GameOverUI::render()
 		mGameContext.window.draw(line.label);
 		mGameContext.window.draw(line.value);
 	}
+
+	mProceedButton.render(mGameContext.window);
 }
 
 void GameOverUI::registerToEvents()
@@ -56,6 +71,7 @@ void GameOverUI::registerToPlayerRunEndedEvent()
 	mGameContext.eventManager.registerEvent<PlayerRunEndedEvent>([this](const PlayerRunEndedEvent& data)
 		{
 			createStatisticLines(data.statsMap);
+			createProceedToMenuButton();
 			mGameOverActive = true;
 		});
 }
@@ -153,7 +169,7 @@ void GameOverUI::createRightLinesColumn(const StatisticMap& stats, float posY, f
 		StatisticType::TotalDamageTaken, StatisticType::HitsTaken, StatisticType::AvgDamageTaken
 	};
 
-	const float labelXPos = Config::fWindowSize.x * 0.50f;
+	const float labelXPos = Config::fWindowSize.x * 0.65f;
 	createLinesColumn(stats, rightCol, labelXPos, posY, linesMargin, labelValueMargin);
 }
 
@@ -205,4 +221,18 @@ std::string GameOverUI::formatTime(int timeInMs) const
 		return std::format("{:02}m{:02}s", minutes, seconds);
 
 	return std::format("{}h{:02}m{:02}s", hours, minutes, seconds);
+}
+
+void GameOverUI::createProceedToMenuButton()
+{
+	mProceedButton.setOriginOnCenter();
+	const auto lastBounds = mLines.back().label.getGlobalBounds();
+	const float xPos = Config::fWindowSize.x * 0.5f;
+	const float yPos = lastBounds.position.y + lastBounds.size.y + mLineCharSize * 3;
+	mProceedButton.setPosition({ xPos, yPos });
+
+	mProceedButton.setCallback([this]()
+		{
+			mGameContext.eventManager.notify<ProceedToMainMenuEvent>(ProceedToMainMenuEvent());
+		});
 }

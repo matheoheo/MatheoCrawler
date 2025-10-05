@@ -176,6 +176,7 @@ void RayBehavior::setupPhases()
 	mPhases.reserve(phasesCount);
 	setupFirstPhase();
 	setupSecondPhase();
+	setupThirdPhase();
 
 	for (auto& phase : mPhases)
 		sortSpellRules(phase);
@@ -188,27 +189,35 @@ void RayBehavior::setupFirstPhase()
 	phase.minHpPercent = 80;
 	phase.maxHpPercent = 100;
 	phase.unlockedAttacks.emplace_back(AnimationIdentifier::Attack1);
-	phase.unlockedSpells.emplace_back(SpellIdentifier::WaterBall);
-	phase.unlockedSpells.emplace_back(SpellIdentifier::PureProjectile);
-	phase.unlockedSpells.emplace_back(SpellIdentifier::BladeDance);
 
-	//phase.spellRules.push_back(createWaterBallRule());
-	//phase.spellRules.push_back(createBeamRule());
-	//phase.spellRules.push_back(createPureProjectileRule());
-	phase.spellRules.push_back(createBladeDanceRule());
+	phase.spellRules.push_back(createWaterBallRule());
 }
 
 void RayBehavior::setupSecondPhase()
 {
 	auto& phase = mPhases.emplace_back();
 	phase.maxHpPercent = 80;
-	phase.minHpPercent = 0;
+	phase.minHpPercent = 30;
 
 	phase.unlockedAttacks.emplace_back(AnimationIdentifier::Attack3);
-	phase.unlockedSpells.emplace_back(SpellIdentifier::WaterBall);
-	phase.unlockedSpells.emplace_back(SpellIdentifier::LightBeam);
+	
 	phase.spellRules.push_back(createWaterBallRule());
 	phase.spellRules.push_back(createBeamRule());
+	phase.spellRules.push_back(createPureProjectileRule());
+}
+
+void RayBehavior::setupThirdPhase()
+{
+	auto& phase = mPhases.emplace_back();
+	phase.maxHpPercent = 30;
+	phase.minHpPercent = 0;
+	phase.unlockedAttacks.emplace_back(AnimationIdentifier::Attack2);
+
+	phase.spellRules.push_back(createWaterBallRule());
+	phase.spellRules.push_back(createBeamRule());
+	phase.spellRules.push_back(createPureProjectileRule());
+	phase.spellRules.push_back(createBladeDanceRule());
+	phase.spellRules.push_back(createBossHealRule());
 }
 
 void RayBehavior::sortSpellRules(PhaseConfig& phase)
@@ -297,6 +306,39 @@ SpellRule RayBehavior::createBladeDanceRule()
 					Utilities::getEntityPos(self), dmgPerTick));
 			}));
 	};
+	return rule;
+}
+
+SpellRule RayBehavior::createBossHealRule()
+{
+	SpellRule rule;
+	rule.name = "Boss Heal";
+	rule.spellId = SpellIdentifier::BossHeal;
+	rule.priority = 15;
+
+	rule.condition = [this](const Entity& self, const Entity& target) -> bool
+	{
+		constexpr int percentToHeal = 25;
+		return Utilities::getHpPercent(self) <= percentToHeal;
+	};
+	rule.execute = [this](Entity& self, Entity& target)
+	{
+		int selfHpPercent = Utilities::getHpPercent(self);
+		constexpr float lowHealValue = 0.1f;
+		constexpr float highHealValue = 0.15f;
+		constexpr int hpPercentForHighHeal = 10;
+		float healValue = lowHealValue;
+
+		if (selfHpPercent <= hpPercentForHighHeal)
+			healValue = highHealValue;
+
+		mBehaviorContext.eventManager.notify<CastSpellEvent>(CastSpellEvent(self, SpellIdentifier::BossHeal, {}, [this, &self, healValue]()
+			{
+				mBehaviorContext.eventManager.notify<TriggerHealSpellEvent>(TriggerHealSpellEvent(self, healValue));
+			}));
+
+	};
+
 	return rule;
 }
 

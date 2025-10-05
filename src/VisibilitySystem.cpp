@@ -87,7 +87,6 @@ void VisibilitySystem::registerToBeforeLoadNextLevelEvent()
 {
 	mSystemContext.eventManager.registerEvent<BeforeLoadNextLevelEvent>([this](const BeforeLoadNextLevelEvent& data)
 		{
-			std::cout << "Clearing in visibility system\n";
 			mTilesInFieldOfView.clear();
 			mPreviousFOV.clear();
 			mLastVisibleEntities.clear();
