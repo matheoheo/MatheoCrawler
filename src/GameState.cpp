@@ -218,7 +218,9 @@ void GameState::logOnEnterMessage()
 	auto lvl = Config::difficulityLevel;
 	if(lvl == 1)
 		mGameContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::Custom, 0, "Welcome to MattCrawler!"));
+	std::string shopInfo = "Remember you can enter shop by pressing M!";
 	std::string msg = "You descend to floor " + std::to_string(lvl);
+	mGameContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::Custom, 0, shopInfo));
 	mGameContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::Custom, 0, msg));
 }
 
@@ -235,7 +237,7 @@ void GameState::doFirstEnter()
 	tasks.push_back([this]() { notifySetLevelAdvancedCellEvent(); });
 	tasks.push_back([this]() { initalizeUI(); });
 	tasks.push_back([this]() { logOnEnterMessage(); });
-	tasks.push_back([this]() {mEntityManager.getPlayer().getComponent<PlayerResourcesComponent>().cGold = 93219; });
+	tasks.push_back([this]() { grantGoldAfterAdvance(); });
 	mGameContext.eventManager.notify<EnterLoadingStateEvent>(EnterLoadingStateEvent(tasks));
 }
 
@@ -266,6 +268,7 @@ void GameState::loadNextLevel()
 	tasks.push_back([this]() { notifySetLevelAdvancedCellEvent(); });
 	tasks.push_back([this]() { logOnEnterMessage(); });
 	tasks.push_back([this]() { healPlayerToFull(); });
+	tasks.push_back([this]() { grantGoldAfterAdvance(); });
 	tasks.push_back([this]() { mLevelLoaded = false; });
 
 	mGameContext.eventManager.notify<EnterLoadingStateEvent>(EnterLoadingStateEvent(tasks));
@@ -300,5 +303,18 @@ void GameState::healPlayerToFull()
 	statsComp.cHealth = statsComp.cMaxHealth;
 
 	mGameContext.eventManager.notify<UpdatePlayerStatusEvent>(UpdatePlayerStatusEvent());
+}
+
+void GameState::grantGoldAfterAdvance()
+{
+	constexpr int baseGold = 1000;
+	int granted = Config::difficulityLevel * baseGold;
+	
+	auto& rescComp = mEntityManager.getPlayer().getComponent<PlayerResourcesComponent>();
+	rescComp.cGold += granted;
+
+	std::string msg = std::format("You were granted {} gold for descending!", granted);
+	mGameContext.eventManager.notify<LogMessageEvent>(LogMessageEvent(MessageType::Custom, {}, msg));
+	mGameContext.eventManager.notify<UpdatePlayerResourcesEvent>(UpdatePlayerResourcesEvent());
 }
 

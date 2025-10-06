@@ -78,7 +78,6 @@ void EntitySpawnerSystem::spawnEntities(const IMapGenerator::SpawnPoints& spawnP
 		{EntityType::Skletorus, 50},
 		{EntityType::Bonvik, 25},
 		{EntityType::Moranna, 10},
-		{EntityType::Ray, 100}
 	} };
 
 	for (const auto& point : spawnPoints)

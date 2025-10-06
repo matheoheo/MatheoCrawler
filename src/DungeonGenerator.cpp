@@ -380,7 +380,7 @@ void DungeonGenerator::setNextLevelCell(const GeneratedMap& map)
     //In this function, we set which tile will have a functionality of upgrading to next level of game.
 
     //Rooms are sorted - we take lastRoom as our place to have next level advance cell.
-    const auto& lastRoom = mRooms.front();
+    const auto& lastRoom = mRooms.back();
     const auto& roomPos = lastRoom.area.position;
     const auto& roomSize = lastRoom.area.size;
 

@@ -70,6 +70,9 @@ void GameOverUI::registerToPlayerRunEndedEvent()
 {
 	mGameContext.eventManager.registerEvent<PlayerRunEndedEvent>([this](const PlayerRunEndedEvent& data)
 		{
+			if (mGameOverActive)
+			return;
+
 			createStatisticLines(data.statsMap);
 			createProceedToMenuButton();
 			mGameOverActive = true;
@@ -169,7 +172,7 @@ void GameOverUI::createRightLinesColumn(const StatisticMap& stats, float posY, f
 		StatisticType::TotalDamageTaken, StatisticType::HitsTaken, StatisticType::AvgDamageTaken
 	};
 
-	const float labelXPos = Config::fWindowSize.x * 0.65f;
+	const float labelXPos = Config::fWindowSize.x * 0.6f;
 	createLinesColumn(stats, rightCol, labelXPos, posY, linesMargin, labelValueMargin);
 }
 

@@ -71,8 +71,6 @@ void IShopCategory::upgradeStatisticLevel(const ShopItem& item)
 
 	if (upgMap.contains(item.itemName))
 		++upgMap.at(item.itemName);
-
-	std::cout << "Upgrade level: " << upgMap.at(item.itemName) << '\n';
 }
 
 void IShopCategory::notifyUIAfterBuy()

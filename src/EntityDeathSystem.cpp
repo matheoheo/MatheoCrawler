@@ -58,11 +58,11 @@ void EntityDeathSystem::removeFinishedEntities()
 int EntityDeathSystem::getGoldValue(Entity& entity) const
 {
 	const auto& combatStats = entity.getComponent<CombatStatsComponent>();
-	constexpr int baseGold = 2;
-	int entityPower = static_cast<int>(( (combatStats.cMaxHealth / 3)
+	constexpr int baseGold = 3;
+	int entityPower = static_cast<int>(( (combatStats.cMaxHealth / 2)
 		+ combatStats.cDefence * 2
 		+ combatStats.cMagicDefence * 2)
-		* (1 + combatStats.cAttackDamage / 20.f));
+		* (1 + combatStats.cAttackDamage / 19.f));
 
 	int goldValue = baseGold * Config::difficulityLevel * entityPower;
 	int minGold = static_cast<int>(goldValue * 0.9f);

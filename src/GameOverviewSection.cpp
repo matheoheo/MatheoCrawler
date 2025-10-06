@@ -39,9 +39,7 @@ Your goal is to explore each floor, defeat enemies and collect gold to grow stro
 
 Each run is unique - rooms, enemies are randomly generated to keep the adventure fresh.
 
-Choose your upgrades wisely and develop your character to survive deeper levels.
-
-Fortune favors the prepared mind.)";
+Choose your upgrades wisely and develop your character to survive deeper levels.)";
 
 	std::string wrappedText = Utilities::wrapText(introduceText, mFont, getLeftColumnWidth(), mCharSize);
 

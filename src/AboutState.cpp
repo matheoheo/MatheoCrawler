@@ -3,6 +3,8 @@
 #include "Config.h"
 #include "Utilities.h"
 #include "GameOverviewSection.h"
+#include "BattleAndMagicSection.h"
+#include "PlayerProgressSection.h"
 
 AboutState::AboutState(GameContext& gameContext)
 	:IState(gameContext),
@@ -89,10 +91,10 @@ void AboutState::createSectionsButtons()
 			changeSection<GameOverviewSection>();
 	}},
 		{"Battle & Magic",  [this]() {
-	
+			changeSection<BattleAndMagicSection>();
 	}},
 		{"Player Progress", [this]() {
-	
+			changeSection<PlayerProgressSection>();
 	}},
 		{"Dungeon Foes",    [this]() {
 	

@@ -44,6 +44,9 @@ void LevelAdvanceSystem::registerToSetLevelAdvanceCellEvent()
 		{
 			mLevelAdvanceCell = data.cell;
 			createAdvanceText();
+
+			//we send event to spawn boss on this tile.
+			mSystemContext.eventManager.notify<SpawnEntityEvent>(SpawnEntityEvent(mLevelAdvanceCell, EntityType::Ray));
 		});
 }
 

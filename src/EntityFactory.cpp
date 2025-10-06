@@ -117,7 +117,11 @@ void EntityFactory::spawnPlayerEntity(const sf::Vector2i& cellIndex)
 	entity.addComponent<PlayerManaBarComponent>();
 	entity.addComponent<RegenerationComponent>();
 	entity.addComponent<StatisticsUpgradeComponent>();
-	entity.addComponent<SpellbookComponent>();
+	auto& spellbookComp = entity.addComponent<SpellbookComponent>();
+	//Adding startup spells that player has since start.
+	spellbookComp.cSpells[SpellIdentifier::QuickHeal] = SpellInstance{ &SpellHolder::getInstance().get(SpellIdentifier::QuickHeal) };
+	spellbookComp.cSpells[SpellIdentifier::WaterBall] = SpellInstance{ &SpellHolder::getInstance().get(SpellIdentifier::WaterBall) };
+
 	auto& assigned = entity.addComponent<AssignedSpellsComponent>();
 
 	for (int i = 0; i < 5; ++i)

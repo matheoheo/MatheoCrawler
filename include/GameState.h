@@ -47,6 +47,7 @@ private:
 
     //player is getting healed to full after advancing to next level.
     void healPlayerToFull();
+    void grantGoldAfterAdvance();
 private:
     sf::View mGameView;
     TileMap mTileMap;

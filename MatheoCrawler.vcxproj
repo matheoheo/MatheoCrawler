@@ -34,6 +34,7 @@
     <ClInclude Include="include\BarRenderSystem.h" />
     <ClInclude Include="include\BasicMeleeBehavior.h" />
     <ClInclude Include="include\BasicRangedBehavior.h" />
+    <ClInclude Include="include\BattleAndMagicSection.h" />
     <ClInclude Include="include\BeamData.h" />
     <ClInclude Include="include\BeamSpell.h" />
     <ClInclude Include="include\BeamSystem.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="include\PatrolTask.h" />
     <ClInclude Include="include\PauseMenuUI.h" />
     <ClInclude Include="include\pch.h" />
+    <ClInclude Include="include\PlayerProgressSection.h" />
     <ClInclude Include="include\PlayerResourcesUI.h" />
     <ClInclude Include="include\PlayerStatusUI.h" />
     <ClInclude Include="include\PositioningAISystem.h" />
@@ -165,6 +167,7 @@
     <ClCompile Include="src\BarRenderSystem.cpp" />
     <ClCompile Include="src\BasicMeleeBehavior.cpp" />
     <ClCompile Include="src\BasicRangedBehavior.cpp" />
+    <ClCompile Include="src\BattleAndMagicSection.cpp" />
     <ClCompile Include="src\BeamSpell.cpp" />
     <ClCompile Include="src\BeamSystem.cpp" />
     <ClCompile Include="src\BehaviorAIUpdateSystem.cpp" />
@@ -230,6 +233,7 @@
     <ClCompile Include="src\PatrolAISystem.cpp" />
     <ClCompile Include="src\PatrolTask.cpp" />
     <ClCompile Include="src\PauseMenuUI.cpp" />
+    <ClCompile Include="src\PlayerProgressSection.cpp" />
     <ClCompile Include="src\PlayerResourcesUI.cpp" />
     <ClCompile Include="src\PlayerStatusUI.cpp" />
     <ClCompile Include="src\PositioningAISystem.cpp" />
