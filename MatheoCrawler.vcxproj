@@ -54,6 +54,7 @@
     <ClInclude Include="include\CreditsState.h" />
     <ClInclude Include="include\DelayTask.h" />
     <ClInclude Include="include\Directions.h" />
+    <ClInclude Include="include\DungeonFoesSection.h" />
     <ClInclude Include="include\DungeonGenerator.h" />
     <ClInclude Include="include\EffectSystem.h" />
     <ClInclude Include="include\Engine.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="src\Config.cpp" />
     <ClCompile Include="src\CreditsState.cpp" />
     <ClCompile Include="src\DelayTask.cpp" />
+    <ClCompile Include="src\DungeonFoesSection.cpp" />
     <ClCompile Include="src\DungeonGenerator.cpp" />
     <ClCompile Include="src\EffectSystem.cpp" />
     <ClCompile Include="src\Engine.cpp" />

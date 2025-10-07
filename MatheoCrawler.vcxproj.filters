@@ -406,6 +406,9 @@
     <ClInclude Include="include\PlayerProgressSection.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\DungeonFoesSection.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -744,6 +747,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\PlayerProgressSection.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DungeonFoesSection.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

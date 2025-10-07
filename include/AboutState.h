@@ -18,8 +18,11 @@ private:
 	void createBackButton();
 	void createHeaderText();
 	void createSectionsButtons();
+	void createOverline();
+	void positionOverline(const TextButton* btn);
 	void positionSectionsButtons();
 	void calculateSectionLayout();
+	
 
 	template<SectionConcept Section>
 	void changeSection();
@@ -31,8 +34,8 @@ private:
 	sf::Text mHeaderText;
 	sf::Vector2f mSectionPos;
 	sf::Vector2f mSectionSize;
-	sf::RectangleShape rect;
 	std::unique_ptr<IAboutSection> mCurrSection;
+	sf::RectangleShape mOverline;
 };
 
 template<SectionConcept Section>

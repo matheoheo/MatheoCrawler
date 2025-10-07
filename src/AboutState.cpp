@@ -5,7 +5,7 @@
 #include "GameOverviewSection.h"
 #include "BattleAndMagicSection.h"
 #include "PlayerProgressSection.h"
-
+#include "DungeonFoesSection.h"
 AboutState::AboutState(GameContext& gameContext)
 	:IState(gameContext),
 	mFont(gameContext.fonts.get(FontIdentifiers::Default)),
@@ -21,6 +21,7 @@ void AboutState::onEnter()
 	createBackButton();
 	createHeaderText();
 	createSectionsButtons();
+	createOverline();
 }
 
 void AboutState::processEvents(sf::Event event)
@@ -29,6 +30,7 @@ void AboutState::processEvents(sf::Event event)
 	{
 		if (button.isPressed(event))
 		{
+			positionOverline(&button);
 			button.invoke();
 			return;
 		}
@@ -57,10 +59,11 @@ void AboutState::render()
 
 	for (const auto& button : mButtons)
 		button.render(mGameContext.window);
+	mGameContext.window.draw(mOverline);
 
-	//mGameContext.window.draw(rect);
 	if (mCurrSection)
 		mCurrSection->render();
+
 }
 
 void AboutState::createBackground()
@@ -97,7 +100,7 @@ void AboutState::createSectionsButtons()
 			changeSection<PlayerProgressSection>();
 	}},
 		{"Dungeon Foes",    [this]() {
-	
+			changeSection<DungeonFoesSection>();
 	}}
 	} };
 	auto charSize = Config::getCharacterSize();
@@ -109,6 +112,33 @@ void AboutState::createSectionsButtons()
 	}
 	positionSectionsButtons();
 	calculateSectionLayout();
+}
+
+void AboutState::createOverline()
+{
+	constexpr sf::Color underlineColor{ 190, 200, 210, 180 };
+	constexpr sf::Vector2f size{ 0.f, 2.f }; //width will be set later
+	mOverline.setFillColor(underlineColor);
+	mOverline.setSize(size);
+	positionOverline(nullptr);
+}
+
+void AboutState::positionOverline(const TextButton* btn)
+{
+	if (!btn)
+	{
+		mOverline.setPosition({ -1000.f, -1000.f }); //render out of screen if no section is selected
+		return;
+	}
+	auto btnSize = btn->getSize();
+
+	const sf::Vector2f size{
+		btnSize.x,
+		mOverline.getSize().y
+	};
+
+	mOverline.setSize(size);
+	mOverline.setPosition(btn->getPosition());
 }
 
 void AboutState::positionSectionsButtons()
@@ -149,11 +179,4 @@ void AboutState::calculateSectionLayout()
 		(lastBtn.getPosition().x + lastSize.x - xMargin) - mSectionPos.x,
 		(backBtn.getPosition().y - yMargin) - mSectionPos.y
 	};
-
-	rect.setPosition(mSectionPos);
-	rect.setSize(mSectionSize);
-
-	rect.setFillColor(sf::Color::Transparent);
-	rect.setOutlineColor(sf::Color::White);
-	rect.setOutlineThickness(2.f);
 }

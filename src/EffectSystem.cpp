@@ -15,6 +15,11 @@ void EffectSystem::update(const sf::Time& deltaTime)
 {
     for (const auto& effect : mEffects)
         effect->update(deltaTime);
+
+    std::erase_if(mEffects, [](const auto& eff)
+        {
+            return eff->isFinished();
+        });
 }
 
 void EffectSystem::render(sf::RenderWindow& window)

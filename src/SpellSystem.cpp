@@ -248,7 +248,8 @@ void SpellSystem::onCastSpellEvent(const CastSpellEvent& data)
 		}
 	}
 	updateLastSpell(spellbookComp, data.spellId);
-	//	if(isPlayer) subtractMana(data.caster, spellbookComp);
+	if(isPlayer) 
+		subtractMana(data.caster, spellbookComp);
 	auto& thisSpell = spellbookComp.cSpells[data.spellId];
 	thisSpell.cooldownRemaining = thisSpell.data->cooldown;
 	if (isPlayer && data.usedKey)
