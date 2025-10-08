@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 #SFML DLL Files
 .dll
+
+# Ignore build from cmake
+/build/
