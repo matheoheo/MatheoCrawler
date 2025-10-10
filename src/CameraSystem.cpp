@@ -10,7 +10,7 @@ CameraSystem::CameraSystem(SystemContext& systemContext, sf::View& gameView)
 
 void CameraSystem::update(const sf::Time& deltaTime)
 {
-	handleZooming();
+	//handleZooming();
 	followEntity(mSystemContext.entityManager.getPlayer());
 }
 
